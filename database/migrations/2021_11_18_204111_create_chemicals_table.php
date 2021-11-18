@@ -16,7 +16,7 @@ class CreateChemicalsTable extends Migration
         Schema::create('chemicals', function (Blueprint $table) {
             $table->id();
             $table->string('name',35);
-            $table->string('type',35);
+            $table->integer('type');
             $table->timestamps();
         });
     }
