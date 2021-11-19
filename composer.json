@@ -13,7 +13,8 @@
         "laravel/jetstream": "^2.4",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "tightenco/ziggy": "^1.0"
+        "tightenco/ziggy": "^1.0",
+        "yajra/laravel-datatables-oracle": "^9.18"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
