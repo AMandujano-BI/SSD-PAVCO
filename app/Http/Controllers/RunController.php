@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chemical;
+use App\Models\PlateMethod;
 use App\Models\Run;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -9,15 +11,39 @@ use Inertia\Inertia;
 class RunController extends Controller
 {
     private $_run;
-    public function __construct(Run $run)
+    private $_chemical;
+    private $_plateMethod;
+
+
+
+    public function __construct(Run $run, PlateMethod $plateMethod, Chemical $chemical)
     {
-        
         $this->_chemical = $run;
+        $this->_plateMethod = $plateMethod;
+        $this->_chemical = $chemical;
     }
+
+
+
     public function index()
     {
-        //
-        return Inertia::render('Run/Index');
+        $plateMethods = $this->_plateMethod->getPlateMethods();
+        $topCoats = $this->_chemical->getByType(1);
+        $Chromates = $this->_chemical->getByType(2);
+        $plates = $this->_chemical->getByType(3);
+        $SecondaryCoats = $this->_chemical->getByType(4);
+
+
+        return Inertia::render(
+            'Run/Index',
+            [
+                'plateMethods' => $plateMethods,
+                'topCoats' => $topCoats,
+                'chromates' => $Chromates,
+                'plates' => $plates,
+                'secondaryCoats' => $SecondaryCoats
+            ]
+        );
     }
 
     /**
@@ -28,7 +54,6 @@ class RunController extends Controller
     public function create()
     {
         //
-        $run = $this->_run->createRun();
     }
 
     /**
@@ -39,7 +64,8 @@ class RunController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $run = $this->_run->createRun($request);
     }
 
     /**

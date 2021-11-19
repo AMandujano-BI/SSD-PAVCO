@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Chemical extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'type'
+    ];
+
+    public static function getByType($type)
+    {
+        $chemicals = (new static)::where('type',$type)->orderBy('name', 'asc')->get();
+        return $chemicals;
+    }
 }

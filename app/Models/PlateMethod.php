@@ -11,7 +11,7 @@ class PlateMethod extends Model
     protected $fillable =[
         'name'
     ];
-    public static function getAllRun()
+    public static function getPlateMethods()
     {
         $plateMethod = (new static)::all();
         return $plateMethod;
