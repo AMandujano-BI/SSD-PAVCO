@@ -15,6 +15,8 @@
           :chromates="chromates"
           :plates="plates"
           :secondaryCoats="secondaryCoats"
+          :plateTypes="plateTypes"
+          
         />
       </div>
     </modal>
@@ -39,7 +41,7 @@ export default {
     formRun: FormRun,
     TableRun: TableRun
   },
-  props: ["plateMethods", "topCoats", "chromates", "plates", "secondaryCoats"],
+  props: ["plateMethods", "topCoats", "chromates", "plates", "secondaryCoats","plateTypes"],
   data() {
     return {
       openModal: false,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RunRequest;
 use App\Models\Chemical;
 use App\Models\PlateMethod;
+use App\Models\PlateType;
 use App\Models\Run;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,14 +15,16 @@ class RunController extends Controller
     private $_run;
     private $_chemical;
     private $_plateMethod;
+    private $_plateType;
 
 
 
-    public function __construct(Run $run, PlateMethod $plateMethod, Chemical $chemical)
+    public function __construct(Run $run, PlateMethod $plateMethod, Chemical $chemical,PlateType $plateType)
     {
         $this->_run = $run;
         $this->_plateMethod = $plateMethod;
         $this->_chemical = $chemical;
+        $this->_plateType= $plateType;
     }
 
 
@@ -33,6 +36,7 @@ class RunController extends Controller
         $Chromates = $this->_chemical->getByType(2);
         $plates = $this->_chemical->getByType(3);
         $SecondaryCoats = $this->_chemical->getByType(4);
+        $plateType = $this->_plateType->getPlateTypes();
 
 
         return Inertia::render(
@@ -42,7 +46,8 @@ class RunController extends Controller
                 'topCoats' => $topCoats,
                 'chromates' => $Chromates,
                 'plates' => $plates,
-                'secondaryCoats' => $SecondaryCoats
+                'secondaryCoats' => $SecondaryCoats,
+                'plateTypes' => $plateType
             ]
         );
     }

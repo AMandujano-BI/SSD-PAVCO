@@ -25,7 +25,7 @@ class RunRequest extends FormRequest
     {
         return [
             'startDate'=>'required',
-            'status'=>'required',
+            // 'status'=>'required',
         ];
     }
 }

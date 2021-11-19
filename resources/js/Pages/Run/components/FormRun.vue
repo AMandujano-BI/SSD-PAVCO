@@ -18,7 +18,7 @@
 
     <div>
       <label for="">Plate Method</label>
-      <select class="w-full" v-model="form.plateMethod">
+      <select class="w-full" v-model="form.plate_methods_id">
         <option value="0" selected>Select plate Method</option>
         <option
           v-for="plateMethod in plateMethods"
@@ -29,9 +29,16 @@
         </option>
       </select>
 
-      <div v-if="v$.form.plateMethod.$error" class="text-red-400">
+      <!-- <div v-if="v$.form.plate_methods_id.$error" class="text-red-400">
         PlateMethod field has an error.
-      </div>
+      </div> -->
+      <p
+        v-for="error of v$.form.plate_methods_id.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
     </div>
     <div>
       <label for="">Description</label>
@@ -53,11 +60,15 @@
     <div>
       <label for="">Plate Type</label>
       <div class="flex w-full justify-around gap-2">
-        <select class="w-full" v-model="form.platetype">
-          <option value="1" selected>Choose Plate</option>
-          <option value="2">Chromate</option>
-          <option value="3">TopCoat</option>
-          <option value="4">Secondary TopCoat</option>
+        <select class="w-full" v-model="form.plate_types_id">
+          <option value="0" selected>Select Plate Type</option>
+          <option
+            v-for="plateType in plateTypes"
+            v-bind:key="plateType.id"
+            :value="plateType.id"
+          >
+            {{ plateType.name }}
+          </option>
         </select>
         <div>
           <input type="text" class="w-[60px]" />
@@ -68,7 +79,7 @@
     <div>
       <label for="">Chromate</label>
       <div class="flex w-full flex-col md:flex-row gap-2">
-        <select class="w-full" v-model="form.chromate">
+        <select class="w-full" v-model="form.primaryCoatId">
           <option value="0" selected>Select Chromate</option>
           <option
             v-for="chromate in chromates"
@@ -102,7 +113,8 @@
     <div>
       <label for="">TopCoat</label>
       <div class="flex w-full justify-around gap-2">
-        <select class="w-full" v-model="form.topcoat">
+        <select class="w-full" v-model="form.topCoatId">
+          <option value="0" selected>Select TopCoat</option>
           <option
             v-for="topCoat in topCoats"
             v-bind:key="topCoat.id"
@@ -135,7 +147,8 @@
     <div>
       <label for="">Secondary Topcoat</label>
       <div class="flex w-full justify-around gap-2">
-        <select class="w-full" v-model="form.secondarycoat">
+        <select class="w-full" v-model="form.coatId">
+          <option value="0" selected>Select Secondary Topcoat</option>
           <option
             v-for="secondaryCoat in secondaryCoats"
             v-bind:key="secondaryCoat.id"
@@ -178,11 +191,24 @@
   </form>
 </template>
 <script>
-import { required, minLength } from "@vuelidate/validators";
+import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import axios from "axios";
+
+//validations
+const isDiferentZero = (value) => {
+  console.log(value);
+  return value != 0;
+};
 export default {
-  props: ["plateMethods", "topCoats", "chromates", "plates", "secondaryCoats"],
+  props: [
+    "plateMethods",
+    "topCoats",
+    "chromates",
+    "plates",
+    "secondaryCoats",
+    "plateTypes",
+  ],
   setup() {
     return {
       v$: useVuelidate(),
@@ -197,10 +223,11 @@ export default {
         description: "",
         status: 0,
         idCustomer: 0,
-        plateMethod: 0,
-        secondarycoat: 0,
-        chromates: 0,
-        topcoat: 0,
+        plate_methods_id: 0,
+        coatId: 0,
+        primaryCoatId: 0,
+        topCoatId: 0,
+        plate_types_id: 0,
         plateThick: 0,
         primaryPer: 0,
         coatPer: 0,
@@ -217,8 +244,11 @@ export default {
       startDate: {
         required,
       },
-      plateMethod: {
-        required,
+      plate_methods_id: {
+        isDiferentZero,
+      },
+      primaryCoatId: {
+        isDiferentZero,
       },
       numberParts: {
         required,
@@ -230,14 +260,15 @@ export default {
       try {
         const isFormCorrect = await this.v$.$validate();
         if (!isFormCorrect) return;
-
-        console.log(this.form);
         let res;
         res = await axios.post(`/run/`, this.form);
-        this.makeToast("Run was created successfully");
-        console.log(res);
+        if (res.data.ok) {
+          this.makeToast("Run was created successfully");
+        } else {
+          this.makeToast("An error has occurred", "error");
+        }
       } catch (e) {
-        this.makeToast("error", "error");
+        this.makeToast("An error has occurred", "error");
         console.log(e);
       }
     },
