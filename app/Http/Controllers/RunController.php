@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RunRequest;
 use App\Models\Chemical;
 use App\Models\PlateMethod;
 use App\Models\Run;
@@ -68,10 +69,11 @@ class RunController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RunRequest $request)
     {
         
         $run = $this->_run->createRun($request);
+        return response()->json($run);
     }
 
     /**

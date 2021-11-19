@@ -15,11 +15,11 @@ class CreateRunsTable extends Migration
     {
         Schema::create('runs', function (Blueprint $table) {
             $table->id();
-            $table->integer('number');
+            $table->bigInteger('number');
             $table->dateTime('startDate');
             $table->text('description');
             $table->boolean('status')->default(1);
-            $table->dateTime('dateCompleted');
+            $table->dateTime('dateCompleted')->nullable();
 
 
             // $table->string('plate',50);

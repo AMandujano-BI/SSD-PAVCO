@@ -28,6 +28,10 @@
           {{ plateMethod.name }}
         </option>
       </select>
+
+      <div v-if="v$.form.plateMethod.$error" class="text-red-400">
+        PlateMethod field has an error.
+      </div>
     </div>
     <div>
       <label for="">Description</label>
@@ -37,7 +41,14 @@
         class="w-full"
         v-model="form.description"
       ></textarea>
-      <div v-if="v$.form.description.$error" class="text-red-400">Name field has an error.</div>
+      <!-- <div v-if="v$.form.description.$error" class="text-red-400">Name field has an error.</div> -->
+      <p
+        v-for="error of v$.form.description.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
     </div>
     <div>
       <label for="">Plate Type</label>
@@ -69,7 +80,7 @@
         </select>
         <div class="flex gap-2">
           <div>
-            <input type="text" class="w-[60px]" />
+            <input type="text" class="w-[60px]" v-model="form.plateThick" />
             <span>%</span>
           </div>
 
@@ -157,7 +168,9 @@
     <div class="py-5">
       <label for="">Parts</label>
       <input type="number" placeholder="Parts" v-model="form.numberParts" />
-      <div v-if="v$.form.numberParts.$error" class="text-red-400">Parts field has an error.</div>
+      <div v-if="v$.form.numberParts.$error" class="text-red-400">
+        Parts field has an error.
+      </div>
     </div>
     <button class="bg-blue-600 rounded w-full py-5 text-white px-3 mt-2">
       Save
@@ -188,6 +201,10 @@ export default {
         secondarycoat: 0,
         chromates: 0,
         topcoat: 0,
+        plateThick: 0,
+        primaryPer: 0,
+        coatPer: 0,
+        topCoatPer: 0,
         numberParts: "",
       },
     };
@@ -211,16 +228,27 @@ export default {
   methods: {
     async submitForm() {
       try {
-        this.v$.$touch();
         const isFormCorrect = await this.v$.$validate();
         if (!isFormCorrect) return;
 
         console.log(this.form);
         let res;
         res = await axios.post(`/run/`, this.form);
+        this.makeToast("Run was created successfully");
+        console.log(res);
       } catch (e) {
+        this.makeToast("error", "error");
         console.log(e);
       }
+    },
+
+    makeToast(message, type = "success") {
+      this.$toast.open({
+        message: message,
+        type: type,
+        duration: 5000,
+        dismissible: true,
+      });
     },
   },
 };
