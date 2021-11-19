@@ -18,6 +18,9 @@
         />
       </div>
     </modal>
+
+    <table-run />
+    
   </div>
 </template>
 
@@ -25,10 +28,14 @@
 <script>
 import ModalVue from "../../Jetstream/Modal.vue";
 import FormRun from "./components/FormRun.vue";
+import TableRun from "./components/TableRun.vue";
+import axios from "axios";
+
 export default {
   components: {
     modal: ModalVue,
     formRun: FormRun,
+    TableRun: TableRun
   },
   props: ["plateMethods", "topCoats", "chromates", "plates", "secondaryCoats"],
   data() {
@@ -44,8 +51,17 @@ export default {
       this.openModal = false;
     },
     async getAllRuns(){
-      await axios()
+      await axios.get('/run/getAllRuns')
+        .then((resp) => {
+          console.log(resp)
+        })
+        .catch((error) => {
+          console.log({error});
+        })
     }
   },
+  async mounted() {
+    this.getAllRuns()
+  }
 };
 </script>
