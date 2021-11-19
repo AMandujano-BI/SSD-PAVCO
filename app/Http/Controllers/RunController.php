@@ -46,11 +46,10 @@ class RunController extends Controller
             ]
         );
     }
-    public function getAllRuns($quantity,$page)
+    public function getAllRuns()
     {
         $runs =$this->_run->getAllRun();
         return $runs;
-
     }
 
     /**

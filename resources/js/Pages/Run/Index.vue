@@ -19,7 +19,9 @@
       </div>
     </modal>
 
-    <table-run />
+    <table-run 
+    :data="data"
+    />
     
   </div>
 </template>
@@ -41,6 +43,7 @@ export default {
   data() {
     return {
       openModal: false,
+      data:[]
     };
   },
   methods: {
@@ -54,6 +57,7 @@ export default {
       await axios.get('/run/getAllRuns')
         .then((resp) => {
           console.log(resp)
+          this.data = resp.data
         })
         .catch((error) => {
           console.log({error});
