@@ -23228,14 +23228,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Jetstream_Modal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Jetstream/Modal.vue */ "./resources/js/Jetstream/Modal.vue");
-/* harmony import */ var _components_FormRun_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/FormRun.vue */ "./resources/js/Pages/Run/components/FormRun.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Jetstream_Modal_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Jetstream/Modal.vue */ "./resources/js/Jetstream/Modal.vue");
+/* harmony import */ var _components_FormRun_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/FormRun.vue */ "./resources/js/Pages/Run/components/FormRun.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    modal: _Jetstream_Modal_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    formRun: _components_FormRun_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    modal: _Jetstream_Modal_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    formRun: _components_FormRun_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   props: ["plateMethods", "topCoats", "chromates", "plates", "secondaryCoats"],
   data: function data() {
@@ -23249,6 +23257,23 @@ __webpack_require__.r(__webpack_exports__);
     },
     closeModal: function closeModal() {
       this.openModal = false;
+    },
+    getAllRuns: function getAllRuns() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios();
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }
 });
@@ -54605,6 +54630,27 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Run/components/TableRun.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/Pages/Run/components/TableRun.vue ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var F_Trabajo_Mexico_Pavco_pavcofirstspring_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+const script = {}
+
+;
+const __exports__ = /*#__PURE__*/(0,F_Trabajo_Mexico_Pavco_pavcofirstspring_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_0__["default"])(script, [['__file',"resources/js/Pages/Run/components/TableRun.vue"]])
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/Pages/TermsOfService.vue":
 /*!***********************************************!*\
   !*** ./resources/js/Pages/TermsOfService.vue ***!
@@ -56420,6 +56466,7 @@ var map = {
 	"./Profile/Show.vue": "./resources/js/Pages/Profile/Show.vue",
 	"./Run/Index.vue": "./resources/js/Pages/Run/Index.vue",
 	"./Run/components/FormRun.vue": "./resources/js/Pages/Run/components/FormRun.vue",
+	"./Run/components/TableRun.vue": "./resources/js/Pages/Run/components/TableRun.vue",
 	"./TermsOfService.vue": "./resources/js/Pages/TermsOfService.vue",
 	"./Welcome.vue": "./resources/js/Pages/Welcome.vue"
 };

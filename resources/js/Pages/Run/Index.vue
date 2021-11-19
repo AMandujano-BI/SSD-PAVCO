@@ -43,6 +43,9 @@ export default {
     closeModal() {
       this.openModal = false;
     },
+    async getAllRuns(){
+      await axios()
+    }
   },
 };
 </script>

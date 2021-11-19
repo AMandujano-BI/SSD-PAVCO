@@ -24,9 +24,9 @@ class Run extends Model
     {
         DB::beginTransaction();
         try {
-            DB::commit();
             $run = (new static)::create([]);
             $run->save();
+            DB::commit();
             return 'okar';
         } catch (\Exception $e) {
             DB::rollback();

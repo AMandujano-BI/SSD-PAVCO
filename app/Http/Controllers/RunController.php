@@ -18,7 +18,7 @@ class RunController extends Controller
 
     public function __construct(Run $run, PlateMethod $plateMethod, Chemical $chemical)
     {
-        $this->_chemical = $run;
+        $this->_run = $run;
         $this->_plateMethod = $plateMethod;
         $this->_chemical = $chemical;
     }
@@ -44,6 +44,12 @@ class RunController extends Controller
                 'secondaryCoats' => $SecondaryCoats
             ]
         );
+    }
+    public function getAllRuns($quantity,$page)
+    {
+        $runs =$this->_run->getAllRun();
+        return $runs;
+
     }
 
     /**
