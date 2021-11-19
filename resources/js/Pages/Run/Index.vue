@@ -1,8 +1,24 @@
 <template>
-<div class="p-5">
-
-  <form-run :plateMethods="plateMethods" :topCoats="topCoats" :chromates="chromates" :plates="plates" :secondaryCoats="secondaryCoats" />
-</div>
+  <div class="container mx-auto">
+    <h1 class="text-center font-bold p-5 text-2xl">List of Runs</h1>
+    <button
+      @click="openModalButton"
+      class="bg-blue-600 px-4 py-2 text-white rounded-md mb-2"
+    >
+      +
+    </button>
+    <modal :show="openModal" @close="closeModal">
+      <div class="p-5">
+        <form-run
+          :plateMethods="plateMethods"
+          :topCoats="topCoats"
+          :chromates="chromates"
+          :plates="plates"
+          :secondaryCoats="secondaryCoats"
+        />
+      </div>
+    </modal>
+  </div>
 </template>
 
 
@@ -14,7 +30,7 @@ export default {
     modal: ModalVue,
     formRun: FormRun,
   },
-  props: ["plateMethods",'topCoats','chromates','plates','secondaryCoats'],
+  props: ["plateMethods", "topCoats", "chromates", "plates", "secondaryCoats"],
   data() {
     return {
       openModal: false,
@@ -23,6 +39,9 @@ export default {
   methods: {
     openModalButton() {
       this.openModal = true;
+    },
+    closeModal() {
+      this.openModal = false;
     },
   },
 };

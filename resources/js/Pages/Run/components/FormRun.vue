@@ -37,7 +37,7 @@
         class="w-full"
         v-model="form.description"
       ></textarea>
-      <div v-if="v$.form.description.$error">Name field has an error.</div>
+      <div v-if="v$.form.description.$error" class="text-red-400">Name field has an error.</div>
     </div>
     <div>
       <label for="">Plate Type</label>
@@ -157,7 +157,7 @@
     <div class="py-5">
       <label for="">Parts</label>
       <input type="number" placeholder="Parts" v-model="form.numberParts" />
-      <div v-if="v$.form.numberParts.$error">Parts field has an error.</div>
+      <div v-if="v$.form.numberParts.$error" class="text-red-400">Parts field has an error.</div>
     </div>
     <button class="bg-blue-600 rounded w-full py-5 text-white px-3 mt-2">
       Save
@@ -167,6 +167,7 @@
 <script>
 import { required, minLength } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+import axios from "axios";
 export default {
   props: ["plateMethods", "topCoats", "chromates", "plates", "secondaryCoats"],
   setup() {
@@ -179,7 +180,7 @@ export default {
       form: {
         id: 0,
         number: 0,
-        startDate: "2021/11/19",
+        startDate: "2021-11-19",
         description: "",
         status: 0,
         idCustomer: 0,
@@ -209,8 +210,17 @@ export default {
   },
   methods: {
     async submitForm() {
-      this.v$.$touch();
-      console.log(this.form);
+      try {
+        this.v$.$touch();
+        const isFormCorrect = await this.v$.$validate();
+        if (!isFormCorrect) return;
+
+        console.log(this.form);
+        let res;
+        res = await axios.post(`/run/`, this.form);
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
 };
