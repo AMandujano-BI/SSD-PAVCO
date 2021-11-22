@@ -34,9 +34,8 @@ class RunController extends Controller
         $plateMethods = $this->_plateMethod->getPlateMethods();
         $topCoats = $this->_chemical->getByType(1);
         $Chromates = $this->_chemical->getByType(2);
-        $plates = $this->_chemical->getByType(3);
+        $plateType = $this->_chemical->getByType(3);
         $SecondaryCoats = $this->_chemical->getByType(4);
-        $plateType = $this->_plateType->getPlateTypes();
 
 
         return Inertia::render(
@@ -45,7 +44,6 @@ class RunController extends Controller
                 'plateMethods' => $plateMethods,
                 'topCoats' => $topCoats,
                 'chromates' => $Chromates,
-                'plates' => $plates,
                 'secondaryCoats' => $SecondaryCoats,
                 'plateTypes' => $plateType
             ]
