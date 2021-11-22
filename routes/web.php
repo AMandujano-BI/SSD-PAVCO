@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PartController;
 use App\Http\Controllers\RunController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -30,3 +31,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRuns', [RunController::class, 'getAllRuns'])->name('run.getAllRuns');
 Route::middleware(['auth:sanctum', 'verified'])->resource('run', RunController::class);
+Route::middleware(['auth:sanctum', 'verified'])->resource('part', PartController::class);

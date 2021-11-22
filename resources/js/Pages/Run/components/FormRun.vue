@@ -33,7 +33,7 @@
         PlateMethod field has an error.
       </div> -->
       <p
-        v-for="error of v$.form.plate_methods_id.$errors"
+        v-for="error of v$.plate_methods_id.$errors"
         :key="error.$uid"
         class="text-red-400"
       >
@@ -50,7 +50,7 @@
       ></textarea>
       <!-- <div v-if="v$.form.description.$error" class="text-red-400">Name field has an error.</div> -->
       <p
-        v-for="error of v$.form.description.$errors"
+        v-for="error of v$.description.$errors"
         :key="error.$uid"
         class="text-red-400"
       >
@@ -181,7 +181,7 @@
     <div class="py-5">
       <label for="">Parts</label>
       <input type="number" placeholder="Parts" v-model="form.numberParts" />
-      <div v-if="v$.form.numberParts.$error" class="text-red-400">
+      <div v-if="v$.numberParts.$error" class="text-red-400">
         Parts field has an error.
       </div>
     </div>
@@ -193,51 +193,44 @@
 <script>
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+// import {useToast} from "vue-toast-notification";
 import axios from "axios";
+import { ref, reactive } from "vue";
 
 //validations
 const isDiferentZero = (value) => {
-  console.log(value);
   return value != 0;
 };
 export default {
+  // emits: ["close"],
   props: [
     "plateMethods",
     "topCoats",
     "chromates",
-    "plates",
     "secondaryCoats",
     "plateTypes",
   ],
   setup() {
-    return {
-      v$: useVuelidate(),
-    };
-  },
-  data() {
-    return {
-      form: {
-        id: 0,
-        number: 0,
-        startDate: "2021-11-19",
-        description: "",
-        status: 0,
-        idCustomer: 0,
-        plate_methods_id: 0,
-        coatId: 0,
-        primaryCoatId: 0,
-        topCoatId: 0,
-        plate_types_id: 0,
-        plateThick: 0,
-        primaryPer: 0,
-        coatPer: 0,
-        topCoatPer: 0,
-        numberParts: "",
-      },
-    };
-  },
-  validations: {
-    form: {
+    const form = reactive({
+      id: 0,
+      number: 0,
+      startDate: "2021-11-19",
+      description: "",
+      status: 0,
+      idCustomer: 0,
+      plate_methods_id: 0,
+      coatId: 0,
+      primaryCoatId: 0,
+      topCoatId: 0,
+      plate_types_id: 0,
+      plateThick: 0,
+      primaryPer: 0,
+      coatPer: 0,
+      topCoatPer: 0,
+      numberParts: "",
+    });
+
+    const rules = {
       description: {
         required,
       },
@@ -253,34 +246,42 @@ export default {
       numberParts: {
         required,
       },
-    },
-  },
-  methods: {
-    async submitForm() {
+    };
+
+    const v$ = useVuelidate(rules, form);
+    // const toast = useToast();
+    const submitForm = async () => {
       try {
-        const isFormCorrect = await this.v$.$validate();
+        const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return;
         let res;
-        res = await axios.post(`/run/`, this.form);
+        res = await axios.post(`/run/`, form);
         if (res.data.ok) {
-          this.makeToast("Run was created successfully");
+          window.location.href = "/part";
+          // makeToast("Run was created successfully");
         } else {
-          this.makeToast("An error has occurred", "error");
+          // makeToast("An error has occurred", "error");
         }
       } catch (e) {
-        this.makeToast("An error has occurred", "error");
-        console.log(e);
+        // makeToast("An error has occurred", "error");
       }
-    },
+    };
 
-    makeToast(message, type = "success") {
-      this.$toast.open({
+    const makeToast = (message, type = "success") => {
+      toast.open({
         message: message,
         type: type,
         duration: 5000,
         dismissible: true,
       });
-    },
+    };
+
+    return {
+      v$,
+      form,
+      makeToast,
+      submitForm,
+    };
   },
 };
 </script>

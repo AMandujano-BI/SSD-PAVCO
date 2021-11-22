@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RunRequest;
 use App\Models\Chemical;
 use App\Models\PlateMethod;
-use App\Models\PlateType;
 use App\Models\Run;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class RunController extends Controller
@@ -15,16 +15,14 @@ class RunController extends Controller
     private $_run;
     private $_chemical;
     private $_plateMethod;
-    private $_plateType;
 
 
 
-    public function __construct(Run $run, PlateMethod $plateMethod, Chemical $chemical,PlateType $plateType)
+    public function __construct(Run $run, PlateMethod $plateMethod, Chemical $chemical)
     {
         $this->_run = $run;
         $this->_plateMethod = $plateMethod;
         $this->_chemical = $chemical;
-        $this->_plateType= $plateType;
     }
 
 
@@ -44,8 +42,8 @@ class RunController extends Controller
                 'plateMethods' => $plateMethods,
                 'topCoats' => $topCoats,
                 'chromates' => $Chromates,
+                'plateTypes' => $plateType,
                 'secondaryCoats' => $SecondaryCoats,
-                'plateTypes' => $plateType
             ]
         );
     }
@@ -79,6 +77,7 @@ class RunController extends Controller
         
         $run = $this->_run->createRun($request);
         return response()->json($run);
+        // return Redirect::route('part.index');
     }
 
     /**
