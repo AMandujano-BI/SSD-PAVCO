@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\TryCatch;
 
 class Run extends Model
 {
@@ -147,6 +148,28 @@ class Run extends Model
             ];
         } catch (\Exception $e) {
 
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
+    public static function reopenRun($id)
+    {
+        DB::beginTransaction();
+        try {
+            $run = (new static)::find($id);
+            $run->status = 1;
+            $run->save();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Run was update successfully',
+                'value' => $run,
+            ];
+        } catch (\Exception $e) {
             DB::rollBack();
             return [
                 'ok' => false,

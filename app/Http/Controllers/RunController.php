@@ -119,6 +119,11 @@ class RunController extends Controller
 
     }
 
+    public function reopenRun($id) {
+        $run = $this->_run->reopenRun($id);
+        return response()->json($run);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
