@@ -43,6 +43,11 @@ class Run extends Model
         return $run;
     }
 
+    public static function getRun($id){
+        $run = (new static)::where('id',$id)->get();
+        return $run;
+    }
+
     public static function createRun($request)
     {
         DB::beginTransaction();

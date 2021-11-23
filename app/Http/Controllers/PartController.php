@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chemical;
 use App\Models\Part;
+use App\Models\PlateMethod;
+use App\Models\Run;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -10,9 +13,13 @@ class PartController extends Controller
 {
 
     private $_part;
-    public function __construct(Part $part)
+    private $_plateMethod;
+    private $_run;
+    public function __construct(Part $part,  PlateMethod $plateMethod, Run $run)
     {
         $this->_part = $part;
+        $this->_plateMethod = $plateMethod;
+        $this->_run = $run;
     }
     /**
      * Display a listing of the resource.
@@ -58,10 +65,15 @@ class PartController extends Controller
     public function show($id)
     {
         $parts = $this->_part->getPartsByRun($id);
+        $run = $this->_run->getRun($id);
+        $plateMethods = $this->_plateMethod->getPlateMethods();
         return Inertia::render(
             'Parts/Detail',
-            ['parts' => $parts]
-        // return response()->json($parts);
+            [
+                'parts' => $parts,
+                'plateMethods' => $plateMethods,
+                'run' => $run
+            ]
         );
     }
 

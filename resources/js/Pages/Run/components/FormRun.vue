@@ -242,7 +242,6 @@
 import useFormRun from "../composables/useFormRun";
 
 export default {
-  // emits: ["close"],
   props: [
     "plateMethods",
     "topCoats",

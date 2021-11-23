@@ -1223,8 +1223,13 @@ select {
 .mb-2 {
 	margin-bottom: 0.5rem;
 }
+<<<<<<< Updated upstream
 .mr-4 {
 	margin-right: 1rem;
+=======
+.mb-5 {
+	margin-bottom: 1.25rem;
+>>>>>>> Stashed changes
 }
 .block {
 	display: block;
