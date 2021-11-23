@@ -11,7 +11,7 @@
         <option value="3">TopCoat</option>
         <option value="4">Secondary TopCoat</option>
       </select>
-        <p
+      <p
         v-for="error of v$.user_id.$errors"
         :key="error.$uid"
         class="text-red-400"
@@ -22,6 +22,13 @@
     <div>
       <label for="">Start Date</label>
       <input type="date" class="w-full" v-model="form.startDate" />
+      <p
+        v-for="error of v$.startDate.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
     </div>
 
     <div>
@@ -229,9 +236,13 @@
     <div class="py-5">
       <label for="" class="pr-5">Parts</label>
       <input type="number" placeholder="Parts" v-model="form.numberParts" />
-      <div v-if="v$.numberParts.$error" class="text-red-400">
-        Parts field has an error.
-      </div>
+      <p
+        v-for="error of v$.numberParts.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
     </div>
     <button class="bg-blue-600 rounded w-full py-5 text-white px-3 mt-2">
       Save

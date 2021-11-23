@@ -1220,16 +1220,14 @@ select {
 .-mt-px {
 	margin-top: -1px;
 }
+.mb-5 {
+	margin-bottom: 1.25rem;
+}
 .mb-2 {
 	margin-bottom: 0.5rem;
 }
-<<<<<<< Updated upstream
 .mr-4 {
 	margin-right: 1rem;
-=======
-.mb-5 {
-	margin-bottom: 1.25rem;
->>>>>>> Stashed changes
 }
 .block {
 	display: block;
@@ -1621,11 +1619,11 @@ select {
 .p-5 {
 	padding: 1.25rem;
 }
-.p-9 {
-	padding: 2.25rem;
-}
 .p-4 {
 	padding: 1rem;
+}
+.p-9 {
+	padding: 2.25rem;
 }
 .px-4 {
 	padding-left: 1rem;

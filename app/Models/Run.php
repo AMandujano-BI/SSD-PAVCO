@@ -43,8 +43,9 @@ class Run extends Model
         return $run;
     }
 
-    public static function getRun($id){
-        $run = (new static)::where('id',$id)->get();
+    public static function getRun($id)
+    {
+        $run = (new static)::where('id', $id)->get();
         return $run;
     }
 
@@ -86,11 +87,11 @@ class Run extends Model
             $topCoatTemp = $request->topCoatTemp;
             $topCoatPH = $request->topCoatPH;
             $topCoatDiptime = $request->topCoatDiptime;
-            $primaryPer= $request->primaryPer;
+            $primaryPer = $request->primaryPer;
             $primaryTemp = $request->primaryTemp;
             $primaryPH = $request->primaryPH;
             $primaryDiptime = $request->primaryDiptime;
-            $coatPer= $request->coatPer;
+            $coatPer = $request->coatPer;
             $coatTemp = $request->coatTemp;
             $coatPH = $request->coatPH;
             $coatDiptime = $request->coatDiptime;
@@ -128,6 +129,29 @@ class Run extends Model
                 'message' => $e->getMessage()
             ];
             // return $e->getMessage();
+        }
+    }
+
+    public static function closeRun($id)
+    {
+        DB::beginTransaction();
+        try {
+            $run = (new static)::find($id);
+            $run->status = 0;
+            $run->save();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Run was update successfully',
+                'value' => $run,
+            ];
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage()
+            ];
         }
     }
 }

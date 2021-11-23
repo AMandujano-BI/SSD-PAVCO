@@ -30,5 +30,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
 Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRuns', [RunController::class, 'getAllRuns'])->name('run.getAllRuns');
+Route::middleware(['auth:sanctum', 'verified'])->put('/run/closeRun/{id}', [RunController::class, 'closeRun'])->name('run.closeRun');
 Route::middleware(['auth:sanctum', 'verified'])->resource('run', RunController::class);
 Route::middleware(['auth:sanctum', 'verified'])->resource('part', PartController::class);

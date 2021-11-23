@@ -1,5 +1,5 @@
 
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers,minValue } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 // import {useToast} from "vue-toast-notification";
 import axios from "axios";
@@ -84,6 +84,10 @@ const isDiferentZero = (value) => {
         },
         numberParts: {
             required,
+            minValue:1
+        },
+        startDate: {
+            required,
         },
         topCoatPer: {
             required,
@@ -105,7 +109,8 @@ const isDiferentZero = (value) => {
     const submitForm = async () => {
         try {
           const isFormCorrect = await v$.value.$validate();
-          console.log(v$.value);
+          console.log(form)
+          return
           if (!isFormCorrect) return;
           let res;
           res = await axios.post(`/run/`, form);
