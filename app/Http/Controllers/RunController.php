@@ -74,7 +74,6 @@ class RunController extends Controller
      */
     public function store(RunRequest $request)
     {
-        
         $run = $this->_run->createRun($request);
         return response()->json($run);
         // return Redirect::route('part.index');

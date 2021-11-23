@@ -23,8 +23,7 @@ class PartController extends Controller
     {
         return Inertia::render(
             'Parts/Index',
-            [
-            ]
+            []
         );
     }
 
@@ -56,9 +55,14 @@ class PartController extends Controller
      * @param  \App\Models\Part  $part
      * @return \Illuminate\Http\Response
      */
-    public function show(Part $part)
+    public function show($id)
     {
-        //
+        $parts = $this->_part->getPartsByRun($id);
+        return Inertia::render(
+            'Parts/Detail',
+            ['parts' => $parts]
+        // return response()->json($parts);
+        );
     }
 
     /**

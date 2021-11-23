@@ -9,39 +9,46 @@ use Illuminate\Support\Facades\DB;
 class Part extends Model
 {
     use HasFactory;
-    protected $fillable =[
+    protected $fillable = [
         'plateThick',
-        'primaryPer',
-        'coatPer',
         'description',
         'topCoatPer',
         'topCoatTemp',
         'topCoatPH',
         'topCoatDiptime',
+        'primaryPer',
         'primaryTemp',
         'primaryPH',
         'primaryDiptime',
+        'coatPer',
+        'coatTemp',
         'coatPH',
         'coatDiptime',
         'run_id',
     ];
+
+    public static function getPartsByRun($id)
+    {
+        $parts = (new static)::where('run_id', $id)->get();
+        return $parts;
+    }
     public static function createPart($request)
     {
         DB::beginTransaction();
         try {
-            $plateThick= $request->startDate;
+            $plateThick = $request->startDate;
             $primaryPer = $request->description;
             $coatPer = $request->plate_types_id;
             $description = $request->primaryCoatId;
             $topCoatPer = $request->coatId;
             $topCoatPH = $request->topCoatId;
             $topCoatDiptime = $request->plate_methods_id;
-            $primaryTemp= $request->plate_methods_id;
+            $primaryTemp = $request->plate_methods_id;
             $primaryPH = $request->plate_methods_id;
             $primaryDiptime = $request->plate_methods_id;
-            $coatPH= $request->plate_methods_id;
-            $coatDiptime= $request->plate_methods_id;
-            $run_id= $request->plate_methods_id;
+            $coatPH = $request->plate_methods_id;
+            $coatDiptime = $request->plate_methods_id;
+            $run_id = $request->plate_methods_id;
 
             $part = (new static)::create([
                 'plateThick' => $plateThick,

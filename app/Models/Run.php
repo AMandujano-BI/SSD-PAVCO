@@ -17,13 +17,23 @@ class Run extends Model
         'primaryCoatId',
         'coatId',
         'topCoatId',
-        'primaryPer',
         'coatPer',
         'plateThick',
-        'topCoatPer',
         'plate_methods_id',
         'company_id',
         'user_id',
+        'topCoatPer',
+        'topCoatTemp',
+        'topCoatPH',
+        'topCoatDiptime',
+        'primaryPer',
+        'primaryTemp',
+        'primaryPH',
+        'primaryDiptime',
+        'coatPer',
+        'coatTemp',
+        'coatPH',
+        'coatDiptime',
     ];
 
 
@@ -45,6 +55,7 @@ class Run extends Model
             $coatId = $request->coatId;
             $topCoatId = $request->topCoatId;
             $plate_methods_id = $request->plate_methods_id;
+            $numberParts = $request->numberParts;
 
             $run = (new static)::create([
                 'startDate' => $startDate,
@@ -63,10 +74,47 @@ class Run extends Model
                 'user_id' => 1,
             ]);
             $run->save();
+
+
+            $plateThick = $request->plateThick;
+            $topCoatPer = $request->topCoatPer;
+            $topCoatTemp = $request->topCoatTemp;
+            $topCoatPH = $request->topCoatPH;
+            $topCoatDiptime = $request->topCoatDiptime;
+            $primaryPer= $request->primaryPer;
+            $primaryTemp = $request->primaryTemp;
+            $primaryPH = $request->primaryPH;
+            $primaryDiptime = $request->primaryDiptime;
+            $coatPer= $request->coatPer;
+            $coatTemp = $request->coatTemp;
+            $coatPH = $request->coatPH;
+            $coatDiptime = $request->coatDiptime;
+
+            for ($i = 0; $i < $numberParts; $i++) {
+                $parts = Part::create([
+                    'plateThick' => $plateThick,
+                    'description' => 'is a description',
+                    'topCoatPer' => $topCoatPer,
+                    'topCoatTemp' => $topCoatTemp,
+                    'topCoatPH' => $topCoatPH,
+                    'topCoatDiptime' => $topCoatDiptime,
+                    'primaryPer' => $primaryPer,
+                    'primaryTemp' => $primaryTemp,
+                    'primaryPH' => $primaryPH,
+                    'primaryDiptime' => $primaryDiptime,
+                    'coatPer' => $coatPer,
+                    'coatTemp' => $coatTemp,
+                    'coatPH' => $coatPH,
+                    'coatDiptime' => $coatDiptime,
+                    'run_id' => $run->id,
+                ]);
+                $parts->save();
+            }
             DB::commit();
             return [
                 'ok' => true,
-                'message' => 'Run was created successfully'
+                'message' => 'Run was created successfully',
+                'value' => $run,
             ];
         } catch (\Exception $e) {
             DB::rollback();
