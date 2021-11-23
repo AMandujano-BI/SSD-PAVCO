@@ -1,21 +1,26 @@
 <template>
-  <h1>Parts Editor</h1>
+  <div class="p-5">
+    <h1 class="text-center text-2xl font-bold">Detalis</h1>
 
-  <table-part />
-  <table-photos />
-
-  <modal :show="openModal" @close="closeModal">
-    <div class="p-5">
-      <form-update-part />
+    <div class="shadow-sm rounded min-h-[300]">
+      <table-part :parts="parts" />
     </div>
-  </modal>
-  <h1 class="text-center font-bold p-5 text-2xl">List of Runs</h1>
-  <button
-    @click="openModalButton"
-    class="bg-blue-600 px-4 py-2 text-white rounded-md mb-2"
-  >
-    +
-  </button>
+    <div class="shadow-sm rounded">
+      <table-photos />
+    </div>
+
+    <modal :show="openModal" @close="closeModal">
+      <div class="p-5">
+        <form-update-part />
+      </div>
+    </modal>
+    <button
+      @click="openModalButton"
+      class="bg-blue-600 px-4 py-2 text-white rounded-md mb-2"
+    >
+      Edit
+    </button>
+  </div>
 </template>
 
 <script>
@@ -24,15 +29,16 @@ import ModalVue from "../../Jetstream/Modal.vue";
 import FormUpdatePartVue from "./components/FormUpdatePart.vue";
 import TablePart from "./components/TablePart.vue";
 import TablePhotosVue from "./components/TablePhotos.vue";
-
 export default {
+  props: ["parts", "query"],
   components: {
     tablePart: TablePart,
     formUpdatePart: FormUpdatePartVue,
     tablePhotos: TablePhotosVue,
     modal: ModalVue,
   },
-  setup() {
+  setup(props) {
+    console.log(props);
     let openModal = ref(false);
     const openModalButton = () => {
       openModal.value = true;
@@ -49,3 +55,4 @@ export default {
   },
 };
 </script>
+
