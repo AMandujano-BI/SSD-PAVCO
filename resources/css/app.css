@@ -1,8 +1,30 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
 input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
+input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
+    /* ANIMATIO */
+@keyframes inAnimation {
+      0% {
+        opacity: 0;
+        visibility: hidden;
+      }
+      100% {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+    
+@keyframes outAnimation {
+    0% {
+       opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+}

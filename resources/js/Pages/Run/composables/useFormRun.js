@@ -3,11 +3,12 @@ import { required, helpers,minValue } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 // import {useToast} from "vue-toast-notification";
 import axios from "axios";
-import { ref, reactive } from "vue";
+import {ref, reactive } from "vue";
 const isDiferentZero = (value) => {
     return value != 0;
   };
  const useFormRun = () => {
+    const loading = ref(false)
     const form = reactive({
         id: 0,
         number: 0,
@@ -35,7 +36,6 @@ const isDiferentZero = (value) => {
         coatTemp: 0,
         coatPH: 0,
         coatDiptime: 0,
-
         numberParts: 0,
     });
 
@@ -84,7 +84,7 @@ const isDiferentZero = (value) => {
         },
         numberParts: {
             required,
-            minValue:1
+            minValue: minValue(1)
         },
         startDate: {
             required,
@@ -109,13 +109,13 @@ const isDiferentZero = (value) => {
     const submitForm = async () => {
         try {
           const isFormCorrect = await v$.value.$validate();
-          console.log(form)
-          return
           if (!isFormCorrect) return;
           let res;
+          loading.value = true
           res = await axios.post(`/run/`, form);
           const { ok, value, message } = res.data;
   
+          loading.value = false
           console.log(res.data);
           if (ok) {
             window.location.href = `/part/${value.id}`;
@@ -141,7 +141,8 @@ const isDiferentZero = (value) => {
     return {
         form,
         v$,
-        submitForm
+        submitForm,
+        loading
 
     }
 }

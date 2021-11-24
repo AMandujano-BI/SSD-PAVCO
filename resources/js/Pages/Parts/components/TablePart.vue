@@ -20,7 +20,7 @@
         <td>{{ part.id }}</td>
         <td>{{ part.id }}</td>
         <td>
-          <button>
+          <button @click="editPart(part.id)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -74,14 +74,27 @@
       </tr>
     </tbody>
   </table>
+        <modal :show="openModal" @close="closeModal">
+          <div class="p-5">
+            <form-update-part />
+          </div>
+        </modal>
 </template>
 
 <script>
 const $ = require("jquery");
 import dt from "datatables.net";
+import ModalVue from "@/Jetstream/Modal.vue";
+import { ref } from "vue";
+import FormUpdatePartVue from "./FormUpdatePart.vue";
 export default {
   props: ["parts"],
+  components: {
+    modal: ModalVue,
+    formUpdatePart: FormUpdatePartVue,
+  },
   setup() {
+    const openModal = ref(false);
     const generateDataTable = () => {
       $("#partsTable").DataTable();
       // this.$nextTick(() => {
@@ -102,11 +115,20 @@ export default {
     //Initial get
     // getData();
     generateDataTable();
-
+    const editPart = async (id) => {
+      console.log(id)
+      openModal.value = true;
+    };
+    const closeModal = () => {
+      openModal.value = false;
+    };
     return {
       generateDataTable,
       $,
       dt,
+      editPart,
+      openModal,
+      closeModal,
     };
   },
 };

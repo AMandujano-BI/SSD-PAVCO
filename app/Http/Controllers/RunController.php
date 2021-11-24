@@ -110,7 +110,8 @@ class RunController extends Controller
      */
     public function update(Request $request, Run $run)
     {
-        //
+        $runResponse =$this->_run->updateRunPart($request->id,$request);
+        return response()->json($runResponse);
     }
 
     public function closeRun($id){

@@ -169,24 +169,37 @@
             {{ error.$message }}
           </p>
         </div>
-        <div class="flex">
-          <div>
-            <input type="text" class="w-[60px]" v-model="form.topCoatPer" />
-            <span>%</span>
-          </div>
+        <div class="flex flex-col">
+          <div class="flex">
+            <div>
+              <input type="text" class="w-[60px]" v-model="form.topCoatPer" />
+              <span>%</span>
+            </div>
 
-          <div>
-            <input type="text" class="w-[60px]" v-model="form.topCoatTemp" />
-            <span>°F</span>
+            <div>
+              <input type="text" class="w-[60px]" v-model="form.topCoatTemp" />
+              <span>°F</span>
+            </div>
+            <div>
+              <input type="text" class="w-[60px]" v-model="form.topCoatPH" />
+              <span>pH</span>
+            </div>
+            <div>
+              <input
+                type="text"
+                class="w-[60px]"
+                v-model="form.topCoatDiptime"
+              />
+              <span>sec</span>
+            </div>
           </div>
-          <div>
-            <input type="text" class="w-[60px]" v-model="form.topCoatPH" />
-            <span>pH</span>
-          </div>
-          <div>
-            <input type="text" class="w-[60px]" v-model="form.topCoatDiptime" />
-            <span>sec</span>
-          </div>
+          <p
+            v-for="error of v$.coatId.$errors"
+            :key="error.$uid"
+            class="text-red-400"
+          >
+            {{ error.$message }}
+          </p>
         </div>
       </div>
     </div>
@@ -244,9 +257,19 @@
         {{ error.$message }}
       </p>
     </div>
-    <button class="bg-blue-600 rounded w-full py-5 text-white px-3 mt-2">
-      Save
-    </button>
+    <div v-if="!loading">
+      <button class="bg-blue-600 rounded w-full py-5 text-white px-3 mt-2">
+        Save
+      </button>
+    </div>
+
+    <div v-if="loading">
+      <button class="bg-blue-600 rounded w-full py-5 text-white px-3 mt-2" disabled>
+        <div
+          className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
+        ></div>
+      </button>
+    </div>
   </form>
 </template>
 <script>
@@ -261,12 +284,13 @@ export default {
     "plateTypes",
   ],
   setup() {
-    const { form, v$, submitForm } = useFormRun();
+    const { form, v$, submitForm,loading } = useFormRun();
 
     return {
       v$,
       form,
       submitForm,
+      loading
     };
   },
 };

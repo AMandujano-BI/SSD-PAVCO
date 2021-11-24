@@ -79,16 +79,17 @@ const isDiferentZero = (value) => {
 };
 export default {
   props: ["plateMethods","run"],
-  setup() {
+  setup(props) {
+    const {run} = props
     const form = reactive({
-      id: 0,
+      id: run.id,
       number: 0,
-      startDate: new Date().toISOString().slice(0, 10),
-      description: "",
+      startDate: new Date(run.startDate).toISOString().slice(0, 10),
+      description:run.description,
       status: 0,
-      idCustomer: 0,
+      idCustomer: run.idCustomer,
       user_id: 0,
-      plate_methods_id: 0,
+      plate_methods_id: run.plate_methods_id,
       coatId: 0,
       primaryCoatId: 0,
       topCoatId: 0,
@@ -137,7 +138,7 @@ export default {
         console.log(v$.value);
         if (!isFormCorrect) return;
         let res;
-        res = await axios.put(`/run/`, form);
+        res = await axios.put(`/run/${form.id}`, form);
         const { ok, value, message } = res.data;
 
         console.log(res.data);

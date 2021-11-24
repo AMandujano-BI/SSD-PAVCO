@@ -46,7 +46,7 @@ class Run extends Model
 
     public static function getRun($id)
     {
-        $run = (new static)::where('id', $id)->get();
+        $run = (new static)::find($id);
         return $run;
     }
 
@@ -156,12 +156,18 @@ class Run extends Model
         }
     }
 
-    public static function reopenRun($id)
+    public static function reopenRun($id){
+
+    }
+    public static function updateRunPart($id,$request)
     {
         DB::beginTransaction();
         try {
             $run = (new static)::find($id);
             $run->status = 1;
+            $run->startDate= $request->startDate;
+            $run->description= $request->description;
+            $run->plate_methods_id= $request->plate_methods_id;
             $run->save();
             DB::commit();
             return [
