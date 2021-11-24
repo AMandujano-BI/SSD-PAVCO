@@ -143,7 +143,7 @@ export default {
 
         console.log(res.data);
         if (ok) {
-          window.location.href = `/part/${value.id}`;
+          // window.location.href = `/part/${value.id}`;
           // makeToast("Run was created successfully");
         } else {
           console.log(res.data);

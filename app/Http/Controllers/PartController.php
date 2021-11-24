@@ -15,11 +15,13 @@ class PartController extends Controller
     private $_part;
     private $_plateMethod;
     private $_run;
-    public function __construct(Part $part,  PlateMethod $plateMethod, Run $run)
+    private $_chemical;
+    public function __construct(Part $part,  PlateMethod $plateMethod, Run $run, Chemical $chemical)
     {
         $this->_part = $part;
         $this->_plateMethod = $plateMethod;
         $this->_run = $run;
+        $this->_chemical = $chemical;
     }
     /**
      * Display a listing of the resource.
@@ -67,12 +69,20 @@ class PartController extends Controller
         $parts = $this->_part->getPartsByRun($id);
         $run = $this->_run->getRun($id);
         $plateMethods = $this->_plateMethod->getPlateMethods();
+        $topCoats = $this->_chemical->getByType(1);
+        $Chromates = $this->_chemical->getByType(2);
+        $plateType = $this->_chemical->getByType(3);
+        $SecondaryCoats = $this->_chemical->getByType(4);
         return Inertia::render(
             'Parts/Detail',
             [
                 'parts' => $parts,
                 'plateMethods' => $plateMethods,
-                'run' => $run
+                'run' => $run,
+                'topCoats' => $topCoats,
+                'chromates' => $Chromates,
+                'plateTypes' => $plateType,
+                'secondaryCoats' => $SecondaryCoats,
             ]
         );
     }
@@ -106,8 +116,9 @@ class PartController extends Controller
      * @param  \App\Models\Part  $part
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Part $part)
+    public function destroy($id)
     {
-        //
+        $partDeleted = $this->_part->deletePart($id); 
+        return $partDeleted;
     }
 }

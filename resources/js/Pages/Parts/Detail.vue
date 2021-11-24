@@ -6,7 +6,7 @@
       <form-update-run-part :plateMethods="plateMethods" :run="run" />
     </div>
     <div class="shadow-lg mb-5 rounded min-h-[300] p-5">
-      <table-part :parts="parts"  :openModal="openModal"/>
+      <table-part :parts="parts"  :openModal="openModal" :chromates="chromates" :plateTypes="plateTypes" :secondaryCoats="secondaryCoats" :topCoats="topCoats"/>
     </div>
     <div class="shadow-lg rounded-md p-4 mb-5">
       <table-photos />
@@ -22,7 +22,7 @@ import FormUpdateRunPartVue from './components/FormUpdateRunPart.vue';
 import TablePart from "./components/TablePart.vue";
 import TablePhotosVue from "./components/TablePhotos.vue";
 export default {
-  props: ["parts", "query", "plateMethods","run"],
+  props: ["parts", "query", "plateMethods","run","topCoats","chromates","plateTypes","secondaryCoats"],
   components: {
     tablePart: TablePart,
     formUpdateRunPart: FormUpdateRunPartVue,

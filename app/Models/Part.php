@@ -79,4 +79,14 @@ class Part extends Model
             ];
         }
     }
+
+    public static function deletePart($id)
+    {
+        $partDeleted = (new static)::where('id', $id)->delete();
+        return [
+            'ok' => true,
+            'message' => 'Part was deleted successfully',
+            'value' => $partDeleted,
+        ];
+    }
 }

@@ -1232,6 +1232,9 @@ select {
 .block {
 	display: block;
 }
+.inline-block {
+	display: inline-block;
+}
 .flex {
 	display: flex;
 }
@@ -1343,9 +1346,6 @@ select {
 .max-w-6xl {
 	max-width: 72rem;
 }
-.max-w-md {
-	max-width: 28rem;
-}
 .flex-1 {
 	flex: 1 1 0%;
 }
@@ -1381,6 +1381,22 @@ select {
 }
 .transform {
 	transform: var(--tw-transform);
+}
+@-webkit-keyframes spin {
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+@keyframes spin {
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+.animate-spin {
+	-webkit-animation: spin 1s linear infinite;
+	        animation: spin 1s linear infinite;
 }
 .cursor-default {
 	cursor: default;
@@ -1511,6 +1527,9 @@ select {
 .border-r {
 	border-right-width: 1px;
 }
+.border-t-2 {
+	border-top-width: 2px;
+}
 .border-gray-300 {
 	--tw-border-opacity: 1;
 	border-color: rgba(209, 213, 219, var(--tw-border-opacity));
@@ -1533,6 +1552,10 @@ select {
 .border-gray-400 {
 	--tw-border-opacity: 1;
 	border-color: rgba(156, 163, 175, var(--tw-border-opacity));
+}
+.border-white {
+	--tw-border-opacity: 1;
+	border-color: rgba(255, 255, 255, var(--tw-border-opacity));
 }
 .bg-white {
 	--tw-bg-opacity: 1;
@@ -1956,10 +1979,49 @@ select {
 	transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
 input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
+input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
+/* ANIMATIO */
+@-webkit-keyframes inAnimation {
+      0% {
+        opacity: 0;
+        visibility: hidden;
+      }
+      100% {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+@keyframes inAnimation {
+      0% {
+        opacity: 0;
+        visibility: hidden;
+      }
+      100% {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+@-webkit-keyframes outAnimation {
+    0% {
+       opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+}
+@keyframes outAnimation {
+    0% {
+       opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+}
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;
 	border-color: rgba(209, 213, 219, var(--tw-border-opacity));
@@ -2380,4 +2442,3 @@ input::-webkit-outer-spin-button,
 		padding-right: 2rem;
 	}
 }
-

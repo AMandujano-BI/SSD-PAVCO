@@ -20,7 +20,7 @@
         <td>{{ part.id }}</td>
         <td>{{ part.id }}</td>
         <td>
-          <button @click="editPart(part.id)">
+          <button @click="editPart(part)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -38,7 +38,7 @@
           </button>
         </td>
         <td>
-          <button>
+          <button @click="openModalDelete(part.id)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -74,27 +74,67 @@
       </tr>
     </tbody>
   </table>
-        <modal :show="openModal" @close="closeModal">
-          <div class="p-5">
-            <form-update-part />
-          </div>
-        </modal>
+
+  <!-- MODALS -->
+  <modal :show="openModal">
+    <div class="p-5">
+      <form-update-part
+        :partUpdate="partUpdate"
+        :chromates="chromates"
+        :secondaryCoats="secondaryCoats"
+        :topCoats="topCoats"
+        :plateTypes="plateTypes"
+        @closeModal="closeModal"
+      />
+    </div>
+  </modal>
+  <confirmation-modal :show="showModalDelete">
+    <template v-slot:title>
+      <h1>Are you sure that delete this part?</h1>
+    </template>
+    <template v-slot:content>
+      <div class="flex justify-around">
+        <button
+          class="bg-red-500 p-4 text-white rounded-md mr-4"
+          @click="closeModalDelete"
+        >
+          Cancel
+        </button>
+        <button
+          class="bg-green-500 p-4 text-white rounded-md"
+          @click="deletePart()"
+        >
+          Acept
+        </button>
+      </div>
+    </template>
+  </confirmation-modal>
 </template>
 
 <script>
 const $ = require("jquery");
 import dt from "datatables.net";
 import ModalVue from "@/Jetstream/Modal.vue";
-import { ref } from "vue";
+import { reactive, ref } from "vue";
+import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import FormUpdatePartVue from "./FormUpdatePart.vue";
+import axios from "axios";
 export default {
-  props: ["parts"],
+  props: ["parts", "topCoats", "chromates", "plateTypes", "secondaryCoats"],
   components: {
     modal: ModalVue,
     formUpdatePart: FormUpdatePartVue,
+    confirmationModal: ConfirmationModal,
   },
   setup() {
     const openModal = ref(false);
+    const idPart = ref(0);
+    const showModalDelete = ref(false);
+    const partUpdate = ref({
+      id: 0,
+      plateThick: 0,
+      primaryPer: 0,
+    });
     const generateDataTable = () => {
       $("#partsTable").DataTable();
       // this.$nextTick(() => {
@@ -115,13 +155,30 @@ export default {
     //Initial get
     // getData();
     generateDataTable();
-    const editPart = async (id) => {
-      console.log(id)
+
+    const editPart = async (part) => {
+      partUpdate.value = part;
       openModal.value = true;
     };
     const closeModal = () => {
       openModal.value = false;
     };
+
+    const openModalDelete = (id) => {
+      showModalDelete.value = true;
+      idPart.value = id;
+    };
+    const closeModalDelete = () => (showModalDelete.value = false);
+    const deletePart = async () => {
+      console.log(idPart.value);
+      showModalDelete.value = false;
+      let res;
+      // res = await axios.delete(`/run/`, {params: {'id': idPart.value}})
+      res = await axios.delete(`/part/${idPart.value}` )
+      console.log(res);
+      const { ok, value, message } = res.data;
+    };
+
     return {
       generateDataTable,
       $,
@@ -129,6 +186,11 @@ export default {
       editPart,
       openModal,
       closeModal,
+      partUpdate,
+      showModalDelete,
+      closeModalDelete,
+      openModalDelete,
+      deletePart,
     };
   },
 };
