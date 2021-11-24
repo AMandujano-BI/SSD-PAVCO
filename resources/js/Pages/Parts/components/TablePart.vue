@@ -119,6 +119,7 @@ import { reactive, ref } from "vue";
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import FormUpdatePartVue from "./FormUpdatePart.vue";
 import axios from "axios";
+import useHelper from "@/composables/useHelper";
 export default {
   props: ["parts", "topCoats", "chromates", "plateTypes", "secondaryCoats"],
   components: {
@@ -126,8 +127,10 @@ export default {
     formUpdatePart: FormUpdatePartVue,
     confirmationModal: ConfirmationModal,
   },
-  setup() {
+  setup(props) {
+    let { parts } = props;
     const openModal = ref(false);
+    const { makeToast } = useHelper();
     const idPart = ref(0);
     const showModalDelete = ref(false);
     const partUpdate = ref({
@@ -136,6 +139,9 @@ export default {
       primaryPer: 0,
     });
     const generateDataTable = () => {
+      // $("#partsTable").DataTable().clear().destroy()
+      $("#partsTable").DataTable().clear()
+      $("#partsTable"+"tbody").empty()
       $("#partsTable").DataTable();
       // this.$nextTick(() => {
       // });
@@ -154,7 +160,6 @@ export default {
 
     //Initial get
     // getData();
-    generateDataTable();
 
     const editPart = async (part) => {
       partUpdate.value = part;
@@ -174,11 +179,24 @@ export default {
       showModalDelete.value = false;
       let res;
       // res = await axios.delete(`/run/`, {params: {'id': idPart.value}})
-      res = await axios.delete(`/part/${idPart.value}` )
+      res = await axios.delete(`/part/${idPart.value}`);
       console.log(res);
+
       const { ok, value, message } = res.data;
+      if (ok) {
+        const part = parts.find((item) => item.id == idPart.value);
+        
+        console.log(parts.length)
+        parts = parts.filter((item) => item.id != idPart.value);
+        console.log(parts.length)
+        makeToast(message);
+        generateDataTable();
+      } else {
+        makeToast(message, "erorr");
+      }
     };
 
+    generateDataTable();
     return {
       generateDataTable,
       $,

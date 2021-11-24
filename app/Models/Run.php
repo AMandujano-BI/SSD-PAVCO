@@ -40,7 +40,10 @@ class Run extends Model
 
     public static function getAllRun()
     {
-        $run = (new static)::all();
+        $run = (new static)::with([
+            'notes',
+            'photos'
+        ])->get();
         return $run;
     }
 
@@ -156,18 +159,18 @@ class Run extends Model
         }
     }
 
-    public static function reopenRun($id){
-
+    public static function reopenRun($id)
+    {
     }
-    public static function updateRunPart($id,$request)
+    public static function updateRunPart($id, $request)
     {
         DB::beginTransaction();
         try {
             $run = (new static)::find($id);
             $run->status = 1;
-            $run->startDate= $request->startDate;
-            $run->description= $request->description;
-            $run->plate_methods_id= $request->plate_methods_id;
+            $run->startDate = $request->startDate;
+            $run->description = $request->description;
+            $run->plate_methods_id = $request->plate_methods_id;
             $run->save();
             DB::commit();
             return [
@@ -182,5 +185,17 @@ class Run extends Model
                 'message' => $e->getMessage()
             ];
         }
+    }
+
+
+    // ===================================RELATIONS
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
+    public function photos()
+    {
+        return $this->hasMany(Photo::class);
     }
 }

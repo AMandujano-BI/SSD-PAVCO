@@ -1,14 +1,15 @@
 
-import { required, helpers,minValue } from "@vuelidate/validators";
+import { required, helpers, minValue } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-// import {useToast} from "vue-toast-notification";
+import useHelper from "@/composables/useHelper";
 import axios from "axios";
-import {ref, reactive } from "vue";
+import { ref, reactive } from "vue";
 const isDiferentZero = (value) => {
     return value != 0;
-  };
- const useFormRun = () => {
+};
+const useFormRun = () => {
     const loading = ref(false)
+    const { makeToast } = useHelper();
     const form = reactive({
         id: 0,
         number: 0,
@@ -108,36 +109,28 @@ const isDiferentZero = (value) => {
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {
         try {
-          const isFormCorrect = await v$.value.$validate();
-          if (!isFormCorrect) return;
-          let res;
-          loading.value = true
-          res = await axios.post(`/run/`, form);
-          const { ok, value, message } = res.data;
-  
-          loading.value = false
-          console.log(res.data);
-          if (ok) {
-            window.location.href = `/part/${value.id}`;
-            // makeToast("Run was created successfully");
-          } else {
+            const isFormCorrect = await v$.value.$validate();
+            if (!isFormCorrect) return;
+            let res;
+            loading.value = true
+            res = await axios.post(`/run/`, form);
+            const { ok, value, message } = res.data;
+
+            loading.value = false
             console.log(res.data);
-            // makeToast("An error has occurred", "error");
-          }
+            if (ok) {
+                makeToast("Run was created successfully");
+                window.location.href = `/part/${value.id}`;
+            } else {
+                console.log(res.data);
+                makeToast("An error has occurred", "error");
+            }
         } catch (e) {
-          console.log(e);
-          // makeToast("An error has occurred", "error");
+            console.log(e);
+            makeToast("An error has occurred", "error");
         }
-      };
-      
-    // const makeToast = (message, type = "success") => {
-    //     toast.open({
-    //       message: message,
-    //       type: type,
-    //       duration: 5000,
-    //       dismissible: true,
-    //     });
-    //   };
+    };
+
     return {
         form,
         v$,
