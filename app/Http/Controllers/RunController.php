@@ -131,8 +131,64 @@ class RunController extends Controller
     }
 
     public function downloadPdf($id) {
+        $run = $this->_run->getRun($id);
+        $id_run = $run->id;
+        $startDate = $run->startDate;
+        $customer = $run->user_id;
+        if ($run->status === '1') {
+            $status = 'Active';
+        } else {
+            if ($run->status === '0') {
+                $status = 'Completed';
+            }
+        }
+        $description = $run->description;
+        
+        // foreach ($run->parts as $part) {
+
+        //     $content =+ 
+        //     "<tr>
+        //         <td>$part-></td>
+        //     </tr>
+        //     ";
+        // }
+
+
         $pdf = resolve('dompdf.wrapper');
-        $pdf->loadHTML('<h1>Test</h1>');
+        $html = "
+            <h1>Salt Spray Report Results</h1>
+            <hr>
+            <br>
+            <p> <strong>Run #</strong> $id_run</p>
+            <p> <strong>StartDate</strong> $startDate</p>
+            <p> <strong>Customer</strong> $customer</p>
+            <p> <strong>Status</strong> $status</p>
+            <p> <strong>Description</strong> $description</p>
+            <br>
+            <br>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Desc</th>
+                        <th>Plate</th>
+                        <th>Chromate</th>
+                        <th>Topcoat</th>
+                        <th>Secondary Topcoat</th>
+                        <th>White Salts</th>
+                        <th>Red Rust</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr >
+
+                    </tr>
+                </tbody>
+            </table>
+        ";
+        $pdf->loadHTML($html);
+
         return $pdf->download('report.pdf');
     }
 
