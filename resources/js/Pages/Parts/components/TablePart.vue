@@ -56,7 +56,7 @@
           </button>
         </td>
         <td>
-          <button>
+          <button @click="openModalNotesClick(part.notes)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
@@ -87,6 +87,9 @@
         @closeModal="closeModal"
       />
     </div>
+  </modal>
+  <modal :show="openModalNotes">
+    <div class="p-5">modal notes</div>
   </modal>
   <confirmation-modal :show="showModalDelete">
     <template v-slot:title>
@@ -129,7 +132,9 @@ export default {
   },
   setup(props) {
     let { parts } = props;
+    console.log(parts);
     const openModal = ref(false);
+    const openModalNotes = ref(false);
     const { makeToast } = useHelper();
     const idPart = ref(0);
     const showModalDelete = ref(false);
@@ -140,8 +145,8 @@ export default {
     });
     const generateDataTable = () => {
       // $("#partsTable").DataTable().clear().destroy()
-      $("#partsTable").DataTable().clear()
-      $("#partsTable"+"tbody").empty()
+      $("#partsTable").DataTable().clear();
+      $("#partsTable" + "tbody").empty();
       $("#partsTable").DataTable();
       // this.$nextTick(() => {
       // });
@@ -173,6 +178,9 @@ export default {
       showModalDelete.value = true;
       idPart.value = id;
     };
+    const openModalNotesClick = (notes) => {
+      openModalNotes.value = true;
+    };
     const closeModalDelete = () => (showModalDelete.value = false);
     const deletePart = async () => {
       console.log(idPart.value);
@@ -185,10 +193,10 @@ export default {
       const { ok, value, message } = res.data;
       if (ok) {
         const part = parts.find((item) => item.id == idPart.value);
-        
-        console.log(parts.length)
+
+        console.log(parts.length);
         parts = parts.filter((item) => item.id != idPart.value);
-        console.log(parts.length)
+        console.log(parts.length);
         makeToast(message);
         generateDataTable();
       } else {
@@ -209,6 +217,8 @@ export default {
       closeModalDelete,
       openModalDelete,
       deletePart,
+      openModalNotes,
+      openModalNotesClick,
     };
   },
 };

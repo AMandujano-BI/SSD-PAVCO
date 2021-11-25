@@ -49,7 +49,10 @@ class Run extends Model
 
     public static function getRun($id)
     {
-        $run = (new static)::find($id);
+        $run = (new static)::with([
+            'notes',
+            'photos',
+        ])->find($id);
         return $run;
     }
 

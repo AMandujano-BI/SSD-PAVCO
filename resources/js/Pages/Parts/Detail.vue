@@ -2,35 +2,58 @@
   <div class="p-5 mx-auto container">
     <h1 class="text-center text-2xl font-bold">Detalis</h1>
 
-    <div class="shadow-lg p-4  rounded-md  mb-5">
+    <div class="shadow-lg p-4 rounded-md mb-5">
       <form-update-run-part :plateMethods="plateMethods" :run="run" />
     </div>
     <div class="shadow-lg mb-5 rounded min-h-[300] p-5">
-      <table-part :parts="parts"  :openModal="openModal" :chromates="chromates" :plateTypes="plateTypes" :secondaryCoats="secondaryCoats" :topCoats="topCoats"/>
+      <button class="bg-blue-600 rounded w-[100] py-5 text-white px-3 mt-2">
+        Add Part
+      </button>
+      <table-part
+        :parts="parts"
+        :openModal="openModal"
+        :chromates="chromates"
+        :plateTypes="plateTypes"
+        :secondaryCoats="secondaryCoats"
+        :topCoats="topCoats"
+      />
     </div>
     <div class="shadow-lg rounded-md p-4 mb-5">
-      <table-photos />
+      <button class="bg-blue-600 rounded w-[100] py-5 text-white px-3 mt-2">
+        Add Photos
+      </button>
+      <table-photos :photos="photos" />
     </div>
-
-  
-  
   </div>
 </template>
 
 <script>
-import FormUpdateRunPartVue from './components/FormUpdateRunPart.vue';
+import { ref } from "vue";
+import FormUpdateRunPartVue from "./components/FormUpdateRunPart.vue";
 import TablePart from "./components/TablePart.vue";
 import TablePhotosVue from "./components/TablePhotos.vue";
 export default {
-  props: ["parts", "query", "plateMethods","run","topCoats","chromates","plateTypes","secondaryCoats"],
+  props: [
+    "parts",
+    "query",
+    "plateMethods",
+    "run",
+    "topCoats",
+    "chromates",
+    "plateTypes",
+    "secondaryCoats",
+  ],
   components: {
     tablePart: TablePart,
     formUpdateRunPart: FormUpdateRunPartVue,
     tablePhotos: TablePhotosVue,
   },
-  setup() {
-    return {
-    };
+  setup(props) {
+    const { run } = props;
+    console.log(props)
+    console.log(run)
+    const photos = ref(run.photos);
+    return { photos };
   },
 };
 </script>

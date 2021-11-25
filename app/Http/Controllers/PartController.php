@@ -107,7 +107,8 @@ class PartController extends Controller
      */
     public function update(Request $request, Part $part)
     {
-        //
+        $partResponse = $this->_part->updatePart($request->id, $request);
+        return  $partResponse;
     }
 
     /**
@@ -118,7 +119,7 @@ class PartController extends Controller
      */
     public function destroy($id)
     {
-        $partDeleted = $this->_part->deletePart($id); 
+        $partDeleted = $this->_part->deletePart($id);
         return $partDeleted;
     }
 }
