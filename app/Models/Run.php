@@ -43,7 +43,7 @@ class Run extends Model
         $run = (new static)::with([
             'notes',
             'photos'
-        ])->get();
+        ])->where('status','1')->get();
         return $run;
     }
 
@@ -164,6 +164,48 @@ class Run extends Model
 
     public static function reopenRun($id)
     {
+        DB::beginTransaction();
+        try {
+            $run = (new static)::find($id);
+            $run->status = 1;
+            $run->save();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Run was update successfully',
+                'value' => $run,
+            ];
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+    
+    public static function deleteRun($id)
+    {
+        DB::beginTransaction();
+        try {
+            $run = (new static)::find($id);
+            $run->status = 2;
+            $run->save();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Run was deleted successfully',
+                'value' => $run,
+            ];
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage()
+            ];
+        }
     }
     public static function updateRunPart($id, $request)
     {
@@ -188,6 +230,11 @@ class Run extends Model
                 'message' => $e->getMessage()
             ];
         }
+    }
+    
+
+    public static function generateFile() {
+
     }
 
 

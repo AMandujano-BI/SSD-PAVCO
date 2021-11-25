@@ -89,7 +89,7 @@
           </td>
           <!-- Report action -->
           <td class="text-center">
-            <button>
+            <button @click="reportRun(run.id)">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
@@ -237,7 +237,9 @@
           >
           Cancel
           </button>
-          <button class="bg-green-500 p-4 text-white rounded-md">Acept</button>
+          <button 
+            class="bg-green-500 p-4 text-white rounded-md" 
+            @click="deleteRun">Acept</button>
         </template>
       </confirmation-modal>
 
@@ -419,6 +421,19 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    async deleteRun() {
+      try {
+        const res = await axios.delete(`/run/deleteRun/${this.id.toString()}`)
+        const {ok, message, value} = res.data
+        if(ok) {
+          this.isModalDelete = false
+          this.gettingData()
+          this.id = 1
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
     ,
     async gettingData() {
@@ -438,6 +453,15 @@ export default {
     },
     editRun(id){
       window.location.href = `/part/${id}`;
+    },
+    reportRun(id){
+      window.location.href = `/run/download/${id}`;
+      // try {
+      //   const response = axios.get('/run/download');
+      //   console.log(response);
+      // } catch (error) {
+      //   console.log(error);
+      // }
     }
   },
   mounted() {

@@ -124,6 +124,17 @@ class RunController extends Controller
         $run = $this->_run->reopenRun($id);
         return response()->json($run);
     }
+   
+    public function deleteRun($id) {
+        $run = $this->_run->deleteRun($id);
+        return response()->json($run);
+    }
+
+    public function downloadPdf($id) {
+        $pdf = resolve('dompdf.wrapper');
+        $pdf->loadHTML('<h1>Test</h1>');
+        return $pdf->download('report.pdf');
+    }
 
     /**
      * Remove the specified resource from storage.
