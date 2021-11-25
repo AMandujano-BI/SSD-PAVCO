@@ -145,4 +145,8 @@ class Part extends Model
     {
         return $this->hasMany(Note::class);
     }
+    public function runs()
+    {
+        return $this->hasMany(Run::class);
+    }
 }

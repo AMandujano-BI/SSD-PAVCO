@@ -73,7 +73,7 @@ export default {
       )
       
       const form = ref({
-        isPublic: false,
+        isPublic: 0,
         note: ''
       });
       
@@ -91,8 +91,7 @@ export default {
         noteData.value.note = form._value.note
         noteData.value.plate_types_id = run.plate_types_id.toString()
         noteData.value.primaryCoatId = run.primaryCoatId.toString()
-        noteData.value.isPublic = form._value.isPublic.toString()
-        console.log(noteData);
+        noteData.value.isPublic = form._value.isPublic?1:0
         axios.post('/note/add', noteData._value)
           .then(res => {
             console.log(res);

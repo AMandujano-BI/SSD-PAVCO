@@ -36,11 +36,13 @@ class Note extends Model
             $isPublic = $request->isPublic;
 
             $note = (new static)::create([
-                'startDate' => $firstname,
-                'number' => $lastname,
-                'description' => $note,
-                'plate_types_id' => $part_id,
-                'primaryCoatId' => $run_id,
+                // 'firstname' => $firstname,
+                'firstname' => 'default',
+                // 'lastname' => $lastname,
+                'lastname' => 'default',
+                'note' => $note,
+                'part_id' => $part_id,
+                'run_id' => $run_id,
                 'isPublic' => $isPublic,
             ]);
             $note->save();

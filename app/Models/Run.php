@@ -42,7 +42,8 @@ class Run extends Model
     {
         $run = (new static)::with([
             'notes',
-            'photos'
+            'photos',
+            'parts',
         ])->where('status','1')->get();
         return $run;
     }
@@ -52,6 +53,7 @@ class Run extends Model
         $run = (new static)::with([
             'notes',
             'photos',
+            'parts',
         ])->find($id);
         return $run;
     }
@@ -247,5 +249,9 @@ class Run extends Model
     public function photos()
     {
         return $this->hasMany(Photo::class);
+    }
+    public function parts()
+    {
+        return $this->hasMany(Part::class);
     }
 }
