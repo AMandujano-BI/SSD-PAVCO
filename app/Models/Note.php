@@ -27,7 +27,6 @@ class Note extends Model
     {
         DB::beginTransaction();
         try {
-
             $firstname = $request->firstname;
             $lastname = $request->lastname;
             $note = $request->note;
@@ -56,7 +55,8 @@ class Note extends Model
             DB::rollback();
             return [
                 'ok' => false,
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'value' =>0
             ];
         }
     }
