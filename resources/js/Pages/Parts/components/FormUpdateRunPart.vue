@@ -140,8 +140,6 @@ export default {
         let res;
         res = await axios.put(`/run/${form.id}`, form);
         const { ok, value, message } = res.data;
-
-        console.log(res.data);
         if (ok) {
           makeToast("Part was updated successfully");
         } else {

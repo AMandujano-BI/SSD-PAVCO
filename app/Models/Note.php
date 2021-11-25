@@ -64,4 +64,8 @@ class Note extends Model
     {
         return $this->belongsTo(Run::class);
     }
+    public function part()
+    {
+        return $this->belongsTo(Part::class);
+    }
 }

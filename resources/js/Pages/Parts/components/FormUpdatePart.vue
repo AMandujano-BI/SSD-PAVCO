@@ -1,5 +1,5 @@
 <template>
-<h1 class="text-center font-bold text-2xl">Update Part</h1>
+  <h1 class="text-center font-bold text-2xl">Update Part</h1>
   <form @submit.prevent="submitForm">
     <div>
       <label for="">Plate Type</label>
@@ -140,8 +140,9 @@
       <div class="flex w-full justify-around gap-2">
         <div class="w-full">
           <select class="w-full" v-model="form.coatId">
-            <option value="0" selected>Select Secondary Topcoat</option>
+            <option value="0">Select Secondary Topcoat</option>
             <option
+              :selected="secondaryCoat.id == form.coatId"
               v-for="secondaryCoat in secondaryCoats"
               v-bind:key="secondaryCoat.id"
               :value="secondaryCoat.id"
@@ -178,6 +179,23 @@
         </div>
       </div>
     </div>
+    <div>
+      <label for="">Description</label>
+      <textarea
+        cols="30"
+        rows="5"
+        class="w-full"
+        v-model="form.description"
+      ></textarea>
+      <!-- <div v-if="v$.form.description.$error" class="text-red-400">Name field has an error.</div> -->
+      <p
+        v-for="error of v$.description.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
+    </div>
 
     <div class="flex justify-around w-full gap-4">
       <button
@@ -199,6 +217,7 @@ import { required, helpers } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import axios from "axios";
 import { ref } from "vue";
+import useHelper from "@/composables/useHelper";
 const isDiferentZero = (value) => {
   return value != 0;
 };
@@ -214,6 +233,7 @@ export default {
   ],
   setup(props, { emit }) {
     const { partUpdate } = props;
+    const { makeToast } = useHelper();
     console.log(partUpdate);
     const form = ref({
       id: partUpdate.id,
@@ -272,9 +292,22 @@ export default {
       emit("closeModal");
     };
     const submitForm = async () => {
-      console.log(form.value);
-      const isFormCorrect = await v$.value.$validate();
-      if (!isFormCorrect) return;
+      try {
+        const isFormCorrect = await v$.value.$validate();
+        if (!isFormCorrect) return;
+        let res;
+        res = await axios.put(`/part/${form.value.id}`, form.value);
+        const { ok, value, message } = res.data;
+        if (ok) {
+          makeToast(message);
+          emit("closeModal");
+        } else {
+          makeToast("An error has occurred", "error");
+        }
+      } catch (e) {
+        makeToast(e, "error");
+        console.log(e);
+      }
     };
     return {
       v$,

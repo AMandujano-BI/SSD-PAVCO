@@ -29,7 +29,9 @@ class Part extends Model
 
     public static function getPartsByRun($id)
     {
-        $parts = (new static)::where('run_id', $id)->get();
+        $parts = (new static)::with([
+            'notes'
+        ])->where('run_id', $id)->get();
         return $parts;
     }
     public static function createPart($request)
@@ -80,6 +82,53 @@ class Part extends Model
         }
     }
 
+    public static function updatePart($id, $request)
+    {
+        DB::beginTransaction();
+        try {
+            $part = (new static)::find($id);
+            $part->description = $request->description;
+            $part->topCoatPer = $request->topCoatPer;
+            $part->topCoatTemp = $request->topCoatTemp;
+            $part->topCoatPH = $request->topCoatPH;
+            $part->topCoatDiptime = $request->topCoatDiptime;
+            $part->primaryPer = $request->primaryPer;
+            $part->primaryTemp = $request->primaryTemp;
+            $part->primaryPH = $request->primaryPH;
+            $part->primaryDiptime = $request->primaryDiptime;
+            $part->coatPer = $request->coatPer;
+            $part->coatTemp = $request->coatTemp;
+            $part->coatPH = $request->coatPH;
+            $part->coatDiptime = $request->coatDiptime;
+            $part->save();
+            $run = Run::find($request->run_id);
+            if ($run == null) {
+
+                DB::rollBack();
+                return [
+                    'ok' => false,
+                    'message' => 'Run not found',
+                    'value' => 0,
+                ];
+            }
+            $run->plate_types_id = $request->plate_types_id;
+            $run->plateThick= $request->plateThick;
+            $run->save();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Part was update successfully',
+                'value' => $part,
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
     public static function deletePart($id)
     {
         $partDeleted = (new static)::where('id', $id)->delete();
@@ -88,5 +137,12 @@ class Part extends Model
             'message' => 'Part was deleted successfully',
             'value' => $partDeleted,
         ];
+    }
+
+
+    // ===================================RELATIONS
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
     }
 }
