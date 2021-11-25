@@ -26,7 +26,9 @@
           <td class="text-center">{{ run.user_id }}</td>
           <td class="text-center">{{ run.id }}</td>
           <td class="text-center">{{ run.plate_methods_id }}</td>
-          <td class="text-center">{{ run.status }}</td>
+          <td class="text-center">
+            <span v-if="run.status === 1">Active</span>
+          </td>
           <td class="text-center">{{ run.status }}</td>
           <!-- Photos action -->
           <td class="text-center">
@@ -38,7 +40,7 @@
           </td>
           <!-- Result action -->
           <td class="text-center">
-            <button @click="showResults">
+            <button @click="showResults(run.id)">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" >
                 <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
               </svg>
@@ -54,7 +56,7 @@
           </td>
           <!-- Delete action -->
           <td class="text-center">
-            <button @click="showDelete">
+            <button @click="showDelete(run.id)">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
@@ -161,16 +163,12 @@
           <hr />
         <div>
           <h3>Run information</h3>
-          <ul>
-            <li><strong>Run: </strong> 123456</li>
-            <li><strong>Customer: </strong> Lorem ipsum</li>
-            <li><strong>Start Date: </strong> 22/11/2021</li>
+          <ul v-if="run">
+            <li><strong>Run: </strong> {{run.id}}</li>
+            <li><strong>Customer: </strong> {{run.user_id}}</li>
+            <li><strong>Start Date: </strong> {{run.created_at}}</li>
             <li>
-            <strong>Description: </strong> Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Impedit placeat dignissimos debitis
-            modi pariatur eum vitae incidunt perferendis iure officiis
-            assumenda quisquam nobis quia, laudantium, nihil explicabo sit
-            dolores rem?
+            <strong>Description: </strong> {{run.description}}
             </li>
           </ul>
         </div>
@@ -230,7 +228,7 @@
 
       <confirmation-modal :show="isModalDelete">
         <template v-slot:title>
-          <h1>Are you sure that delete this run?</h1>
+          <h1>Are you sure that you want to delete this run #{{id}}?</h1>
         </template>
         <template v-slot:content>
           <button
@@ -245,7 +243,7 @@
 
       <confirmation-modal :show="isModalClose">
         <template v-slot:title>
-          <h1>Are you sure that close this run?</h1>
+          <h1>Are you sure that you want to close this run #{{id}}?</h1>
         </template>
         <template v-slot:content>
         <button
@@ -265,7 +263,7 @@
 
     <confirmation-modal :show="isModalReOpen">
       <template v-slot:title>
-        <h1>Are you sure that re open this run?</h1>
+        <h1>Are you sure that you want to re open this run #{{id}}</h1>
       </template>
       <template v-slot:content>
         <button
@@ -337,17 +335,22 @@ export default {
     };
   },
   methods: {
+    findRun(id) {
+      this.run = this.runs.find((run) => run.id === id)
+      this.id = id
+      console.log(this.run);
+    },
     // Photos
     showPhotos(id) {
-      this.run = this.runs.find((run) => run.id === id)
-      console.log(this.run);
+      this.findRun(id)
       this.isModalPhotos = true
     },
     closePhotosModal() {
       this.isModalPhotos = false
     },
     // Results
-    showResults() {
+    showResults(id) {
+      this.findRun(id)
       this.isModalResults = true
     },
     closeResultsModal() {
@@ -355,8 +358,7 @@ export default {
     },
     // Notes
     showNotes(id) {
-      this.run = this.runs.find((run) => run.id === id)
-      // console.log(this.run);
+      this.findRun(id)
       this.isModalNotes = true
     },
     closeNotesModal() {
@@ -366,7 +368,8 @@ export default {
       this.gettingData()
     },
     // Delete
-    showDelete() {
+    showDelete(id) {
+      this.findRun(id)
       this.isModalDelete = true
     },
     closeDeleteModal() {
@@ -383,7 +386,6 @@ export default {
     // ReOpen
     showReOpen(id) {
       this.id = id
-      console.log(this.id);
       this.isModalReOpen = true
     },
     closeReOpenModal() {
