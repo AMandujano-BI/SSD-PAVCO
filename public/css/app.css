@@ -1132,6 +1132,9 @@ select {
 .top-0 {
 	top: 0px;
 }
+.right-10 {
+	right: 2.5rem;
+}
 .z-0 {
 	z-index: 0;
 }
@@ -1280,6 +1283,21 @@ select {
 }
 .h-20 {
 	height: 5rem;
+}
+.h-full {
+	height: 100%;
+}
+.h-\[300\] {
+	height: 300;
+}
+.h-96 {
+	height: 24rem;
+}
+.h-80 {
+	height: 20rem;
+}
+.max-h-\[400\] {
+	max-height: 400;
 }
 .min-h-screen {
 	min-height: 100vh;
@@ -1456,6 +1474,9 @@ select {
 .gap-2 {
 	gap: 0.5rem;
 }
+.gap-5 {
+	gap: 1.25rem;
+}
 .space-x-8 > :not([hidden]) ~ :not([hidden]) {
 	--tw-space-x-reverse: 0;
 	margin-right: calc(2rem * var(--tw-space-x-reverse));
@@ -1470,6 +1491,9 @@ select {
 	--tw-space-y-reverse: 0;
 	margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
 	margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+.overflow-auto {
+	overflow: auto;
 }
 .overflow-hidden {
 	overflow: hidden;
@@ -2076,6 +2100,10 @@ input::-webkit-inner-spin-button {
 .hover\:text-gray-900:hover {
 	--tw-text-opacity: 1;
 	color: rgba(17, 24, 39, var(--tw-text-opacity));
+}
+.hover\:text-red-400:hover {
+	--tw-text-opacity: 1;
+	color: rgba(248, 113, 113, var(--tw-text-opacity));
 }
 .focus\:z-10:focus {
 	z-index: 10;
