@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\RunController;
+use App\Http\Controllers\NoteController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,3 +35,5 @@ Route::middleware(['auth:sanctum', 'verified'])->put('/run/closeRun/{id}', [RunC
 Route::middleware(['auth:sanctum', 'verified'])->put('/run/reopenRun/{id}', [RunController::class, 'reopenRun'])->name('run.reopenRun');
 Route::middleware(['auth:sanctum', 'verified'])->resource('run', RunController::class);
 Route::middleware(['auth:sanctum', 'verified'])->resource('part', PartController::class);
+Route::middleware(['auth:sanctum', 'verified'])->post('/note/add', [NoteController::class, 'store'])->name('note.add');
+

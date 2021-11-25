@@ -30,7 +30,7 @@
           <td class="text-center">{{ run.status }}</td>
           <!-- Photos action -->
           <td class="text-center">
-            <button @click="showPhotos">
+            <button @click="showPhotos(run.id)">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
@@ -79,7 +79,7 @@
           </td>
           <!-- Notes action -->
           <td class="text-center">
-            <button @click="showNotes">
+            <button @click="showNotes(run.id)">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" >
                 <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
               </svg>
@@ -113,21 +113,9 @@
           >
           X
           </button>
-          <p class="text-xl font-bold text-center">Lorem ipsum</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing</p>
-          <ul>
-            <li><strong>Name: </strong>Lorem ipsum</li>
-            <li><strong>Date added: </strong>22/11/2021</li>
-            <li><strong>Hours: </strong>2</li>
-            <li>
-            <strong>Description: </strong>Lorem ipsum dolor sit amet,
-            consectetur adipisicing elit. Nesciunt est sequi beatae at maiores
-            ullam vero aut. Laudantium ad blanditiis nisi nemo aliquam quas,
-            modi facere dolores aut consequatur commodi!
-            </li>
-          </ul>
+          <p class="text-xl font-bold text-center">Pavco SSD Photo Viewer</p>
 
-          <div class="mt-5 ">
+          <div class="mt-5" v-if="run.photos.length > 1">
             <swiper 
             :modules="modules"
             :slides-per-view="1"
@@ -137,16 +125,25 @@
             @swiper="onSwiper"
             @slideChange="onSlideChange"
             >
-              <swiper-slide><img src="https://scontent.fpbc2-3.fna.fbcdn.net/v/t1.6435-9/p600x600/70238220_669796293529180_5931468986758725632_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=730e14&_nc_ohc=uxlVucpTS8AAX_rKFeJ&_nc_ht=scontent.fpbc2-3.fna&oh=9df88e410008751c7d9af7cfaf9078c2&oe=61C20B6E" alt=""></swiper-slide>
-              <swiper-slide><img src="https://scontent.fpbc2-3.fna.fbcdn.net/v/t1.6435-9/p600x600/70238220_669796293529180_5931468986758725632_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=730e14&_nc_ohc=uxlVucpTS8AAX_rKFeJ&_nc_ht=scontent.fpbc2-3.fna&oh=9df88e410008751c7d9af7cfaf9078c2&oe=61C20B6E" alt=""></swiper-slide>
-              <swiper-slide><img src="https://scontent.fpbc2-3.fna.fbcdn.net/v/t1.6435-9/p600x600/70238220_669796293529180_5931468986758725632_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=730e14&_nc_ohc=uxlVucpTS8AAX_rKFeJ&_nc_ht=scontent.fpbc2-3.fna&oh=9df88e410008751c7d9af7cfaf9078c2&oe=61C20B6E" alt=""></swiper-slide>
-              <swiper-slide><img src="https://scontent.fpbc2-3.fna.fbcdn.net/v/t1.6435-9/p600x600/70238220_669796293529180_5931468986758725632_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=730e14&_nc_ohc=uxlVucpTS8AAX_rKFeJ&_nc_ht=scontent.fpbc2-3.fna&oh=9df88e410008751c7d9af7cfaf9078c2&oe=61C20B6E" alt=""></swiper-slide>
-              <swiper-slide><img src="https://scontent.fpbc2-3.fna.fbcdn.net/v/t1.6435-9/p600x600/70238220_669796293529180_5931468986758725632_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=730e14&_nc_ohc=uxlVucpTS8AAX_rKFeJ&_nc_ht=scontent.fpbc2-3.fna&oh=9df88e410008751c7d9af7cfaf9078c2&oe=61C20B6E" alt=""></swiper-slide>
-              <swiper-slide><img src="https://scontent.fpbc2-3.fna.fbcdn.net/v/t1.6435-9/p600x600/70238220_669796293529180_5931468986758725632_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=730e14&_nc_ohc=uxlVucpTS8AAX_rKFeJ&_nc_ht=scontent.fpbc2-3.fna&oh=9df88e410008751c7d9af7cfaf9078c2&oe=61C20B6E" alt=""></swiper-slide>
-              <swiper-slide><img src="https://scontent.fpbc2-3.fna.fbcdn.net/v/t1.6435-9/p600x600/70238220_669796293529180_5931468986758725632_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=730e14&_nc_ohc=uxlVucpTS8AAX_rKFeJ&_nc_ht=scontent.fpbc2-3.fna&oh=9df88e410008751c7d9af7cfaf9078c2&oe=61C20B6E" alt=""></swiper-slide>
-              <swiper-slide><img src="https://scontent.fpbc2-3.fna.fbcdn.net/v/t1.6435-9/p600x600/70238220_669796293529180_5931468986758725632_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=730e14&_nc_ohc=uxlVucpTS8AAX_rKFeJ&_nc_ht=scontent.fpbc2-3.fna&oh=9df88e410008751c7d9af7cfaf9078c2&oe=61C20B6E" alt=""></swiper-slide>
-              <swiper-slide><img src="https://scontent.fpbc2-3.fna.fbcdn.net/v/t1.6435-9/p600x600/70238220_669796293529180_5931468986758725632_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=730e14&_nc_ohc=uxlVucpTS8AAX_rKFeJ&_nc_ht=scontent.fpbc2-3.fna&oh=9df88e410008751c7d9af7cfaf9078c2&oe=61C20B6E" alt=""></swiper-slide>
+              <swiper-slide v-for="photo in run.photos" :key="photo.id">
+                <div >
+                  <p >Filename: {{photo.name}}</p>
+                  <ul>
+                    <li><strong>Name: </strong>{{photo.name}}</li>
+                    <li><strong>Date added: </strong>{{photo.created_at}}</li>
+                    <li><strong>Hours: </strong>{{photo.hours}}</li>
+                    <li>
+                    <strong>Description: </strong>{{photo.description}}
+                    </li>
+                  </ul>
+                  <img :src="photo.image" :alt="photo.name">
+                </div>
+              </swiper-slide>
+             
             </swiper>
+          </div>
+          <div v-else>
+            <p class="text-center my-20">There is no images</p>
           </div>
         </div>
       </modal>
@@ -229,34 +226,7 @@
         </div>
       </modal>
 
-      <modal :show="isModalNotes">
-        <div class="container mx-auto p-5">
-          <button
-            @click="closeNotesModal"
-            class="bg-red-600 text-white p-2 rounded-md"
-          >
-          X
-          </button>
-          <p class="text-xl font-bold text-center">Run notes</p>
-          <p class="mb-5 mt-2">The note editor is used for viewing / adding notes to a run</p>
-          <hr />
-          <div class="mt-3">
-            <h3 class="font-bold">Notes</h3>
-            <p>There are 0 notes entered for this run</p>
-          </div>
-          <hr class="mt-5" />
-          <h3 class="font-bold mt-3">Add Note</h3>
-          <div class="mt-3">
-            <form>
-              <label for="public">Public</label> &nbsp;
-              <input type="checkbox" id="public" /> <br />
-              <textarea name="note" class="mt-4 mb-4" id="note" rows="5"></textarea> <br />
-              <button class="bg-green-500 p-2 text-white rounded-md mr-4">Save</button> 
-              <button class="bg-red-500 p-2 text-white rounded-md ">Cancel</button>
-            </form>
-          </div>
-        </div>
-      </modal>
+      <notes-run v-if="run" :isModalNotes="isModalNotes" :run="run" @closeModal="closeNotesModal" @noteAdded="noteAdded" />
 
       <confirmation-modal :show="isModalDelete">
         <template v-slot:title>
@@ -316,16 +286,18 @@
 </template>
 
 <script>
-const $ = require("jquery");
 import dt from "datatables.net";
-import Modal from "../../../Jetstream/Modal.vue";
-import ConfirmationModal from "../../../Jetstream/ConfirmationModal.vue";
-
 import { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import Modal from "../../../Jetstream/Modal.vue";
+import ConfirmationModal from "../../../Jetstream/ConfirmationModal.vue";
+import useHelper from "@/composables/useHelper";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import NotesRun from './NotesRun.vue';
+
+const $ = require("jquery");
 
 export default {
   props:['data'],
@@ -334,10 +306,12 @@ export default {
     confirmationModal: ConfirmationModal,
     swiper: Swiper,
     swiperSlide: SwiperSlide,
+    notesRun: NotesRun
   },
   data() {
     return {
       runs: [],
+      run: null,
       isModalPhotos: false,
       isModalResults: false,
       isModalNotes: false,
@@ -345,16 +319,17 @@ export default {
       isModalClose: false,
       isModalReOpen: false,
       id: 0,
-
     }
   },
   setup() {
+    const { makeToast } = useHelper(); 
     const onSwiper = (swiper) => {
-      console.log(swiper);
+      // console.log(swiper);
     };
     const onSlideChange = () => {
-      console.log('slide change');
+      // console.log('slide change');
     };
+
     return {
       onSwiper,
       onSlideChange,
@@ -362,30 +337,42 @@ export default {
     };
   },
   methods: {
-    showPhotos() {
+    // Photos
+    showPhotos(id) {
+      this.run = this.runs.find((run) => run.id === id)
+      console.log(this.run);
       this.isModalPhotos = true
     },
     closePhotosModal() {
       this.isModalPhotos = false
     },
+    // Results
     showResults() {
       this.isModalResults = true
     },
     closeResultsModal() {
       this.isModalResults = false
     },
-    showNotes() {
+    // Notes
+    showNotes(id) {
+      this.run = this.runs.find((run) => run.id === id)
+      // console.log(this.run);
       this.isModalNotes = true
     },
     closeNotesModal() {
       this.isModalNotes = false
     },
+    noteAdded() {
+      this.gettingData()
+    },
+    // Delete
     showDelete() {
       this.isModalDelete = true
     },
     closeDeleteModal() {
       this.isModalDelete = false
     },
+    // Close
     showClose(id) {
       this.id = id
       this.isModalClose = true
@@ -393,6 +380,7 @@ export default {
     closeCloseModal() {
       this.isModalClose = false
     },
+    // ReOpen
     showReOpen(id) {
       this.id = id
       console.log(this.id);
@@ -447,7 +435,7 @@ export default {
       })
     },
     editRun(id){
-   window.location.href = `/part/${id}`;
+      window.location.href = `/part/${id}`;
     }
   },
   mounted() {
