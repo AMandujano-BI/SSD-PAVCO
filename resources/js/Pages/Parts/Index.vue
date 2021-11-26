@@ -12,7 +12,7 @@
   <h1 class="text-center font-bold p-5 text-2xl">List of Runs</h1>
   <button
     @click="openModalButton"
-    class="bg-blue-600 px-4 py-2 text-white rounded-md mb-2"
+    class="bg-blue-600 px-4 py-1 text-white rounded-md mb-2"
   >
     +
   </button>

@@ -1350,6 +1350,9 @@ select {
 .min-w-0 {
 	min-width: 0px;
 }
+.min-w-\[400\] {
+	min-width: 400;
+}
 .max-w-screen-xl {
 	max-width: 1280px;
 }
@@ -1635,6 +1638,10 @@ select {
 .bg-green-500 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
+}
+.bg-green-600 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
 }
 .bg-opacity-25 {
 	--tw-bg-opacity: 0.25;

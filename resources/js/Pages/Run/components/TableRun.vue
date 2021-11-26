@@ -219,6 +219,50 @@
         >
           X
         </button>
+        <p class="text-xl font-bold text-center">Pavco SSD Photo Viewer</p>
+
+        <div class="mt-5" v-if="run.photos.length > 1">
+          <swiper
+            :modules="modules"
+            :slides-per-view="1"
+            :space-between="50"
+            navigation
+            :pagination="{ clickable: true }"
+            @swiper="onSwiper"
+            @slideChange="onSlideChange"
+          >
+            <swiper-slide v-for="photo in run.photos" :key="photo.id">
+              <div>
+                <p>Filename: {{ photo.name }}</p>
+                <ul>
+                  <li><strong>Name: </strong>{{ photo.name }}</li>
+                  <li><strong>Date added: </strong>{{ photo.created_at }}</li>
+                  <li><strong>Hours: </strong>{{ photo.hours }}</li>
+                  <li><strong>Description: </strong>{{ photo.description }}</li>
+                </ul>
+                <img :src="photo.image" :alt="photo.name" />
+              </div>
+            </swiper-slide>
+          </swiper>
+        </div>
+        <div v-else>
+          <p class="text-center my-20">There is no images</p>
+        </div>
+      </div>
+    </modal>
+
+    <modal
+      :show="isModalResults"
+      :maxWidth="modalWidthDetail"
+      @close="closeResultsModal"
+    >
+      <div class="container mx-auto p-5 relative">
+        <!-- <button
+          @click="closeResultsModal"
+          class="right-10 absolute"
+        >
+          X
+        </button> -->
         <p class="text-xl font-bold text-center">Run results</p>
         <p>Enter results for each part in this run</p>
         <hr />
@@ -301,61 +345,67 @@
 
     <confirmation-modal :show="isModalDelete">
       <template v-slot:title>
-        <h1>Are you sure that you want to delete this run #{{ id }}?</h1>
+        <h1>Are you sure that you want to delete this run #{{ idGlobal }}?</h1>
       </template>
       <template v-slot:content>
-        <button
-          class="bg-red-500 p-4 text-white rounded-md mr-4"
-          @click="closeDeleteModal"
-        >
-          Cancel
-        </button>
-        <button
-          class="bg-green-500 p-4 text-white rounded-md"
-          @click="deleteRun"
-        >
-          Acept
-        </button>
+        <div class="flex justify-center gap-4 items-center">
+          <button
+            class="bg-red-500 p-4 text-white rounded-md mr-4"
+            @click="closeDeleteModal"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-green-500 p-4 text-white rounded-md"
+            @click="deleteRun"
+          >
+            Acept
+          </button>
+        </div>
       </template>
     </confirmation-modal>
 
     <confirmation-modal :show="isModalClose">
       <template v-slot:title>
-        <h1>Are you sure that you want to close this run #{{ id }}?</h1>
+        <h1>Are you sure that you want to close this run #{{ idGlobal }}?</h1>
       </template>
       <template v-slot:content>
-        <button
-          class="bg-red-500 p-4 text-white rounded-md mr-4"
-          @click="closeCloseModal"
-        >
-          Cancel
-        </button>
-        <button
-          class="bg-green-500 p-4 text-white rounded-md"
-          @click="closeRun"
-        >
-          Acept
-        </button>
+        <div class="flex justify-center gap-4 items-center">
+          <button
+            class="bg-red-500 p-4 text-white rounded-md mr-4 min-w-[400]"
+            @click="closeCloseModal"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-green-500 p-4 text-white rounded-md"
+            @click="closeRun"
+          >
+            Acept
+          </button>
+        </div>
       </template>
     </confirmation-modal>
 
     <confirmation-modal :show="isModalReOpen">
       <template v-slot:title>
-        <h1>Are you sure that you want to re open this run #{{ id }}</h1>
+        <h1>Are you sure that you want to re open this run #{{ idGlobal }}</h1>
       </template>
       <template v-slot:content>
-        <button
-          class="bg-red-500 p-4 text-white rounded-md mr-4"
-          @click="closeReOpenModal"
-        >
-          Cancel
-        </button>
-        <button
-          class="bg-green-500 p-4 text-white rounded-md"
-          @click="reopenRun"
-        >
-          Acept
-        </button>
+        <div class="flex justify-center gap-4 items-center">
+          <button
+            class="bg-red-500 p-4 text-white rounded-md mr-4"
+            @click="closeReOpenModal"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-green-500 p-4 text-white rounded-md"
+            @click="reopenRun"
+          >
+            Acept
+          </button>
+        </div>
       </template>
     </confirmation-modal>
   </div>
@@ -385,6 +435,8 @@ export default {
     const { makeToast } = useHelper();
     const runs = ref([]);
     const run = ref(null);
+    const runDetail = ref(null);
+    const modalWidthDetail = ref("200");
     const isModalPhotos = ref(false);
     const isModalResults = ref(false);
     const isModalNotes = ref(false);
@@ -576,6 +628,9 @@ export default {
       reopenRun,
       filterOption,
       changeFilter,
+      runDetail,
+      modalWidthDetail,
+      idGlobal,
     };
   },
 };
