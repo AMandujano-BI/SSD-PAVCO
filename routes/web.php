@@ -30,6 +30,7 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('/run/downloadPlus/{id}', [RunController::class, 'downloadPlus'])->name('run.downloadPlus');
 Route::middleware(['auth:sanctum', 'verified'])->get('/run/download/{id}', [RunController::class, 'downloadPdf'])->name('run.downloadPdf');
 Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRuns/{status}', [RunController::class, 'getAllRuns'])->name('run.getAllRuns');
 Route::middleware(['auth:sanctum', 'verified'])->put('/run/closeRun/{id}', [RunController::class, 'closeRun'])->name('run.closeRun');

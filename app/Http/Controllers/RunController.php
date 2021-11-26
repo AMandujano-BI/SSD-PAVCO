@@ -159,15 +159,144 @@ class RunController extends Controller
             "<tr>
                 <td>$part->description</td>
                 <td>$plate_type</td>
-                <td>$chromate</td>
-                <td>$topCoat</td>
-                <td>$coat</td>
-
+                
+                <td>
+                    $chromate /
+                    $part->primaryPer /
+                    $part->primaryTemp /
+                    $part->primaryPH /
+                    $part->primaryDiptime
+                </td>
+                <td>
+                    $topCoat /
+                    $part->topCoatPer /
+                    $part->topCoatTemp /
+                    $part->topCoatPH /
+                    $part->topCoatDiptime
+                </td>
+                <td>
+                    $coat /
+                    $part->coatPer /
+                    $part->coatTemp /
+                    $part->coatPH /
+                    $part->coatDiptime
+                </td>
                 <td>Active</td>
                 <td>Active</td>
             </tr>
             ";
         }
+
+        $pdf = resolve('dompdf.wrapper');
+        $html = "
+            <h1>Salt Spray Report Results</h1>
+            <hr>
+            <br>
+            <p> <strong>Run #</strong> $id_run</p>
+            <p> <strong>StartDate</strong> $startDate</p>
+            <p> <strong>Customer</strong> $customer</p>
+            <p> <strong>Status</strong> $status</p>
+            <p> <strong>Description</strong> $description</p>
+            <br>
+            <br>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Desc</th>
+                        <th>Plate</th>
+                        <th>Chromate</th>
+                        <th>Topcoat</th>
+                        <th>Secondary Topcoat</th>
+                        <th>White Salts</th>
+                        <th>Red Rust</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    $content                    
+                </tbody>
+            </table>
+            <br>
+            <br>
+            <hr>
+            <p><strong>Notes</strong>: Parts were salts sprayed using the guidelines of the ASTM B-117.</p>
+            <p><strong>Notes</strong>: Pavco is not an independent testing laboratory. These results are for your information only and should be verified by an independent testing laboratory.</p>
+        ";
+        $pdf->loadHTML($html);
+
+        return $pdf->download('report.pdf');
+    }
+    
+    public function downloadPlus($id)
+    {
+        $run = $this->_run->getRun($id);
+        $id_run = $run->id;
+        $startDate = $run->startDate;
+        $customer = $run->user_id;
+        if ($run->status === '1') {
+            $status = 'Active';
+        } else {
+            if ($run->status === '0') {
+                $status = 'Completed';
+            } else {
+                $status = '';
+            }
+        }
+        $description = $run->description;
+        $content = '';
+        $plate_type = '';
+        foreach ($run->parts as $part) {
+            $plate_type = $part->plateType->name;
+            $coat= $part->coat->name;
+            $topCoat = $part->topCoat->name;
+            $chromate= $part->chromate->name;
+            $content .=
+            "<tr>
+                <td>$part->description</td>
+                <td>$plate_type</td>
+                
+                <td>
+                    $chromate /
+                    $part->primaryPer /
+                    $part->primaryTemp /
+                    $part->primaryPH /
+                    $part->primaryDiptime
+                </td>
+                <td>
+                    $topCoat /
+                    $part->topCoatPer /
+                    $part->topCoatTemp /
+                    $part->topCoatPH /
+                    $part->topCoatDiptime
+                </td>
+                <td>
+                    $coat /
+                    $part->coatPer /
+                    $part->coatTemp /
+                    $part->coatPH /
+                    $part->coatDiptime
+                </td>
+                <td>Active</td>
+                <td>Active</td>
+            </tr>
+            ";
+        }
+
+        $photos = $run->photos;
+        $photosContent = '';
+
+        if( strlen($photos) > 0) {
+            foreach ($photos as $photo) {
+                $photosContent .= 
+                "
+                    <p>$photo->name</p>
+                    <hr>
+                    <img src='$photo->image' alt='$photo->name' >
+                    <br>
+                    <br>
+                ";
+            }
+        } 
 
 
         $pdf = resolve('dompdf.wrapper');
@@ -199,6 +328,16 @@ class RunController extends Controller
                     $content                    
                 </tbody>
             </table>
+            <br>
+            <br>
+            <hr>
+            <p><strong>Notes</strong>: Parts were salts sprayed using the guidelines of the ASTM B-117.</p>
+            <p><strong>Notes</strong>: Pavco is not an independent testing laboratory. These results are for your information only and should be verified by an independent testing laboratory.</p>
+            <br>
+            <br>
+            <br>
+            <br>
+            $photosContent
         ";
         $pdf->loadHTML($html);
 

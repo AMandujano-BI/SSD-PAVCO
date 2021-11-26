@@ -182,6 +182,22 @@
                 />
               </svg>
             </button>
+            <button @click="reportAndPhotosRun(run.id)">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+            </button>
           </td>
           <!-- Email action -->
           <td class="text-center">
@@ -205,52 +221,7 @@
         </tr>
       </tbody>
     </table>
-
-    <modal :show="isModalPhotos">
-    </modal>
-
     
-
-    <modal :show="isModalResults">
-      <div class="container mx-auto p-5">
-        <button
-          @click="closeResultsModal"
-          class="bg-red-600 text-white p-2 rounded-md"
-        >
-          X
-        </button>
-        <p class="text-xl font-bold text-center">Pavco SSD Photo Viewer</p>
-
-        <div class="mt-5" v-if="run.photos.length > 1">
-          <swiper
-            :modules="modules"
-            :slides-per-view="1"
-            :space-between="50"
-            navigation
-            :pagination="{ clickable: true }"
-            @swiper="onSwiper"
-            @slideChange="onSlideChange"
-          >
-            <swiper-slide v-for="photo in run.photos" :key="photo.id">
-              <div>
-                <p>Filename: {{ photo.name }}</p>
-                <ul>
-                  <li><strong>Name: </strong>{{ photo.name }}</li>
-                  <li><strong>Date added: </strong>{{ photo.created_at }}</li>
-                  <li><strong>Hours: </strong>{{ photo.hours }}</li>
-                  <li><strong>Description: </strong>{{ photo.description }}</li>
-                </ul>
-                <img :src="photo.image" :alt="photo.name" />
-              </div>
-            </swiper-slide>
-          </swiper>
-        </div>
-        <div v-else>
-          <p class="text-center my-20">There is no images</p>
-        </div>
-      </div>
-    </modal>
-
     <modal
       :show="isModalResults"
       :maxWidth="modalWidthDetail"
@@ -590,6 +561,10 @@ export default {
       //   console.log(error);
       // }
     };
+    const reportAndPhotosRun = (id) => {
+      window.location.href = `/run/downloadPlus/${id}`;
+    };
+
     gettingData(3);
 
     return {
@@ -605,6 +580,7 @@ export default {
       isModalClose,
       isModalReOpen,
       reportRun,
+      reportAndPhotosRun,
       editRun,
       generateDataTable,
       gettingData,
