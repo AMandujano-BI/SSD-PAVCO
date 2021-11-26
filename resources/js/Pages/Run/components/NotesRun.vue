@@ -90,6 +90,9 @@ export default {
     const { makeToast } = useHelper();
     const { run } = props;
     let notes = ref(run.notes);
+    // let newNote = ref({
+      
+    // })
     let noteData = ref({
       id: 0,
       note: "",
@@ -123,9 +126,12 @@ export default {
         noteData.value.run_id = run.id.toString();
         noteData.value.isPublic = form.isPublic ? 1 : 0;
         const res = await axios.post("/note/add", noteData._value);
+        console.log(res);
         const { ok, message, value } = res.data;
         if (ok) {
-          notes.value.push(form.note);
+          notes.value.push({note: value.note});
+          console.log(notes);
+          console.log(value);
           makeToast(message);
           v$.value.$reset();
           form.note = "";

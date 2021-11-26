@@ -62,38 +62,22 @@
 </template>
 
 <script>
+const $ = require("jquery");
+import dt from "datatables.net";
+import { nextTick } from "vue";
+
 export default {
   props: ["photos"],
   setup(props) {
     console.log(props.photos);
+
     const generateDataTable = () => {
-      $(document).ready(function () {
-        $("#photosTable").DataTable({
-          ajax: "/run/getAllRuns",
-          columns: [
-            { data: "startDate" },
-            { data: "user_id" },
-            { data: "id" },
-            { data: "plate_methods_id" },
-            { data: "status" },
-            { data: "status" },
-            {
-              data: null,
-              className: "dt-center editor-edit",
-              defaultContent: '<i class="fa fa-pencil"/>',
-              orderable: false,
-            },
-            {
-              data: null,
-              orderable: false,
-              render: function (data, type, row) {
-                return "<i class='fas fa-images'></i>";
-              },
-            },
-          ],
-        });
+      nextTick(() => {
+        $("#photosTable").DataTable()
       });
     };
+
+    generateDataTable()
     return {
       generateDataTable,
     };
