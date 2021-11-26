@@ -257,18 +257,31 @@
         {{ error.$message }}
       </p>
     </div>
-    <div v-if="!loading">
-      <button class="bg-blue-600 rounded w-full py-5 text-white px-3 mt-2">
-        Save
-      </button>
-    </div>
 
-    <div v-if="loading">
-      <button class="bg-blue-600 rounded w-full py-5 text-white px-3 mt-2" disabled>
-        <div
-          className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
-        ></div>
+    <div class="flex justify-between w-full gap-4">
+      <button
+        type="button"
+        class="bg-red-600 rounded w-full py-5 text-white px-3 mt-2"
+        @click="closeModal"
+      >
+        Cancel
       </button>
+      <div v-if="!loading" class="w-full">
+        <button class="bg-green-600 rounded w-full py-5 text-white px-3 mt-2">
+          Save
+        </button>
+      </div>
+
+      <div v-if="loading" class="w-full">
+        <button
+          class="bg-green-600 rounded w-full py-5 text-white px-3 mt-2"
+          disabled
+        >
+          <div
+            className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
+          ></div>
+        </button>
+      </div>
     </div>
   </form>
 </template>
@@ -276,6 +289,7 @@
 import useFormRun from "../composables/useFormRun";
 
 export default {
+  emits: "closeModal",
   props: [
     "plateMethods",
     "topCoats",
@@ -283,14 +297,16 @@ export default {
     "secondaryCoats",
     "plateTypes",
   ],
-  setup() {
-    const { form, v$, submitForm,loading } = useFormRun();
+  setup(props, { emit }) {
+    const { form, v$, submitForm, loading } = useFormRun();
+    const closeModal = () => emit("closeModal");
 
     return {
       v$,
       form,
       submitForm,
-      loading
+      loading,
+      closeModal,
     };
   },
 };

@@ -7,7 +7,7 @@
     >
       +
     </button>
-    <modal :show="openModal" @close="closeModal">
+    <modal :show="openModal" >
       <div class="p-5">
         <form-run
           :plateMethods="plateMethods"
@@ -16,6 +16,7 @@
           :plates="plates"
           :secondaryCoats="secondaryCoats"
           :plateTypes="plateTypes"
+          @closeModal="closeModal"
           
         />
       </div>

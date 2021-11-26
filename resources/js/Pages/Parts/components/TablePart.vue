@@ -134,7 +134,7 @@
       <h1>Are you sure that delete this part?</h1>
     </template>
     <template v-slot:content>
-      <div class="flex justify-around">
+      <div class="flex justify-center">
         <button
           class="bg-red-500 p-4 text-white rounded-md mr-4"
           @click="closeModalDelete"

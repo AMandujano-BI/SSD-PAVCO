@@ -246,7 +246,11 @@
       </div>
     </modal>
 
-    <modal :show="isModalResults" :maxWidth="modalWidthDetail" @close="closeResultsModal">
+    <modal
+      :show="isModalResults"
+      :maxWidth="modalWidthDetail"
+      @close="closeResultsModal"
+    >
       <div class="container mx-auto p-5 relative">
         <!-- <button
           @click="closeResultsModal"
@@ -328,61 +332,67 @@
 
     <confirmation-modal :show="isModalDelete">
       <template v-slot:title>
-        <h1>Are you sure that you want to delete this run #{{ id }}?</h1>
+        <h1>Are you sure that you want to delete this run #{{ idGlobal }}?</h1>
       </template>
       <template v-slot:content>
-        <button
-          class="bg-red-500 p-4 text-white rounded-md mr-4"
-          @click="closeDeleteModal"
-        >
-          Cancel
-        </button>
-        <button
-          class="bg-green-500 p-4 text-white rounded-md"
-          @click="deleteRun"
-        >
-          Acept
-        </button>
+        <div class="flex justify-center gap-4 items-center">
+          <button
+            class="bg-red-500 p-4 text-white rounded-md mr-4"
+            @click="closeDeleteModal"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-green-500 p-4 text-white rounded-md"
+            @click="deleteRun"
+          >
+            Acept
+          </button>
+        </div>
       </template>
     </confirmation-modal>
 
     <confirmation-modal :show="isModalClose">
       <template v-slot:title>
-        <h1>Are you sure that you want to close this run #{{ id }}?</h1>
+        <h1>Are you sure that you want to close this run #{{ idGlobal }}?</h1>
       </template>
       <template v-slot:content>
-        <button
-          class="bg-red-500 p-4 text-white rounded-md mr-4"
-          @click="closeCloseModal"
-        >
-          Cancel
-        </button>
-        <button
-          class="bg-green-500 p-4 text-white rounded-md"
-          @click="closeRun"
-        >
-          Acept
-        </button>
+        <div class="flex justify-center gap-4 items-center">
+          <button
+            class="bg-red-500 p-4 text-white rounded-md mr-4 min-w-[400]"
+            @click="closeCloseModal"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-green-500 p-4 text-white rounded-md"
+            @click="closeRun"
+          >
+            Acept
+          </button>
+        </div>
       </template>
     </confirmation-modal>
 
     <confirmation-modal :show="isModalReOpen">
       <template v-slot:title>
-        <h1>Are you sure that you want to re open this run #{{ id }}</h1>
+        <h1>Are you sure that you want to re open this run #{{ idGlobal }}</h1>
       </template>
       <template v-slot:content>
-        <button
-          class="bg-red-500 p-4 text-white rounded-md mr-4"
-          @click="closeReOpenModal"
-        >
-          Cancel
-        </button>
-        <button
-          class="bg-green-500 p-4 text-white rounded-md"
-          @click="reopenRun"
-        >
-          Acept
-        </button>
+        <div class="flex justify-center gap-4 items-center">
+          <button
+            class="bg-red-500 p-4 text-white rounded-md mr-4"
+            @click="closeReOpenModal"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-green-500 p-4 text-white rounded-md"
+            @click="reopenRun"
+          >
+            Acept
+          </button>
+        </div>
       </template>
     </confirmation-modal>
   </div>
@@ -417,7 +427,7 @@ export default {
     const runs = ref([]);
     const run = ref(null);
     const runDetail = ref(null);
-    const modalWidthDetail = ref('3xl')
+    const modalWidthDetail = ref("200");
     const isModalPhotos = ref(false);
     const isModalResults = ref(false);
     const isModalNotes = ref(false);
@@ -608,7 +618,8 @@ export default {
       filterOption,
       changeFilter,
       runDetail,
-      modalWidthDetail
+      modalWidthDetail,
+      idGlobal,
     };
   },
 };
