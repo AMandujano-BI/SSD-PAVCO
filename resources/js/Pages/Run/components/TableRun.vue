@@ -57,7 +57,7 @@
           </td>
           <!-- Result action -->
           <td class="text-center">
-            <button @click="showResults(run)">
+            <button @click="showResults(run.id)">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5"
@@ -207,63 +207,28 @@
     </table>
 
     <modal :show="isModalPhotos">
+    </modal>
+
+    
+
+    <modal :show="isModalResults">
       <div class="container mx-auto p-5">
         <button
-          @click="closePhotosModal"
+          @click="closeResultsModal"
           class="bg-red-600 text-white p-2 rounded-md"
         >
           X
         </button>
-        <p class="text-xl font-bold text-center">Pavco SSD Photo Viewer</p>
-
-        <div class="mt-5" v-if="run.photos.length > 1">
-          <swiper
-            :modules="modules"
-            :slides-per-view="1"
-            :space-between="50"
-            navigation
-            :pagination="{ clickable: true }"
-            @swiper="onSwiper"
-            @slideChange="onSlideChange"
-          >
-            <swiper-slide v-for="photo in run.photos" :key="photo.id">
-              <div>
-                <p>Filename: {{ photo.name }}</p>
-                <ul>
-                  <li><strong>Name: </strong>{{ photo.name }}</li>
-                  <li><strong>Date added: </strong>{{ photo.created_at }}</li>
-                  <li><strong>Hours: </strong>{{ photo.hours }}</li>
-                  <li><strong>Description: </strong>{{ photo.description }}</li>
-                </ul>
-                <img :src="photo.image" :alt="photo.name" />
-              </div>
-            </swiper-slide>
-          </swiper>
-        </div>
-        <div v-else>
-          <p class="text-center my-20">There is no images</p>
-        </div>
-      </div>
-    </modal>
-
-    <modal :show="isModalResults" :maxWidth="modalWidthDetail" @close="closeResultsModal">
-      <div class="container mx-auto p-5 relative">
-        <!-- <button
-          @click="closeResultsModal"
-          class="right-10 absolute"
-        >
-          X
-        </button> -->
         <p class="text-xl font-bold text-center">Run results</p>
-        <p class="p-4">Enter results for each part in this run</p>
+        <p>Enter results for each part in this run</p>
         <hr />
         <div>
           <h3>Run information</h3>
-          <ul v-if="runDetail" class="shadow-lg rounded-md p-5 mb-5">
-            <li><strong>Run: </strong> {{ runDetail.id }}</li>
-            <li><strong>Customer: </strong> {{ runDetail.user_id }}</li>
-            <li><strong>Start Date: </strong> {{ runDetail.created_at }}</li>
-            <li><strong>Description: </strong> {{ runDetail.description }}</li>
+          <ul v-if="run">
+            <li><strong>Run: </strong> {{ run.id }}</li>
+            <li><strong>Customer: </strong> {{ run.user_id }}</li>
+            <li><strong>Start Date: </strong> {{ run.created_at }}</li>
+            <li><strong>Description: </strong> {{ run.description }}</li>
           </ul>
         </div>
         <hr />
@@ -282,12 +247,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="run in runDetail.parts" :key="run.id">
-              <td>{{ run.id }}</td>
-              <td>{{ run.plate_type.name }}</td>
-              <td>{{ run.chromate.name + "  -- " + run.primaryPer + " %" }}</td>
-              <td>{{ run.top_coat.name + "  -- " + run.topCoatPer + " %" }}</td>
-              <td>{{ run.coat.name + "  -- " + run.coatPer + " %" }}</td>
+            <tr>
+              <td>1</td>
+              <td>60min SM + 20min HS + 40min Bright - 2 mil</td>
+              <td>1-10-2020-2 - 1%</td>
+              <td>.5 g/L Pavco Blue Dye 1 - 2 %</td>
+              <td>1-71-2 - 3 %</td>
               <td>
                 <input type="checkbox" value="false" />
               </td>
@@ -317,6 +282,14 @@
         </table>
       </div>
     </modal>
+    
+    <photos-run 
+      v-if="run"
+      :isModalPhotos="isModalPhotos"
+      :photos="run.photos"
+      @closeModal="closePhotosModal"
+      @photoEdited="photoAdded"
+    />
 
     <notes-run
       v-if="run"
@@ -391,15 +364,12 @@
 <script>
 import dt from "datatables.net";
 import { Navigation, Pagination } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/vue";
 import { ref, nextTick } from "vue";
 import Modal from "../../../Jetstream/Modal.vue";
 import ConfirmationModal from "../../../Jetstream/ConfirmationModal.vue";
 import useHelper from "@/composables/useHelper";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import NotesRun from "./NotesRun.vue";
+import PhotosRun from "./PhotosRun.vue";
 
 const $ = require("jquery");
 
@@ -408,16 +378,13 @@ export default {
   components: {
     modal: Modal,
     confirmationModal: ConfirmationModal,
-    swiper: Swiper,
-    swiperSlide: SwiperSlide,
     notesRun: NotesRun,
+    photosRun: PhotosRun
   },
   setup() {
     const { makeToast } = useHelper();
     const runs = ref([]);
     const run = ref(null);
-    const runDetail = ref(null);
-    const modalWidthDetail = ref('3xl')
     const isModalPhotos = ref(false);
     const isModalResults = ref(false);
     const isModalNotes = ref(false);
@@ -446,10 +413,8 @@ export default {
       isModalPhotos.value = false;
     };
     // Results
-    const showResults = (run) => {
-      // findRun(id);
-      console.log(run);
-      runDetail.value = run;
+    const showResults = (id) => {
+      findRun(id);
       isModalResults.value = true;
     };
     const closeResultsModal = () => {
@@ -464,6 +429,9 @@ export default {
       isModalNotes.value = false;
     };
     const noteAdded = () => {
+      gettingData();
+    };
+    const photoAdded = () => {
       gettingData();
     };
     // Delete
@@ -600,6 +568,7 @@ export default {
       showNotes,
       closeNotesModal,
       noteAdded,
+      photoAdded,
       showDelete,
       showClose,
       closeCloseModal,
@@ -607,8 +576,6 @@ export default {
       reopenRun,
       filterOption,
       changeFilter,
-      runDetail,
-      modalWidthDetail
     };
   },
 };

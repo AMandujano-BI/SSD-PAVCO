@@ -140,18 +140,27 @@ class RunController extends Controller
         } else {
             if ($run->status === '0') {
                 $status = 'Completed';
+            } else {
+                $status = '';
             }
         }
         $description = $run->description;
+        $content = '';
+        $plate_type = '';
         
-        // foreach ($run->parts as $part) {
-
-        //     $content =+ 
-        //     "<tr>
-        //         <td>$part-></td>
-        //     </tr>
-        //     ";
-        // }
+        foreach ($run->parts as $part) {
+            dd($part);
+            $plate_type = $part->plate_type->name;
+            $content .=
+            "<tr>
+                <td>$part->description</td>
+                <td>$plate_type</td>
+               
+                <td>Active</td>
+                <td>Active</td>
+            </tr>
+            ";
+        }
 
 
         $pdf = resolve('dompdf.wrapper');
@@ -180,10 +189,7 @@ class RunController extends Controller
                     </tr>
                 </thead>
                 <tbody>
-                    
-                    <tr >
-
-                    </tr>
+                    $content                    
                 </tbody>
             </table>
         ";

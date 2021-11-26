@@ -19,7 +19,7 @@
         <td>{{ photo.description }}</td>
         <td>
           <!-- <button @click="showPhotos"> -->
-          <button >
+          <button @click="showPhotos(photo.id)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -59,27 +59,62 @@
       </tr>
     </tbody>
   </table>
+
+  <photos-run 
+      v-if="photos"
+      :isModalPhotos="isModalPhotos"
+      :photos="currentPhoto"
+      @closeModal="closePhotosModal"
+      @photoEdited="photoAdded"
+    />
+
 </template>
 
 <script>
 const $ = require("jquery");
 import dt from "datatables.net";
 import { nextTick } from "vue";
+import PhotosRun from '../../Run/components/PhotosRun.vue';
+import { ref } from "vue";
 
 export default {
   props: ["photos"],
+  components: {
+    photosRun: PhotosRun
+  },
   setup(props) {
     console.log(props.photos);
+    const { photos } = props
+    let currentPhoto = ref ([])
+    let isModalPhotos = ref(false)
 
     const generateDataTable = () => {
       nextTick(() => {
         $("#photosTable").DataTable()
       });
     };
+    const showPhotos = (id) => {
+      const pic = photos.find((pic) => pic.id === id)
+      console.log(pic);
+      currentPhoto.value.push(pic)
+      isModalPhotos.value = true;
+    };
+    const closePhotosModal = () => {
+      currentPhoto.value = []
+      isModalPhotos.value = false;
+    };
+    const photoAdded = () => {
+      console.log('photoAdded');
+    }
 
     generateDataTable()
     return {
       generateDataTable,
+      isModalPhotos,
+      currentPhoto,
+      showPhotos,
+      closePhotosModal,
+      photoAdded
     };
   },
 };
