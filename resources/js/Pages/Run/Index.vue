@@ -55,19 +55,7 @@ export default {
     closeModal() {
       this.openModal = false;
     },
-    async getAllRuns(){
-      await axios.get('/run/getAllRuns')
-        .then((resp) => {
-          console.log(resp)
-          this.data = resp.data
-        })
-        .catch((error) => {
-          console.log({error});
-        })
-    }
   },
-  async mounted() {
-    this.getAllRuns()
-  }
+  
 };
 </script>

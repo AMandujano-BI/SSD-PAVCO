@@ -18,26 +18,16 @@ class CreateRunsTable extends Migration
             $table->bigInteger('number');
             $table->dateTime('startDate');
             $table->text('description');
-            $table->boolean('status')->default(1);
+            $table->boolean('status')->default(0);
             $table->dateTime('dateCompleted')->nullable();
-            // $table->string('plate',50);
-            $table->unsignedBigInteger('plate_types_id');
-            $table->foreign('plate_types_id')->references('id')->on('chemicals');
-            //$table->string('primaryCoat',50);
-            $table->unsignedBigInteger('primaryCoatId');
-            $table->foreign('primaryCoatId')->references('id')->on('chemicals');
-            // $table->string('coat', 50);
-            $table->unsignedBigInteger('coatId');
-            $table->foreign('coatId')->references('id')->on('chemicals');
-            // $table->string('topCoat', 50);
-            $table->unsignedBigInteger('topCoatId');
-            $table->foreign('topCoatId')->references('id')->on('chemicals');
+
+          
 
             //-------------------------------
-            $table->string('plateThick', 50);
-            $table->string('primaryPer', 50);
-            $table->string('coatPer', 50);
-            $table->string('topCoatPer', 50);
+            $table->string('plateThick', 50)->nullable();
+            $table->string('primaryPer', 50)->nullable();
+            $table->string('coatPer', 50)->nullable();
+            $table->string('topCoatPer', 50)->nullable();
             //$table->string('plateMethod',50);
             $table->foreignId('plate_methods_id')->constrained();
 

@@ -38,14 +38,29 @@ class Run extends Model
     ];
 
 
-    public static function getAllRun()
+    public static function getAllRun($status)
     {
-        $run = (new static)::with([
-            'notes',
-            'photos',
-            'parts',
-        ])->where('status','1')->get();
-        return $run;
+        if ($status == 3) {
+            $run = (new static)::with([
+                'notes',
+                'photos',
+                'parts',
+            ])
+                ->where('status', '!=', 2)
+                ->get();
+            return $run;
+        } else {
+
+            $run = (new static)::with([
+                'notes',
+                'photos',
+                'parts',
+            ])
+                ->where('status', '!=', 2)
+                ->where('status', $status)
+                ->get();
+            return $run;
+        }
     }
 
     public static function getRun($id)
@@ -76,10 +91,6 @@ class Run extends Model
                 'startDate' => $startDate,
                 'number' => 1,
                 'description' => $description,
-                'plate_types_id' => $plate_types_id,
-                'primaryCoatId' => $primaryCoatId,
-                'coatId' => $coatId,
-                'topCoatId' => $topCoatId,
                 'plateThick' => 0,
                 'primaryPer' => 0,
                 'coatPer' => 0,
@@ -109,6 +120,10 @@ class Run extends Model
                 $parts = Part::create([
                     'plateThick' => $plateThick,
                     'description' => 'is a description',
+                    'plate_types_id' => $plate_types_id,
+                    'primaryCoatId' => $primaryCoatId,
+                    'coatId' => $coatId,
+                    'topCoatId' => $topCoatId,
                     'topCoatPer' => $topCoatPer,
                     'topCoatTemp' => $topCoatTemp,
                     'topCoatPH' => $topCoatPH,
@@ -186,7 +201,7 @@ class Run extends Model
             ];
         }
     }
-    
+
     public static function deleteRun($id)
     {
         DB::beginTransaction();
@@ -233,10 +248,10 @@ class Run extends Model
             ];
         }
     }
-    
 
-    public static function generateFile() {
 
+    public static function generateFile()
+    {
     }
 
 

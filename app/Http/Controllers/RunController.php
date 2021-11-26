@@ -47,9 +47,9 @@ class RunController extends Controller
             ]
         );
     }
-    public function getAllRuns()
+    public function getAllRuns($status)
     {
-        $runs =$this->_run->getAllRun();
+        $runs =$this->_run->getAllRun($status);
 
         return datatables()->of($runs)->toJson();
 

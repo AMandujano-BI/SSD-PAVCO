@@ -18,4 +18,9 @@ class Chemical extends Model
         $chemicals = (new static)::where('type',$type)->orderBy('name', 'asc')->get();
         return $chemicals;
     }
+    //---------------Relations
+    public function parts()
+    {
+        return $this->belongsTo(Part::class);
+    }
 }

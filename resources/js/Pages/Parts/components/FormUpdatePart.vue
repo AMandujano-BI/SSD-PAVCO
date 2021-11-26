@@ -222,7 +222,7 @@ const isDiferentZero = (value) => {
   return value != 0;
 };
 export default {
-  emits: ["closeModal"],
+  emits: ["closeModal", "generateDataTable"],
   props: [
     "plateMethods",
     "topCoats",
@@ -230,17 +230,23 @@ export default {
     "secondaryCoats",
     "plateTypes",
     "partUpdate",
+    "partsTable",
   ],
   setup(props, { emit }) {
-    const { partUpdate } = props;
+    const { partUpdate, partsTable } = props;
     const { makeToast } = useHelper();
     console.log(partUpdate);
+    const parts = ref(partsTable);
+    console.log(parts);
     const form = ref({
       id: partUpdate.id,
       description: partUpdate.description,
       run_id: partUpdate.run_id,
       plateThick: partUpdate.plateThick,
       coatId: partUpdate.coatId,
+      primaryCoatId: partUpdate.primaryCoatId,
+      topCoatId: partUpdate.topCoatId,
+      plate_types_id: partUpdate.plate_types_id,
       topCoatPer: partUpdate.topCoatPer,
       topCoatPer: partUpdate.topCoatPer,
       topCoatTemp: partUpdate.topCoatTemp,
@@ -294,12 +300,24 @@ export default {
     const submitForm = async () => {
       try {
         const isFormCorrect = await v$.value.$validate();
+        const id = form.value.id;
         if (!isFormCorrect) return;
         let res;
-        res = await axios.put(`/part/${form.value.id}`, form.value);
+
+        res = await axios.put(`/part/${id}`, form.value);
         const { ok, value, message } = res.data;
         if (ok) {
           makeToast(message);
+          const index = parts.value.findIndex((item) => item.id == id);
+          console.log(parts.value[index]);
+          parts.value[index] = {
+            ...parts.value[index],
+            primaryCoatId: form.value.primaryCoatId,
+            coatId: form.value.coatId,
+            topCoatId: form.value.topCoatId,
+            description: form.value.description,
+          };
+          emit("generateDataTable");
           emit("closeModal");
         } else {
           makeToast("An error has occurred", "error");
@@ -315,6 +333,11 @@ export default {
       closeModal,
       submitForm,
     };
+  },
+  watch: {
+    run() {
+      this.parts = this.partsTable;
+    },
   },
 };
 </script>

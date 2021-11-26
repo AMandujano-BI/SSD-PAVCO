@@ -13,12 +13,48 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="part in parts" :key="part.id">
+      <tr v-for="part in partsTable" :key="part.id">
         <td>{{ part.description }}</td>
-        <td>{{ part.id }}</td>
-        <td>{{ part.id }}</td>
-        <td>{{ part.id }}</td>
-        <td>{{ part.id }}</td>
+        <td>{{ part.plate_type.name }}</td>
+        <td>
+          {{
+            part.chromate.name +
+            " / " +
+            part.primaryPer +
+            " / " +
+            part.primaryTemp +
+            " / " +
+            part.primaryPH +
+            " / " +
+            part.primaryDiptime
+          }}
+        </td>
+        <td>
+          {{
+            part.top_coat.name +
+            " / " +
+            part.topCoatPer +
+            " / " +
+            part.topCoatTemp +
+            " / " +
+            part.topCoatPH +
+            " / " +
+            part.topCoatDiptime
+          }}
+        </td>
+        <td>
+          {{
+            part.coat.name +
+            " / " +
+            part.coatPer +
+            " / " +
+            part.coatTemp +
+            " / " +
+            part.coatPH +
+            " / " +
+            part.coatDiptime
+          }}
+        </td>
         <td>
           <button @click="editPart(part)">
             <svg
@@ -85,6 +121,8 @@
         :topCoats="topCoats"
         :plateTypes="plateTypes"
         @closeModal="closeModal"
+        @generateDataTable="generateDataTable"
+        :partsTable="partsTable"
       />
     </div>
   </modal>
@@ -118,7 +156,7 @@
 const $ = require("jquery");
 import dt from "datatables.net";
 import ModalVue from "@/Jetstream/Modal.vue";
-import { reactive, ref } from "vue";
+import { reactive, ref,nextTick } from "vue";
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import FormUpdatePartVue from "./FormUpdatePart.vue";
 import axios from "axios";
@@ -132,8 +170,8 @@ export default {
   },
   setup(props) {
     let { parts } = props;
-    console.log(parts);
     const openModal = ref(false);
+    const partsTable = ref(parts)
     const openModalNotes = ref(false);
     const { makeToast } = useHelper();
     const idPart = ref(0);
@@ -144,27 +182,10 @@ export default {
       primaryPer: 0,
     });
     const generateDataTable = () => {
-      // $("#partsTable").DataTable().clear().destroy()
-      $("#partsTable").DataTable().clear();
-      $("#partsTable" + "tbody").empty();
-      $("#partsTable").DataTable();
-      // this.$nextTick(() => {
-      // });
+      nextTick(() => {
+        $("#partsTable").DataTable();
+      });
     };
-    const getData = async () => {
-      await axios
-        .get("/part/8")
-        .then((resp) => {
-          console.log(resp);
-          this.runs = resp.data.data;
-          console.log(this.runs);
-          this.generateDataTable();
-        })
-        .catch((err) => console.log(err));
-    };
-
-    //Initial get
-    // getData();
 
     const editPart = async (part) => {
       partUpdate.value = part;
@@ -183,24 +204,17 @@ export default {
     };
     const closeModalDelete = () => (showModalDelete.value = false);
     const deletePart = async () => {
-      console.log(idPart.value);
       showModalDelete.value = false;
       let res;
-      // res = await axios.delete(`/run/`, {params: {'id': idPart.value}})
-      res = await axios.delete(`/part/${idPart.value}`);
-      console.log(res);
-
+      const id = idPart.value
+      res = await axios.delete(`/part/${id}`);
       const { ok, value, message } = res.data;
       if (ok) {
-        const part = parts.find((item) => item.id == idPart.value);
-
-        console.log(parts.length);
-        parts = parts.filter((item) => item.id != idPart.value);
-        console.log(parts.length);
+        partsTable.value = partsTable.value.filter((item) => item.id != id);
         makeToast(message);
         generateDataTable();
       } else {
-        makeToast(message, "erorr");
+        makeToast(message, "error");
       }
     };
 
@@ -219,6 +233,7 @@ export default {
       deletePart,
       openModalNotes,
       openModalNotesClick,
+      partsTable
     };
   },
 };

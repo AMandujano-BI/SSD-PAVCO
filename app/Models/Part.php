@@ -12,6 +12,10 @@ class Part extends Model
     protected $fillable = [
         'plateThick',
         'description',
+        'plate_types_id',
+        'primaryCoatId',
+        'coatId',
+        'topCoatId',
         'topCoatPer',
         'topCoatTemp',
         'topCoatPH',
@@ -30,7 +34,11 @@ class Part extends Model
     public static function getPartsByRun($id)
     {
         $parts = (new static)::with([
-            'notes'
+            'notes',
+            'topCoat',
+            'chromate',
+            'coat',
+            'plateType',
         ])->where('run_id', $id)->get();
         return $parts;
     }
@@ -41,13 +49,14 @@ class Part extends Model
             $plateThick = $request->startDate;
             $primaryPer = $request->description;
             $coatPer = $request->plate_types_id;
-            $description = $request->primaryCoatId;
-            $topCoatPer = $request->coatId;
-            $topCoatPH = $request->topCoatId;
-            $topCoatDiptime = $request->plate_methods_id;
-            $primaryTemp = $request->plate_methods_id;
-            $primaryPH = $request->plate_methods_id;
-            $primaryDiptime = $request->plate_methods_id;
+            $description = $request->description;
+            $topCoatPer = $request->topCoatPer;
+            $topCoatPH = $request->topCoatPH;
+            $topCoatDiptime = $request->topCoatDiptime;
+            $primaryTemp = $request->primaryTemp;
+            $primaryPH = $request->primaryPH;
+            $primaryDiptime = $request->primaryDiptime;
+            $plate_types_id = $request->plate_types_id;
             $coatPH = $request->plate_methods_id;
             $coatDiptime = $request->plate_methods_id;
             $run_id = $request->plate_methods_id;
@@ -59,6 +68,7 @@ class Part extends Model
                 'description' => $description,
                 'topCoatPer' => $topCoatPer,
                 'topCoatPH' => $topCoatPH,
+                'plate_types_id' => $plate_types_id,
                 'topCoatDiptime' => $topCoatDiptime,
                 'primaryTemp' => $primaryTemp,
                 'primaryPH' => $primaryPH,
@@ -95,6 +105,10 @@ class Part extends Model
             $part->primaryPer = $request->primaryPer;
             $part->primaryTemp = $request->primaryTemp;
             $part->primaryPH = $request->primaryPH;
+            $part->plate_types_id = $request->plate_types_id;
+            $part->primaryCoatId = $request->primaryCoatId;
+            $part->coatId = $request->coatId;
+            $part->topCoatId = $request->topCoatId;
             $part->primaryDiptime = $request->primaryDiptime;
             $part->coatPer = $request->coatPer;
             $part->coatTemp = $request->coatTemp;
@@ -111,8 +125,7 @@ class Part extends Model
                     'value' => 0,
                 ];
             }
-            $run->plate_types_id = $request->plate_types_id;
-            $run->plateThick= $request->plateThick;
+            $run->plateThick = $request->plateThick;
             $run->save();
             DB::commit();
             return [
@@ -148,5 +161,21 @@ class Part extends Model
     public function runs()
     {
         return $this->hasMany(Run::class);
+    }
+    public function plateType()
+    {
+        return $this->hasOne(Chemical::class, 'id', 'plate_types_id');
+    }
+    public function topCoat()
+    {
+        return $this->hasOne(Chemical::class, 'id', 'topCoatId');
+    }
+    public function chromate()
+    {
+        return $this->hasOne(Chemical::class, 'id', 'primaryCoatId');
+    }
+    public function coat()
+    {
+        return $this->hasOne(Chemical::class, 'id', 'coatId');
     }
 }
