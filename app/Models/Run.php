@@ -73,7 +73,13 @@ class Run extends Model
             'notes',
             'photos',
             'parts',
-        ])->find($id);
+            'parts.chromate',
+            'parts.coat',
+            'parts.plateType',
+            'parts.topCoat',
+        ])
+        ->where('status', '!=', 2)
+        ->find($id);
         return $run;
     }
 

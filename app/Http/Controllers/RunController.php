@@ -49,7 +49,7 @@ class RunController extends Controller
     }
     public function getAllRuns($status)
     {
-        $runs =$this->_run->getAllRun($status);
+        $runs = $this->_run->getAllRun($status);
 
         return datatables()->of($runs)->toJson();
 
@@ -110,27 +110,30 @@ class RunController extends Controller
      */
     public function update(Request $request, Run $run)
     {
-        $runResponse =$this->_run->updateRunPart($request->id,$request);
+        $runResponse = $this->_run->updateRunPart($request->id, $request);
         return response()->json($runResponse);
     }
 
-    public function closeRun($id){
+    public function closeRun($id)
+    {
         $run = $this->_run->closeRun($id);
         return response()->json($run);
-
     }
 
-    public function reopenRun($id) {
+    public function reopenRun($id)
+    {
         $run = $this->_run->reopenRun($id);
         return response()->json($run);
     }
-   
-    public function deleteRun($id) {
+
+    public function deleteRun($id)
+    {
         $run = $this->_run->deleteRun($id);
         return response()->json($run);
     }
 
-    public function downloadPdf($id) {
+    public function downloadPdf($id)
+    {
         $run = $this->_run->getRun($id);
         $id_run = $run->id;
         $startDate = $run->startDate;
@@ -147,15 +150,19 @@ class RunController extends Controller
         $description = $run->description;
         $content = '';
         $plate_type = '';
-        
         foreach ($run->parts as $part) {
-            dd($part);
-            $plate_type = $part->plate_type->name;
+            $plate_type = $part->plateType->name;
+            $coat= $part->coat->name;
+            $topCoat = $part->topCoat->name;
+            $chromate= $part->chromate->name;
             $content .=
             "<tr>
                 <td>$part->description</td>
                 <td>$plate_type</td>
-               
+                <td>$chromate</td>
+                <td>$topCoat</td>
+                <td>$coat</td>
+
                 <td>Active</td>
                 <td>Active</td>
             </tr>
