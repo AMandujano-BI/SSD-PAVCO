@@ -57,7 +57,7 @@
           </td>
           <!-- Result action -->
           <td class="text-center">
-            <button @click="showResults(run.id)">
+            <button @click="showResults(run)">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5"
@@ -246,24 +246,24 @@
       </div>
     </modal>
 
-    <modal :show="isModalResults">
-      <div class="container mx-auto p-5">
-        <button
+    <modal :show="isModalResults" :maxWidth="modalWidthDetail" @close="closeResultsModal">
+      <div class="container mx-auto p-5 relative">
+        <!-- <button
           @click="closeResultsModal"
-          class="bg-red-600 text-white p-2 rounded-md"
+          class="right-10 absolute"
         >
           X
-        </button>
+        </button> -->
         <p class="text-xl font-bold text-center">Run results</p>
-        <p>Enter results for each part in this run</p>
+        <p class="p-4">Enter results for each part in this run</p>
         <hr />
         <div>
           <h3>Run information</h3>
-          <ul v-if="run">
-            <li><strong>Run: </strong> {{ run.id }}</li>
-            <li><strong>Customer: </strong> {{ run.user_id }}</li>
-            <li><strong>Start Date: </strong> {{ run.created_at }}</li>
-            <li><strong>Description: </strong> {{ run.description }}</li>
+          <ul v-if="runDetail" class="shadow-lg rounded-md p-5 mb-5">
+            <li><strong>Run: </strong> {{ runDetail.id }}</li>
+            <li><strong>Customer: </strong> {{ runDetail.user_id }}</li>
+            <li><strong>Start Date: </strong> {{ runDetail.created_at }}</li>
+            <li><strong>Description: </strong> {{ runDetail.description }}</li>
           </ul>
         </div>
         <hr />
@@ -282,12 +282,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>60min SM + 20min HS + 40min Bright - 2 mil</td>
-              <td>1-10-2020-2 - 1%</td>
-              <td>.5 g/L Pavco Blue Dye 1 - 2 %</td>
-              <td>1-71-2 - 3 %</td>
+            <tr v-for="run in runDetail.parts" :key="run.id">
+              <td>{{ run.id }}</td>
+              <td>{{ run.plate_type.name }}</td>
+              <td>{{ run.chromate.name + "  -- " + run.primaryPer + " %" }}</td>
+              <td>{{ run.top_coat.name + "  -- " + run.topCoatPer + " %" }}</td>
+              <td>{{ run.coat.name + "  -- " + run.coatPer + " %" }}</td>
               <td>
                 <input type="checkbox" value="false" />
               </td>
@@ -416,6 +416,8 @@ export default {
     const { makeToast } = useHelper();
     const runs = ref([]);
     const run = ref(null);
+    const runDetail = ref(null);
+    const modalWidthDetail = ref('3xl')
     const isModalPhotos = ref(false);
     const isModalResults = ref(false);
     const isModalNotes = ref(false);
@@ -444,8 +446,10 @@ export default {
       isModalPhotos.value = false;
     };
     // Results
-    const showResults = (id) => {
-      findRun(id);
+    const showResults = (run) => {
+      // findRun(id);
+      console.log(run);
+      runDetail.value = run;
       isModalResults.value = true;
     };
     const closeResultsModal = () => {
@@ -603,6 +607,8 @@ export default {
       reopenRun,
       filterOption,
       changeFilter,
+      runDetail,
+      modalWidthDetail
     };
   },
 };

@@ -45,6 +45,10 @@ class Run extends Model
                 'notes',
                 'photos',
                 'parts',
+                'parts.chromate',
+                'parts.coat',
+                'parts.plateType',
+                'parts.topCoat',
             ])
                 ->where('status', '!=', 2)
                 ->get();
