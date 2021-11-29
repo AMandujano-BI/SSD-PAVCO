@@ -152,9 +152,25 @@ class RunController extends Controller
         $plate_type = '';
         foreach ($run->parts as $part) {
             $plate_type = $part->plateType->name;
-            $coat= $part->coat->name;
-            $topCoat = $part->topCoat->name;
+
             $chromate= $part->chromate->name;
+            $primaryPer = $part->primaryPer .'%';
+            $primaryTemp = $part->primaryTemp .'º';
+            $primaryPH = $part->primaryPH .'pH';
+            $primaryDiptime = $part->primaryDiptime .'sec';
+            
+            $topCoat = $part->topCoat->name;
+            $topCoatPer = $part->topCoatPer . '%';
+            $topCoatTemp = $part->topCoatTemp . '°';
+            $topCoatPH = $part->topCoatPH . 'pH';
+            $topCoatDiptime = $part->topCoatDiptime . 'sec';
+
+            $coat= $part->coat->name;
+            $coatPer = $part->coatPer . '%';
+            $coatTemp = $part->coatTemp . '°';
+            $coatPH = $part->coatPH . 'pH';
+            $coatDiptime = $part->coatDiptime . 'sec';
+
             $content .=
             "<tr>
                 <td>$part->description</td>
@@ -162,24 +178,24 @@ class RunController extends Controller
                 
                 <td>
                     $chromate /
-                    $part->primaryPer /
-                    $part->primaryTemp /
-                    $part->primaryPH /
-                    $part->primaryDiptime
+                    $primaryPer /
+                    $primaryTemp /
+                    $primaryPH /
+                    $primaryDiptime
                 </td>
                 <td>
                     $topCoat /
-                    $part->topCoatPer /
-                    $part->topCoatTemp /
-                    $part->topCoatPH /
-                    $part->topCoatDiptime
+                    $topCoatPer /
+                    $topCoatTemp /
+                    $topCoatPH /
+                    $topCoatDiptime
                 </td>
                 <td>
                     $coat /
-                    $part->coatPer /
-                    $part->coatTemp /
-                    $part->coatPH /
-                    $part->coatDiptime
+                    $coatPer /
+                    $coatTemp /
+                    $coatPH /
+                    $coatDiptime
                 </td>
                 <td>Active</td>
                 <td>Active</td>
@@ -189,6 +205,7 @@ class RunController extends Controller
 
         $pdf = resolve('dompdf.wrapper');
         $html = "
+           
             <h1>Salt Spray Report Results</h1>
             <hr>
             <br>
@@ -200,7 +217,7 @@ class RunController extends Controller
             <br>
             <br>
 
-            <table>
+            <table cellspacing='0' border='1'>
                 <thead>
                     <tr>
                         <th>Desc</th>
@@ -290,7 +307,7 @@ class RunController extends Controller
                 $photosContent .= 
                 "
                     <div style='page-break-inside:avoid;'>
-                        <p>$photo->name</p>
+                        <p>Image - $photo->name</p>
                         <hr>
                         <img src='$photo->image' alt='$photo->name' style='width: auto; max-height: 500px; margin-top: 4.7em' >
                         <br>
@@ -314,7 +331,7 @@ class RunController extends Controller
             <br>
             <br>
 
-            <table>
+            <table  cellspacing='0' border='1'>
                 <thead>
                     <tr>
                         <th>Desc</th>

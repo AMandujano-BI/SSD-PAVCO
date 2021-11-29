@@ -7,9 +7,9 @@
         <th>Chromate</th>
         <th>Topcoat</th>
         <th>Secondary TopCoat</th>
-        <th>Edit</th>
-        <th>Delete</th>
-        <th>Notes</th>
+        <th class="no-sort">Edit</th>
+        <th class="no-sort">Delete</th>
+        <th class="no-sort">Notes</th>
       </tr>
     </thead>
     <tbody>
@@ -55,7 +55,7 @@
             part.coatDiptime
           }}
         </td>
-        <td>
+        <td class="text-center">
           <button @click="editPart(part)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,7 @@
             </svg>
           </button>
         </td>
-        <td>
+        <td class="text-center">
           <button @click="openModalDelete(part.id)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -245,3 +245,8 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.no-sort::after { display: none!important; }
+.no-sort { pointer-events: none!important; cursor: default!important; background-image: none !important }
+</style>

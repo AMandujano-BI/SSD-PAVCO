@@ -15,19 +15,19 @@
             <th>Method</th>
             <th>Status</th>
             <th>Hrs</th>
-            <th>Photos</th>
-            <th>Results</th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <th>Close</th>
-            <th>Re-Open</th>
-            <th>Notes</th>
-            <th>Reports</th>
-            <th>Email</th>
+            <th class="no-sort">Photos</th>
+            <th class="no-sort">Results</th>
+            <th class="no-sort">Edit</th>
+            <th class="no-sort">Delete</th>
+            <th class="no-sort">Close</th>
+            <th class="no-sort">Re-Open</th>
+            <th class="no-sort">Notes</th>
+            <th class="no-sort">Reports</th>
+            <th class="no-sort">Email</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="run in runs" :key="run.id">
+          <tr v-for="run in runs" :key="run.id" >
             <td class="text-center">{{ run.startDate.slice(0, 10) }}</td>
             <!-- <td class="text-center">{{ run.user_id }}</td> -->
             <td class="text-center">{{ "testing" }}</td>
@@ -174,7 +174,7 @@
                   class="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor"
+                  stroke="#E71F2A"
                 >
                   <path
                     stroke-linecap="round"
@@ -553,5 +553,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.no-sort::after { display: none!important; }
+.no-sort { pointer-events: none!important; cursor: default!important; background-image: none !important }
 </style>

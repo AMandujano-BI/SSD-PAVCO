@@ -26,9 +26,9 @@
             <th>Chromate</th>
             <th>Topcoat</th>
             <th>Secondary Topcoat</th>
-            <th>White Salts</th>
-            <th>Red Rust</th>
-            <th>Notes</th>
+            <th class="no-sort">White Salts</th>
+            <th class="no-sort">Red Rust</th>
+            <th class="no-sort">Notes</th>
           </tr>
         </thead>
         <tbody>
@@ -111,3 +111,8 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.no-sort::after { display: none!important; }
+.no-sort { pointer-events: none!important; cursor: default!important; background-image: none !important }
+</style>

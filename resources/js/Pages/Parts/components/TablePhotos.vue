@@ -6,9 +6,9 @@
         <th>Date Added</th>
         <th>Hours</th>
         <th>Description</th>
-        <th>View</th>
-        <th>Report</th>
-        <th>Delete</th>
+        <th class="no-sort">View</th>
+        <th class="no-sort">Report</th>
+        <th class="no-sort">Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -17,7 +17,7 @@
         <td>{{ photo.created_at }}</td>
         <td>{{ photo.hours }}</td>
         <td>{{ photo.description }}</td>
-        <td>
+        <td class="text-center">
           <!-- <button @click="showPhotos"> -->
           <button @click="showPhotos(photo.id)">
             <svg
@@ -36,8 +36,8 @@
             </svg>
           </button>
         </td>
-        <td>Report</td>
-        <td>
+        <td class="text-center">Report</td>
+        <td class="text-center">
           <!-- <button @click="openModalDelete(part.id)"> -->
           <button >
             <svg
@@ -119,3 +119,8 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.no-sort::after { display: none!important; }
+.no-sort { pointer-events: none!important; cursor: default!important; background-image: none !important }
+</style>
