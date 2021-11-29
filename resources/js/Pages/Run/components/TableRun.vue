@@ -5,300 +5,235 @@
       <option value="0">Active</option>
       <option value="1">Complete</option>
     </select>
-    <table id="activeRuns" class="display" style="width: 100%">
-      <thead>
-        <tr>
-          <th>StartDate</th>
-          <th>Customer</th>
-          <th>Run #</th>
-          <th>Method</th>
-          <th>Status</th>
-          <th>Hrs</th>
-          <th>Photos</th>
-          <th>Results</th>
-          <th>Edit</th>
-          <th>Delete</th>
-          <th>Close</th>
-          <th>Re-Open</th>
-          <th>Notes</th>
-          <th>Reports</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="run in runs" :key="run.id">
-          <td class="text-center">{{ run.startDate }}</td>
-          <td class="text-center">{{ run.user_id }}</td>
-          <td class="text-center">{{ run.id }}</td>
-          <td class="text-center">{{ run.plate_methods_id }}</td>
-          <td class="text-center">
-            <span v-if="run.status == 0">Active</span>
-            <span v-if="run.status == 1">Complete</span>
-          </td>
-          <td class="text-center">{{ run.status }}</td>
-          <!-- Photos action -->
-          <td class="text-center">
-            <button @click="showPhotos(run.id)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </button>
-          </td>
-          <!-- Result action -->
-          <td class="text-center">
-            <button @click="showResults(run.id)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                />
-              </svg>
-            </button>
-          </td>
-          <!-- Edit action -->
-          <td class="text-center">
-            <button @click="editRun(run.id)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#2563EB"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>
-            </button>
-          </td>
-          <!-- Delete action -->
-          <td class="text-center">
-            <button @click="showDelete(run.id)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#E71F2A"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
-            </button>
-          </td>
-          <!-- Close action -->
-          <td class="text-center">
-            <button @click="showClose(run.id)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </button>
-          </td>
-          <!-- ReOpen action -->
-          <td class="text-center">
-            <button @click="showReOpen(run.id)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
-                  clip-rule="evenodd"
-                />
-                <path
-                  d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"
-                />
-              </svg>
-            </button>
-          </td>
-          <!-- Notes action -->
-          <td class="text-center">
-            <button @click="showNotes(run.id)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="#DA9C14"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </button>
-          </td>
-          <!-- Report action -->
-          <td class="text-center">
-            <button @click="reportRun(run.id)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-            </button>
-            <button @click="reportAndPhotosRun(run.id)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-            </button>
-          </td>
-          <!-- Email action -->
-          <td class="text-center">
-            <button>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#7DBB52"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    
+    <div class="rounded-lg shadow-lg p-5">
+      <table id="activeRuns" class="display" style="width: 100%">
+        <thead>
+          <tr>
+            <th>StartDate</th>
+            <th>Customer</th>
+            <th>Run #</th>
+            <th>Method</th>
+            <th>Status</th>
+            <th>Hrs</th>
+            <th>Photos</th>
+            <th>Results</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Close</th>
+            <th>Re-Open</th>
+            <th>Notes</th>
+            <th>Reports</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="run in runs" :key="run.id">
+            <td class="text-center">{{ run.startDate.slice(0, 10) }}</td>
+            <!-- <td class="text-center">{{ run.user_id }}</td> -->
+            <td class="text-center">{{ "testing" }}</td>
+            <td class="text-center">{{ run.id }}</td>
+            <td class="text-center">{{ run.method.name }}</td>
+            <td class="text-center">
+              <span v-if="run.status == 0">Active</span>
+              <span v-if="run.status == 1">Complete</span>
+            </td>
+            <td class="text-center">{{ run.status }}</td>
+            <!-- Photos action -->
+            <td class="text-center">
+              <button @click="showPhotos(run.id)">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              </button>
+            </td>
+            <!-- Result action -->
+            <td class="text-center">
+              <button @click="showResults(run.id)">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                  />
+                </svg>
+              </button>
+            </td>
+            <!-- Edit action -->
+            <td class="text-center">
+              <button @click="editRun(run.id)">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="#2563EB"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+              </button>
+            </td>
+            <!-- Delete action -->
+            <td class="text-center">
+              <button @click="showDelete(run.id)">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="#E71F2A"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
+            </td>
+            <!-- Close action -->
+            <td class="text-center">
+              <button @click="showClose(run.id)" :disabled="run.status == 1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </button>
+            </td>
+            <!-- ReOpen action -->
+            <td class="text-center">
+              <button @click="showReOpen(run.id)" :disabled="run.status == 0">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                    clip-rule="evenodd"
+                  />
+                  <path
+                    d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"
+                  />
+                </svg>
+              </button>
+            </td>
+            <!-- Notes action -->
+            <td class="text-center">
+              <button @click="showNotes(run.id)">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="#DA9C14"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </td>
+            <!-- Report action -->
+            <td class="text-center">
+              <button @click="reportRun(run.id)">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+              </button>
+              <button @click="reportAndPhotosRun(run.id)">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+              </button>
+            </td>
+            <!-- Email action -->
+            <td class="text-center">
+              <button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="#7DBB52"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <modal
       :show="isModalResults"
       :maxWidth="modalWidthDetail"
       @close="closeResultsModal"
     >
-      <div class="container mx-auto p-5 relative">
-        <!-- <button
-          @click="closeResultsModal"
-          class="right-10 absolute"
-        >
-          X
-        </button> -->
-        <p class="text-xl font-bold text-center">Run results</p>
-        <p>Enter results for each part in this run</p>
-        <hr />
-        <div>
-          <h3>Run information</h3>
-          <ul v-if="run">
-            <li><strong>Run: </strong> {{ run.id }}</li>
-            <li><strong>Customer: </strong> {{ run.user_id }}</li>
-            <li><strong>Start Date: </strong> {{ run.created_at }}</li>
-            <li><strong>Description: </strong> {{ run.description }}</li>
-          </ul>
-        </div>
-        <hr />
-        <h3>Parts Data</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Part description</th>
-              <th>Plate Type</th>
-              <th>Chromate</th>
-              <th>Topcoat</th>
-              <th>Secondary Topcoat</th>
-              <th>White Salts</th>
-              <th>Red Rust</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>60min SM + 20min HS + 40min Bright - 2 mil</td>
-              <td>1-10-2020-2 - 1%</td>
-              <td>.5 g/L Pavco Blue Dye 1 - 2 %</td>
-              <td>1-71-2 - 3 %</td>
-              <td>
-                <input type="checkbox" value="false" />
-              </td>
-              <td>
-                <input type="checkbox" value="false" />
-              </td>
-              <td>
-                <button>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <table-part-detail :id="idGlobal" />
     </modal>
-    
-    <photos-run 
+
+    <photos-run
       v-if="run"
       :isModalPhotos="isModalPhotos"
       :photos="run.photos"
@@ -391,16 +326,17 @@ import ConfirmationModal from "../../../Jetstream/ConfirmationModal.vue";
 import useHelper from "@/composables/useHelper";
 import NotesRun from "./NotesRun.vue";
 import PhotosRun from "./PhotosRun.vue";
+import TablePartDetailVue from "./TablePartDetail.vue";
 
 const $ = require("jquery");
 
 export default {
-  props: ["data"],
   components: {
     modal: Modal,
     confirmationModal: ConfirmationModal,
     notesRun: NotesRun,
-    photosRun: PhotosRun
+    photosRun: PhotosRun,
+    tablePartDetail: TablePartDetailVue,
   },
   setup() {
     const { makeToast } = useHelper();
@@ -438,10 +374,12 @@ export default {
     // Results
     const showResults = (id) => {
       findRun(id);
+      idGlobal.value = id;
       isModalResults.value = true;
     };
     const closeResultsModal = () => {
       isModalResults.value = false;
+      idGlobal.value = 0;
     };
     // Notes
     const showNotes = (id) => {
@@ -489,7 +427,8 @@ export default {
         if (ok) {
           isModalClose.value = false;
           makeToast(message);
-          gettingData();
+          gettingData(1);
+          filterOption.value = 1;
           idGlobal.value = 0;
         } else {
           console.log("ha ocurrido un error");
@@ -507,7 +446,8 @@ export default {
         if (ok) {
           isModalReOpen.value = false;
           makeToast(message);
-          gettingData();
+          gettingData(0);
+          filterOption.value = 0;
           idGlobal.value = 1;
         } else {
           makeToast(message, "error");
@@ -536,9 +476,10 @@ export default {
     const gettingData = async (status = 3) => {
       try {
         const res = await axios.get(`/run/getAllRuns/${status}`);
-        runs.value = res.data.data;
-        generateDataTable();
-        console.log(runs.value);
+        // runs.value = res.data.data;
+        runs.value = res.data;
+        $("#activeRuns").DataTable().destroy();
+        await generateDataTable();
       } catch (e) {
         console.log(e);
       }
@@ -548,18 +489,18 @@ export default {
     };
     const generateDataTable = () => {
       nextTick(() => {
-        $("#activeRuns").DataTable();
+        $("#activeRuns").DataTable({
+          scrollY: 350,
+          ordering: true,
+          bLengthChange: false,
+          pageLength: 5,
+        });
       });
     };
+
     const editRun = (id) => (window.location.href = `/part/${id}`);
     const reportRun = (id) => {
       window.location.href = `/run/download/${id}`;
-      // try {
-      //   const response = axios.get('/run/download');
-      //   console.log(response);
-      // } catch (error) {
-      //   console.log(error);
-      // }
     };
     const reportAndPhotosRun = (id) => {
       window.location.href = `/run/downloadPlus/${id}`;

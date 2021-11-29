@@ -1,13 +1,15 @@
 <template>
   <div class="container mx-auto">
     <h1 class="text-center font-bold p-5 text-2xl">List of Runs</h1>
-    <button
-      @click="openModalButton"
-      class="bg-blue-600 px-4 py-2 text-white rounded-md mb-2"
-    >
-      +
-    </button>
-    <modal :show="openModal" >
+    <div class="pl-9">
+      <button
+        @click="openModalButton"
+        class="bg-blue-600 px-4 py-2 text-white rounded-md mb-2 hover:bg-blue-700"
+      >
+        +
+      </button>
+    </div>
+    <modal :show="openModal">
       <div class="p-5">
         <form-run
           :plateMethods="plateMethods"
@@ -17,15 +19,11 @@
           :secondaryCoats="secondaryCoats"
           :plateTypes="plateTypes"
           @closeModal="closeModal"
-          
         />
       </div>
     </modal>
 
-    <table-run 
-    :data="data"
-    />
-    
+    <table-run />
   </div>
 </template>
 
@@ -34,29 +32,31 @@
 import ModalVue from "../../Jetstream/Modal.vue";
 import FormRun from "./components/FormRun.vue";
 import TableRun from "./components/TableRun.vue";
-import axios from "axios";
-
+import { ref } from "vue";
 export default {
   components: {
     modal: ModalVue,
     formRun: FormRun,
-    TableRun: TableRun
+    TableRun: TableRun,
   },
-  props: ["plateMethods", "topCoats", "chromates", "plates", "secondaryCoats","plateTypes"],
-  data() {
+  props: [
+    "plateMethods",
+    "topCoats",
+    "chromates",
+    "plates",
+    "secondaryCoats",
+    "plateTypes",
+  ],
+  setup() {
+    const openModal = ref(false);
+    const openModalButton = () => (openModal.value = true);
+    const closeModal = () => (openModal.value = false);
+
     return {
-      openModal: false,
-      data:[]
+      openModal,
+      openModalButton,
+      closeModal,
     };
   },
-  methods: {
-    openModalButton() {
-      this.openModal = true;
-    },
-    closeModal() {
-      this.openModal = false;
-    },
-  },
-  
 };
 </script>

@@ -9,11 +9,20 @@ class PlateMethod extends Model
 {
     use HasFactory;
     protected $fillable =[
-        'name'
+        'name',
+        'id'
     ];
     public static function getPlateMethods()
     {
         $plateMethod = (new static)::all();
         return $plateMethod;
     }
+
+
+    //---------------RELATIONS
+
+    // public function run()
+    // {
+    //     return $this->hasOne(Run::class);
+    // }
 }

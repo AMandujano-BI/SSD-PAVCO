@@ -1,9 +1,9 @@
 <template>
     <modal :show="isModalPhotos">
-      <div class="container mx-auto p-5">
+      <div class="container mx-auto p-5 relative">
         <button
           @click="closePhotosModal"
-          class="bg-red-600 text-white p-2 rounded-md"
+          class="absolute right-10"
         >
           X
         </button>
@@ -16,8 +16,6 @@
             :space-between="50"
             navigation
             :pagination="{ clickable: true }"
-            @swiper="onSwiper"
-            @slideChange="onSlideChange"
           >
             <swiper-slide v-for="photo in currentPhotos" :key="photo.id">
               <div>
@@ -28,7 +26,7 @@
                   <li><strong>Hours: </strong>{{ photo.hours }}</li>
                   <li><strong>Description: </strong>{{ photo.description }}</li>
                 </ul>
-                <img :src="photo.image" :alt="photo.name" />
+                <img :src="photo.image" :alt="photo.name" class="object-cover h-80 w-full" />
               </div>
             </swiper-slide>
           </swiper>
@@ -68,10 +66,8 @@ export default {
     },
     emits: ['closeModal','photoEdited'],
     setup(props, {emit}) {
-        console.log(props.photos)
         const {photos} = props
         let currentPhotos = ref(photos)
-        console.log(currentPhotos);
         const onSwiper = (swiper) => {
             // console.log(swiper);
         };

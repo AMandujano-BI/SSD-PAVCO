@@ -12,10 +12,10 @@
         The note editor is used for viewing / adding notes to a run
       </p>
       <hr />
-      <div class="mt-3">
-        <h3 class="font-bold">Notes</h3>
-        <div class=" h-full">
-          <ul class="h-80 overflow-y-auto ">
+      <div class="mt-3 shadow-lg rounded-lg p-5">
+        <h3 class="font-bold  text-lg">Notes</h3>
+        <div class="h-full">
+          <ul class="h-80 overflow-y-auto">
             <li v-for="(note, index) in notes" :key="index">{{ note.note }}</li>
           </ul>
         </div>
@@ -90,13 +90,11 @@ export default {
     const { makeToast } = useHelper();
     const { run } = props;
     let notes = ref(run.notes);
-    // let newNote = ref({
-      
-    // })
+    const id = ref(run.id)
     let noteData = ref({
       id: 0,
       note: "",
-      run_id: null,
+      run_id: id,
       part_id: null,
     });
 
@@ -104,7 +102,7 @@ export default {
       id: 0,
       isPublic: 0,
       note: "",
-      run_id: null,
+      run_id: id,
       part_id: null,
     });
 
@@ -123,17 +121,18 @@ export default {
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return;
         noteData.value.note = form.note;
-        noteData.value.run_id = run.id.toString();
+        noteData.value.run_id = id;
         noteData.value.isPublic = form.isPublic ? 1 : 0;
         const res = await axios.post("/note/add", noteData._value);
         console.log(res);
         const { ok, message, value } = res.data;
         if (ok) {
-          notes.value.push({note: value.note});
+          notes.value.push({ note: value.note });
           console.log(notes);
           console.log(value);
           makeToast(message);
           v$.value.$reset();
+          form.id= 0
           form.note = "";
           form.isPublic = false;
         } else {
@@ -156,6 +155,7 @@ export default {
   watch: {
     run() {
       this.notes = this.run.notes;
+      this.form.run_id= this.run.id
     },
   },
 };

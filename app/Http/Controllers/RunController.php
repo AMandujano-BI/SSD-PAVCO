@@ -7,7 +7,6 @@ use App\Models\Chemical;
 use App\Models\PlateMethod;
 use App\Models\Run;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class RunController extends Controller
@@ -51,9 +50,9 @@ class RunController extends Controller
     {
         $runs = $this->_run->getAllRun($status);
 
-        return datatables()->of($runs)->toJson();
+        // return datatables()->of($runs)->toJson();
 
-        // return $runs;
+        return $runs;
     }
 
     /**
@@ -87,7 +86,8 @@ class RunController extends Controller
      */
     public function show(Run $run)
     {
-        //
+       $runGet = $this->_run->getRun($run->id) ;
+       return $runGet;
     }
 
     /**
@@ -224,7 +224,7 @@ class RunController extends Controller
         ";
         $pdf->loadHTML($html);
 
-        return $pdf->download('report.pdf');
+        return $pdf->download('run_report_'.$run->id.'.pdf');
     }
     
     public function downloadPlus($id)

@@ -156,7 +156,7 @@
 const $ = require("jquery");
 import dt from "datatables.net";
 import ModalVue from "@/Jetstream/Modal.vue";
-import { reactive, ref,nextTick } from "vue";
+import { reactive, ref, nextTick } from "vue";
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import FormUpdatePartVue from "./FormUpdatePart.vue";
 import axios from "axios";
@@ -171,7 +171,7 @@ export default {
   setup(props) {
     let { parts } = props;
     const openModal = ref(false);
-    const partsTable = ref(parts)
+    const partsTable = ref(parts);
     const openModalNotes = ref(false);
     const { makeToast } = useHelper();
     const idPart = ref(0);
@@ -183,7 +183,14 @@ export default {
     });
     const generateDataTable = () => {
       nextTick(() => {
-        $("#partsTable").DataTable();
+        $("#partsTable").DataTable({
+          scrollY: 300,
+          ordering: true,
+           bLengthChange: false,
+          bInfo: false,
+          pageLength: 5,
+          // paging: false,
+        });
       });
     };
 
@@ -206,7 +213,7 @@ export default {
     const deletePart = async () => {
       showModalDelete.value = false;
       let res;
-      const id = idPart.value
+      const id = idPart.value;
       res = await axios.delete(`/part/${id}`);
       const { ok, value, message } = res.data;
       if (ok) {
@@ -233,7 +240,7 @@ export default {
       deletePart,
       openModalNotes,
       openModalNotesClick,
-      partsTable
+      partsTable,
     };
   },
 };

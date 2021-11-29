@@ -45,6 +45,7 @@ class Run extends Model
                 'notes',
                 'photos',
                 'parts',
+                'method',
                 'parts.chromate',
                 'parts.coat',
                 'parts.plateType',
@@ -59,6 +60,11 @@ class Run extends Model
                 'notes',
                 'photos',
                 'parts',
+                'method',
+                'parts.chromate',
+                'parts.coat',
+                'parts.plateType',
+                'parts.topCoat',
             ])
                 ->where('status', '!=', 2)
                 ->where('status', $status)
@@ -73,13 +79,14 @@ class Run extends Model
             'notes',
             'photos',
             'parts',
+            'method',
             'parts.chromate',
             'parts.coat',
             'parts.plateType',
             'parts.topCoat',
         ])
-        ->where('status', '!=', 2)
-        ->find($id);
+            ->where('status', '!=', 2)
+            ->find($id);
         return $run;
     }
 
@@ -171,7 +178,7 @@ class Run extends Model
         DB::beginTransaction();
         try {
             $run = (new static)::find($id);
-            $run->status = 0;
+            $run->status = 1;
             $run->save();
             DB::commit();
             return [
@@ -194,7 +201,7 @@ class Run extends Model
         DB::beginTransaction();
         try {
             $run = (new static)::find($id);
-            $run->status = 1;
+            $run->status = 0;
             $run->save();
             DB::commit();
             return [
@@ -270,6 +277,10 @@ class Run extends Model
     public function notes()
     {
         return $this->hasMany(Note::class);
+    }
+    public function method()
+    {
+        return $this->hasOne(PlateMethod::class, 'id', 'plate_methods_id');
     }
     public function photos()
     {
