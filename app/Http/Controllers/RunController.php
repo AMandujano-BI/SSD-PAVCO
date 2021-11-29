@@ -289,11 +289,13 @@ class RunController extends Controller
             foreach ($photos as $photo) {
                 $photosContent .= 
                 "
-                    <p>$photo->name</p>
-                    <hr>
-                    <img src='$photo->image' alt='$photo->name' >
-                    <br>
-                    <br>
+                    <div style='page-break-inside:avoid;'>
+                        <p>$photo->name</p>
+                        <hr>
+                        <img src='$photo->image' alt='$photo->name' style='width: auto; max-height: 500px; margin-top: 4.7em' >
+                        <br>
+                        <br>
+                    </div>
                 ";
             }
         } 
