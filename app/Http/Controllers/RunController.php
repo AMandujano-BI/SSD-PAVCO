@@ -136,15 +136,14 @@ class RunController extends Controller
     {
         $run = $this->_run->getRun($id);
         $id_run = $run->id;
-        $startDate = $run->startDate;
+        $startDate = substr($run->startDate, 0, 10);
         $customer = $run->user_id;
-        if ($run->status === '1') {
+        $status = '';
+        if ($run->status == '1') {
             $status = 'Active';
         } else {
-            if ($run->status === '0') {
+            if ($run->status == '0') {
                 $status = 'Completed';
-            } else {
-                $status = '';
             }
         }
         $description = $run->description;

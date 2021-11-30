@@ -38,26 +38,24 @@
             <td>{{ part.chromate.name + " - " + part.primaryPer + " % " }}</td>
             <td>{{ part.top_coat.name + " - " + part.topCoatPer + " % " }}</td>
             <td>{{ part.coat.name + " - " + part.coatPer + " % " }}</td>
-            <td>
+            <td class="text-center">
               <input type="checkbox" value="false" />
             </td>
-            <td>
+            <td class="text-center">
               <input type="checkbox" value="false" />
             </td>
-            <td>
+            <td class="text-center">
               <button>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="#DA9C14"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    fill-rule="evenodd"
+                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                    clip-rule="evenodd"
                   />
                 </svg>
               </button>
@@ -83,7 +81,7 @@ export default {
         const res = await axios.get(`/run/${id}`);
         runDetail.value = res.data;
         runDetail.value.startDate = runDetail.value.startDate.slice(0, 10);
-        console.log(runDetail);
+        // console.log(runDetail);
         $("#activeRunsDetail").DataTable().destroy();
         await generateDataTableDetail();
       } catch (e) {
