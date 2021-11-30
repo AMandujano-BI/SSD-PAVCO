@@ -5,10 +5,10 @@
       <label for="">Customer</label>
       <select class="w-full" v-model="form.user_id">
         <option value="0" selected>Select a Customer</option>
-        <option value="1">Plating</option>
-        <option value="2">Chromate</option>
-        <option value="3">TopCoat</option>
-        <option value="4">Secondary TopCoat</option>
+        <option value="1">Test</option>
+        <option value="2">Test2</option>
+        <option value="3">Test3</option>
+        <option value="4">Test4 </option>
       </select>
       <p
         v-for="error of v$.user_id.$errors"
@@ -88,7 +88,7 @@ export default {
       description: run.description,
       status: 0,
       idCustomer: run.idCustomer,
-      user_id: 0,
+      user_id: 1,
       plate_methods_id: run.plate_methods_id,
       coatId: 0,
       primaryCoatId: 0,

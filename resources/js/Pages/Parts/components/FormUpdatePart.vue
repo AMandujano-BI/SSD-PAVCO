@@ -26,6 +26,13 @@
         <div>
           <input type="text" class="w-[60px]" v-model="form.plateThick" />
           <span class="w-1/2">mil</span>
+          <p
+            v-for="error of v$.plateThick.$errors"
+            :key="error.$uid"
+            class="text-red-400"
+          >
+            {{ error.$message }}
+          </p>
         </div>
       </div>
     </div>
@@ -67,14 +74,35 @@
           <div>
             <input type="text" class="w-[60px]" v-model="form.primaryTemp" />
             <span>°F</span>
+            <p
+              v-for="error of v$.primaryTemp.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
           </div>
           <div>
             <input type="text" class="w-[60px]" v-model="form.primaryPH" />
             <span>pH</span>
+            <p
+              v-for="error of v$.primaryPH.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
           </div>
           <div>
             <input type="text" class="w-[60px]" v-model="form.primaryDiptime" />
             <span>sec</span>
+            <p
+              v-for="error of v$.primaryDiptime.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
           </div>
         </div>
       </div>
@@ -106,15 +134,36 @@
             <div>
               <input type="text" class="w-[60px]" v-model="form.topCoatPer" />
               <span>%</span>
+              <p
+                v-for="error of v$.topCoatPer.$errors"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
 
             <div>
               <input type="text" class="w-[60px]" v-model="form.topCoatTemp" />
               <span>°F</span>
+              <p
+                v-for="error of v$.topCoatTemp.$errors"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input type="text" class="w-[60px]" v-model="form.topCoatPH" />
               <span>pH</span>
+              <p
+                v-for="error of v$.topCoatPH.$errors"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -123,15 +172,15 @@
                 v-model="form.topCoatDiptime"
               />
               <span>sec</span>
+              <p
+                v-for="error of v$.topCoatDiptime.$errors"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
           </div>
-          <p
-            v-for="error of v$.coatId.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
         </div>
       </div>
     </div>
@@ -162,19 +211,47 @@
           <div>
             <input type="text" class="w-[60px]" v-model="form.coatPer" />
             <span>%</span>
+            <p
+              v-for="error of v$.coatPer.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
           </div>
 
           <div>
             <input type="text" class="w-[60px]" v-model="form.coatTemp" />
             <span>°F</span>
+            <p
+              v-for="error of v$.coatTemp.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
           </div>
           <div>
             <input type="text" class="w-[60px]" v-model="form.coatPH" />
             <span>pH</span>
+            <p
+              v-for="error of v$.coatPH.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
           </div>
           <div>
             <input type="text" class="w-[60px]" v-model="form.coatDiptime" />
             <span>sec</span>
+            <p
+              v-for="error of v$.coatDiptime.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
           </div>
         </div>
       </div>
@@ -289,7 +366,43 @@ export default {
           isDiferentZero
         ),
       },
+      topCoatPer: {
+        required,
+      },
+      topCoatTemp: {
+        required,
+      },
+      topCoatPH: {
+        required,
+      },
+      topCoatDiptime: {
+        required,
+      },
       primaryPer: {
+        required,
+      },
+      primaryTemp: {
+        required,
+      },
+      primaryPH: {
+        required,
+      },
+      primaryDiptime: {
+        required,
+      },
+      plateThick: {
+        required,
+      },
+      coatPH: {
+        required,
+      },
+      coatPer: {
+        required,
+      },
+      coatTemp: {
+        required,
+      },
+      coatDiptime: {
         required,
       },
     };

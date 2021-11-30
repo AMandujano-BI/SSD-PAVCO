@@ -46,48 +46,68 @@ class Part extends Model
     {
         DB::beginTransaction();
         try {
-            $plateThick = $request->startDate;
-            $primaryPer = $request->description;
-            $coatPer = $request->plate_types_id;
+            $plateThick = $request->plateThick;
+            $plate_types_id = $request->plate_types_id;
+            $primaryCoatId = $request->primaryCoatId;
+            $coatId = $request->coatId;
             $description = $request->description;
             $topCoatPer = $request->topCoatPer;
+            $topCoatTemp = $request->topCoatTemp;
             $topCoatPH = $request->topCoatPH;
             $topCoatDiptime = $request->topCoatDiptime;
+            $primaryPer = $request->primaryPer;
             $primaryTemp = $request->primaryTemp;
             $primaryPH = $request->primaryPH;
             $primaryDiptime = $request->primaryDiptime;
-            $plate_types_id = $request->plate_types_id;
-            $coatPH = $request->plate_methods_id;
-            $coatDiptime = $request->plate_methods_id;
-            $run_id = $request->plate_methods_id;
+            $coatPer = $request->coatPer;
+            $coatTemp = $request->coatTemp;
+            $coatPH = $request->coatPH;
+            $coatDiptime = $request->coatDiptime;
+            $run_id = $request->run_id;
+            $topCoatId = $request->topCoatId;
 
-            $part = (new static)::create([
+            $partCreate = (new static)::create([
                 'plateThick' => $plateThick,
-                'primaryPer' => $primaryPer,
-                'coatPer' => $coatPer,
+                'coatId' => $coatId,
+                'topCoatId' => $topCoatId,
+                'primaryCoatId' => $primaryCoatId,
+                'plate_types_id' => $plate_types_id,
                 'description' => $description,
                 'topCoatPer' => $topCoatPer,
+                'topCoatTemp' => $topCoatTemp,
                 'topCoatPH' => $topCoatPH,
-                'plate_types_id' => $plate_types_id,
                 'topCoatDiptime' => $topCoatDiptime,
+                'primaryPer' => $primaryPer,
                 'primaryTemp' => $primaryTemp,
                 'primaryPH' => $primaryPH,
                 'primaryDiptime' => $primaryDiptime,
+                'coatPer' => $coatPer,
+                'coatTemp' => $coatTemp,
                 'coatPH' => $coatPH,
                 'coatDiptime' => $coatDiptime,
-                'rund_id' => $run_id,
+                'run_id' => $run_id,
             ]);
-            $part->save();
+            $partCreate->save();
+            $part = (new static)::with([
+                'notes',
+                'topCoat',
+                'chromate',
+                'coat',
+                'plateType',
+            ])->find($partCreate->id);
             DB::commit();
             return [
                 'ok' => true,
-                'message' => 'Part was created successfully'
+                'message' => 'Part was created successfully',
+                'value' => $part
+
             ];
         } catch (\Exception $e) {
             DB::rollback();
             return [
                 'ok' => false,
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'value' => 0
             ];
         }
     }

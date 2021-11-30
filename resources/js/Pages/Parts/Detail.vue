@@ -1,4 +1,6 @@
 <template>
+
+  <app-layout title="Parts Detail">
   <div class="p-5 mx-auto container">
     <h1 class="text-center text-2xl font-bold">Detalis</h1>
 
@@ -6,14 +8,9 @@
       <form-update-run-part :plateMethods="plateMethods" :run="run" />
     </div>
     <div class="shadow-lg mb-5 rounded min-h-[300] p-5">
-      <button
-        class="bg-blue-600 rounded w-[100] py-1 text-white px-3 mt-2"
-        @click="openModalPartClick"
-      >
-        +
-      </button>
       <table-part
         :parts="parts"
+        :run="run"
         :openModal="openModal"
         :chromates="chromates"
         :plateTypes="plateTypes"
@@ -28,9 +25,7 @@
       <table-photos :photos="photos" />
     </div>
   </div>
-  <modal :show="openModalPart">
-    <div class="p-5">modal parts</div>
-  </modal>
+  </app-layout>
 </template>
 
 <script>
@@ -39,6 +34,8 @@ import FormUpdateRunPartVue from "./components/FormUpdateRunPart.vue";
 import TablePart from "./components/TablePart.vue";
 import TablePhotosVue from "./components/TablePhotos.vue";
 import ModalVue from "../../Jetstream/Modal.vue";
+import FormCreatePartVue from "./components/FormCreatePart.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 export default {
   props: [
     "parts",
@@ -55,17 +52,14 @@ export default {
     formUpdateRunPart: FormUpdateRunPartVue,
     tablePhotos: TablePhotosVue,
     modal: ModalVue,
+    formCreatePart: FormCreatePartVue,
+    AppLayout: AppLayout,
   },
   setup(props) {
     const { run } = props;
-    console.log(props);
-    console.log(run);
     const photos = ref(run.photos);
-    const openModalPart = ref(false);
-    const openModalPartClick = () => {
-      openModalPart.value = true;
-    };
-    return { photos, openModalPart, openModalPartClick };
+
+    return { photos };
   },
 };
 </script>

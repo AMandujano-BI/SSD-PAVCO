@@ -1,12 +1,12 @@
 <template>
   <div class="container p-9">
-    <select class="w-full mb-5" @change="changeFilter" v-model="filterOption">
+    <!-- <select class="w-full mb-5" @change="changeFilter" v-model="filterOption">
       <option value="3">All</option>
       <option value="0">Active</option>
       <option value="1">Complete</option>
-    </select>
+    </select> -->
     <div class="rounded-lg shadow-lg p-5">
-      <table id="activeRuns" class="display" style="width: 100%">
+      <table id="activeRuns" class="display" style="width: 100%;height:100%;">
         <thead>
           <tr>
             <th>StartDate</th>
@@ -427,7 +427,7 @@ export default {
         if (ok) {
           isModalClose.value = false;
           makeToast(message);
-          gettingData(1);
+          gettingData();
           filterOption.value = 1;
           idGlobal.value = 0;
         } else {
@@ -446,7 +446,7 @@ export default {
         if (ok) {
           isModalReOpen.value = false;
           makeToast(message);
-          gettingData(0);
+          gettingData();
           filterOption.value = 0;
           idGlobal.value = 1;
         } else {
@@ -506,7 +506,7 @@ export default {
       window.location.href = `/run/downloadPlus/${id}`;
     };
 
-    gettingData(3);
+    gettingData();
 
     return {
       runs,
