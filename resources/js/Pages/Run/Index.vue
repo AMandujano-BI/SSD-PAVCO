@@ -1,30 +1,43 @@
 <template>
-  <div class="container mx-auto">
-    <h1 class="text-center font-bold p-5 text-2xl">List of Runs</h1>
-    <div class="pl-9">
-      <button
-        @click="openModalButton"
-        class="bg-blue-600 px-4 py-2 text-white rounded-md mb-2 hover:bg-blue-700"
-      >
-        +
-      </button>
-    </div>
-    <modal :show="openModal">
-      <div class="p-5">
-        <form-run
-          :plateMethods="plateMethods"
-          :topCoats="topCoats"
-          :chromates="chromates"
-          :plates="plates"
-          :secondaryCoats="secondaryCoats"
-          :plateTypes="plateTypes"
-          @closeModal="closeModal"
-        />
+  <app-layout title="Runs">
+    <!-- <template #header>
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight">Runs</h2>
+    </template> -->
+    <div class="container mx-auto">
+      <h1 class="text-center font-bold p-5 text-2xl">List of Runs</h1>
+      <div class="pl-9">
+        <button
+          @click="openModalButton"
+          class="
+            bg-blue-600
+            px-4
+            py-2
+            text-white
+            rounded-md
+            mb-2
+            hover:bg-blue-700
+          "
+        >
+          +
+        </button>
       </div>
-    </modal>
+      <modal :show="openModal">
+        <div class="p-5">
+          <form-run
+            :plateMethods="plateMethods"
+            :topCoats="topCoats"
+            :chromates="chromates"
+            :plates="plates"
+            :secondaryCoats="secondaryCoats"
+            :plateTypes="plateTypes"
+            @closeModal="closeModal"
+          />
+        </div>
+      </modal>
 
-    <table-run />
-  </div>
+      <table-run />
+    </div>
+  </app-layout>
 </template>
 
 
@@ -33,11 +46,13 @@ import ModalVue from "../../Jetstream/Modal.vue";
 import FormRun from "./components/FormRun.vue";
 import TableRun from "./components/TableRun.vue";
 import { ref } from "vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 export default {
   components: {
     modal: ModalVue,
     formRun: FormRun,
     TableRun: TableRun,
+    AppLayout: AppLayout,
   },
   props: [
     "plateMethods",

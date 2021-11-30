@@ -105,6 +105,31 @@ const useFormRun = () => {
         primaryPer: {
             required,
         },
+        primaryTemp: {
+            required,
+        },
+        primaryPH: {
+            required,
+        },
+        primaryDiptime: {
+            required,
+        },
+        plateThick:{
+            required
+        },
+        coatPH:{
+            required
+        },
+        coatPer:{
+            required
+        },
+        coatTemp:{
+            required
+        },
+        coatDiptime:{
+            required
+        }
+
     };
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {

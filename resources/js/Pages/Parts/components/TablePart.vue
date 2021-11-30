@@ -1,4 +1,10 @@
 <template>
+  <button
+    class="bg-blue-600 rounded w-[100] py-1 text-white px-3 mt-2"
+    @click="openModalPartClick"
+  >
+    +
+  </button>
   <table id="partsTable" class="display" style="width: 100%">
     <thead>
       <tr>
@@ -127,7 +133,15 @@
     </div>
   </modal>
   <modal :show="openModalNotes">
-    <div class="p-5">modal notes</div>
+    <div class="container mx-auto p-5 relative">
+      <button
+        @click="closeModalNotes"
+        class="absolute right-10 hover:text-red-400"
+      >
+        X
+      </button>
+      <div class="p-5">modal notes</div>
+    </div>
   </modal>
   <confirmation-modal :show="showModalDelete">
     <template v-slot:title>
@@ -150,6 +164,22 @@
       </div>
     </template>
   </confirmation-modal>
+
+  <modal :show="openModalPartCreate">
+    <div class="p-5">
+      <form-create-part
+        :run_id="run.id"
+        :partsTable="parts"
+        :openModal="openModal"
+        :chromates="chromates"
+        :plateTypes="plateTypes"
+        :secondaryCoats="secondaryCoats"
+        :topCoats="topCoats"
+        @closeModalNewPart="closeModalNewPart"
+        @generateDataTable="generateDataTable"
+      />
+    </div>
+  </modal>
 </template>
 
 <script>
@@ -161,18 +191,21 @@ import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import FormUpdatePartVue from "./FormUpdatePart.vue";
 import axios from "axios";
 import useHelper from "@/composables/useHelper";
+import FormCreatePartVue from "./FormCreatePart.vue";
 export default {
-  props: ["parts", "topCoats", "chromates", "plateTypes", "secondaryCoats"],
+  props: ["parts", "topCoats", "chromates", "plateTypes", "secondaryCoats","run"],
   components: {
     modal: ModalVue,
     formUpdatePart: FormUpdatePartVue,
     confirmationModal: ConfirmationModal,
+    formCreatePart: FormCreatePartVue,
   },
   setup(props) {
     let { parts } = props;
     const openModal = ref(false);
     const partsTable = ref(parts);
     const openModalNotes = ref(false);
+    const openModalPartCreate = ref(false);
     const { makeToast } = useHelper();
     const idPart = ref(0);
     const showModalDelete = ref(false);
@@ -182,11 +215,12 @@ export default {
       primaryPer: 0,
     });
     const generateDataTable = () => {
+      $("#partsTable").DataTable().destroy();
       nextTick(() => {
         $("#partsTable").DataTable({
           scrollY: 300,
           ordering: true,
-           bLengthChange: false,
+          bLengthChange: false,
           bInfo: false,
           pageLength: 5,
           // paging: false,
@@ -206,8 +240,18 @@ export default {
       showModalDelete.value = true;
       idPart.value = id;
     };
+
+    const openModalPartClick = () => {
+      openModalPartCreate.value = true;
+    };
+    const closeModalNewPart = () => {
+      openModalPartCreate.value = false;
+    };
     const openModalNotesClick = (notes) => {
       openModalNotes.value = true;
+    };
+    const closeModalNotes = () => {
+      openModalNotes.value = false;
     };
     const closeModalDelete = () => (showModalDelete.value = false);
     const deletePart = async () => {
@@ -241,6 +285,10 @@ export default {
       openModalNotes,
       openModalNotesClick,
       partsTable,
+      closeModalNotes,
+      openModalPartCreate,
+      openModalPartClick,
+      closeModalNewPart,
     };
   },
 };
