@@ -3,6 +3,7 @@
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\RunController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\ChemicalController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,6 +39,8 @@ Route::middleware(['auth:sanctum', 'verified'])->put('/run/reopenRun/{id}', [Run
 Route::middleware(['auth:sanctum', 'verified'])->delete('/run/deleteRun/{id}', [RunController::class, 'deleteRun'])->name('run.deleteRun');
 Route::middleware(['auth:sanctum', 'verified'])->resource('run', RunController::class);
 Route::middleware(['auth:sanctum', 'verified'])->resource('part', PartController::class);
+Route::middleware(['auth:sanctum', 'verified'])->get('/chemical/getChemicals/{type}', [ChemicalController::class, 'getChemicals'])->name('chemical.getChemicals');
+Route::middleware(['auth:sanctum', 'verified'])->resource('chemical', ChemicalController::class);
 Route::middleware(['auth:sanctum', 'verified'])->post('/note/add', [NoteController::class, 'store'])->name('note.add');
 
 

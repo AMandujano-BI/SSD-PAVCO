@@ -4,17 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Chemical;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class ChemicalController extends Controller
 {
+    private $_chemical;
+
+    public function __construct(Chemical $chemical) {
+        $this->_chemical = $chemical;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        //
+        $chemicals = $this->_chemical->getAllForCategory(0);
+        return Inertia::render('Chemical/Index', ['chemicals'=>$chemicals]);
+    }
+
+    public function getChemicals($type)
+    {
+        $chemicals = $this->_chemical->getAllForCategory($type);
+        return $chemicals;
     }
 
     /**
@@ -35,7 +51,16 @@ class ChemicalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $chemical = $this->_chemical->createChemical($request);
+
+            DB::commit();
+            return $chemical;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -67,9 +92,17 @@ class ChemicalController extends Controller
      * @param  \App\Models\Chemical  $chemical
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Chemical $chemical)
+    public function update(Request $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $chemical = $this->_chemical->updateChemical($request);
+            DB::commit();
+            return $chemical;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -78,8 +111,16 @@ class ChemicalController extends Controller
      * @param  \App\Models\Chemical  $chemical
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Chemical $chemical)
+    public function destroy($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $chemical = $this->_chemical->deleteChemical($id);
+            DB::commit();
+            return $chemical;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
     }
 }
