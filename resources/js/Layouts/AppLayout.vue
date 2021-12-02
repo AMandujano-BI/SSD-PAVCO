@@ -81,8 +81,6 @@
                       </button>
                     </span>
                   </template>
-
-       
                 </jet-dropdown>
               </div>
 
@@ -264,7 +262,6 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </nav>
@@ -275,10 +272,18 @@
           <slot name="header"></slot>
         </div>
       </header>
+      <!-- <left-bar></left-bar> -->
 
       <!-- Page Content -->
       <main>
-        <slot></slot>
+        <!-- <transition
+          enter-active-class="transition duration-100 ease-out"
+          enter-from-class="transform scale-95 opacity-0"
+          enter-to-class="transform scale-100 opacity-100"
+          leave-active-class="animate-fadeOut"
+        > -->
+          <slot></slot>
+        <!-- </transition> -->
       </main>
     </div>
   </div>
@@ -293,6 +298,7 @@ import JetDropdownLink from "@/Jetstream/DropdownLink.vue";
 import JetNavLink from "@/Jetstream/NavLink.vue";
 import JetResponsiveNavLink from "@/Jetstream/ResponsiveNavLink.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import LeftBar from "@/Jetstream/LeftBar.vue";
 
 export default defineComponent({
   props: {
@@ -308,6 +314,7 @@ export default defineComponent({
     JetNavLink,
     JetResponsiveNavLink,
     Link,
+    LeftBar,
   },
 
   data() {

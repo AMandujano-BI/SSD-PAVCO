@@ -19,9 +19,7 @@
       />
     </div>
     <div class="shadow-lg rounded-md p-4 mb-5">
-      <button class="bg-blue-600 rounded w-[100] py-1 text-white px-3 mt-2">
-        +
-      </button>
+    
       <table-photos :photos="photos" />
     </div>
   </div>
