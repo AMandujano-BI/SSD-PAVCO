@@ -346,14 +346,14 @@
         Cancel
       </button>
       <div v-if="!loading" class="w-full">
-        <button class="bg-green-600 rounded w-full py-5 text-white px-3 mt-2">
+        <button class="bg-primary rounded w-full py-5 text-white px-3 mt-2 hover:bg-primary-600">
           Save
         </button>
       </div>
 
       <div v-if="loading" class="w-full">
         <button
-          class="bg-green-600 rounded w-full py-5 text-white px-3 mt-2"
+          class="bg-primary rounded w-full py-5 text-white px-3 mt-2 hover:bg-primary-600"
           disabled
         >
           <div

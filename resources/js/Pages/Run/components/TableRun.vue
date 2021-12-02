@@ -6,7 +6,7 @@
       <option value="1">Complete</option>
     </select> -->
     <div class="rounded-lg shadow-lg p-5">
-      <table id="activeRuns" class="display" style="width: 100%;height:100%;">
+      <table id="activeRuns" class="display" style="width: 100%; height: 100%">
         <thead>
           <tr>
             <th>StartDate</th>
@@ -27,7 +27,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="run in runs" :key="run.id" >
+          <tr v-for="run in runs" :key="run.id">
             <td class="text-center">{{ run.startDate.slice(0, 10) }}</td>
             <!-- <td class="text-center">{{ run.user_id }}</td> -->
             <td class="text-center">{{ "testing" }}</td>
@@ -41,148 +41,49 @@
             <!-- Photos action -->
             <td class="text-center">
               <button @click="showPhotos(run.id)">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
+                <img :src="ImgPhotos" alt="iconPhotos" />
               </button>
             </td>
             <!-- Result action -->
             <td class="text-center">
               <button @click="showResults(run.id)">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                  />
-                </svg>
+                <img :src="ImgResult" alt="iconResult" />
               </button>
             </td>
             <!-- Edit action -->
             <td class="text-center">
               <button @click="editRun(run.id)">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="#2563EB"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
+                <img :src="ImgEdit" alt="iconResult" />
               </button>
             </td>
             <!-- Delete action -->
             <td class="text-center">
               <button @click="showDelete(run.id)">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="#E71F2A"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
+                <img :src="ImgDelete" alt="iconDelete" />
               </button>
             </td>
             <!-- Close action -->
             <td class="text-center">
               <button @click="showClose(run.id)" :disabled="run.status == 1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                <img :src="ImgClose" alt="iconClose" />
               </button>
             </td>
             <!-- ReOpen action -->
             <td class="text-center">
               <button @click="showReOpen(run.id)" :disabled="run.status == 0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
-                    clip-rule="evenodd"
-                  />
-                  <path
-                    d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"
-                  />
-                </svg>
+                <img :src="ImgReOpen" alt="iconNote" />
               </button>
             </td>
             <!-- Notes action -->
             <td class="text-center">
               <button @click="showNotes(run.id)">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="#DA9C14"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <img :src="ImgNote" alt="iconNote" />
               </button>
             </td>
             <!-- Report action -->
             <td class="text-center">
               <button @click="reportRun(run.id)">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="#E71F2A"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
+                <img :src="ImgReportRun" alt="iconReportRun" />
               </button>
               <button @click="reportAndPhotosRun(run.id)">
                 <svg
@@ -204,20 +105,7 @@
             <!-- Email action -->
             <td class="text-center">
               <button>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="#7DBB52"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
+                <img :src="ImgEmail" alt="iconEmail" />
               </button>
             </td>
           </tr>
@@ -327,7 +215,15 @@ import useHelper from "@/composables/useHelper";
 import NotesRun from "./NotesRun.vue";
 import PhotosRun from "./PhotosRun.vue";
 import TablePartDetailVue from "./TablePartDetail.vue";
-
+import ImgResult from "@/assets/Icons/documentShow/group5.png";
+import ImgPhotos from "@/assets/Icons/iconPhotos/iconPhotos.png";
+import ImgEdit from "@/assets/Icons/iconEdit/iconEdit.png";
+import ImgDelete from "@/assets/Icons/iconDelete/iconDelete.png";
+import ImgClose from "@/assets/Icons/iconClose/iconClose.png";
+import ImgNote from "@/assets/Icons/iconNote/iconNote.png";
+import ImgReOpen from "@/assets/Icons/iconReOpen/iconReOpen.png";
+import ImgEmail from "@/assets/Icons/iconEmail/iconEmail.png";
+import ImgReportRun from "@/assets/Icons/iconReport/iconReport.png";
 const $ = require("jquery");
 
 export default {
@@ -548,12 +444,29 @@ export default {
       runDetail,
       modalWidthDetail,
       idGlobal,
+
+      // IMAGES
+      ImgResult,
+      ImgPhotos,
+      ImgEdit,
+      ImgDelete,
+      ImgClose,
+      ImgNote,
+      ImgReOpen,
+      ImgEmail,
+      ImgReportRun,
     };
   },
 };
 </script>
 
 <style scoped>
-.no-sort::after { display: none!important; }
-.no-sort { pointer-events: none!important; cursor: default!important; background-image: none !important }
+.no-sort::after {
+  display: none !important;
+}
+.no-sort {
+  pointer-events: none !important;
+  cursor: default !important;
+  background-image: none !important;
+}
 </style>

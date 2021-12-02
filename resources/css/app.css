@@ -28,3 +28,6 @@ input::-webkit-inner-spin-button {
       visibility: hidden;
     }
 }
+#app {
+  @apply w-screen transition-position lg:w-auto;
+}

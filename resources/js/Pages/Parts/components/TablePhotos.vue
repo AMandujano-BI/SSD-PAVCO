@@ -1,4 +1,10 @@
 <template>
+  <button
+    class="bg-blue-600 rounded w-[100] py-1 text-white px-3 mt-2"
+    @click="openModalPhotosForm"
+  >
+    +
+  </button>
   <table id="photosTable" class="display" style="width: 100%">
     <thead>
       <tr>
@@ -39,7 +45,7 @@
         <td class="text-center">Report</td>
         <td class="text-center">
           <!-- <button @click="openModalDelete(part.id)"> -->
-          <button >
+          <button>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -60,67 +66,91 @@
     </tbody>
   </table>
 
-  <photos-run 
-      v-if="photos"
-      :isModalPhotos="isModalPhotos"
-      :photos="currentPhoto"
-      @closeModal="closePhotosModal"
-      @photoEdited="photoAdded"
-    />
+  <photos-run
+    v-if="photos"
+    :isModalPhotos="isModalPhotos"
+    :photos="currentPhoto"
+    @closeModal="closePhotosModal"
+    @photoEdited="photoAdded"
+  />
 
+  <modal :show="openModalPhotosCreate" @close="closeModalPhotosCreate">
+    <form-photos-create />
+  </modal>
 </template>
 
 <script>
 const $ = require("jquery");
 import dt from "datatables.net";
 import { nextTick } from "vue";
-import PhotosRun from '../../Run/components/PhotosRun.vue';
+import PhotosRun from "../../Run/components/PhotosRun.vue";
 import { ref } from "vue";
+import FormPhotosCreateVue from "./FormPhotosCreate.vue";
+import Modal from '@/Jetstream/Modal'
 
 export default {
   props: ["photos"],
   components: {
-    photosRun: PhotosRun
+    photosRun: PhotosRun,
+    formPhotosCreate:FormPhotosCreateVue,
+    modal:Modal
   },
   setup(props) {
     console.log(props.photos);
-    const { photos } = props
-    let currentPhoto = ref ([])
-    let isModalPhotos = ref(false)
+    const { photos } = props;
+    let currentPhoto = ref([]);
+    let isModalPhotos = ref(false);
+    const openModalPhotosCreate = ref(false);
 
     const generateDataTable = () => {
       nextTick(() => {
-        $("#photosTable").DataTable()
+        $("#photosTable").DataTable();
       });
     };
     const showPhotos = (id) => {
-      const pic = photos.find((pic) => pic.id === id)
+      const pic = photos.find((pic) => pic.id === id);
       console.log(pic);
-      currentPhoto.value.push(pic)
+      currentPhoto.value.push(pic);
       isModalPhotos.value = true;
     };
     const closePhotosModal = () => {
-      currentPhoto.value = []
+      currentPhoto.value = [];
       isModalPhotos.value = false;
     };
     const photoAdded = () => {
-      console.log('photoAdded');
+      console.log("photoAdded");
+    };
+    const openModalPhotosForm = () => {
+      console.log('ehco')
+      openModalPhotosCreate.value = true;
+    };
+    const closeModalPhotosCreate =()=>{
+      openModalPhotosCreate.value = false
     }
 
-    generateDataTable()
+    generateDataTable();
     return {
       generateDataTable,
       isModalPhotos,
       currentPhoto,
       showPhotos,
       closePhotosModal,
-      photoAdded
+      photoAdded,
+      openModalPhotosCreate,
+      openModalPhotosForm,
+      closeModalPhotosCreate
     };
   },
 };
 </script>
 
 <style scoped>
-.no-sort::after { display: none!important; }
-.no-sort { pointer-events: none!important; cursor: default!important; background-image: none !important }
+.no-sort::after {
+  display: none !important;
+}
+.no-sort {
+  pointer-events: none !important;
+  cursor: default !important;
+  background-image: none !important;
+}
 </style>
