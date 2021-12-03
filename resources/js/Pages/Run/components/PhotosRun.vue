@@ -19,14 +19,18 @@
           >
             <swiper-slide v-for="photo in currentPhotos" :key="photo.id">
               <div>
-                <p>Filename: {{ photo.name }}</p>
-                <ul>
+                <img :src="photo.image" :alt="photo.name" class="object-cover h-80 w-full" />
+                <div>
+                <ul class="flex flex-row justify-between px-3">
                   <li><strong>Name: </strong>{{ photo.name }}</li>
                   <li><strong>Date added: </strong>{{ photo.created_at }}</li>
                   <li><strong>Hours: </strong>{{ photo.hours }}</li>
-                  <li><strong>Description: </strong>{{ photo.description }}</li>
                 </ul>
-                <img :src="photo.image" :alt="photo.name" class="object-cover h-80 w-full" />
+                </div>
+                <div class="px-3">
+
+                 <strong>Description: </strong>{{ photo.description }}
+                </div>
               </div>
             </swiper-slide>
           </swiper>

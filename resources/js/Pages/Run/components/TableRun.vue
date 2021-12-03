@@ -224,6 +224,7 @@ import ImgNote from "@/assets/Icons/iconNote/iconNote.png";
 import ImgReOpen from "@/assets/Icons/iconReOpen/iconReOpen.png";
 import ImgEmail from "@/assets/Icons/iconEmail/iconEmail.png";
 import ImgReportRun from "@/assets/Icons/iconReport/iconReport.png";
+import { Inertia } from '@inertiajs/inertia'
 const $ = require("jquery");
 
 export default {
@@ -394,7 +395,11 @@ export default {
       });
     };
 
-    const editRun = (id) => (window.location.href = `/part/${id}`);
+    // const editRun = (id) => (window.location.href = `/part/${id}`);
+    const editRun = (id) =>{
+      // this.$inertia.get(route(`/part/${id}`));
+      Inertia.get(`/part/${id}`)
+    } 
     const reportRun = (id) => {
       window.location.href = `/run/download/${id}`;
     };
