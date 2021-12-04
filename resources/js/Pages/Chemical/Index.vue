@@ -1,5 +1,7 @@
 <template>
+  
   <app-layout title="Chemical">
+      <div class="container p-9">
         <p class="text-3xl text-center font-bold p-5">List of Chemicals</p>
         <button
           @click="openModal"
@@ -17,24 +19,29 @@
           </select>
         </div>
     <div class="mt-10">
-      <table>
+      <div class="rounded-lg shadow-lg p-5">
+      <table id="chemicalTable" class="display" style="width: 100%; height: 100%">
         <thead>
           <tr>
             <td>Name</td>
             <td>Type</td>
-            <td>Edit</td>
-            <td>Delete</td>
+            <td class="no-sort">Edit</td>
+            <td class="no-sort">Delete</td>
           </tr>
         </thead>
+        <tbody>
         <tr v-for="chemical in chemicalList" v-bind:key="chemical.id">
           <td class="border px-4 py-2">
             {{ chemical.name }}
           </td>
 
           <td class="border px-4 py-2">
-            {{ chemical.type }}
+            <span v-if="chemical.type == '1'">Plating</span>
+            <span v-if="chemical.type == '2'">Chromate</span>
+            <span v-if="chemical.type == '3'">TopCoat</span>
+            <span v-if="chemical.type == '4'">Secondary</span>
           </td>
-          <td class="border px-4 py-2">
+          <td class="border text-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 cursor-pointer"
@@ -52,13 +59,13 @@
               />
             </svg>
           </td>
-          <td class="border px-4 py-2">
+          <td class="border text-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 cursor-pointer"
               viewBox="0 0 20 20"
               fill="#DD5145"
-              @click="deleteChemicalModal(chemical.id)"
+              @click="deleteChemicalModal(chemical)"
             >
               <path
                 fill-rule="evenodd"
@@ -68,7 +75,9 @@
             </svg>
           </td>
         </tr>
+        </tbody>
       </table>
+      </div>
     </div>
 
     <modal :show="show">
@@ -116,128 +125,184 @@
         </button>
       </template>
     </confirmation-modal>
-
+    </div>
   </app-layout>
 </template>
 
 <script>
+import { ref, nextTick, onMounted } from "vue";
+import dt from "datatables.net";
 import axios from "axios";
 import { required } from '@vuelidate/validators';
 import AppLayout from '../../Layouts/AppLayout.vue';
 import Modal from '../../Jetstream/Modal.vue';
 import ConfirmationModal from '../../Jetstream/ConfirmationModal.vue';
+import useHelper from "@/composables/useHelper";
+
+const $ = require("jquery");
 
 export default {
   components: {
     AppLayout: AppLayout,
     modal: Modal,
-    confirmationModal: ConfirmationModal
+    confirmationModal: ConfirmationModal,
+
   },
-    data() {
-      return {
-        form: {
-          id: 0,
-          name: "",
-          type: "",
-        },
-        selected: "0",
-        chemicalList: [],
-        show: false,
-        showDeleteModal: false,
-        modalTitle: ''
+  setup() {
+    const { makeToast } = useHelper();
+    let selected = ref('0')
+    let chemicalList = ref([])
+    let show = ref(false)
+    let showDeleteModal = ref(false)
+    let modalTitle = ref('')
+    let form = ref({
+      id: 0,
+      name: '',
+      type: ''
+    })
+
+    const rules = {
+      name: {
+        required,
+      },
+      name: {
+        required,
+      },
+    };
+
+    const getChemical = async (type) => {
+      try {
+        const res = await axios.get(`/chemical/getChemicals/${type}`)
+        chemicalList.value = res.data
+        $("#chemicalTable").DataTable().destroy();
+        generateDataTable()
+      } catch (error) {
+        makeToast('There is an error to load chemicals. Try again please.', 'error')
       }
-    },
-    validations: {
-      form: {
-        name: {
-          required,
-        },
-        validationGroup: [""],
-      },
-    },
-    methods: {
-      async getChemical(type) {
-          const res = await axios.get(`/chemical/getChemicals/${type}`);
-          this.chemicalList = res.data;
-      },
-      async submit() {
-        if (this.form.name === "" | this.form.type === "" ) return
+    }
+
+    const submit = async () => {
+        if (form.name === "" | form.type === "" ) return
         let res
-        if (this.form.id !== 0) {
-          res = await axios.put(`/chemical/${this.form.id}`, this.form)
+        if (form._value.id !== 0) {
+          res = await axios.put(`/chemical/${form._value.id}`, form._value)
         } else {
-          res = await axios.post('/chemical', this.form)
+          res = await axios.post('/chemical', form._value)
         }
         const { ok, message, value } = res.data;
+        makeToast(message)
         if (ok === true) {
-          if(this.selected !== '0') {
-            this.selected = this.form.type;
-            this.getChemical(this.form.type);
+          if(selected._value !== '0') {
+            selected._value = form._value.type;
+            getChemical(form._value.type);
           } else {
-            this.filterChemicals();
+            filterChemicals();
           }
-          this.reset()
+          reset()
         } else {
-          console.log({res});
+          makeToast('There is an error. Try again please', 'error')
         }
       }
-      ,
-      filterChemicals() {
-        this.getChemical(this.selected);
-      },
-      openModal() {
-        this.modalTitle = 'Nuevo Chemical';
-        this.show = true;
-      },
-      closeModal() {
-        this.show = false;
-        this.reset();
-      },
-      closeModalChemical() {
-        this.showDeleteModal = false;
-      },
-      editChemical(chemical) {
-        this.modalTitle = 'Editar Chemical';
-        this.show = true;
-        this.form.id = chemical.id;
-        this.form.name = chemical.name;
-        this.form.type = chemical.type;
-      },
-      deleteChemicalModal(id) {
-        this.showDeleteModal = true;
-        this.form.id = id;
-      },
-      async deleteChemical(id) {
+
+      const filterChemicals = () => {
+        getChemical(selected._value);
+      }
+      const openModal = () => {
+        modalTitle.value = 'Nuevo Chemical';
+        show.value = true;
+      }
+      const closeModal = () => {
+        show.value = false;
+        reset();
+      }
+      const closeModalChemical = () => {
+        showDeleteModal.value = false;
+      }
+
+      const editChemical = (chemical) => {
+        modalTitle.value = 'Editar Chemical';
+        show.value = true;
+        form._value.id = chemical.id;
+        form._value.name = chemical.name;
+        form._value.type = chemical.type;
+      }
+      const deleteChemicalModal = (chemical) => {
+        showDeleteModal.value = true;
+        form._value.id = chemical.id;
+        form._value.type = chemical.type;
+      }
+
+      const deleteChemical = async (id) => {
         try {
-          const resp = await axios.delete(`/chemical/${this.form.id}`)
+          const resp = await axios.delete(`/chemical/${form._value.id}`)
           const { ok, message, value } = resp.data
+          makeToast(message)
           if (ok === true) {
-            this.showDeleteModal = false
-            this.getChemical(this.selected)
-            this.reset();
+            showDeleteModal.value = false
+            if(selected._value !== '0') {
+              selected._value = form._value.type;
+              getChemical(form._value.type);
+            } else {
+              filterChemicals();
+            }
+            reset();
           } else {
-            console.log(message);
+            makeToast('There is an error to delete', 'error')
           }
         } catch (error) {
-          console.log(error);
+          makeToast('There is an error to delete', 'error')
         }
-      },
-      reset() {
-        this.showDeleteModal = false;
-        this.show = false;
-        this.form = {
-          id: 0,
-          name: "",
-          type: "",
-        };
-      },
-    },
-    async mounted() {
-      this.getChemical(0);
-    },
+      }
+
+      const generateDataTable = () => {
+        nextTick(() => {
+          $("#chemicalTable").DataTable();
+        });
+      };
+
+      const reset = () => {
+        showDeleteModal.value = false;
+        show.value = false;
+        form._value.id = 0;
+        form._value.name = '';
+        form._value.type = '';
+      }
+
+    onMounted(() => {
+      getChemical(0)
+    })
+    
+
+    return {
+      selected,
+      chemicalList,
+      show,
+      showDeleteModal,
+      modalTitle,
+      form,
+      getChemical,
+      submit,
+      filterChemicals,
+      openModal,
+      closeModal,
+      closeModalChemical,
+      editChemical,
+      deleteChemicalModal,
+      deleteChemical,
+      generateDataTable,
+      reset
+    }
+  }
 }
 </script>
 
-<style>
-
+<style scoped>
+.no-sort::after {
+  display: none !important;
+}
+.no-sort {
+  pointer-events: none !important;
+  cursor: default !important;
+  background-image: none !important;
+}
 </style>
