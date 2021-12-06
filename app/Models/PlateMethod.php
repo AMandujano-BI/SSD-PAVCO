@@ -14,7 +14,7 @@ class PlateMethod extends Model
     ];
     public static function getPlateMethods()
     {
-        $plateMethod = (new static)::all();
+        $plateMethod = (new static)::all(['id AS value','name AS label']);
         return $plateMethod;
     }
 

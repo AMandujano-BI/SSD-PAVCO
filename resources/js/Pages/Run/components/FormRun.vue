@@ -4,6 +4,7 @@
     <div>
       <label for="">Customer</label>
       <!-- <select v-model="form.type" class="w-full"> -->
+
       <select class="w-full" v-model="form.user_id">
         <option value="0" selected>Select a Customer</option>
         <option value="1">Plating</option>
@@ -33,17 +34,13 @@
 
     <div>
       <label for="">Plate Method</label>
-      <select class="w-full" v-model="form.plate_methods_id">
-        <option value="0" selected>Select plate Method</option>
-        <option
-          v-for="plateMethod in plateMethods"
-          v-bind:key="plateMethod.id"
-          :value="plateMethod.id"
-        >
-          {{ plateMethod.name }}
-        </option>
-      </select>
-
+      <multi-select
+        :options="plateMethods"
+        class="w-full"
+        v-model="form.plate_methods_id"
+        :searchable="true"
+        placeholder="Select plate Method"
+      />
       <p
         v-for="error of v$.plate_methods_id.$errors"
         :key="error.$uid"
@@ -73,16 +70,13 @@
       <label for="">Plate Type</label>
       <div class="flex w-full justify-between gap-2">
         <div class="w-full">
-          <select class="w-full" v-model="form.plate_types_id">
-            <option value="0" selected>Select Plate Type</option>
-            <option
-              v-for="plateType in plateTypes"
-              v-bind:key="plateType.id"
-              :value="plateType.id"
-            >
-              {{ plateType.name }}
-            </option>
-          </select>
+          <multi-select
+            :options="plateTypes"
+            class="w-full"
+            v-model="form.plate_types_id"
+            :searchable="true"
+            placeholder="Select Plate Type"
+          />
           <p
             v-for="error of v$.plate_types_id.$errors"
             :key="error.$uid"
@@ -108,16 +102,14 @@
       <label for="">Chromate</label>
       <div class="flex w-full flex-col md:flex-row gap-2">
         <div class="w-full">
-          <select class="w-full" v-model="form.primaryCoatId">
-            <option value="0" selected>Select Chromate</option>
-            <option
-              v-for="chromate in chromates"
-              v-bind:key="chromate.id"
-              :value="chromate.id"
-            >
-              {{ chromate.name }}
-            </option>
-          </select>
+          <multi-select
+            :options="chromates"
+            class="w-full"
+            v-model="form.primaryCoatId"
+            :searchable="true"
+
+            placeholder="Select Chromates "
+          />
           <p
             v-for="error of v$.primaryCoatId.$errors"
             :key="error.$uid"
@@ -179,16 +171,13 @@
       <label for="">TopCoat</label>
       <div class="flex w-full justify-around gap-2">
         <div class="w-full">
-          <select class="w-full" v-model="form.topCoatId">
-            <option value="0" selected>Select TopCoat</option>
-            <option
-              v-for="topCoat in topCoats"
-              v-bind:key="topCoat.id"
-              :value="topCoat.id"
-            >
-              {{ topCoat.name }}
-            </option>
-          </select>
+          <multi-select
+            :options="topCoats"
+            class="w-full"
+            v-model="form.topCoatId"
+            :searchable="true"
+            placeholder="Select TopCoat"
+          />
           <p
             v-for="error of v$.primaryCoatId.$errors"
             :key="error.$uid"
@@ -256,16 +245,13 @@
       <label for="">Secondary Topcoat</label>
       <div class="flex w-full justify-around gap-2">
         <div class="w-full">
-          <select class="w-full" v-model="form.coatId">
-            <option value="0" selected>Select Secondary Topcoat</option>
-            <option
-              v-for="secondaryCoat in secondaryCoats"
-              v-bind:key="secondaryCoat.id"
-              :value="secondaryCoat.id"
-            >
-              {{ secondaryCoat.name }}
-            </option>
-          </select>
+          <multi-select
+            :options="secondaryCoats"
+            class="w-full"
+            v-model="form.coatId"
+            :searchable="true"
+            placeholder="Select Secondary TopCoat"
+          />
           <p
             v-for="error of v$.coatId.$errors"
             :key="error.$uid"
@@ -346,14 +332,34 @@
         Cancel
       </button>
       <div v-if="!loading" class="w-full">
-        <button class="bg-primary rounded w-full py-5 text-white px-3 mt-2 hover:bg-primary-600">
+        <button
+          class="
+            bg-primary
+            rounded
+            w-full
+            py-5
+            text-white
+            px-3
+            mt-2
+            hover:bg-primary-600
+          "
+        >
           Save
         </button>
       </div>
 
       <div v-if="loading" class="w-full">
         <button
-          class="bg-primary rounded w-full py-5 text-white px-3 mt-2 hover:bg-primary-600"
+          class="
+            bg-primary
+            rounded
+            w-full
+            py-5
+            text-white
+            px-3
+            mt-2
+            hover:bg-primary-600
+          "
           disabled
         >
           <div
@@ -366,7 +372,7 @@
 </template>
 <script>
 import useFormRun from "../composables/useFormRun";
-
+import Multiselect from "@vueform/multiselect";
 export default {
   emits: "closeModal",
   props: [
@@ -376,8 +382,12 @@ export default {
     "secondaryCoats",
     "plateTypes",
   ],
+  components: {
+    multiSelect: Multiselect,
+  },
   setup(props, { emit }) {
-    const { form, v$, submitForm, loading } = useFormRun();
+    const { form, v$, submitForm, loading, options, changeDropdown } =
+      useFormRun();
     const closeModal = () => emit("closeModal");
 
     return {
@@ -386,6 +396,8 @@ export default {
       submitForm,
       loading,
       closeModal,
+      options,
+      changeDropdown,
     };
   },
 };

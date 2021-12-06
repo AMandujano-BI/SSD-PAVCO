@@ -26,8 +26,7 @@
             <th>Chromate</th>
             <th>Topcoat</th>
             <th>Secondary Topcoat</th>
-            <th class="no-sort">White Salts</th>
-            <th class="no-sort">Red Rust</th>
+           
             <th class="no-sort">Notes</th>
           </tr>
         </thead>
@@ -38,12 +37,6 @@
             <td>{{ part.chromate.name + " - " + part.primaryPer + " % " }}</td>
             <td>{{ part.top_coat.name + " - " + part.topCoatPer + " % " }}</td>
             <td>{{ part.coat.name + " - " + part.coatPer + " % " }}</td>
-            <td class="text-center">
-              <input type="checkbox" value="false" />
-            </td>
-            <td class="text-center">
-              <input type="checkbox" value="false" />
-            </td>
             <td class="text-center">
               <button>
                 <svg

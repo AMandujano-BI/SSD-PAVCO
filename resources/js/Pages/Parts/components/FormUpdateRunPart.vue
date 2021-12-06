@@ -8,7 +8,7 @@
         <option value="1">Test</option>
         <option value="2">Test2</option>
         <option value="3">Test3</option>
-        <option value="4">Test4 </option>
+        <option value="4">Test4</option>
       </select>
       <p
         v-for="error of v$.user_id.$errors"
@@ -25,17 +25,13 @@
 
     <div>
       <label for="">Plate Method</label>
-      <select class="w-full" v-model="form.plate_methods_id">
-        <option value="0" selected>Select plate Method</option>
-        <option
-          v-for="plateMethod in plateMethods"
-          v-bind:key="plateMethod.id"
-          :value="plateMethod.id"
-        >
-          {{ plateMethod.name }}
-        </option>
-      </select>
-
+      <multi-select
+        :options="plateMethods"
+        class="w-full"
+        v-model="form.plate_methods_id"
+        :searchable="true"
+        placeholder="Select plate Method"
+      />
       <p
         v-for="error of v$.plate_methods_id.$errors"
         :key="error.$uid"
@@ -73,11 +69,15 @@ import useVuelidate from "@vuelidate/core";
 import axios from "axios";
 import { ref, reactive } from "vue";
 import useHelper from "@/composables/useHelper";
+import Multiselect from "@vueform/multiselect";
 const isDiferentZero = (value) => {
   return value != 0;
 };
 export default {
   props: ["plateMethods", "run"],
+   components: {
+    multiSelect: Multiselect,
+  },
   setup(props) {
     const { run } = props;
     const { makeToast } = useHelper();

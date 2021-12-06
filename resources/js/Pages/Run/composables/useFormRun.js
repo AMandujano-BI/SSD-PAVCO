@@ -10,6 +10,11 @@ const isDiferentZero = (value) => {
 const useFormRun = () => {
     const loading = ref(false)
     const { makeToast } = useHelper();
+    const options = ref([
+        {
+            value:'1',label:'fdas'
+        }
+    ])
     const form = reactive({
         id: 0,
         number: 0,
@@ -114,19 +119,19 @@ const useFormRun = () => {
         primaryDiptime: {
             required,
         },
-        plateThick:{
+        plateThick: {
             required
         },
-        coatPH:{
+        coatPH: {
             required
         },
-        coatPer:{
+        coatPer: {
             required
         },
-        coatTemp:{
+        coatTemp: {
             required
         },
-        coatDiptime:{
+        coatDiptime: {
             required
         }
 
@@ -140,9 +145,7 @@ const useFormRun = () => {
             loading.value = true
             res = await axios.post(`/run/`, form);
             const { ok, value, message } = res.data;
-
             loading.value = false
-            console.log(res.data);
             if (ok) {
                 makeToast("Run was created successfully");
                 window.location.href = `/part/${value.id}`;
@@ -156,11 +159,16 @@ const useFormRun = () => {
         }
     };
 
+    const changeDropdown = (e) =>{
+        console.log(e)
+    }
     return {
         form,
         v$,
         submitForm,
-        loading
+        loading,
+        options,
+        changeDropdown
 
     }
 }

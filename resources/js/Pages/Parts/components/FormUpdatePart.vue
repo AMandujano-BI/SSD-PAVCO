@@ -5,16 +5,13 @@
       <label for="">Plate Type</label>
       <div class="flex w-full justify-between gap-2">
         <div class="w-full">
-          <select class="w-full" v-model="form.plate_types_id">
-            <option value="0" selected>Select Plate Type</option>
-            <option
-              v-for="plateType in plateTypes"
-              v-bind:key="plateType.id"
-              :value="plateType.id"
-            >
-              {{ plateType.name }}
-            </option>
-          </select>
+          <multi-select
+            :options="plateTypes"
+            class="w-full"
+            v-model="form.plate_types_id"
+            :searchable="true"
+            placeholder="Select Plate Type"
+          />
           <p
             v-for="error of v$.plate_types_id.$errors"
             :key="error.$uid"
@@ -40,16 +37,13 @@
       <label for="">Chromate</label>
       <div class="flex w-full flex-col md:flex-row gap-2">
         <div class="w-full">
-          <select class="w-full" v-model="form.primaryCoatId">
-            <option value="0" selected>Select Chromate</option>
-            <option
-              v-for="chromate in chromates"
-              v-bind:key="chromate.id"
-              :value="chromate.id"
-            >
-              {{ chromate.name }}
-            </option>
-          </select>
+          <multi-select
+            :options="chromates"
+            class="w-full"
+            v-model="form.primaryCoatId"
+            :searchable="true"
+            placeholder="Select Chromates "
+          />
           <p
             v-for="error of v$.primaryCoatId.$errors"
             :key="error.$uid"
@@ -111,16 +105,13 @@
       <label for="">TopCoat</label>
       <div class="flex w-full justify-around gap-2">
         <div class="w-full">
-          <select class="w-full" v-model="form.topCoatId">
-            <option value="0" selected>Select TopCoat</option>
-            <option
-              v-for="topCoat in topCoats"
-              v-bind:key="topCoat.id"
-              :value="topCoat.id"
-            >
-              {{ topCoat.name }}
-            </option>
-          </select>
+          <multi-select
+            :options="topCoats"
+            class="w-full"
+            v-model="form.topCoatId"
+            :searchable="true"
+            placeholder="Select TopCoat"
+          />
           <p
             v-for="error of v$.primaryCoatId.$errors"
             :key="error.$uid"
@@ -188,17 +179,13 @@
       <label for="">Secondary Topcoat</label>
       <div class="flex w-full justify-around gap-2">
         <div class="w-full">
-          <select class="w-full" v-model="form.coatId">
-            <option value="0">Select Secondary Topcoat</option>
-            <option
-              :selected="secondaryCoat.id == form.coatId"
-              v-for="secondaryCoat in secondaryCoats"
-              v-bind:key="secondaryCoat.id"
-              :value="secondaryCoat.id"
-            >
-              {{ secondaryCoat.name }}
-            </option>
-          </select>
+          <multi-select
+            :options="secondaryCoats"
+            class="w-full"
+            v-model="form.coatId"
+            :searchable="true"
+            placeholder="Select Secondary TopCoat"
+          />
           <p
             v-for="error of v$.coatId.$errors"
             :key="error.$uid"
@@ -282,7 +269,7 @@
       >
         Cancel
       </button>
-      <button class="bg-green-600 rounded w-full py-5 text-white px-3 mt-2">
+      <button class="bg-primary rounded w-full py-5 text-white px-3 mt-2 hover:bg-primary-600">
         Save
       </button>
     </div>
@@ -295,6 +282,7 @@ import useVuelidate from "@vuelidate/core";
 import axios from "axios";
 import { ref } from "vue";
 import useHelper from "@/composables/useHelper";
+import Multiselect from "@vueform/multiselect";
 const isDiferentZero = (value) => {
   return value != 0;
 };
@@ -309,6 +297,9 @@ export default {
     "partUpdate",
     "partsTable",
   ],
+  components: {
+    multiSelect: Multiselect,
+  },
   setup(props, { emit }) {
     const { partUpdate, partsTable } = props;
     const { makeToast } = useHelper();

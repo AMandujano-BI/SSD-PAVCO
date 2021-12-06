@@ -6,6 +6,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Pavco';
 import Toast  from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import '@vueform/multiselect/themes/default.css'
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => require(`./Pages/${name}.vue`),

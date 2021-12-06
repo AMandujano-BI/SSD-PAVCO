@@ -53,7 +53,7 @@ class Chemical extends Model
 
     public static function getByType($type)
     {
-        $chemicals = (new static)::where('type',$type)->orderBy('name', 'asc')->get();
+        $chemicals = (new static)::where('type',$type)->orderBy('name', 'asc')->get(['id AS value','name AS label']);
         return $chemicals;
     }
     //---------------Relations
