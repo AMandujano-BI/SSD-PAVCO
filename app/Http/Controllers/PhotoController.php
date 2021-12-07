@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class PhotoController extends Controller
 {
@@ -35,7 +36,14 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            // return $request;
+        $s3 = App::make('aws')->createClient('s3');
+        // $s3->save
+        $s3->putObject(array(
+            'Bucket'     => 'YOUR_BUCKET',
+            'Key'        => 'YOUR_OBJECT_KEY',
+            'SourceFile' => $request,
+        ));
     }
 
     /**

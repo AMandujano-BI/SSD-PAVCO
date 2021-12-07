@@ -139,7 +139,7 @@ class RunController extends Controller
         $run = $this->_run->getRun($id);
         $id_run = $run->id;
         $startDate = substr($run->startDate, 0, 10);
-        $customer = $run->user_id;
+        $customer = 'Test';
 
         $currentDate = new DateTime();
         $pastDate = new DateTime($run->startDate);
@@ -206,8 +206,6 @@ class RunController extends Controller
                     $coatPH /
                     $coatDiptime
                 </td>
-                <td>Active</td>
-                <td>Active</td>
             </tr>
             ";
         }
@@ -235,8 +233,7 @@ class RunController extends Controller
                         <th>Chromate</th>
                         <th>Topcoat</th>
                         <th>Secondary Topcoat</th>
-                        <th>White Salts</th>
-                        <th>Red Rust</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -259,7 +256,8 @@ class RunController extends Controller
         $run = $this->_run->getRun($id);
         $id_run = $run->id;
         $startDate = substr($run->startDate, 0, 10);
-        $customer = $run->user_id;
+        // $customer = $run->user_id;
+        $customer = 'test';
         if ($run->status == '1') {
             $status = 'Active';
         } else {
@@ -301,8 +299,7 @@ class RunController extends Controller
                     $part->coatPH /
                     $part->coatDiptime
                 </td>
-                <td>Active</td>
-                <td>Active</td>
+          
             </tr>
             ";
         }
@@ -347,8 +344,6 @@ class RunController extends Controller
                         <th>Chromate</th>
                         <th>Topcoat</th>
                         <th>Secondary Topcoat</th>
-                        <th>White Salts</th>
-                        <th>Red Rust</th>
                     </tr>
                 </thead>
                 <tbody>
