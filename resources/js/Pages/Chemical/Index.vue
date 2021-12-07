@@ -1,7 +1,6 @@
 <template>
-  
-  <app-layout title="Chemical">
-      <div class="container p-9">
+  <app-layout title="Chemicals">
+      <div class="container p-9 mx-auto">
         <p class="text-3xl text-center font-bold p-5">List of Chemicals</p>
         <button
           @click="openModal"

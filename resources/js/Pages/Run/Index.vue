@@ -47,6 +47,7 @@ import FormRun from "./components/FormRun.vue";
 import TableRun from "./components/TableRun.vue";
 import { ref } from "vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
+
 export default {
   components: {
     modal: ModalVue,
