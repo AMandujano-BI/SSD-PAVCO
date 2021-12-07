@@ -4,7 +4,7 @@
 
     <jet-banner />
 
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-100" id="app">
       <nav class="bg-white border-b border-gray-100">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,6 +19,20 @@
 
               <!-- Navigation Links -->
               <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div>
+                  <button
+                    class="flex bg-green-300 text-white lg:hidden"
+                    @click.prevent="menuToggleMobile"
+                  >
+                    close
+                  </button>
+                  <button
+                    class="hidden bg-green-300 text-white lg:flex xl:hidden"
+                    @click.prevent="menuOpenLg"
+                  >
+                    close noee
+                  </button>
+                </div>
                 <jet-nav-link
                   :href="route('dashboard')"
                   :active="route().current('dashboard')"
@@ -295,10 +309,14 @@
           <slot name="header"></slot>
         </div>
       </header>
-      <!-- <left-bar></left-bar> -->
+      <left-bar></left-bar>
 
       <!-- Page Content -->
-      <main>
+      <main
+        :class="[
+          isFullScreen ? 'flex h-screen items-center justify-center' : 'py-6',
+        ]"
+      >
         <!-- <transition
           enter-active-class="transition duration-100 ease-out"
           enter-from-class="transform scale-95 opacity-0"
@@ -313,7 +331,8 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+const isFullScreen = computed(() => store.state.isFullScreen);
+import { defineComponent, ref } from "vue";
 import JetApplicationMark from "@/Jetstream/ApplicationMark.vue";
 import JetBanner from "@/Jetstream/Banner.vue";
 import JetDropdown from "@/Jetstream/Dropdown.vue";
@@ -322,6 +341,9 @@ import JetNavLink from "@/Jetstream/NavLink.vue";
 import JetResponsiveNavLink from "@/Jetstream/ResponsiveNavLink.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import LeftBar from "@/Jetstream/LeftBar.vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
+import { Inertia } from "@inertiajs/inertia";
 
 export default defineComponent({
   props: {
@@ -339,16 +361,14 @@ export default defineComponent({
     Link,
     LeftBar,
   },
-
-  data() {
-    return {
-      showingNavigationDropdown: false,
-    };
-  },
-
-  methods: {
-    switchToTeam(team) {
-      this.$inertia.put(
+  setup() {
+    const store = useStore();
+    const isFullScreen = computed(() => store.state.isFullScreen);
+    const menuToggleMobile = () => store.dispatch("asideMobileToggle");
+    const showingNavigationDropdown = ref(false);
+    const menuOpenLg = () => store.dispatch("asideLgToggle", true);
+    const switchToTeam = (team) => {
+      Inertia.put(
         route("current-team.update"),
         {
           team_id: team.id,
@@ -357,11 +377,20 @@ export default defineComponent({
           preserveState: false,
         }
       );
-    },
+    };
 
-    logout() {
-      this.$inertia.post(route("logout"));
-    },
+    const logout = () => {
+      Inertia.post(route("logout"));
+    };
+
+    return {
+      logout,
+      switchToTeam,
+      showingNavigationDropdown,
+      isFullScreen,
+      menuToggleMobile,
+      menuOpenLg,
+    };
   },
 });
 </script>

@@ -15,7 +15,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "tightenco/ziggy": "^1.0",
-        "yajra/laravel-datatables-oracle": "^9.18"
+        "yajra/laravel-datatables-oracle": "^9.18",
+        "aws/aws-sdk-php-laravel": "~3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

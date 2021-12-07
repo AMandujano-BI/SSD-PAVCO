@@ -36,35 +36,36 @@
         items-center
       "
     >
-      <button class="bg-white text-gray-900 rounded-md p-1" @click="hideMenu">hide</button>
+      <button class=" hidden bg-white text-gray-900 rounded-md p-1 xl:hidden lg:flex" @click="hideMenu">
+        hide
+      </button>
     </div>
   </aside>
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed} from "vue";
+import { useStore } from "vuex";
 export default {
+  
   setup() {
-    const isAsideMobileExpanded = ref(true);
-    const isNavBarVisible = ref(true);
-    const hideMenu = () => {
-      console.log("hide");
-      isAsideMobileExpanded.value = false;
-      document
-        .getElementById("app")
-        .classList[isAsideMobileExpanded.value ? "add" : "remove"](
-          "ml-60",
-          "lg:ml-0"
-        );
+    const store = useStore();
+    const isFullScreen = computed(() => store.state.isFullScreen);
 
-      document.documentElement.classList[
-        isAsideMobileExpanded.value ? "add" : "remove"
-      ]("m-clipped");
+    const isAsideMobileExpanded = computed(
+      () => store.state.isAsideMobileExpanded
+    );
+
+    const isAsideLgActive = computed(() => store.state.isAsideLgActive);
+
+    const hideMenu = () => {
+        store.dispatch('asideLgToggle', false)
     };
     return {
       isAsideMobileExpanded,
       hideMenu,
-      isNavBarVisible,
+      isFullScreen,
+      isAsideLgActive,
     };
   },
 };

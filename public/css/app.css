@@ -1678,6 +1678,10 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
 }
+.bg-green-300 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(110, 231, 183, var(--tw-bg-opacity));
+}
 .bg-opacity-25 {
 	--tw-bg-opacity: 0.25;
 }
@@ -1703,14 +1707,14 @@ select {
 .p-1 {
 	padding: 0.25rem;
 }
+.p-9 {
+	padding: 2.25rem;
+}
 .p-5 {
 	padding: 1.25rem;
 }
 .p-4 {
 	padding: 1rem;
-}
-.p-9 {
-	padding: 2.25rem;
 }
 .px-4 {
 	padding-left: 1rem;
@@ -2546,6 +2550,10 @@ input::-webkit-inner-spin-button {
 		margin-left: 0px;
 	}
 
+	.lg\:flex {
+		display: flex;
+	}
+
 	.lg\:hidden {
 		display: none;
 	}
@@ -2559,6 +2567,10 @@ input::-webkit-inner-spin-button {
 
 	.xl\:block {
 		display: block;
+	}
+
+	.xl\:hidden {
+		display: none;
 	}
 }
 
