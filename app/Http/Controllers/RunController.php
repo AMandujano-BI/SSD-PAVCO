@@ -8,6 +8,8 @@ use App\Models\PlateMethod;
 use App\Models\Run;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use DateTime;
+use Date;
 
 class RunController extends Controller
 {
@@ -138,6 +140,14 @@ class RunController extends Controller
         $id_run = $run->id;
         $startDate = substr($run->startDate, 0, 10);
         $customer = $run->user_id;
+
+        $currentDate = new DateTime();
+        $pastDate = new DateTime($run->startDate);
+        $firstDate = $pastDate->format('Y-m-d H:i:s');
+        $endDate = $currentDate->format('Y-m-d H:i:s');
+        $hourdiff = round((strtotime($endDate) - strtotime($firstDate))/3600, 1);
+        $hours = intval($hourdiff, 10);
+
         $status = '';
         if ($run->status == '1') {
             $status = 'Active';
@@ -213,6 +223,7 @@ class RunController extends Controller
             <p> <strong>Customer</strong> $customer</p>
             <p> <strong>Status</strong> $status</p>
             <p> <strong>Description</strong> $description</p>
+            <p> <strong>Hours</strong> $hours</p>
             <br>
             <br>
 
