@@ -27,7 +27,7 @@
             <th>Topcoat</th>
             <th>Secondary Topcoat</th>
            
-            <th class="no-sort">Notes</th>
+            <!-- <th class="no-sort">Notes</th> -->
           </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@
             <td>{{ part.chromate.name + " - " + part.primaryPer + " % " }}</td>
             <td>{{ part.top_coat.name + " - " + part.topCoatPer + " % " }}</td>
             <td>{{ part.coat.name + " - " + part.coatPer + " % " }}</td>
-            <td class="text-center">
+            <!-- <td class="text-center">
               <button>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@
                   />
                 </svg>
               </button>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>

@@ -21,7 +21,7 @@
             <th class="no-sort">Delete</th>
             <th class="no-sort">Close</th>
             <th class="no-sort">Re-Open</th>
-            <th class="no-sort">Notes</th>
+            <!-- <th class="no-sort">Notes</th> -->
             <th class="no-sort">Reports</th>
             <th class="no-sort">Email</th>
           </tr>
@@ -75,11 +75,11 @@
               </button>
             </td>
             <!-- Notes action -->
-            <td class="text-center">
+            <!-- <td class="text-center">
               <button @click="showNotes(run.id)">
                 <img :src="ImgNote" alt="iconNote" />
               </button>
-            </td>
+            </td> -->
             <!-- Report action -->
             <td class="text-center">
               <button @click="reportRun(run.id)">

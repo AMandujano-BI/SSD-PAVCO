@@ -15,7 +15,7 @@
         <th>Secondary TopCoat</th>
         <th class="no-sort">Edit</th>
         <th class="no-sort">Delete</th>
-        <th class="no-sort">Notes</th>
+        <!-- <th class="no-sort">Notes</th> -->
       </tr>
     </thead>
     <tbody>
@@ -97,7 +97,7 @@
             </svg>
           </button>
         </td>
-        <td>
+        <!-- <td>
           <button @click="openModalNotesClick(part.notes)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +112,7 @@
               />
             </svg>
           </button>
-        </td>
+        </td> -->
       </tr>
     </tbody>
   </table>

@@ -86,14 +86,14 @@ import { nextTick } from "vue";
 import PhotosRun from "../../Run/components/PhotosRun.vue";
 import { ref } from "vue";
 import FormPhotosCreateVue from "./FormPhotosCreate.vue";
-import Modal from '@/Jetstream/Modal'
+import Modal from "@/Jetstream/Modal";
 
 export default {
   props: ["photos"],
   components: {
     photosRun: PhotosRun,
-    formPhotosCreate:FormPhotosCreateVue,
-    modal:Modal
+    formPhotosCreate: FormPhotosCreateVue,
+    modal: Modal,
   },
   setup(props) {
     console.log(props.photos);
@@ -104,7 +104,13 @@ export default {
 
     const generateDataTable = () => {
       nextTick(() => {
-        $("#photosTable").DataTable();
+        $("#photosTable").DataTable({
+          scrollY: 300,
+          ordering: true,
+          bLengthChange: false,
+          bInfo: false,
+          pageLength: 5,
+        });
       });
     };
     const showPhotos = (id) => {
@@ -121,12 +127,12 @@ export default {
       console.log("photoAdded");
     };
     const openModalPhotosForm = () => {
-      console.log('ehco')
+      console.log("ehco");
       openModalPhotosCreate.value = true;
     };
-    const closeModalPhotosCreate =()=>{
-      openModalPhotosCreate.value = false
-    }
+    const closeModalPhotosCreate = () => {
+      openModalPhotosCreate.value = false;
+    };
 
     generateDataTable();
     return {
@@ -138,7 +144,7 @@ export default {
       photoAdded,
       openModalPhotosCreate,
       openModalPhotosForm,
-      closeModalPhotosCreate
+      closeModalPhotosCreate,
     };
   },
 };

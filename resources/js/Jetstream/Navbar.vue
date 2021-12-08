@@ -1,41 +1,79 @@
 <template>
-  <nav class="bg-white border-b border-gray-100">
+  <nav
+    class="bg-white border-b border-gray-100 xl:ml-30"
+    :class="{ 'ml-30 lg:ml-0': isAsideMobileExpanded }"
+  >
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:max-w-7xl lg:mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex">
           <!-- Logo -->
-          <div class="flex-shrink-0  items-center hidden md:flex">
+          <div class="flex-shrink-0 items-center hidden  md:flex">
             <Link :href="route('dashboard')">
               <h1>Salt Spray Database</h1>
             </Link>
           </div>
 
           <!-- Navigation Links -->
+              <button
+                class="flex items-center justify-center  sm:ml-10  text-gray-900 lg:hidden"
+                @click.prevent="menuToggleMobile"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  aria-hidden="true"
+                  role="img"
+                  width="24"
+                  height="24"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 1024 1024"
+                >
+                  <path
+                    d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM142.4 642.1L298.7 519a8.84 8.84 0 0 0 0-13.9L142.4 381.9c-5.8-4.6-14.4-.5-14.4 6.9v246.3a8.9 8.9 0 0 0 14.4 7z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
           <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
             <div>
               <button
-                class="flex bg-green-300 text-white lg:hidden"
-                @click.prevent="menuToggleMobile"
-              >
-                close
-              </button>
-              <button
-                class="hidden bg-green-300 text-white lg:flex xl:hidden"
+                class="hidden  text-gray-900 h-full lg:flex lg:justify-center lg:items-center xl:hidden"
                 @click.prevent="menuOpenLg"
               >
-                close
+                <svg
+                  class="h-6 w-6"
+                  stroke="currentColor"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    :class="{
+                      'inline-flex': !showingNavigationDropdown,
+                    }"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                  <path
+                    :class="{
+                      hidden: !showingNavigationDropdown,
+                      'inline-flex': showingNavigationDropdown,
+                    }"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
               </button>
             </div>
           </div>
         </div>
-          <div class="flex items-center justify-center px-3">
-            <input
-              type="text"
-              placeholder="Search Items"
-              class="rounded-full"
-            />
-          </div>
+        <div class="flex items-center justify-center px-3">
+          <input type="text" placeholder="Search Items" class="rounded-full" />
+        </div>
 
         <div class="hidden sm:flex sm:items-center sm:ml-6">
           <div class="ml-3 relative">
@@ -67,7 +105,6 @@
                       transition
                     "
                   >
-                    hh
                     <!-- {{ $page.props.user.current_team.name }} -->
 
                     <svg
@@ -207,33 +244,7 @@
               transition
             "
           >
-            <svg
-              class="h-6 w-6"
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                :class="{
-                  hidden: showingNavigationDropdown,
-                  'inline-flex': !showingNavigationDropdown,
-                }"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-              <path
-                :class="{
-                  hidden: !showingNavigationDropdown,
-                  'inline-flex': showingNavigationDropdown,
-                }"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><path d="M10.001 7.8a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 10 7.8zm0-2.6A2.2 2.2 0 1 0 9.999.8a2.2 2.2 0 0 0 .002 4.4zm0 9.6a2.2 2.2 0 1 0 0 4.402a2.2 2.2 0 0 0 0-4.402z" fill="currentColor"/></svg>
           </button>
         </div>
       </div>
@@ -323,7 +334,9 @@ export default {
         }
       );
     };
-
+    const isAsideMobileExpanded = computed(
+      () => store.state.isAsideMobileExpanded
+    );
     const logout = () => {
       Inertia.post(route("logout"));
     };
@@ -333,6 +346,7 @@ export default {
       isFullScreen,
       menuToggleMobile,
       menuOpenLg,
+      isAsideMobileExpanded,
     };
   },
 };

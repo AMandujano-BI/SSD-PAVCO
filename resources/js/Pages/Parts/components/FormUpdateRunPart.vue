@@ -57,7 +57,7 @@
         {{ error.$message }}
       </p>
     </div>
-    <button class="bg-green-600 rounded w-full py-5 text-white px-3 mt-2">
+    <button class="bg-primary rounded w-full py-5 text-white px-3 mt-2">
       Save
     </button>
   </form>
