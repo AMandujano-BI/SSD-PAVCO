@@ -7,7 +7,7 @@
       top-0
       z-40
       h-screen
-      bg-gray-800
+      bg-[#f4f7fc]
       transition-position
       lg:left-0
       scrollbar-thin
@@ -29,10 +29,10 @@
       class="
         flex flex-row
         w-full
-        bg-gray-900
+        bg-[#0271c5]
         text-white
         flex-1
-        h-14
+        h-32
         items-center
         justify-center
       "
@@ -46,7 +46,6 @@
       <img :src="IconPavco" alt="pavcoIcon" />
     </div>
     <div class="w-full">
-      <img :src="IconFooterLeftBar" alt="iconLeftBar" class="w-48 h-48" />
       <template v-for="(menuGroup, index) in menu">
         <p
           v-if="typeof menuGroup === 'string'"
@@ -62,6 +61,7 @@
           @menu-click="menuClick"
         />
       </template>
+      <img :src="IconFooterLeftBar" alt="iconLeftBar" class="w-full h-48 absolute bottom-0" />
     </div>
   </aside>
 </template>

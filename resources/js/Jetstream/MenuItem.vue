@@ -1,58 +1,93 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed } from "vue";
 // import { mdiMinus, mdiPlus } from '@mdi/js'
 // import Icon from '@/components/Icon.vue'
-import MenuList from './MenuList.vue'
-
+import MenuList from "./MenuList.vue";
+import JetNavLink from "@/Jetstream/NavLink.vue";
 const props = defineProps({
   item: {
     type: Object,
-    required: true
+    required: true,
   },
-  isSubmenuList: Boolean
-})
+  isSubmenuList: Boolean,
+});
 
-const emit = defineEmits(['menu-click'])
+const emit = defineEmits(["menu-click"]);
 
-const isDropdownActive = ref(false)
+const isDropdownActive = ref(false);
 
-const componentIs = computed(() => props.item.to ? 'jet-nav-link' : 'a')
+const componentIs = computed(() => (props.item.href ? "a" : "div"));
 
-const hasDropdown = computed(() => !!props.item.menu)
+const hasDropdown = computed(() => !!props.item.menu);
 
-const dropdownIcon = computed(() => isDropdownActive.value ? '' : '')
+const dropdownIcon = computed(() => (isDropdownActive.value ? "" : ""));
 
-const itemTo = computed(() => props.item.to || null)
+const itemTo = computed(() => props.item.to || null);
 
-const itemHref = computed(() => props.item.href || null)
+const itemHref = computed(() => props.item.href || null);
 
-const itemTarget = computed(() => componentIs.value === 'a' && props.item.target ? props.item.target : null)
+const itemTarget = computed(() =>
+  componentIs.value === "a" && props.item.target ? props.item.target : null
+);
 
-const menuClick = event => {
-  emit('menu-click', event, props.item)
+const menuClick = (event) => {
+  emit("menu-click", event, props.item);
 
   if (hasDropdown.value) {
-    isDropdownActive.value = !isDropdownActive.value
+    isDropdownActive.value = !isDropdownActive.value;
   }
-}
+};
 
-const styleActive = 'font-bold text-white'
+const styleActive = "font-bold text-white";
 
-const styleInactive = 'text-gray-300'
+const styleInactive = "text-primary";
 </script>
 
 <template>
   <li>
-    <component
+    <!-- :href="route('dashboard')" -->
+    <!-- :active="route().current('dashboard')" -->
+    <div
+      v-if="!itemHref"
+      class="
+        flex
+        cursor-pointer
+        hover:bg-[#e1e8f3]
+        dark:hover:bg-gray-700 dark:hover:bg-opacity-50
+      "
+      :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
+      @click="menuClick"
+    >
+      <span
+        class="flex-grow"
+        :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
+        >{{ item.label }}</span
+      >
+    </div>
+    <jet-nav-link
+      :is="componentIs"
+      v-if="itemHref"
+      :href="itemHref"
+      class="
+        flex
+        cursor-pointer
+        hover:bg-[#e1e8f3]
+        w-full
+        dark:hover:bg-gray-700 dark:hover:bg-opacity-50
+      "
+      v-slot="vSlot"
+      :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
+      @click="menuClick"
+    >
+      <!-- <component
       :is="componentIs"
       v-slot="vSlot"
-      :to="itemTo"
       :href="itemHref"
       :target="itemTarget"
       class="flex cursor-pointer hover:bg-gray-600 hover:bg-opacity-50 dark:hover:bg-gray-700 dark:hover:bg-opacity-50"
       :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
       @click="menuClick"
-    >
+    > -->
       <icon
         v-if="item.icon"
         :path="item.icon"
@@ -63,7 +98,8 @@ const styleInactive = 'text-gray-300'
       <span
         class="flex-grow"
         :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
-      >{{ item.label }}</span>
+        >{{ item.label }}</span
+      >
       <icon
         v-if="hasDropdown"
         :path="dropdownIcon"
@@ -71,11 +107,16 @@ const styleInactive = 'text-gray-300'
         :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
         w="w-12"
       />
-    </component>
+    </jet-nav-link>
+    <!-- </component> -->
     <menu-list
       v-if="hasDropdown"
       :menu="item.menu"
-      :class="{ 'hidden': !isDropdownActive, 'block bg-gray-700 bg-opacity-50 dark:bg-gray-800 dark:bg-opacity-50': isDropdownActive }"
+      :class="{
+        hidden: !isDropdownActive,
+        'block bg-[#edf4ff]  dark:bg-gray-800 dark:bg-opacity-50':
+          isDropdownActive,
+      }"
       is-submenu-list
     />
   </li>

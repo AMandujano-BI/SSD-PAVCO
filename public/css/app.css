@@ -1138,6 +1138,9 @@ select {
 .right-10 {
 	right: 2.5rem;
 }
+.bottom-0 {
+	bottom: 0px;
+}
 .z-0 {
 	z-index: 0;
 }
@@ -1307,6 +1310,9 @@ select {
 }
 .h-80 {
 	height: 20rem;
+}
+.h-32 {
+	height: 8rem;
 }
 .min-h-screen {
 	min-height: 100vh;
@@ -1695,6 +1701,18 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
 }
+.bg-\[\#f4f7fc\] {
+	--tw-bg-opacity: 1;
+	background-color: rgba(244, 247, 252, var(--tw-bg-opacity));
+}
+.bg-\[\#0271c5\] {
+	--tw-bg-opacity: 1;
+	background-color: rgba(2, 113, 197, var(--tw-bg-opacity));
+}
+.bg-\[\#edf4ff\] {
+	--tw-bg-opacity: 1;
+	background-color: rgba(237, 244, 255, var(--tw-bg-opacity));
+}
 .bg-opacity-25 {
 	--tw-bg-opacity: 0.25;
 }
@@ -1996,6 +2014,10 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(248, 113, 113, var(--tw-text-opacity));
 }
+.text-primary {
+	--tw-text-opacity: 1;
+	color: rgba(2, 113, 197, var(--tw-text-opacity));
+}
 .underline {
 	text-decoration: underline;
 }
@@ -2205,6 +2227,10 @@ input::-webkit-inner-spin-button {
 .hover\:bg-primary-600:hover {
 	--tw-bg-opacity: 1;
 	background-color: rgba(1, 81, 141, var(--tw-bg-opacity));
+}
+.hover\:bg-\[\#e1e8f3\]:hover {
+	--tw-bg-opacity: 1;
+	background-color: rgba(225, 232, 243, var(--tw-bg-opacity));
 }
 .hover\:bg-opacity-50:hover {
 	--tw-bg-opacity: 0.5;

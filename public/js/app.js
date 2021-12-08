@@ -22244,8 +22244,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _MenuList_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuList.vue */ "./resources/js/Jetstream/MenuList.vue");
+/* harmony import */ var _Jetstream_NavLink_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Jetstream/NavLink.vue */ "./resources/js/Jetstream/NavLink.vue");
  // import { mdiMinus, mdiPlus } from '@mdi/js'
 // import Icon from '@/components/Icon.vue'
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -22256,7 +22258,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     isSubmenuList: Boolean
   },
-  emits: ['menu-click'],
+  emits: ["menu-click"],
   setup: function setup(__props, _ref) {
     var expose = _ref.expose,
         emit = _ref.emit;
@@ -22264,13 +22266,13 @@ __webpack_require__.r(__webpack_exports__);
     var props = __props;
     var isDropdownActive = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var componentIs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
-      return props.item.to ? 'jet-nav-link' : 'a';
+      return props.item.href ? "a" : "div";
     });
     var hasDropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
       return !!props.item.menu;
     });
     var dropdownIcon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
-      return isDropdownActive.value ? '' : '';
+      return isDropdownActive.value ? "" : "";
     });
     var itemTo = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
       return props.item.to || null;
@@ -22279,19 +22281,19 @@ __webpack_require__.r(__webpack_exports__);
       return props.item.href || null;
     });
     var itemTarget = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
-      return componentIs.value === 'a' && props.item.target ? props.item.target : null;
+      return componentIs.value === "a" && props.item.target ? props.item.target : null;
     });
 
     var menuClick = function menuClick(event) {
-      emit('menu-click', event, props.item);
+      emit("menu-click", event, props.item);
 
       if (hasDropdown.value) {
         isDropdownActive.value = !isDropdownActive.value;
       }
     };
 
-    var styleActive = 'font-bold text-white';
-    var styleInactive = 'text-gray-300';
+    var styleActive = "font-bold text-white";
+    var styleInactive = "text-primary";
     var __returned__ = {
       props: props,
       emit: emit,
@@ -22307,7 +22309,8 @@ __webpack_require__.r(__webpack_exports__);
       styleInactive: styleInactive,
       ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
       computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed,
-      MenuList: _MenuList_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+      MenuList: _MenuList_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+      JetNavLink: _Jetstream_NavLink_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -27118,7 +27121,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "flex flex-row w-full bg-gray-900 text-white flex-1 h-14 items-center justify-center"
+  "class": "flex flex-row w-full bg-[#0271c5] text-white flex-1 h-32 items-center justify-center"
 };
 var _hoisted_2 = ["src"];
 var _hoisted_3 = {
@@ -27129,7 +27132,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_menu_list = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("menu-list");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("aside", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["w-60 fixed top-0 z-40 h-screen bg-gray-800 transition-position lg:left-0 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-600 scrollbar-track-gray-900 dark:border-r dark:border-gray-800 dark:scrollbar-track-gray-800 dark:bg-gray-900 overflow-auto", [$setup.isAsideMobileExpanded ? 'left-0' : '-left-60', $setup.isAsideLgActive ? 'block' : 'lg:hidden xl:block']])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["w-60 fixed top-0 z-40 h-screen bg-[#f4f7fc] transition-position lg:left-0 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-600 scrollbar-track-gray-900 dark:border-r dark:border-gray-800 dark:scrollbar-track-gray-800 dark:bg-gray-900 overflow-auto", [$setup.isAsideMobileExpanded ? 'left-0' : '-left-60', $setup.isAsideLgActive ? 'block' : 'lg:hidden xl:block']])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "hidden bg-white text-gray-900 rounded-md p-1 xl:hidden lg:flex",
     onClick: _cache[0] || (_cache[0] = function () {
@@ -27140,13 +27143,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     alt: "pavcoIcon"
   }, null, 8
   /* PROPS */
-  , _hoisted_2)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: $setup.IconFooterLeftBar,
-    alt: "iconLeftBar",
-    "class": "w-48 h-48"
-  }, null, 8
-  /* PROPS */
-  , _hoisted_4), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.menu, function (menuGroup, index) {
+  , _hoisted_2)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.menu, function (menuGroup, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [typeof menuGroup === 'string' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: "a-".concat(index),
       "class": "p-3 text-xs uppercase text-gray-400"
@@ -27163,7 +27160,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     );
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))])], 2
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: $setup.IconFooterLeftBar,
+    alt: "iconLeftBar",
+    "class": "w-full h-48 absolute bottom-0"
+  }, null, 8
+  /* PROPS */
+  , _hoisted_4)])], 2
   /* CLASS */
   )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$setup.isFullScreen]]);
 }
@@ -27186,15 +27189,25 @@ __webpack_require__.r(__webpack_exports__);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("icon");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)($setup.componentIs), {
-    to: $setup.itemTo,
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" :href=\"route('dashboard')\" "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" :active=\"route().current('dashboard')\" "), !$setup.itemHref ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 0,
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["flex cursor-pointer hover:bg-[#e1e8f3] dark:hover:bg-gray-700 dark:hover:bg-opacity-50", [$props.isSubmenuList ? 'p-3 text-sm' : 'py-2']]),
+    onClick: $setup.menuClick
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["flex-grow", [_ctx.vSlot && _ctx.vSlot.isExactActive ? $setup.styleActive : $setup.styleInactive]])
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.label), 3
+  /* TEXT, CLASS */
+  )], 2
+  /* CLASS */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.itemHref ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["JetNavLink"], {
+    key: 1,
+    is: $setup.componentIs,
     href: $setup.itemHref,
-    target: $setup.itemTarget,
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["flex cursor-pointer hover:bg-gray-600 hover:bg-opacity-50 dark:hover:bg-gray-700 dark:hover:bg-opacity-50", [$props.isSubmenuList ? 'p-3 text-sm' : 'py-2']]),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["flex cursor-pointer hover:bg-[#e1e8f3] w-full dark:hover:bg-gray-700 dark:hover:bg-opacity-50", [$props.isSubmenuList ? 'p-3 text-sm' : 'py-2']]),
     onClick: $setup.menuClick
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (vSlot) {
-      return [$props.item.icon ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_icon, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <component\r\n      :is=\"componentIs\"\r\n      v-slot=\"vSlot\"\r\n      :href=\"itemHref\"\r\n      :target=\"itemTarget\"\r\n      class=\"flex cursor-pointer hover:bg-gray-600 hover:bg-opacity-50 dark:hover:bg-gray-700 dark:hover:bg-opacity-50\"\r\n      :class=\"[isSubmenuList ? 'p-3 text-sm' : 'py-2']\"\r\n      @click=\"menuClick\"\r\n    > "), $props.item.icon ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_icon, {
         key: 0,
         path: $props.item.icon,
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["flex-none", [vSlot && vSlot.isExactActive ? $setup.styleActive : $setup.styleInactive]]),
@@ -27219,12 +27232,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["to", "href", "target", "class"])), $setup.hasDropdown ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["MenuList"], {
-    key: 0,
+  , ["is", "href", "class"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </component> "), $setup.hasDropdown ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["MenuList"], {
+    key: 2,
     menu: $props.item.menu,
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-      'hidden': !$setup.isDropdownActive,
-      'block bg-gray-700 bg-opacity-50 dark:bg-gray-800 dark:bg-opacity-50': $setup.isDropdownActive
+      hidden: !$setup.isDropdownActive,
+      'block bg-[#edf4ff]  dark:bg-gray-800 dark:bg-opacity-50': $setup.isDropdownActive
     }),
     "is-submenu-list": ""
   }, null, 8
@@ -34738,7 +34751,7 @@ __webpack_require__.r(__webpack_exports__);
 //   } from '@mdi/js'
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (['General', [{
   // to: '/',
-  href: '/',
+  href: "/dashboard",
   icon: '',
   label: 'Dashboard'
 }, {
@@ -34748,20 +34761,31 @@ __webpack_require__.r(__webpack_exports__);
   icon: '',
   updateMark: true
 }, {
-  // to: '/chemical',
-  href: '/chemical',
-  label: 'Chemicals',
+  // to: '/run',
+  href: '/run',
+  label: 'Daily Hours',
   icon: '',
   updateMark: true
 }, {
-  label: 'Submenus',
+  label: 'Maintenance',
   subLabel: 'Submenus Example',
   icon: '',
   menu: [{
-    label: 'Sub-item One'
+    label: 'Users',
+    href: '/chemical'
   }, {
-    label: 'Sub-item Two'
+    label: 'Company',
+    href: '/chemical'
+  }, {
+    label: 'Chemical',
+    href: '/chemical'
   }]
+}, {
+  // to: '/run',
+  href: '/run',
+  label: 'Reports',
+  icon: '',
+  updateMark: true
 }]]);
 
 /***/ }),
