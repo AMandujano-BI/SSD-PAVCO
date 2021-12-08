@@ -45,8 +45,7 @@ const styleInactive = "text-primary";
 
 <template>
   <li>
-    <!-- :href="route('dashboard')" -->
-    <!-- :active="route().current('dashboard')" -->
+
     <div
       v-if="!itemHref"
       class="
@@ -58,6 +57,13 @@ const styleInactive = "text-primary";
       :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
       @click="menuClick"
     >
+        <img
+        v-if="item.icon"
+        :src="item.icon"
+        class="flex-none pr-3 pl-14"
+        :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
+        w="w-12"
+      />
       <span
         class="flex-grow"
         :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
@@ -79,19 +85,10 @@ const styleInactive = "text-primary";
       :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
       @click="menuClick"
     >
-      <!-- <component
-      :is="componentIs"
-      v-slot="vSlot"
-      :href="itemHref"
-      :target="itemTarget"
-      class="flex cursor-pointer hover:bg-gray-600 hover:bg-opacity-50 dark:hover:bg-gray-700 dark:hover:bg-opacity-50"
-      :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
-      @click="menuClick"
-    > -->
-      <icon
+      <img
         v-if="item.icon"
-        :path="item.icon"
-        class="flex-none"
+        :src="item.icon"
+        class="flex-none pr-3 pl-14"
         :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
         w="w-12"
       />

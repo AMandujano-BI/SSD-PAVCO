@@ -27,25 +27,8 @@
                 close
               </button>
             </div>
-            <!-- <jet-nav-link
-              :href="route('dashboard')"
-              :active="route().current('dashboard')"
-            >
-              Dashboard
-            </jet-nav-link>
-            <jet-nav-link
-              :href="route('run.index')"
-              :active="route().current('run.index')"
-            >
-              Runs
-            </jet-nav-link>
-            <jet-nav-link
-              :href="route('chemical.index')"
-              :active="route().current('chemical.index')"
-            >
-              Chemicals
-            </jet-nav-link> -->
           </div>
+        </div>
           <div class="flex items-center justify-center px-3">
             <input
               type="text"
@@ -53,7 +36,6 @@
               class="rounded-full"
             />
           </div>
-        </div>
 
         <div class="hidden sm:flex sm:items-center sm:ml-6">
           <div class="ml-3 relative">

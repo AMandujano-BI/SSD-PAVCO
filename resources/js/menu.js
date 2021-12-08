@@ -1,56 +1,37 @@
-// import {
-//     mdiAccountCircle,
-//     mdiDesktopMac,
-//     mdiGithub,
-//     mdiLock,
-//     mdiAlertCircle,
-//     mdiMonitorShimmer,
-//     mdiSquareEditOutline,
-//     mdiTable,
-//     mdiViewList,
-//     mdiTelevisionGuide,
-//     mdiResponsive
-//   } from '@mdi/js'
-
+import IconCompany from './assets/Icons/IconCompany/list.png'
+import IconChemical from './assets/Icons/iconChemical/chemical.png'
+import IconRun from './assets/Icons/IconRun/run.png'
+import IconMaintenance from './assets/Icons/IconMaintenance/gear.png'
+import IconUser from './assets/Icons/IconUserLeftBar/user.png'
+import IconReport from './assets/Icons/iconReports/report.png'
 export default [
   'General',
   [
     {
-      // to: '/',
-      href: "/dashboard",
-      icon: '',
-      label: 'Dashboard'
-    },
-    {
       // to: '/run',
       href: '/run',
       label: 'Runs',
-      icon: '',
-      updateMark: true
-    },
-    {
-      // to: '/run',
-      href: '/run',
-      label: 'Daily Hours',
-      icon: '',
-      updateMark: true
+      icon: IconRun,
+      // updateMark: true
     },
     {
       label: 'Maintenance',
-      subLabel: 'Submenus Example',
-      icon: '',
+      icon:IconMaintenance,
       menu: [
         {
           label: 'Users',
           href: '/chemical',
+          icon:IconUser
         },
         {
           label: 'Company',
           href: '/chemical',
+          icon:IconCompany
         },
         {
           label: 'Chemical',
           href: '/chemical',
+          icon:IconChemical
         }
       ]
     },
@@ -58,7 +39,7 @@ export default [
       // to: '/run',
       href: '/run',
       label: 'Reports',
-      icon: '',
+      icon: IconReport,
       updateMark: true
     },
   ],

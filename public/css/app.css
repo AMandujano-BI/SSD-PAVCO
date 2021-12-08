@@ -1869,6 +1869,36 @@ select {
 .pr-5 {
 	padding-right: 1.25rem;
 }
+.pl-5 {
+	padding-left: 1.25rem;
+}
+.pr-3 {
+	padding-right: 0.75rem;
+}
+.pl-8 {
+	padding-left: 2rem;
+}
+.pl-10 {
+	padding-left: 2.5rem;
+}
+.pl-12 {
+	padding-left: 3rem;
+}
+.pl-14 {
+	padding-left: 3.5rem;
+}
+.pt-20 {
+	padding-top: 5rem;
+}
+.pl-36 {
+	padding-left: 9rem;
+}
+.pl-24 {
+	padding-left: 6rem;
+}
+.pl-16 {
+	padding-left: 4rem;
+}
 .text-left {
 	text-align: left;
 }

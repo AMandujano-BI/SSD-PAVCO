@@ -45,7 +45,7 @@
       </button>
       <img :src="IconPavco" alt="pavcoIcon" />
     </div>
-    <div class="w-full">
+    <div class="w-full pt-20">
       <template v-for="(menuGroup, index) in menu">
         <p
           v-if="typeof menuGroup === 'string'"
