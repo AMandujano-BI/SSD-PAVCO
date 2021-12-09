@@ -25,7 +25,7 @@ export default [
         },
         {
           label: 'Company',
-          href: '/chemical',
+          href: '/company',
           icon:IconCompany
         },
         {

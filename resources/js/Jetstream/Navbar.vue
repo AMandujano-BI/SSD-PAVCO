@@ -72,7 +72,7 @@
           </div>
         </div>
         <div class="flex items-center justify-center px-3">
-          <input type="text" placeholder="Search Items" class="rounded-full" />
+          <input type="text" placeholder="Search Runs" class="rounded-full" />
         </div>
 
         <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -347,6 +347,8 @@ export default {
       menuToggleMobile,
       menuOpenLg,
       isAsideMobileExpanded,
+      logout,
+      switchToTeam,
     };
   },
 };

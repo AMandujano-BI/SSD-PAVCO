@@ -5,6 +5,7 @@
 
   <!-- <input type="file" accept="image/*" capture="camera" /> -->
   <input type="file" accept="image/*" multiple  id="image" @change="fileChange"/>
+  <div v-if="!url" class="w-full h-64">No Image</div>
   <img v-if="url" :src="url" alt="image" class="w-full h-64 my-5 object-cover">
   <button @click="saveImage" class="bg-primary w-full rounded-sm hover:bg-primary-600 text-white font-bold p-5 block">Save Image</button>
 
