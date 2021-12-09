@@ -36,14 +36,12 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-            // return $request;
-        $s3 = App::make('aws')->createClient('s3');
-        // $s3->save
-        $s3->putObject(array(
-            'Bucket'     => 'YOUR_BUCKET',
-            'Key'        => 'YOUR_OBJECT_KEY',
-            'SourceFile' => $request,
-        ));
+
+        $file = $request->file('image');
+        $filename = $file->getClientOriginalName();
+        $run = $request->input('run');
+        $file->storeAs('images/'.$run,$filename,'s3');
+        return 'ok';
     }
 
     /**

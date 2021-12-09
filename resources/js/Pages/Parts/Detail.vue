@@ -20,7 +20,7 @@
     </div>
     <div class="shadow-lg rounded-md p-4 mb-5">
     
-      <table-photos :photos="photos" />
+      <table-photos :photos="photos"  :run="run"/>
     </div>
   </div>
   </app-layout>

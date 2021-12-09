@@ -75,7 +75,7 @@
   />
 
   <modal :show="openModalPhotosCreate" @close="closeModalPhotosCreate">
-    <form-photos-create />
+    <form-photos-create  :run_id="run_id"/>
   </modal>
 </template>
 
@@ -89,7 +89,7 @@ import FormPhotosCreateVue from "./FormPhotosCreate.vue";
 import Modal from "@/Jetstream/Modal";
 
 export default {
-  props: ["photos"],
+  props: ["photos","run"],
   components: {
     photosRun: PhotosRun,
     formPhotosCreate: FormPhotosCreateVue,
@@ -97,7 +97,8 @@ export default {
   },
   setup(props) {
     console.log(props.photos);
-    const { photos } = props;
+    const { photos,run } = props;
+    const run_id = ref(run.id)
     let currentPhoto = ref([]);
     let isModalPhotos = ref(false);
     const openModalPhotosCreate = ref(false);
@@ -145,6 +146,7 @@ export default {
       openModalPhotosCreate,
       openModalPhotosForm,
       closeModalPhotosCreate,
+      run_id
     };
   },
 };
