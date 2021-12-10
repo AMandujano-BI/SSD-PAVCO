@@ -6,7 +6,8 @@
       fixed
       top-0
       z-40
-      h-screen
+      min-h-screen h-full
+
       bg-[#f4f7fc]
       transition-position
       lg:left-0

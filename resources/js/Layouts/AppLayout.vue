@@ -13,20 +13,20 @@
         </div>
       </header>
       <left-bar :menu="menu"></left-bar>
-      <overlay
-        v-show="isAsideLgActive"
-        z-index="z-30"
-        @overlay-click="overlayClick"
-      />
       <!-- Page Content -->
       <main
-        class="px-0 md:px-6 lg:pl-24"
+        class="px-0  md:pl-20 xl:pl-64 py-6"
         :class="[
           isFullScreen ? 'flex h-screen items-center justify-center' : 'py-6',
         ]"
       >
         <slot></slot>
       </main>
+      <overlay
+        v-show="isAsideLgActive"
+        z-index="z-30"
+        @overlay-click="overlayClick"
+      />
     </div>
   </div>
 </template>
@@ -54,7 +54,7 @@ export default defineComponent({
     JetBanner,
     Link,
     LeftBar,
-    Overlay
+    Overlay,
   },
   setup() {
     const store = useStore();
@@ -74,7 +74,7 @@ export default defineComponent({
       menuOpenLg,
       isAsideLgActive,
       overlayClick,
-      menu
+      menu,
     };
   },
 });

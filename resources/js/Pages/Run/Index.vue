@@ -3,7 +3,7 @@
     <!-- <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">Runs</h2>
     </template> -->
-    <div class="container mx-auto">
+    <div class="container mx-auto pt-5">
       <h1 class="text-center font-bold p-5 text-2xl">List of Runs</h1>
       <div class="pl-9">
         <button

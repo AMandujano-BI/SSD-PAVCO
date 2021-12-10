@@ -200,7 +200,7 @@
     </div>
     <div>
       <label for="">TopCoat</label>
-      <div class="flex w-full justify-around gap-2">
+      <div class="flex w-full flex-col md:flex-row justify-around gap-2">
         <div class="w-full">
           <multi-select
             :options="topCoats"
@@ -217,8 +217,7 @@
             {{ error.$message }}
           </p>
         </div>
-        <div class="flex flex-col">
-          <div class="flex">
+        <div class="flex gap-2">
             <div>
               <input
                 type="text"
@@ -284,13 +283,12 @@
                 {{ error.$message }}
               </p>
             </div>
-          </div>
         </div>
       </div>
     </div>
     <div>
       <label for="">Secondary Topcoat</label>
-      <div class="flex w-full justify-around gap-2">
+      <div class="flex w-full flex-col md:flex-row justify-around gap-2">
         <div class="w-full">
           <multi-select
             :options="secondaryCoats"
@@ -307,7 +305,7 @@
             {{ error.$message }}
           </p>
         </div>
-        <div class="flex">
+        <div class="flex gap-2">
           <div>
             <input
               type="text"
