@@ -21,7 +21,12 @@
           </p>
         </div>
         <div>
-          <input type="text" class="w-[60px]" v-model="form.plateThick" />
+          <input
+            type="text"
+            class="w-[60px]"
+            v-model="form.plateThick"
+            :class="{ 'border-red-500': v$.plateThick.$error }"
+          />
           <span class="w-1/2">mil</span>
           <p
             v-for="error of v$.plateThick.$errors"
@@ -54,7 +59,12 @@
         </div>
         <div class="flex gap-2">
           <div>
-            <input type="text" class="w-[60px]" v-model="form.primaryPer" />
+            <input
+              type="text"
+              class="w-[60px]"
+              v-model="form.primaryPer"
+              :class="{ 'border-red-500': v$.primaryPer.$error }"
+            />
             <span>%</span>
             <p
               v-for="error of v$.primaryPer.$errors"
@@ -66,7 +76,12 @@
           </div>
 
           <div>
-            <input type="text" class="w-[60px]" v-model="form.primaryTemp" />
+            <input
+              type="text"
+              class="w-[60px]"
+              v-model="form.primaryTemp"
+              :class="{ 'border-red-500': v$.primaryTemp.$error }"
+            />
             <span>°F</span>
             <p
               v-for="error of v$.primaryTemp.$errors"
@@ -77,7 +92,12 @@
             </p>
           </div>
           <div>
-            <input type="text" class="w-[60px]" v-model="form.primaryPH" />
+            <input
+              type="text"
+              class="w-[60px]"
+              v-model="form.primaryPH"
+              :class="{ 'border-red-500': v$.primaryPH.$error }"
+            />
             <span>pH</span>
             <p
               v-for="error of v$.primaryPH.$errors"
@@ -88,7 +108,12 @@
             </p>
           </div>
           <div>
-            <input type="text" class="w-[60px]" v-model="form.primaryDiptime" />
+            <input
+              type="text"
+              class="w-[60px]"
+              v-model="form.primaryDiptime"
+              :class="{ 'border-red-500': v$.primaryDiptime.$error }"
+            />
             <span>sec</span>
             <p
               v-for="error of v$.primaryDiptime.$errors"
@@ -123,7 +148,12 @@
         <div class="flex flex-col">
           <div class="flex">
             <div>
-              <input type="text" class="w-[60px]" v-model="form.topCoatPer" />
+              <input
+                type="text"
+                class="w-[60px]"
+                v-model="form.topCoatPer"
+                :class="{ 'border-red-500': v$.topCoatPer.$error }"
+              />
               <span>%</span>
               <p
                 v-for="error of v$.topCoatPer.$errors"
@@ -135,7 +165,12 @@
             </div>
 
             <div>
-              <input type="text" class="w-[60px]" v-model="form.topCoatTemp" />
+              <input
+                type="text"
+                class="w-[60px]"
+                v-model="form.topCoatTemp"
+                :class="{ 'border-red-500': v$.topCoatTemp.$error }"
+              />
               <span>°F</span>
               <p
                 v-for="error of v$.topCoatTemp.$errors"
@@ -146,7 +181,12 @@
               </p>
             </div>
             <div>
-              <input type="text" class="w-[60px]" v-model="form.topCoatPH" />
+              <input
+                type="text"
+                class="w-[60px]"
+                v-model="form.topCoatPH"
+                :class="{ 'border-red-500': v$.topCoatPH.$error }"
+              />
               <span>pH</span>
               <p
                 v-for="error of v$.topCoatPH.$errors"
@@ -161,6 +201,7 @@
                 type="text"
                 class="w-[60px]"
                 v-model="form.topCoatDiptime"
+                :class="{ 'border-red-500': v$.topCoatDiptime.$error }"
               />
               <span>sec</span>
               <p
@@ -196,7 +237,12 @@
         </div>
         <div class="flex">
           <div>
-            <input type="text" class="w-[60px]" v-model="form.coatPer" />
+            <input
+              type="text"
+              class="w-[60px]"
+              v-model="form.coatPer"
+              :class="{ 'border-red-500': v$.coatPer.$error }"
+            />
             <span>%</span>
             <p
               v-for="error of v$.coatPer.$errors"
@@ -208,7 +254,12 @@
           </div>
 
           <div>
-            <input type="text" class="w-[60px]" v-model="form.coatTemp" />
+            <input
+              type="text"
+              class="w-[60px]"
+              v-model="form.coatTemp"
+              :class="{ 'border-red-500': v$.coatTemp.$error }"
+            />
             <span>°F</span>
             <p
               v-for="error of v$.coatTemp.$errors"
@@ -219,7 +270,12 @@
             </p>
           </div>
           <div>
-            <input type="text" class="w-[60px]" v-model="form.coatPH" />
+            <input
+              type="text"
+              class="w-[60px]"
+              v-model="form.coatPH"
+              :class="{ 'border-red-500': v$.coatPH.$error }"
+            />
             <span>pH</span>
             <p
               v-for="error of v$.coatPH.$errors"
@@ -230,7 +286,13 @@
             </p>
           </div>
           <div>
-            <input type="text" class="w-[60px]" v-model="form.coatDiptime" />
+            <input
+              type="text"
+              class="w-[60px]"
+              v-model="form.coatDiptime"
+              :class="{ 'border-red-500': v$.coatDiptime.$error }"
+            />
+
             <span>sec</span>
             <p
               v-for="error of v$.coatDiptime.$errors"
@@ -250,8 +312,8 @@
         rows="5"
         class="w-full"
         v-model="form.description"
+        :class="{ 'border-red-500': v$.description.$error }"
       ></textarea>
-      <!-- <div v-if="v$.form.description.$error" class="text-red-400">Name field has an error.</div> -->
       <p
         v-for="error of v$.description.$errors"
         :key="error.$uid"
@@ -269,7 +331,18 @@
       >
         Cancel
       </button>
-      <button class="bg-primary rounded w-full py-5 text-white px-3 mt-2 hover:bg-primary-600">
+      <button
+        class="
+          bg-primary
+          rounded
+          w-full
+          py-5
+          text-white
+          px-3
+          mt-2
+          hover:bg-primary-600
+        "
+      >
         Save
       </button>
     </div>

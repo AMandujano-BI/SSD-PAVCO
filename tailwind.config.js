@@ -39,6 +39,9 @@ module.exports = {
         // center: true
         // }
     },
+    variants:{
 
-    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+        scrollbar: ['dark', 'rounded'],
+    },
+    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography'),   require('tailwind-scrollbar'),],
 };

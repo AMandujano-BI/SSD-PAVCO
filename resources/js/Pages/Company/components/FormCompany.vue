@@ -2,17 +2,6 @@
   <h1 class="text-center font-bold text-2xl">New Company</h1>
   <form @submit.prevent="submitForm">
     <div>
-      <label for="">Country</label>
-      <multi-select
-        :options="countries"
-        class="w-full"
-        v-model="form.country_id"
-        :searchable="true"
-        placeholder="Select Country"
-      />
-    </div>
-
-    <div>
       <label for="">Name</label>
       <input
         type="text"
@@ -28,6 +17,16 @@
       >
         {{ error.$message }}
       </p>
+    </div>
+    <div>
+      <label for="">Distributor</label>
+      <multi-select
+        :options="countries"
+        class="w-full"
+        v-model="form.country_id"
+        :searchable="true"
+        placeholder="Select Distributor"
+      />
     </div>
 
     <div>
@@ -94,6 +93,17 @@
         {{ error.$message }}
       </p>
     </div>
+
+    <div>
+      <label for="">Country</label>
+      <multi-select
+        :options="countries"
+        class="w-full"
+        v-model="form.country_id"
+        :searchable="true"
+        placeholder="Select Country"
+      />
+    </div>
     <div>
       <label for="">Phone</label>
       <input
@@ -111,7 +121,7 @@
         {{ error.$message }}
       </p>
     </div>
-        <div>
+    <div>
       <label for="">Fax</label>
       <input
         type="text"
@@ -120,11 +130,7 @@
         v-model="form.fax"
         :class="{ 'border-red-500': v$.fax.$error }"
       />
-      <p
-        v-for="error of v$.fax.$errors"
-        :key="error.$uid"
-        class="text-red-400"
-      >
+      <p v-for="error of v$.fax.$errors" :key="error.$uid" class="text-red-400">
         {{ error.$message }}
       </p>
     </div>
@@ -197,10 +203,10 @@ export default {
       zip: {
         required,
       },
-       phone: {
+      phone: {
         required,
       },
-       fax: {
+      fax: {
         required,
       },
     };

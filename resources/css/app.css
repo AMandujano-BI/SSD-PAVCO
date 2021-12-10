@@ -10,6 +10,10 @@
   --ms-option-bg-selected-pointed: #2563EB;
   --ms-option-bg-selected:  #2563EB;
 }
+.error-dropdown{
+
+  --ms-placeholder-color: red;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
         -webkit-appearance: none;
