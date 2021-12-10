@@ -10,6 +10,7 @@
             class="w-full multiselect-blue"
             v-model="form.plate_types_id"
             :searchable="true"
+            :class="{ 'border-red-500': v$.plate_types_id.$error }"
             placeholder="Select Plate Type"
           />
           <p
@@ -21,7 +22,7 @@
           </p>
         </div>
         <div>
-          <input type="text" class="w-[60px]" v-model="form.plateThick" />
+          <input type="text" class="w-[60px]" v-model="form.plateThick"   :class="{ 'border-red-500': v$.plateThick.$error }"/>
           <span class="w-1/2">mil</span>
           <p
             v-for="error of v$.plateThick.$errors"
@@ -250,6 +251,7 @@
         rows="5"
         class="w-full"
         v-model="form.description"
+        :class="{ 'border-red-500': v$.description.$error }"
       ></textarea>
       <!-- <div v-if="v$.form.description.$error" class="text-red-400">Name field has an error.</div> -->
       <p

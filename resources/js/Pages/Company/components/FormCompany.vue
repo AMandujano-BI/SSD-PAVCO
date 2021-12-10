@@ -14,9 +14,114 @@
 
     <div>
       <label for="">Name</label>
-      <input type="text" class="w-full" v-model="form.name" />
+      <input
+        type="text"
+        class="w-full"
+        autocomplete="off"
+        v-model="form.name"
+        :class="{ 'border-red-500': v$.name.$error }"
+      />
       <p
         v-for="error of v$.name.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
+    </div>
+
+    <div>
+      <label for="">Address</label>
+      <input
+        type="text"
+        class="w-full"
+        autocomplete="off"
+        v-model="form.address"
+        :class="{ 'border-red-500': v$.address.$error }"
+      />
+      <p
+        v-for="error of v$.address.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
+    </div>
+    <div>
+      <label for="">City</label>
+      <input
+        type="text"
+        class="w-full"
+        autocomplete="off"
+        v-model="form.city"
+        :class="{ 'border-red-500': v$.city.$error }"
+      />
+      <p
+        v-for="error of v$.city.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
+    </div>
+    <div>
+      <label for="">State</label>
+      <input
+        type="text"
+        class="w-full"
+        autocomplete="off"
+        v-model="form.state"
+        :class="{ 'border-red-500': v$.state.$error }"
+      />
+      <p
+        v-for="error of v$.state.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
+    </div>
+    <div>
+      <label for="">Zip</label>
+      <input
+        type="text"
+        class="w-full"
+        autocomplete="off"
+        v-model="form.zip"
+        :class="{ 'border-red-500': v$.zip.$error }"
+      />
+      <p v-for="error of v$.zip.$errors" :key="error.$uid" class="text-red-400">
+        {{ error.$message }}
+      </p>
+    </div>
+    <div>
+      <label for="">Phone</label>
+      <input
+        type="text"
+        class="w-full"
+        autocomplete="off"
+        v-model="form.phone"
+        :class="{ 'border-red-500': v$.phone.$error }"
+      />
+      <p
+        v-for="error of v$.phone.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
+    </div>
+        <div>
+      <label for="">Fax</label>
+      <input
+        type="text"
+        class="w-full"
+        autocomplete="off"
+        v-model="form.fax"
+        :class="{ 'border-red-500': v$.fax.$error }"
+      />
+      <p
+        v-for="error of v$.fax.$errors"
         :key="error.$uid"
         class="text-red-400"
       >
@@ -49,7 +154,7 @@
 </template>
 
 <script>
-import { reactive,ref } from "vue";
+import { reactive, ref } from "vue";
 import Multiselect from "@vueform/multiselect";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
@@ -73,6 +178,9 @@ export default {
       notes: "",
       country_id: 0,
     });
+    const errorLength = (text) => {
+      return true;
+    };
     const rules = {
       name: {
         required,
@@ -86,6 +194,15 @@ export default {
       state: {
         required,
       },
+      zip: {
+        required,
+      },
+       phone: {
+        required,
+      },
+       fax: {
+        required,
+      },
     };
 
     const v$ = useVuelidate(rules, form);
@@ -96,8 +213,9 @@ export default {
 
     return {
       form,
-       v$,
+      v$,
       submitForm,
+      errorLength,
     };
   },
 };
