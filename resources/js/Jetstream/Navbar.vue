@@ -16,10 +16,11 @@
       xl:pl-60
       lg:w-auto lg:items-stretch
       dark:bg-gray-900 dark:border-gray-800
+      
     "
     :class="{ 'ml-60 lg:ml-0': isAsideMobileExpanded }"
   >
-    <div class="flex w-full justify-between h-16 mx-auto container px-5">
+    <div class="flex w-full justify-between h-16 mx-auto container px-5 ">
       <div class="flex">
         <!-- Logo -->
         <div class="flex-shrink-0 items-center hidden md:flex">
@@ -134,7 +135,7 @@
           </div>
         </div>
 
-        <div class="hidden sm:flex sm:items-center sm:ml-6">
+        <div class="flex items-center sm:ml-6">
           <div class="ml-3 relative">
             <!-- Teams Dropdown -->
             <jet-dropdown
@@ -185,7 +186,7 @@
           </div>
 
           <!-- Settings Dropdown -->
-          <div class="ml-3 relative">
+          <div class="ml-3 relative -mr-2 flex items-center ">
             <jet-dropdown align="right" width="48">
               <template #trigger>
                 <button
@@ -287,48 +288,13 @@
           </div>
         </div>
       </div>
-      <!-- Hamburger -->
-      <div class="-mr-2 flex items-center sm:hidden">
-        <button
-          @click="showingNavigationDropdown = !showingNavigationDropdown"
-          class="
-            inline-flex
-            items-center
-            justify-center
-            p-2
-            rounded-md
-            text-gray-400
-            hover:text-gray-500 hover:bg-gray-100
-            focus:outline-none focus:bg-gray-100 focus:text-gray-500
-            transition
-          "
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            aria-hidden="true"
-            role="img"
-            width="24"
-            height="24"
-            preserveAspectRatio="xMidYMid meet"
-            viewBox="0 0 20 20"
-          >
-            <path
-              d="M10.001 7.8a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 10 7.8zm0-2.6A2.2 2.2 0 1 0 9.999.8a2.2 2.2 0 0 0 .002 4.4zm0 9.6a2.2 2.2 0 1 0 0 4.402a2.2 2.2 0 0 0 0-4.402z"
-              fill="currentColor"
-            />
-          </svg>
-        </button>
-      </div>
+  
     </div>
 
     <!-- Responsive Navigation Menu -->
     <div
-      :class="{
-        block: showingNavigationDropdown,
-        hidden: !showingNavigationDropdown,
-      }"
-      class="sm:hidden"
+     
+      class="hidden sm:hidden absolute"
     >
       <div class="pt-2 pb-3 space-y-1">
         <jet-responsive-nav-link

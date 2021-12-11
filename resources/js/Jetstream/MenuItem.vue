@@ -69,6 +69,12 @@ const styleInactive = "text-primary";
         :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
         >{{ item.label }}</span
       >
+      <div v-if="isDropdownActive" class="text-primary pr-5">
+      ▲
+      </div>
+      <div v-if="!isDropdownActive" class="text-primary pr-5">
+        ▼
+      </div>
     </div>
     <jet-nav-link
       :is="componentIs"

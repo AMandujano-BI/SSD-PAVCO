@@ -53,13 +53,13 @@
           :key="`a-${index}`"
           class="p-3 text-xs uppercase text-gray-400"
         >
-          {{ menuGroup }}
+          <!-- {{ menuGroup }} -->
         </p>
         <menu-list
           v-else
           :key="`b-${index}`"
           :menu="menuGroup"
-          @menu-click="menuClick"
+          @menu-click="hideMenu"
         />
       </template>
       <img :src="IconFooterLeftBar" alt="iconLeftBar" class="w-full h-48 absolute bottom-0" />
