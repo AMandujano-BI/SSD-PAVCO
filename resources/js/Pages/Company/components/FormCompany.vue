@@ -21,9 +21,9 @@
     <div>
       <label for="">Distributor</label>
       <multi-select
-        :options="countries"
+        :options="distributors"
         class="w-full"
-        v-model="form.country_id"
+        v-model="form.distributor"
         :searchable="true"
         placeholder="Select Distributor"
       />
@@ -165,7 +165,7 @@ import Multiselect from "@vueform/multiselect";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 export default {
-  props: ["countries"],
+  props: ["countries","distributors"],
   components: {
     multiSelect: Multiselect,
   },

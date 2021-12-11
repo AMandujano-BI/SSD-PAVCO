@@ -27,8 +27,10 @@ class CompanyController extends Controller
     {
 
         $countries = $this->_country->getCountries();
+        $distributors= $this->_company->getDistributors();
         return Inertia::render('Company/Index', [
-            'countries' => $countries
+            'countries' => $countries,
+            'distributors' => $distributors
         ]);
     }
 
