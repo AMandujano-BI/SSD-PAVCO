@@ -32,13 +32,13 @@
         :searchable="true"
         placeholder="Select plate Method"
       />
-      <p
-        v-for="error of v$.plate_methods_id.$errors"
-        :key="error.$uid"
-        class="text-red-400"
-      >
-        {{ error.$message }}
-      </p>
+        <p
+            v-for="error of v$.plate_methods_id.$errors"
+            :key="error.$uid"
+            class="text-red-400"
+          >
+            {{ error.$message }}
+          </p>
     </div>
     <div>
       <label for="">Description</label>
@@ -47,8 +47,8 @@
         rows="5"
         class="w-full"
         v-model="form.description"
+            :class="{ 'border-red-500': v$.description.$error }"
       ></textarea>
-      <!-- <div v-if="v$.form.description.$error" class="text-red-400">Name field has an error.</div> -->
       <p
         v-for="error of v$.description.$errors"
         :key="error.$uid"
@@ -123,6 +123,7 @@ export default {
           "You must select an option",
           isDiferentZero
         ),
+        required
       },
       user_id: {
         isDiferentZero: helpers.withMessage(

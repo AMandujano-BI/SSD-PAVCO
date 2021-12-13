@@ -65,13 +65,14 @@
             <!-- Close action -->
             <td class="text-center">
               <button @click="showClose(run.id)" :disabled="run.status == 1">
-                <img :src="ImgClose" alt="iconClose" />
+
+                <img :src="ImgClose" alt="iconClose"  :class="{'grayscale':run.status ==1}"/>
               </button>
             </td>
             <!-- ReOpen action -->
             <td class="text-center">
               <button @click="showReOpen(run.id)" :disabled="run.status == 0">
-                <img :src="ImgReOpen" alt="iconNote" />
+                <img :src="ImgReOpen" alt="iconNote"  :class="{'grayscale':run.status ==0}"/>
               </button>
             </td>
             <!-- Notes action -->

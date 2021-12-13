@@ -6,7 +6,7 @@
     <button @click="openModal">+</button>
     <modal :show="openModalCompany" @close="closeModal">
         <div class="p-5">
-        <form-company :countries="countries"/>
+        <form-company :countries="countries" :distributors="distributors"/>
         </div>
     </modal>
     </div>
@@ -19,7 +19,7 @@ import FormCompany from './components/FormCompany.vue';
 import ModalVue from "@/Jetstream/Modal.vue";
 import { ref } from 'vue';
 export default {
-  props: ["countries"],
+  props: ["countries","distributors"],
   components: {
     AppLayout: AppLayout,
     FormCompany,

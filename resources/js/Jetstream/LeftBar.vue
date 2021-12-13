@@ -6,7 +6,8 @@
       fixed
       top-0
       z-40
-      h-screen
+      min-h-screen h-full
+
       bg-[#f4f7fc]
       transition-position
       lg:left-0
@@ -52,13 +53,13 @@
           :key="`a-${index}`"
           class="p-3 text-xs uppercase text-gray-400"
         >
-          {{ menuGroup }}
+          <!-- {{ menuGroup }} -->
         </p>
         <menu-list
           v-else
           :key="`b-${index}`"
           :menu="menuGroup"
-          @menu-click="menuClick"
+          @menu-click="hideMenu"
         />
       </template>
       <img :src="IconFooterLeftBar" alt="iconLeftBar" class="w-full h-48 absolute bottom-0" />
