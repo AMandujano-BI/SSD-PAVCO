@@ -25,6 +25,7 @@ const dropdownIcon = computed(() => (isDropdownActive.value ? "" : ""));
 const itemTo = computed(() => props.item.to || null);
 
 const itemHref = computed(() => props.item.href || null);
+const itemRoute= computed(() => props.item.itemRoute|| null);
 
 const itemTarget = computed(() =>
   componentIs.value === "a" && props.item.target ? props.item.target : null
@@ -38,56 +39,22 @@ const menuClick = (event) => {
   }
 };
 
-const styleActive = "font-bold text-white";
+const styleActive = "font-bold text-white text-primary-600";
 
-const styleInactive = "text-primary";
+const styleInactive = "text-gray-500";
 </script>
 
 <template>
   <li>
-
     <div
       v-if="!itemHref"
       class="
         flex
         cursor-pointer
+        text-gray-700
         hover:bg-[#e1e8f3]
         dark:hover:bg-gray-700 dark:hover:bg-opacity-50
       "
-      :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
-      @click="menuClick"
-    >
-        <img
-        v-if="item.icon"
-        :src="item.icon"
-        class="flex-none pr-3 pl-14"
-        :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
-        w="w-12"
-      />
-      <span
-        class="flex-grow"
-        :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
-        >{{ item.label }}</span
-      >
-      <div v-if="isDropdownActive" class="text-primary pr-5">
-      ▲
-      </div>
-      <div v-if="!isDropdownActive" class="text-primary pr-5">
-        ▼
-      </div>
-    </div>
-    <jet-nav-link
-      :is="componentIs"
-      v-if="itemHref"
-      :href="itemHref"
-      class="
-        flex
-        cursor-pointer
-        hover:bg-[#e1e8f3]
-        w-full
-        dark:hover:bg-gray-700 dark:hover:bg-opacity-50
-      "
-      v-slot="vSlot"
       :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
       @click="menuClick"
     >
@@ -100,7 +67,63 @@ const styleInactive = "text-primary";
       />
       <span
         class="flex-grow"
+        >{{ item.label }}</span
+      >
+      <div v-if="isDropdownActive" class="text-primary pr-5">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          aria-hidden="true"
+          role="img"
+          width="24"
+          height="24"
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 20 20"
+        >
+          <path d="M15 14l-5-5l-5 5l-2-1l7-7l7 7z" fill="currentColor" />
+        </svg>
+      </div>
+      <div v-if="!isDropdownActive" class="text-primary pr-5">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          aria-hidden="true"
+          role="img"
+          width="24"
+          height="24"
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 20 20"
+        >
+          <path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="currentColor" />
+        </svg>
+      </div>
+    </div>
+    <jet-nav-link
+      :is="componentIs"
+      v-if="itemHref"
+      :href="route(itemRoute)"
+      class="
+        flex
+        cursor-pointer
+        hover:bg-[#e1e8f3]
+        w-full
+        text-gray-700
+        dark:hover:bg-gray-700 dark:hover:bg-opacity-50
+      "
+      :active="route().current(itemRoute)"
+      v-slot="vSlot"
+      :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
+      @click="menuClick"
+    >
+      <img
+        v-if="item.icon"
+        :src="item.icon"
+        class="flex-none pr-3 pl-14"
         :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
+        w="w-12"
+      />
+      <span
+        class="flex-grow "
         >{{ item.label }}</span
       >
       <icon
