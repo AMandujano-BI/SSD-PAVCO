@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\TryCatch;
+use Carbon\Carbon;
+use DateTime;
 
 class Run extends Model
 {
@@ -179,6 +181,27 @@ class Run extends Model
         try {
             $run = (new static)::find($id);
             $run->status = 1;
+            $run->closed_date = Carbon::now();
+            $totalHours = 0;
+            if ( $run->isEdit ) {
+                $currentDate = new DateTime();
+                $lastDateEdit = new DateTime($run->lastDateEdit);
+                $lastDate = $lastDateEdit->format('Y-m-d H:i:s');
+                $current = $currentDate->format('Y-m-d H:i:s');
+                $hourdiff = round((strtotime($current) - strtotime($lastDate))/3600, 1);
+                $hours = intval($hourdiff, 10);
+
+                $totalHours = $hours + $run->hours;
+            } else {
+                $currentDate = new DateTime();
+                $current = $currentDate->format('Y-m-d H:i:s');
+                $created_at = new DateTime($run->created_at);
+                $createdDate = $created_at->format('Y-m-d H:i:s');
+                $hourdiff = round((strtotime($current) - strtotime($createdDate))/3600, 1);
+                $totalHours = intval($hourdiff, 10);
+            }
+            $run->hours = $totalHours;
+
             $run->save();
             DB::commit();
             return [
@@ -202,6 +225,8 @@ class Run extends Model
         try {
             $run = (new static)::find($id);
             $run->status = 0;
+            $run->isEdit = true;
+            $run->lastDateEdit = Carbon::now();
             $run->save();
             DB::commit();
             return [
@@ -246,10 +271,15 @@ class Run extends Model
         DB::beginTransaction();
         try {
             $run = (new static)::find($id);
-            $run->status = 1;
+            // $run->status = 1;
             $run->startDate = $request->startDate;
             $run->description = $request->description;
             $run->plate_methods_id = $request->plate_methods_id;
+            if ($request->hasDiferentHours) {
+                $run->hours = $request->hours;
+                $run->lastDateEdit = $request->lastDateEdit;
+                $run->isEdit = true;
+            }
             $run->save();
             DB::commit();
             return [

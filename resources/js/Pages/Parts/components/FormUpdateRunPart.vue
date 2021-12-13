@@ -41,6 +41,10 @@
           </p>
     </div>
     <div>
+      <label>Hours</label>
+      <input type="number" class="w-full" v-model="form.hours"/>
+    </div>
+    <div>
       <label for="">Description</label>
       <textarea
         cols="30"
@@ -80,12 +84,36 @@ export default {
   },
   setup(props) {
     const { run } = props;
+    console.log(run);
     const { makeToast } = useHelper();
+    const hasDiferentHours = ref(false);
+
+    const calculateHours = () => {
+      if (run.status === 1 ){ //cerrado
+        if (run.isEdit) {
+          const hoursClose = Math.round( Math.abs(new Date(run.closed_date) - new Date(run.lastDateEdit)) / 36e5);
+          return hoursClose + run.hours;
+        } else {
+          return Math.round(Math.abs(new Date(run.closed_date) - new Date(run.created_at)) / 36e5);
+        }
+      } else {  // abierto
+        if (run.isEdit) {
+          const hoursEdited = Math.round( Math.abs(new Date() - new Date(run.lastDateEdit)) / 36e5 )
+          return run.hours + hoursEdited;
+        } else {
+          return Math.round(Math.abs(new Date() - new Date(run.created_at)) / 36e5);
+        }
+      }
+    }
+    
+    const hours = calculateHours();
+
     const form = reactive({
       id: run.id,
       number: 0,
       startDate: new Date(run.startDate).toISOString().slice(0, 10),
       description: run.description,
+      hours: hours,
       status: 0,
       idCustomer: run.idCustomer,
       user_id: 1,
@@ -110,6 +138,9 @@ export default {
       coatDiptime: 0,
 
       numberParts: 0,
+
+      hasDiferentHours: false,
+      lastDateEdit: ''
     });
     const rules = {
       description: {
@@ -135,12 +166,23 @@ export default {
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {
       try {
+        if (form.hours !== hours) {
+          form.hasDiferentHours = true;
+          const date = new Date().toISOString();
+          form.lastDateEdit = `${date.slice(0,10)} ${date.slice(11,19)}`;
+        }
+        
         const isFormCorrect = await v$.value.$validate();
         console.log(v$.value);
         if (!isFormCorrect) return;
         let res;
         res = await axios.put(`/run/${form.id}`, form);
         const { ok, value, message } = res.data;
+        if (form.hasDiferentHours) {
+          console.log('has different value');
+          form.hasDiferentHours = false;
+        }
+        console.log(form);
         if (ok) {
           makeToast("Part was updated successfully");
         } else {

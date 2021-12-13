@@ -37,7 +37,7 @@
               <span v-if="run.status == 0">Active</span>
               <span v-if="run.status == 1">Complete</span>
             </td>
-            <td class="text-center">{{ calculateHours(run.id, run.created_at, run.isEdit, run.hours, run.lastDateEdit, run.closed_date)  }}</td>
+            <td class="text-center">{{ calculateHours(run.id, run.status, run.created_at, run.isEdit, run.lastDateEdit, run.hours, run.closed_date)  }}</td>
             <!-- Photos action -->
             <td class="text-center">
               <button @click="showPhotos(run.id)">
@@ -318,17 +318,17 @@ export default {
       isModalReOpen.value = false;
     };
 
-    const calculateHours = (id, created_date, edit, lastDate, hours, closeDate) => {
-      if (filterOption.value === 1 ){ //cerrado
+    const calculateHours = (id,status, created_date, edit, lastDate, hours, closeDate) => {
+      if (status === 1 ){ //cerrado
         if (edit) {
           const hoursClose = Math.round( Math.abs(new Date(closeDate) - new Date(lastDate)) / 36e5);
           return hoursClose + hours;
         } else {
-          return Math.round(Math.abs(new Date(closeHour) - new Date(created_date)) / 36e5);
+          return Math.round(Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5);
         }
       } else {
         if (edit) {
-          const hoursEdited = Math.round( Math.abs(new Date() - new Date(lastDate)) )
+          const hoursEdited = Math.round( Math.abs(new Date() - new Date(lastDate)) / 36e5 )
           return hours + hoursEdited;
         } else {
           return Math.round(Math.abs(new Date() - new Date(created_date)) / 36e5);
