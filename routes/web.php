@@ -39,12 +39,16 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRuns/{status}',
 Route::middleware(['auth:sanctum', 'verified'])->put('/run/closeRun/{id}', [RunController::class, 'closeRun'])->name('run.closeRun');
 Route::middleware(['auth:sanctum', 'verified'])->put('/run/reopenRun/{id}', [RunController::class, 'reopenRun'])->name('run.reopenRun');
 Route::middleware(['auth:sanctum', 'verified'])->delete('/run/deleteRun/{id}', [RunController::class, 'deleteRun'])->name('run.deleteRun');
-Route::middleware(['auth:sanctum', 'verified'])->resource('run', RunController::class);
-Route::middleware(['auth:sanctum', 'verified'])->resource('part', PartController::class);
 Route::middleware(['auth:sanctum', 'verified'])->get('/chemical/getChemicals/{type}', [ChemicalController::class, 'getChemicals'])->name('chemical.getChemicals');
+Route::middleware(['auth:sanctum', 'verified'])->post('/note/add', [NoteController::class, 'store'])->name('note.add');
+Route::middleware(['auth:sanctum', 'verified'])->post('/photo/getAllUrlSignature', [PhotoController::class, 'getAllUrlSignature'])->name('photo.signature');
+
+
+//Resources
 Route::middleware(['auth:sanctum', 'verified'])->resource('chemical', ChemicalController::class);
 Route::middleware(['auth:sanctum', 'verified'])->resource('photo', PhotoController::class);
 Route::middleware(['auth:sanctum', 'verified'])->resource('company', CompanyController::class);
-Route::middleware(['auth:sanctum', 'verified'])->post('/note/add', [NoteController::class, 'store'])->name('note.add');
+Route::middleware(['auth:sanctum', 'verified'])->resource('part', PartController::class);
+Route::middleware(['auth:sanctum', 'verified'])->resource('run', RunController::class);
 
 

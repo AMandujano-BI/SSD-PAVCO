@@ -6,7 +6,9 @@ use App\Models\Chemical;
 use App\Models\Part;
 use App\Models\PlateMethod;
 use App\Models\Run;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class PartController extends Controller
@@ -73,6 +75,10 @@ class PartController extends Controller
         $Chromates = $this->_chemical->getByType(2);
         $plateType = $this->_chemical->getByType(3);
         $SecondaryCoats = $this->_chemical->getByType(4);
+        // dd($run);
+        // $image=  Storage::temporaryUrl(
+        //     'images/run4/mountain.jpg', now()->addMinutes(5)
+        // );
         return Inertia::render(
             'Parts/Detail',
             [
@@ -83,6 +89,7 @@ class PartController extends Controller
                 'chromates' => $Chromates,
                 'plateTypes' => $plateType,
                 'secondaryCoats' => $SecondaryCoats,
+                // 'image' => $image,
             ]
         );
     }

@@ -18,6 +18,7 @@ export default createStore({
     },
     actions:{
         asideMobileToggle ({ commit, state }, payload = null) {
+          console.log('click')
             const isShow = payload !== null ? payload : !state.isAsideMobileExpanded
       
             document.getElementById('app').classList[isShow ? 'add' : 'remove']('ml-60', 'lg:ml-0')

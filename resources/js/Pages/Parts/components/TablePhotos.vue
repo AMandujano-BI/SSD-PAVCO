@@ -75,7 +75,7 @@
   />
 
   <modal :show="openModalPhotosCreate" @close="closeModalPhotosCreate">
-    <form-photos-create  :run_id="run_id"/>
+    <form-photos-create :run_id="run_id" @closeModal="closeModalPhotosCreate" />
   </modal>
 </template>
 
@@ -89,7 +89,7 @@ import FormPhotosCreateVue from "./FormPhotosCreate.vue";
 import Modal from "@/Jetstream/Modal";
 
 export default {
-  props: ["photos","run"],
+  props: ["photos", "run"],
   components: {
     photosRun: PhotosRun,
     formPhotosCreate: FormPhotosCreateVue,
@@ -97,8 +97,8 @@ export default {
   },
   setup(props) {
     console.log(props.photos);
-    const { photos,run } = props;
-    const run_id = ref(run.id)
+    const { photos, run } = props;
+    const run_id = ref(run.id);
     let currentPhoto = ref([]);
     let isModalPhotos = ref(false);
     const openModalPhotosCreate = ref(false);
@@ -116,9 +116,16 @@ export default {
     };
     const showPhotos = (id) => {
       const pic = photos.find((pic) => pic.id === id);
-      console.log(pic);
       currentPhoto.value.push(pic);
+      console.log(currentPhoto)
+      // const image = currentPhoto.value[0].image;
+      // getUrlSignature(image);
       isModalPhotos.value = true;
+    };
+    const getUrlSignature = async (url) => {
+      const data = [url];
+      const res = await axios.post(`/photo/getAllUrlSignature`, { data });
+      // currentPhoto.value[0].image = res.data[0];
     };
     const closePhotosModal = () => {
       currentPhoto.value = [];
@@ -128,7 +135,6 @@ export default {
       console.log("photoAdded");
     };
     const openModalPhotosForm = () => {
-      console.log("ehco");
       openModalPhotosCreate.value = true;
     };
     const closeModalPhotosCreate = () => {
@@ -146,7 +152,7 @@ export default {
       openModalPhotosCreate,
       openModalPhotosForm,
       closeModalPhotosCreate,
-      run_id
+      run_id,
     };
   },
 };

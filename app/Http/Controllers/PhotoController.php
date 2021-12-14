@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class PhotoController extends Controller
 {
+    private $_photo;
+    public function __construct(Photo $photo)
+    {
+        $this->_photo  = $photo;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -36,12 +42,8 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-
-        $file = $request->file('image');
-        $filename = $file->getClientOriginalName();
-        $run = $request->input('run');
-        $file->storeAs('images/'.$run,$filename,'s3');
-        return 'ok';
+        $photo = $this->_photo->createPhoto($request);
+        return $photo;
     }
 
     /**
@@ -53,6 +55,17 @@ class PhotoController extends Controller
     public function show(Photo $photo)
     {
         //
+    }
+    public function getAllUrlSignature(Request $request)
+    {
+        $urls = array();
+        for ($i = 0; $i < count($request->data); $i++) {
+            $image=  Storage::temporaryUrl(
+                $request->data[$i], now()->addMinutes(5)
+            );
+            array_push($urls,$image);
+        }
+        return $urls;
     }
 
     /**
