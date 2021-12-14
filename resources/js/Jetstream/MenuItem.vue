@@ -32,10 +32,15 @@ const itemTarget = computed(() =>
 );
 
 const menuClick = (event) => {
-  emit("menu-click", event, props.item);
-
+  console.log(event)
   if (hasDropdown.value) {
     isDropdownActive.value = !isDropdownActive.value;
+    if(event ==undefined) return
+    emit("menu-click", event, props.item);
+    //  store.dispatch("asideLgToggle", false);
+  }else{
+    emit("menu-click", event, props.item);
+
   }
 };
 
@@ -56,7 +61,7 @@ const styleInactive = "text-gray-500";
         dark:hover:bg-gray-700 dark:hover:bg-opacity-50
       "
       :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
-      @click="menuClick"
+      @click="menuClick()"
     >
       <img
         v-if="item.icon"
@@ -138,6 +143,7 @@ const styleInactive = "text-gray-500";
     <menu-list
       v-if="hasDropdown"
       :menu="item.menu"
+       @menu-click="menuClick"
       :class="{
         hidden: !isDropdownActive,
         'block bg-[#edf4ff]  dark:bg-gray-800 dark:bg-opacity-50':
