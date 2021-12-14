@@ -14,8 +14,8 @@ class AddFieldsTableRun extends Migration
     public function up()
     {
         Schema::table('runs', function (Blueprint $table) {
-            $table->boolean('isEdit');
-            $table->boolean('isReport');
+            $table->boolean('isEdit')->default(0);
+            $table->boolean('isReport')->default(0);
             $table->dateTime('lastDateEdit')->nullable();
             $table->integer('hours')->default(0);
             $table->dateTime('closed_date')->nullable();

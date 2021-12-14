@@ -42,6 +42,8 @@ class Chemical extends Model
     }
 
     public static function deleteChemical($id) {
+        try{
+
         $chemical = (new static)::find($id);
         $chemical->delete();
         return [
@@ -49,6 +51,14 @@ class Chemical extends Model
             'message' => 'Chemical was deleted successfully',
             'value' => $chemical,
         ];
+
+        }catch(\Exception $e){
+            return [
+                'ok' => false,
+                'message' => 'The chemical is being used',
+                'value' =>0
+            ];
+        }
     }
 
     public static function getByType($type)
