@@ -41,10 +41,10 @@ export default [
     },
     {
       // to: '/run',
-      href: '/run',
+      href: '/report',
       label: 'Reports',
       icon: IconReport,
-      itemRoute:'chemical.index',
+      itemRoute:'report.index',
       updateMark: true
     },
   ],

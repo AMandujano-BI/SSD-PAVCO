@@ -19,13 +19,14 @@ class Photo extends Model
         'report',
         'run_id',
     ];
-
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
     public function getImageAttribute($value)
     {
         $image =  Storage::temporaryUrl($value, now()->addMinutes(5));
         return $image;
     }
-
     public static function createPhoto($request)
     {
 

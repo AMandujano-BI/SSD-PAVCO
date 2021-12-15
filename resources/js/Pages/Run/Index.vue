@@ -9,13 +9,13 @@
         <button
           @click="openModalButton"
           class="
-            bg-blue-600
+            bg-primary
+            hover:bg-primary-600
             px-4
             py-2
             text-white
             rounded-md
             mb-2
-            hover:bg-blue-700
           "
         >
           +

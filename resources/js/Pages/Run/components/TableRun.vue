@@ -59,10 +59,7 @@
             <!-- Delete action -->
             <td class="text-center">
               <button @click="showDelete(run.id)">
-                <!-- <img :src="ImgDelete" alt="iconDelete" /> -->
                 <img :src="require('@/assets/Icons/iconDelete/iconDelete.png').default" alt="iconDelete" />
-                <!-- <img src="{{url('/images/iconDelete.png')}}" alt="iconDelete" />
-                <img src="{{asset('/images/iconDelete.png')}}" alt="iconDelete" /> -->
               </button>
             </td>
             <!-- Close action -->
@@ -254,7 +251,6 @@ export default {
     const idGlobal = ref(0);
     const filterOption = ref(3);
     const onSwiper = (swiper) => {
-      // console.log(swiper);
     };
     const onSlideChange = () => {
       // console.log('slide change');
@@ -397,7 +393,6 @@ export default {
         const res = await axios.get(`/run/getAllRuns/${status}`);
         // runs.value = res.data.data;
         runs.value = res.data;
-        console.log(res.data)
         $("#activeRuns").DataTable().destroy();
         await generateDataTable();
       } catch (e) {
