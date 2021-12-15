@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFieldsTableRun extends Migration
+class AddFieldsTablePhotos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class AddFieldsTableRun extends Migration
      */
     public function up()
     {
-        Schema::table('runs', function (Blueprint $table) {
+        //
+        Schema::table('photos', function (Blueprint $table) {
             $table->boolean('isEdit')->default(0);
             $table->boolean('isReport')->default(0);
             $table->timestamp('last_edit')->nullable();
-            $table->integer('hours')->default(0);
             $table->timestamp('closed_date')->nullable();
         });
+    
     }
 
     /**
@@ -29,11 +30,10 @@ class AddFieldsTableRun extends Migration
      */
     public function down()
     {
-        Schema::table('runs', function (Blueprint $table) {
+        Schema::table('photos', function (Blueprint $table) {
             $table->dropColumn('isEdit');
             $table->dropColumn('isReport');
             $table->dropColumn('last_edit')->nullable();
-            $table->dropColumn('hours')->default(0);
             $table->dropColumn('closed_date')->nullable();
         });
     }
