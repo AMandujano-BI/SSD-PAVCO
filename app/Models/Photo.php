@@ -19,16 +19,13 @@ class Photo extends Model
         'report',
         'run_id',
     ];
+
     public function getImageAttribute($value)
     {
-        // dd(now());
         $image =  Storage::temporaryUrl($value, now()->addMinutes(5));
-        // dd($image);
-        $this->attributes['image2'] = $image;
-        // $this->attributes['image'] = 'fdsafdas';
         return $image;
-        //  dd($this->attributes['image']);
     }
+
     public static function createPhoto($request)
     {
 
@@ -39,7 +36,7 @@ class Photo extends Model
             $file = $request->file('image');
             $filename = $file->getClientOriginalName();
             $run_id = $request->input('run');
-            $name= $request->input('name');
+            $name = $request->input('name');
             $hours = $request->input('hours');
             $description = $request->input('description');
             $run_id = $request->input('run');
@@ -53,6 +50,7 @@ class Photo extends Model
                 'name' => $name,
                 'hours' => Carbon::now(),
                 'image' => $image,
+                // 'image' => 'ss',
                 'description' => $description,
                 'report' => $report,
                 'run_id' => $run_id,
@@ -74,6 +72,34 @@ class Photo extends Model
             ];
         }
     }
+
+    public static function updatePhoto($request)
+    {
+
+        DB::beginTransaction();
+        try {
+
+            $photo = (new static)::find($request->id);
+            $photo->name = $request->name;
+            $photo->hours = $request->hours;
+            $photo->description = $request->description;
+            $photo->report = $request->report;
+            $photo->save();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Photo was updated successfully',
+                'value' => $photo,
+            ];
+        } catch (\Exception $e) {
+            DB::rollback();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage(),
+                'value' => 0
+            ];
+        }
+    }
     public static function  deletePhoto($id)
     {
         DB::beginTransaction();
@@ -81,15 +107,16 @@ class Photo extends Model
 
             $photoDeleted = (new static)::find($id);
             $image = $photoDeleted->getRawOriginal('image');
-            DB::commit();
-            return [
-                'ok' => true,
-                'message' => 'Photo was deleted successfully',
-                'value' => $photoDeleted->id,
-            ];
+
             if (Storage::disk('s3')->exists($image)) {
                 Storage::disk('s3')->delete($image);
                 $photoDeleted->delete();
+                DB::commit();
+                return [
+                    'ok' => true,
+                    'message' => 'Photo was deleted successfully',
+                    'value' => $photoDeleted->id,
+                ];
             } else {
                 DB::rollback();
                 return [

@@ -1889,6 +1889,9 @@ select {
 .pl-9 {
 	padding-left: 2.25rem;
 }
+.pb-2 {
+	padding-bottom: 0.5rem;
+}
 .text-left {
 	text-align: left;
 }

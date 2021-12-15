@@ -15,6 +15,7 @@
         <th>Description</th>
         <th class="no-sort">View</th>
         <th class="no-sort">Report</th>
+        <th class="no-sort">Edit</th>
         <th class="no-sort">Delete</th>
       </tr>
     </thead>
@@ -43,7 +44,12 @@
             </svg>
           </button>
         </td>
-        <td class="text-center">Report</td>
+        <td class="text-center">{{ photo.report == 1 ? "Yes" : "No" }}</td>
+        <td class="text-center">
+          <button @click="openModalEditClick(photo.id)">
+            <img :src="ImgEdit" alt="icon Edit" />
+          </button>
+        </td>
         <td class="text-center">
           <button @click="openModalDeleteClick(photo.id)">
             <!-- <button> -->
@@ -71,7 +77,7 @@
     v-if="photos"
     :isModalPhotos="isModalPhotos"
     :photos="currentPhoto"
-    @closeModal="closePhotosModal"
+    @closeModal="closePhotosModalView"
   />
   <!-- @photoEdited="photoAdded" -->
 
@@ -82,6 +88,15 @@
       @closeModal="closeModalPhotosCreate"
       @generateDataTable="generateDataTable"
       :photosTable="photosTable"
+    />
+  </modal>
+  <modal :show="openModalEdit">
+    <form-photos-update
+      :run_id="run_id"
+      @closeModal="closePhotosModal"
+      @generateDataTable="generateDataTable"
+      :photosTable="photosTable"
+      :photoItem="photoItem"
     />
   </modal>
   <!-- CONFIRMATION MODAL -->
@@ -119,27 +134,31 @@ import Modal from "@/Jetstream/Modal";
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import axios from "axios";
 import useHelper from "@/composables/useHelper";
-
+import ImgEdit from "@/assets/Icons/iconEdit/iconEdit.png";
+import FormPhotosUpdateVue from "./FormPhotosUpdate.vue";
 export default {
   props: ["photos", "run"],
   components: {
     photosRun: PhotosRun,
     formPhotosCreate: FormPhotosCreateVue,
+    formPhotosUpdate: FormPhotosUpdateVue,
     modal: Modal,
     confirmationModal: ConfirmationModal,
   },
   setup(props) {
     const { photos, run } = props;
-    console.log(photos);
     const photosTable = ref(photos);
     const run_id = ref(run.id);
     const currentPhoto = ref([]);
     const isModalPhotos = ref(false);
     const idPhoto = ref(0);
     const openModalDelete = ref(false);
+    const openModalEdit = ref(false);
     const showModalDelete = ref(false);
     const openModalPhotosCreate = ref(false);
+    const photoItem = ref(null);
     const { makeToast } = useHelper();
+
     const generateDataTable = () => {
       nextTick(() => {
         $("#photosTable").DataTable({
@@ -156,7 +175,7 @@ export default {
       currentPhoto.value.push(pic);
       isModalPhotos.value = true;
     };
-    const closePhotosModal = () => {
+    const closePhotosModalView = () => {
       currentPhoto.value = [];
       isModalPhotos.value = false;
     };
@@ -170,7 +189,6 @@ export default {
     const deletePhoto = async () => {
       const res = await axios.delete(`/photo/${idPhoto.value}`);
       const { message, value, ok } = res.data;
-      console.log(photos);
       if (ok) {
         makeToast(message);
         closeModalDelete();
@@ -181,6 +199,11 @@ export default {
         makeToast(message, "error");
       }
     };
+    const openModalEditClick = (id) => {
+      idPhoto.value = id;
+      photoItem.value = photosTable.value.find((item) => item.id == id);
+      openModalEdit.value = true;
+    };
 
     generateDataTable();
     return {
@@ -188,7 +211,7 @@ export default {
       isModalPhotos,
       currentPhoto,
       showPhotos,
-      closePhotosModal,
+      closePhotosModalView,
       openModalPhotosCreate,
       openModalPhotosForm,
       closeModalPhotosCreate,
@@ -199,6 +222,11 @@ export default {
       openModalDeleteClick,
       deletePhoto,
       photosTable,
+      ImgEdit,
+      openModalEdit,
+      openModalEditClick,
+      photoItem,
+      closePhotosModal: () => (openModalEdit.value = false),
     };
   },
 };

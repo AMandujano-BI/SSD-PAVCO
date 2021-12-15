@@ -1,8 +1,9 @@
+
 <template>
   <div class="p-5">
     <form @submit.prevent="saveImage">
-      <h1 class="text-2xl text-center font-bold">Take a Picture</h1>
-      <div
+      <h1 class="text-2xl text-center font-bold">Update Photo</h1>
+      <!-- <div
         class="
           bg-primary
           rounded-full
@@ -30,7 +31,7 @@
             fill="#f8f8f8"
           />
         </svg>
-      </div>
+      </div> -->
       <input
         type="file"
         class="hidden"
@@ -162,22 +163,22 @@ import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 export default {
   emits: ["closeModal", "generateDataTable"],
-  props: ["run_id", "photosTable"],
+  props: ["run_id", "photosTable", "photoItem"],
   setup(props, { emit }) {
-    const { run_id, photosTable } = props;
+    const { photosTable, photoItem } = props;
     const photos = ref(photosTable);
     const form = reactive({
-      description: "",
-      name: "",
-      report: 1,
-      // hours: "",
+      id: photoItem.id,
+      description: photoItem.description,
+      name: photoItem.name,
+      report: photoItem.report,
       // startDate: new Date().toISOString().slice(0, 10),
       hours: new Date().toISOString().slice(0, 10),
-      image: null,
+      image: photoItem.image,
     });
     const loading = ref(false);
-    const url = ref(null);
-    const image = ref(null);
+    const url = ref(photoItem.image);
+    const image = ref(photoItem.image);
     const { makeToast } = useHelper();
     const rules = {
       description: { required },
@@ -188,9 +189,7 @@ export default {
 
     const fileChange = (e) => {
       const file = e.target.files[0];
-      console.log(file);
       image.value = file;
-      form.image = file;
       url.value = URL.createObjectURL(file);
     };
     const selectImage = () => {
@@ -201,23 +200,19 @@ export default {
       if (!isFormCorrect) return;
       loading.value = true;
       // Prepare Data
-      const formData = new FormData();
-      formData.append("image", form.image);
-      formData.append("run", run_id);
-      formData.append("description", form.description);
-      formData.append("name", form.name);
-      formData.append("hours", form.hours);
-      formData.append("report", form.report);
-      const res = await axios.post(`/photo`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await axios.put(`/photo/${form.id}`, form);
       const { ok, message, value } = res.data;
       loading.value = false;
       if (ok) {
         makeToast(message);
-        photos.value.push(value);
+        const index = photos.value.findIndex((item) => item.id == form.id);
+        photos.value[index] = {
+          ...photos.value[index],
+          name: form.name,
+          description: form.description,
+          report: form.report,
+          hours: form.hours,
+        };
         emit("closeModal");
       } else {
         makeToast(message, "error");

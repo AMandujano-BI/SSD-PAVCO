@@ -397,6 +397,7 @@ export default {
         const res = await axios.get(`/run/getAllRuns/${status}`);
         // runs.value = res.data.data;
         runs.value = res.data;
+        console.log(res.data)
         $("#activeRuns").DataTable().destroy();
         await generateDataTable();
       } catch (e) {

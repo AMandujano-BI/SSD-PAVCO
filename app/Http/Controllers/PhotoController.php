@@ -60,10 +60,11 @@ class PhotoController extends Controller
     {
         $urls = array();
         for ($i = 0; $i < count($request->data); $i++) {
-            $image=  Storage::temporaryUrl(
-                $request->data[$i], now()->addMinutes(5)
+            $image =  Storage::temporaryUrl(
+                $request->data[$i],
+                now()->addMinutes(5)
             );
-            array_push($urls,$image);
+            array_push($urls, $image);
         }
         return $urls;
     }
@@ -86,9 +87,10 @@ class PhotoController extends Controller
      * @param  \App\Models\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Photo $photo)
+    public function update(Request $request)
     {
-        //
+        $photo = $this->_photo->updatePhoto($request);
+        return $photo;
     }
 
     /**
