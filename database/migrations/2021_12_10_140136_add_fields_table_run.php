@@ -32,7 +32,7 @@ class AddFieldsTableRun extends Migration
         Schema::table('runs', function (Blueprint $table) {
             $table->dropColumn('isEdit');
             $table->dropColumn('isReport');
-            $table->dropColumn('lastDateEdit')->nullable();
+            $table->dropColumn('last_edit')->nullable();
             $table->dropColumn('hours')->default(0);
             $table->dropColumn('closed_date')->nullable();
         });

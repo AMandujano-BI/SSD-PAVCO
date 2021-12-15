@@ -1,7 +1,7 @@
 <template>
   <h1 class="text-center font-bold text-2xl">Table Photos</h1>
   <button
-    class="bg-blue-600 rounded w-[100] py-1 text-white px-3 mt-2"
+    class="bg-primary hover:bg-primary-600 rounded w-[100] py-1 text-white px-3 mt-2"
     @click="openModalPhotosForm"
   >
     +
@@ -52,21 +52,7 @@
         </td>
         <td class="text-center">
           <button @click="openModalDeleteClick(photo.id)">
-            <!-- <button> -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="#E71F2A"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-              />
-            </svg>
+              <img :src="require('@/assets/Icons/iconDelete/iconDelete.png').default" alt="iconDelete" />
           </button>
         </td>
       </tr>

@@ -99,8 +99,8 @@
           </div>
         </div>
       </div>
-      <div class="flex">
-        <div class="flex items-center justify-center px-3">
+      <div class="flex justify-center items-center">
+        <div class="flex  items-center justify-center px-3">
           <div class="relative text-gray-600 focus-within:text-gray-400">
             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
               <button
@@ -122,7 +122,6 @@
             </span>
             <input
               type="text"
-              name="q"
               class="
                 py-2
                 text-sm 
@@ -135,7 +134,7 @@
           </div>
         </div>
 
-        <div class="flex items-center sm:ml-6">
+        <div class="flex items-center">
           <div class="ml-3 relative">
             <!-- Teams Dropdown -->
             <jet-dropdown
