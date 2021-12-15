@@ -37,7 +37,7 @@
               <span v-if="run.status == 0">Active</span>
               <span v-if="run.status == 1">Complete</span>
             </td>
-            <td class="text-center">{{ calculateHours(run.id, run.status, run.created_at, run.isEdit, run.lastDateEdit, run.hours, run.closed_date)  }}</td>
+            <td class="text-center">{{ calculateHours(run.id, run.status, run.created_at, run.isEdit, run.last_edit, run.hours, run.closed_date)  }}</td>
             <!-- Photos action -->
             <td class="text-center">
               <button @click="showPhotos(run.id)">
@@ -331,7 +331,10 @@ export default {
         }
       } else {
         if (edit) {
+          console.log(lastDate);
           const hoursEdited = Math.round( Math.abs(new Date() - new Date(lastDate)) / 36e5 )
+          console.log(hoursEdited);
+          console.log(hours + hoursEdited);
           return hours + hoursEdited;
         } else {
           return Math.round(Math.abs(new Date() - new Date(created_date)) / 36e5);
@@ -347,7 +350,7 @@ export default {
           isModalClose.value = false;
           makeToast(message);
           gettingData();
-          filterOption.value = 1;
+          // filterOption.value = 1;
           idGlobal.value = 0;
         } else {
           console.log("ha ocurrido un error");
@@ -366,7 +369,7 @@ export default {
           isModalReOpen.value = false;
           makeToast(message);
           gettingData();
-          filterOption.value = 0;
+          // filterOption.value = 0;
           idGlobal.value = 1;
         } else {
           makeToast(message, "error");

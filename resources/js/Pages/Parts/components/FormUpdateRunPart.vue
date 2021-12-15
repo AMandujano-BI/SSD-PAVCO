@@ -93,7 +93,7 @@ export default {
         //cerrado
         if (run.isEdit) {
           const hoursClose = Math.round(
-            Math.abs(new Date(run.closed_date) - new Date(run.lastDateEdit)) /
+            Math.abs(new Date(run.closed_date) - new Date(run.last_edit)) /
               36e5
           );
           return hoursClose + run.hours;
@@ -107,7 +107,7 @@ export default {
         // abierto
         if (run.isEdit) {
           const hoursEdited = Math.round(
-            Math.abs(new Date() - new Date(run.lastDateEdit)) / 36e5
+            Math.abs(new Date() - new Date(run.last_edit)) / 36e5
           );
           return run.hours + hoursEdited;
         } else {
@@ -152,7 +152,7 @@ export default {
       numberParts: 0,
 
       hasDiferentHours: false,
-      lastDateEdit: "",
+      last_edit: "",
     });
     const rules = {
       description: {
@@ -181,7 +181,7 @@ export default {
         if (form.hours !== hours) {
           form.hasDiferentHours = true;
           const date = new Date().toISOString();
-          form.lastDateEdit = `${date.slice(0, 10)} ${date.slice(11, 19)}`;
+          form.last_edit = `${date.slice(0, 10)} ${date.slice(11, 19)}`;
         }
 
         const isFormCorrect = await v$.value.$validate();

@@ -241,7 +241,7 @@ class Run extends Model
             $run = (new static)::find($id);
             $run->status = 0;
             $run->isEdit = true;
-            $run->lastEdit = Carbon::now();
+            $run->last_Edit = Carbon::now();
             $run->save();
             DB::commit();
             return [
@@ -292,7 +292,7 @@ class Run extends Model
             $run->plate_methods_id = $request->plate_methods_id;
             if ($request->hasDiferentHours) {
                 $run->hours = $request->hours;
-                $run->lastEdit = $request->lastEdit;
+                $run->last_edit = $request->last_edit;
                 $run->isEdit = true;
             }
             $run->save();
