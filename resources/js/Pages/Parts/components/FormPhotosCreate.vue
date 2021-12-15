@@ -4,14 +4,46 @@
       <h1 class="text-2xl text-center font-bold">Take a Picture</h1>
 
       <!-- <input type="file" accept="image/*" capture="camera" /> -->
+      <div
+        class="
+          bg-primary
+          rounded-full
+          w-10
+          h-10
+          flex
+          justify-center
+          items-center
+          cursor-pointer
+        "
+        @click="selectImage"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          aria-hidden="true"
+          role="img"
+          width="24"
+          height="24"
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 1024 1024"
+        >
+          <path
+            d="M864 260H728l-32.4-90.8a32.07 32.07 0 0 0-30.2-21.2H358.6c-13.5 0-25.6 8.5-30.1 21.2L296 260H160c-44.2 0-80 35.8-80 80v456c0 44.2 35.8 80 80 80h704c44.2 0 80-35.8 80-80V340c0-44.2-35.8-80-80-80zM512 716c-88.4 0-160-71.6-160-160s71.6-160 160-160s160 71.6 160 160s-71.6 160-160 160zm-96-160a96 96 0 1 0 192 0a96 96 0 1 0-192 0z"
+            fill="#f8f8f8"
+          />
+        </svg>
+      </div>
       <input
         type="file"
+        class="hidden"
         accept="image/*"
         multiple
         id="image"
         @change="fileChange"
       />
-      <div v-if="!url" class="w-full h-64 flex items-center justify-center">No Image</div>
+      <div v-if="!url" class="w-full h-64 flex items-center justify-center">
+        Select an Image
+      </div>
       <img
         v-if="url"
         :src="url"
@@ -19,30 +51,78 @@
         class="w-full h-64 my-5 object-cover"
       />
       <div>
+        <label>Name</label>
+        <input
+          type="text"
+          class="w-full"
+          v-model="form.name"
+          :class="{ 'border-red-500': v$.name.$error }"
+        />
+        <p
+          v-for="error of v$.name.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
+      </div>
+      <div>
+        <label for="">Date Added</label>
+        <input
+          type="date"
+          class="w-full"
+          v-model="form.hours"
+          :class="{ 'border-red-500': v$.hours.$error }"
+        />
+        <p
+          v-for="error of v$.hours.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
+      </div>
+      <div>
+        <label>Description </label>
         <textarea
-          placeholder="Description"
           v-model="form.description"
           cols="30"
+          :class="{ 'border-red-500': v$.description.$error }"
           class="w-full"
         ></textarea>
+        <p
+          v-for="error of v$.description.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
       </div>
-        <div v-if="!loading" class="w-full">
-      <button
-        @click="saveImage"
-        class="
-          bg-primary
-          w-full
-          rounded-sm
-          hover:bg-primary-600
-          text-white
-          font-bold
-          p-5
-          block
-        "
-      >
-        Save Image
-      </button>
-        </div>
+      <div v-if="!loading" class="w-full flex justify-between gap-4">
+        <button
+          type="button"
+          class="bg-red-600 rounded w-full py-5 text-white px-3 mt-2"
+          @click="closeModal"
+        >
+          Cancel
+        </button>
+        <button
+          @click="saveImage"
+          class="
+            bg-primary
+            w-full
+            rounded-sm
+            hover:bg-primary-600
+            text-white
+            font-bold
+            p-5
+            block
+            mt-2
+          "
+        >
+          Save Image
+        </button>
+      </div>
       <div v-if="loading" class="w-full">
         <button
           class="
@@ -70,18 +150,32 @@
 import { reactive, ref } from "vue";
 import axios from "axios";
 import useHelper from "@/composables/useHelper";
+import { required } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
 export default {
-  emits: ["closeModal"],
-  props: ["run_id"],
+  emits: ["closeModal", "generateDataTable"],
+  props: ["run_id","photosTable"],
   setup(props, { emit }) {
-    const { run_id } = props;
+    const { run_id, photosTable } = props;
+    const photos = ref(photosTable);
     const form = reactive({
       description: "",
+      name: "",
+      // hours: "",
+      // startDate: new Date().toISOString().slice(0, 10),
+      hours: new Date().toISOString().slice(0, 10),
+      image: "",
     });
     const loading = ref(false);
     const url = ref(null);
     const image = ref(null);
     const { makeToast } = useHelper();
+    const rules = {
+      description: { required },
+      hours: { required },
+      name: { required },
+    };
+    const v$ = useVuelidate(rules, form);
 
     const fileChange = (e) => {
       const file = e.target.files[0];
@@ -93,12 +187,16 @@ export default {
       document.getElementById("image").click();
     };
     const saveImage = async () => {
+      const isFormCorrect = await v$.value.$validate();
+      if (!isFormCorrect) return;
       loading.value = true;
+      // Prepare Data
       const formData = new FormData();
       formData.append("image", image.value);
       formData.append("run", run_id);
       formData.append("description", form.description);
-      formData.append("hours", 1);
+      formData.append("name", form.name);
+      formData.append("hours", form.hours);
       formData.append("report", 1);
       const res = await axios.post(`/photo`, formData, {
         headers: {
@@ -107,9 +205,9 @@ export default {
       });
       const { ok, message, value } = res.data;
       loading.value = false;
-      console.log(res.data);
       if (ok) {
         makeToast(message);
+        photos.value.push(value);
         emit("closeModal");
       } else {
         makeToast(message, "error");
@@ -122,8 +220,15 @@ export default {
       fileChange,
       saveImage,
       form,
+      v$,
       loading,
+      closeModal: () => emit("closeModal"),
     };
+  },
+  watch: {
+    run() {
+      this.photos = this.photosTable;
+    },
   },
 };
 </script>

@@ -61,8 +61,8 @@
               <button @click="showDelete(run.id)">
                 <!-- <img :src="ImgDelete" alt="iconDelete" /> -->
                 <img :src="require('@/assets/Icons/iconDelete/iconDelete.png').default" alt="iconDelete" />
-                <img src="{{url('/images/iconDelete.png')}}" alt="iconDelete" />
-                <img src="{{asset('/images/iconDelete.png')}}" alt="iconDelete" />
+                <!-- <img src="{{url('/images/iconDelete.png')}}" alt="iconDelete" />
+                <img src="{{asset('/images/iconDelete.png')}}" alt="iconDelete" /> -->
               </button>
             </td>
             <!-- Close action -->

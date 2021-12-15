@@ -97,8 +97,9 @@ class PhotoController extends Controller
      * @param  \App\Models\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Photo $photo)
+    public function destroy($id)
     {
-        //
+        $photo = $this->_photo->deletePhoto($id);
+        return $photo;
     }
 }

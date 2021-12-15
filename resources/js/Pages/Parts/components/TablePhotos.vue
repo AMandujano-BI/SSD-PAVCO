@@ -1,4 +1,5 @@
 <template>
+  <h1 class="text-center font-bold text-2xl">Table Photos</h1>
   <button
     class="bg-blue-600 rounded w-[100] py-1 text-white px-3 mt-2"
     @click="openModalPhotosForm"
@@ -18,7 +19,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="photo in photos" :key="photo.id">
+      <tr v-for="photo in photosTable" :key="photo.id">
         <td>{{ photo.name }}</td>
         <td>{{ photo.created_at }}</td>
         <td>{{ photo.hours }}</td>
@@ -44,8 +45,8 @@
         </td>
         <td class="text-center">Report</td>
         <td class="text-center">
-          <!-- <button @click="openModalDelete(part.id)"> -->
-          <button>
+          <button @click="openModalDeleteClick(photo.id)">
+            <!-- <button> -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -71,12 +72,40 @@
     :isModalPhotos="isModalPhotos"
     :photos="currentPhoto"
     @closeModal="closePhotosModal"
-    @photoEdited="photoAdded"
   />
+  <!-- @photoEdited="photoAdded" -->
 
-  <modal :show="openModalPhotosCreate" @close="closeModalPhotosCreate">
-    <form-photos-create :run_id="run_id" @closeModal="closeModalPhotosCreate" />
+  <!-- MODAL-->
+  <modal :show="openModalPhotosCreate">
+    <form-photos-create
+      :run_id="run_id"
+      @closeModal="closeModalPhotosCreate"
+      @generateDataTable="generateDataTable"
+      :photosTable="photosTable"
+    />
   </modal>
+  <!-- CONFIRMATION MODAL -->
+  <confirmation-modal :show="showModalDelete">
+    <template v-slot:title>
+      <h1>Are you sure that delete this photo?</h1>
+    </template>
+    <template v-slot:content>
+      <div class="flex justify-center">
+        <button
+          class="bg-red-500 p-4 text-white rounded-md mr-4"
+          @click="closeModalDelete"
+        >
+          Cancel
+        </button>
+        <button
+          class="bg-green-500 p-4 text-white rounded-md"
+          @click="deletePhoto()"
+        >
+          Acept
+        </button>
+      </div>
+    </template>
+  </confirmation-modal>
 </template>
 
 <script>
@@ -87,6 +116,9 @@ import PhotosRun from "../../Run/components/PhotosRun.vue";
 import { ref } from "vue";
 import FormPhotosCreateVue from "./FormPhotosCreate.vue";
 import Modal from "@/Jetstream/Modal";
+import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
+import axios from "axios";
+import useHelper from "@/composables/useHelper";
 
 export default {
   props: ["photos", "run"],
@@ -94,15 +126,20 @@ export default {
     photosRun: PhotosRun,
     formPhotosCreate: FormPhotosCreateVue,
     modal: Modal,
+    confirmationModal: ConfirmationModal,
   },
   setup(props) {
-    console.log(props.photos);
     const { photos, run } = props;
+    console.log(photos);
+    const photosTable = ref(photos);
     const run_id = ref(run.id);
-    let currentPhoto = ref([]);
-    let isModalPhotos = ref(false);
+    const currentPhoto = ref([]);
+    const isModalPhotos = ref(false);
+    const idPhoto = ref(0);
+    const openModalDelete = ref(false);
+    const showModalDelete = ref(false);
     const openModalPhotosCreate = ref(false);
-
+    const { makeToast } = useHelper();
     const generateDataTable = () => {
       nextTick(() => {
         $("#photosTable").DataTable({
@@ -117,28 +154,32 @@ export default {
     const showPhotos = (id) => {
       const pic = photos.find((pic) => pic.id === id);
       currentPhoto.value.push(pic);
-      console.log(currentPhoto)
-      // const image = currentPhoto.value[0].image;
-      // getUrlSignature(image);
       isModalPhotos.value = true;
-    };
-    const getUrlSignature = async (url) => {
-      const data = [url];
-      const res = await axios.post(`/photo/getAllUrlSignature`, { data });
-      // currentPhoto.value[0].image = res.data[0];
     };
     const closePhotosModal = () => {
       currentPhoto.value = [];
       isModalPhotos.value = false;
     };
-    const photoAdded = () => {
-      console.log("photoAdded");
+    const openModalPhotosForm = () => (openModalPhotosCreate.value = true);
+    const closeModalPhotosCreate = () => (openModalPhotosCreate.value = false);
+    const closeModalDelete = () => (showModalDelete.value = false);
+    const openModalDeleteClick = (id) => {
+      idPhoto.value = id;
+      showModalDelete.value = true;
     };
-    const openModalPhotosForm = () => {
-      openModalPhotosCreate.value = true;
-    };
-    const closeModalPhotosCreate = () => {
-      openModalPhotosCreate.value = false;
+    const deletePhoto = async () => {
+      const res = await axios.delete(`/photo/${idPhoto.value}`);
+      const { message, value, ok } = res.data;
+      console.log(photos);
+      if (ok) {
+        makeToast(message);
+        closeModalDelete();
+        photosTable.value = photosTable.value.filter(
+          (item) => item.id !== value
+        );
+      } else {
+        makeToast(message, "error");
+      }
     };
 
     generateDataTable();
@@ -148,11 +189,16 @@ export default {
       currentPhoto,
       showPhotos,
       closePhotosModal,
-      photoAdded,
       openModalPhotosCreate,
       openModalPhotosForm,
       closeModalPhotosCreate,
       run_id,
+      showModalDelete,
+      closeModalDelete,
+      openModalDelete,
+      openModalDeleteClick,
+      deletePhoto,
+      photosTable,
     };
   },
 };

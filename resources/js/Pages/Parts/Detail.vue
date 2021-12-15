@@ -1,28 +1,26 @@
 <template>
-
   <app-layout title="Parts Detail">
-  <div class="p-5 mx-auto container">
-    <h1 class="text-center text-2xl font-bold">Detalis</h1>
+    <div class="pt-5 mx-auto container">
+      <h1 class="text-center text-2xl p-5 font-bold">Detalis</h1>
 
-    <div class="shadow-lg p-4 rounded-md mb-5">
-      <form-update-run-part :plateMethods="plateMethods" :run="run" />
+      <div class="shadow-lg p-4 rounded-md mb-5">
+        <form-update-run-part :plateMethods="plateMethods" :run="run" />
+      </div>
+      <div class="shadow-lg mb-5 rounded min-h-[300] p-5">
+        <table-part
+          :parts="parts"
+          :run="run"
+          :openModal="openModal"
+          :chromates="chromates"
+          :plateTypes="plateTypes"
+          :secondaryCoats="secondaryCoats"
+          :topCoats="topCoats"
+        />
+      </div>
+      <div class="shadow-lg rounded-md p-4 mb-5">
+        <table-photos :photos="photos" :run="run" />
+      </div>
     </div>
-    <div class="shadow-lg mb-5 rounded min-h-[300] p-5">
-      <table-part
-        :parts="parts"
-        :run="run"
-        :openModal="openModal"
-        :chromates="chromates"
-        :plateTypes="plateTypes"
-        :secondaryCoats="secondaryCoats"
-        :topCoats="topCoats"
-      />
-    </div>
-    <div class="shadow-lg rounded-md p-4 mb-5">
-    
-      <table-photos :photos="photos"  :run="run"/>
-    </div>
-  </div>
   </app-layout>
 </template>
 

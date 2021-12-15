@@ -1,7 +1,7 @@
 <template>
-  <modal :show="isModalPhotos">
+  <modal :show="isModalPhotos" @close="closePhotosModal">
     <div class="container mx-auto p-5 relative">
-      <button @click="closePhotosModal" class="absolute right-10">X</button>
+      <!-- <button @click="closePhotosModal" class="absolute right-10">X</button> -->
       <p class="text-xl font-bold text-center">Pavco SSD Photo Viewer</p>
 
       <div class="mt-5" v-if="currentPhotos[0]">

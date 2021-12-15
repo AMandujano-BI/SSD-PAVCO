@@ -39,15 +39,18 @@ class Photo extends Model
             $file = $request->file('image');
             $filename = $file->getClientOriginalName();
             $run_id = $request->input('run');
+            $name= $request->input('name');
             $hours = $request->input('hours');
             $description = $request->input('description');
             $run_id = $request->input('run');
             $report = $request->input('report');
+
+            //Save image in AWS
             $image = $file->storeAs('images/run' . $run_id, $filename, 's3', 'public');
 
             //Save Photo in database
             $photo = (new static)::create([
-                'name' => $filename,
+                'name' => $name,
                 'hours' => Carbon::now(),
                 'image' => $image,
                 'description' => $description,
@@ -56,8 +59,6 @@ class Photo extends Model
             ]);
             $photo->save();
 
-
-            //Save image in AWS
             DB::commit();
             return [
                 'ok' => true,
@@ -73,6 +74,40 @@ class Photo extends Model
             ];
         }
     }
+    public static function  deletePhoto($id)
+    {
+        DB::beginTransaction();
+        try {
+
+            $photoDeleted = (new static)::find($id);
+            $image = $photoDeleted->getRawOriginal('image');
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Photo was deleted successfully',
+                'value' => $photoDeleted->id,
+            ];
+            if (Storage::disk('s3')->exists($image)) {
+                Storage::disk('s3')->delete($image);
+                $photoDeleted->delete();
+            } else {
+                DB::rollback();
+                return [
+                    'ok' => false,
+                    'message' => 'Image not found',
+                    'value' => 0
+                ];
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage(),
+                'value' => 0
+            ];
+        }
+    }
+
     // ===================================RELATIONS
 
     public function run()

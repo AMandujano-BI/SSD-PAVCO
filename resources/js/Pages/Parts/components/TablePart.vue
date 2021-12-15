@@ -1,4 +1,5 @@
 <template>
+  <h1 class="text-center font-bold text-2xl">Table Part</h1>
   <button
     class="bg-blue-600 rounded w-[100] py-1 text-white px-3 mt-2"
     @click="openModalPartClick"

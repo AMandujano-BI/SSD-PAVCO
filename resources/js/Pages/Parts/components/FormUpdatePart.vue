@@ -376,9 +376,7 @@ export default {
   setup(props, { emit }) {
     const { partUpdate, partsTable } = props;
     const { makeToast } = useHelper();
-    console.log(partUpdate);
     const parts = ref(partsTable);
-    console.log(parts);
     const form = ref({
       id: partUpdate.id,
       description: partUpdate.description,

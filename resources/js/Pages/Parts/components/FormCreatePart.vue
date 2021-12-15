@@ -440,11 +440,8 @@ export default {
         console.log(res.data);
         if (ok) {
           makeToast(message);
-          console.log(value);
-          console.log(parts.value);
           // parts.value = [...parts.value,value]
           parts.value.push(value);
-          console.log(parts.value);
           emit("generateDataTable");
           emit("closeModalNewPart");
         } else {
