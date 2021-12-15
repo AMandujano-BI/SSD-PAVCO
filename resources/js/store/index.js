@@ -33,6 +33,17 @@ export default createStore({
       
           asideLgToggle ({ commit, state }, payload = null) {
             commit('basic', { key: 'isAsideLgActive', value: payload !== null ? payload : !state.isAsideLgActive })
+            if(!state.isAsideLgActive){
+             
+      
+              document.getElementById('app').classList[false ? 'add' : 'remove']('ml-60', 'lg:ml-0')
+        
+              document.documentElement.classList[false ? 'add' : 'remove']('m-clipped')
+              commit('basic', {
+                key: 'isAsideMobileExpanded',
+                value: false
+              }) 
+            }
           },
       
           fullScreenToggle ({ commit, state }, value) {
