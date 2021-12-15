@@ -4,6 +4,7 @@ import useVuelidate from "@vuelidate/core";
 import useHelper from "@/composables/useHelper";
 import axios from "axios";
 import { ref, reactive } from "vue";
+import { Inertia } from '@inertiajs/inertia'
 const isDiferentZero = (value) => {
     return value != 0;
 };
@@ -148,7 +149,8 @@ const useFormRun = () => {
             loading.value = false
             if (ok) {
                 makeToast("Run was created successfully");
-                window.location.href = `/part/${value.id}`;
+                // window.location.href = `/part/${value.id}`;
+                Inertia.get(`/part/${value.id}`)
             } else {
                 console.log(res.data);
                 makeToast("An error has occurred", "error");
