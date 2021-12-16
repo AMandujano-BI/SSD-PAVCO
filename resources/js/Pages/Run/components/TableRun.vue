@@ -331,7 +331,7 @@ export default {
       idGlobal.value = id;
       isModalReOpen.value = true;
     };
-    const closeReOpenModal = () => isModalReOpen.value = false; 
+    const closeReOpenModal = () => (isModalReOpen.value = false);
 
     const calculateHours = (
       id,
@@ -345,16 +345,7 @@ export default {
       if (status === 1) {
         //cerrado
         if (edit) {
-<<<<<<< Updated upstream
-          // const hoursClose = Math.round( Math.abs(new Date(closeDate) - new Date(lastDate)) / 36e5);
-          // return hoursClose + hours;
           return hours;
-=======
-          const hoursClose = Math.round(
-            Math.abs(new Date(closeDate) - new Date(lastDate)) / 36e5
-          );
-          return hoursClose + hours;
->>>>>>> Stashed changes
         } else {
           return Math.round(
             Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5
@@ -362,16 +353,12 @@ export default {
         }
       } else {
         if (edit) {
-<<<<<<< Updated upstream
-          const hoursEdited = Math.round( Math.abs(new Date() - new Date(lastDate)) / 36e5 )
-=======
-          console.log(lastDate);
           const hoursEdited = Math.round(
             Math.abs(new Date() - new Date(lastDate)) / 36e5
           );
-          console.log(hoursEdited);
-          console.log(hours + hoursEdited);
->>>>>>> Stashed changes
+          const hoursEdited = Math.round(
+            Math.abs(new Date() - new Date(lastDate)) / 36e5
+          );
           return hours + hoursEdited;
         } else {
           return Math.round(
