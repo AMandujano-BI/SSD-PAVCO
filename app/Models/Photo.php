@@ -57,11 +57,11 @@ class Photo extends Model
 
             //Save image in AWS
             $image = $file->storeAs('images/run' . $run_id, $filename, 's3', 'public');
-
+            $initialHours = 0;
             //Save Photo in database
             $photo = (new static)::create([
                 'name' => $name,
-                'hours' => Carbon::now(),
+                'hours' => $initialHours,
                 'image' => $image,
                 // 'image' => 'ss',
                 'description' => $description,
