@@ -83,7 +83,7 @@
             :searchable="true"
             placeholder="Select Plate Type"
           />
-            <!-- :class="{ 'error-dropdown': v$.plate_types_id.$error }" -->
+          <!-- :class="{ 'error-dropdown': v$.plate_types_id.$error }" -->
           <p
             v-for="error of v$.plate_types_id.$errors"
             :key="error.$uid"
@@ -218,71 +218,71 @@
           </p>
         </div>
         <div class="flex gap-2">
-            <div>
-              <input
-                type="text"
-                class="w-[60px]"
-                v-model="form.topCoatPer"
-                :class="{ 'border-red-500': v$.topCoatPer.$error }"
-              />
-              <span>%</span>
-              <p
-                v-for="error of v$.topCoatPer.$errors"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
-            </div>
+          <div>
+            <input
+              type="text"
+              class="w-[60px]"
+              v-model="form.topCoatPer"
+              :class="{ 'border-red-500': v$.topCoatPer.$error }"
+            />
+            <span>%</span>
+            <p
+              v-for="error of v$.topCoatPer.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
+          </div>
 
-            <div>
-              <input
-                type="text"
-                class="w-[60px]"
-                v-model="form.topCoatTemp"
-                :class="{ 'border-red-500': v$.topCoatTemp.$error }"
-              />
-              <span>°F</span>
-              <p
-                v-for="error of v$.topCoatTemp.$errors"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
-            </div>
-            <div>
-              <input
-                type="text"
-                class="w-[60px]"
-                v-model="form.topCoatPH"
-                :class="{ 'border-red-500': v$.topCoatPH.$error }"
-              />
-              <span>pH</span>
-              <p
-                v-for="error of v$.topCoatPH.$errors"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
-            </div>
-            <div>
-              <input
-                type="text"
-                class="w-[60px]"
-                :class="{ 'border-red-500': v$.topCoatDiptime.$error }"
-                v-model="form.topCoatDiptime"
-              />
-              <span>sec</span>
-              <p
-                v-for="error of v$.topCoatDiptime.$errors"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
-            </div>
+          <div>
+            <input
+              type="text"
+              class="w-[60px]"
+              v-model="form.topCoatTemp"
+              :class="{ 'border-red-500': v$.topCoatTemp.$error }"
+            />
+            <span>°F</span>
+            <p
+              v-for="error of v$.topCoatTemp.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
+          </div>
+          <div>
+            <input
+              type="text"
+              class="w-[60px]"
+              v-model="form.topCoatPH"
+              :class="{ 'border-red-500': v$.topCoatPH.$error }"
+            />
+            <span>pH</span>
+            <p
+              v-for="error of v$.topCoatPH.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
+          </div>
+          <div>
+            <input
+              type="text"
+              class="w-[60px]"
+              :class="{ 'border-red-500': v$.topCoatDiptime.$error }"
+              v-model="form.topCoatDiptime"
+            />
+            <span>sec</span>
+            <p
+              v-for="error of v$.topCoatDiptime.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -393,10 +393,10 @@
       </p>
     </div>
 
-    <div class="flex justify-between w-full gap-4">
+    <div class="flex flex-col md:flex-row justify-between w-full gap-4">
       <button
         type="button"
-        class="bg-red-600 rounded w-full py-5 text-white px-3 mt-2"
+        class="bg-red-600  hover:bg-red-800 rounded w-full py-5 text-white px-3 mt-2"
         @click="closeModal"
       >
         Cancel

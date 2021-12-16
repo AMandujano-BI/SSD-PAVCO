@@ -107,10 +107,10 @@
           {{ error.$message }}
         </p>
       </div>
-      <div v-if="!loading" class="w-full flex justify-between gap-4">
+      <div v-if="!loading" class="w-full flex flex-col md:flex-row md:justify-between gap-4 ">
         <button
           type="button"
-          class="bg-red-600 rounded w-full py-5 text-white px-3 mt-2"
+          class="bg-red-600 hover:bg-red-800 rounded w-full py-5 text-white px-3 mt-2"
           @click="closeModal"
         >
           Cancel

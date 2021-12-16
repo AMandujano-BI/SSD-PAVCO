@@ -83,7 +83,7 @@
       <div>
         <label class="w-full pb-2 block">Report?</label>
         <input type="radio" value="1" v-model="form.report" id="yes" />
-        <label for="yes">Yes </label>
+        <label for="yes"> Yes </label>
         <input type="radio" value="0" v-model="form.report" id="no" /><label
           for="no"
         >
@@ -106,10 +106,10 @@
           {{ error.$message }}
         </p>
       </div>
-      <div v-if="!loading" class="w-full flex justify-between gap-4">
+      <div v-if="!loading" class="w-full flex flex-col md:flex-row justify-between gap-4">
         <button
           type="button"
-          class="bg-red-600 rounded w-full py-5 text-white px-3 mt-2"
+          class="bg-red-600 hover:bg-red-800 rounded w-full py-5 text-white px-3 mt-2"
           @click="closeModal"
         >
           Cancel

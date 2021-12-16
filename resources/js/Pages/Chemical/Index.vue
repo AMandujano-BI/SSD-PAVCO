@@ -91,10 +91,10 @@
               />
             </div>
           </div>
-          <div class="flex justify-between w-full gap-4">
+          <div class="flex flex-col md:flex-row md:justify-between w-full md:gap-4 pt-16">
             <button
               type="button"
-              class="bg-red-600 rounded-sm w-full py-5 text-white px-3 mt-5"
+              class="bg-red-600  hover:bg-red-800 rounded-sm w-full py-5 text-white px-3 mt-5"
               @click="closeModal"
             >
               Cancel
@@ -232,7 +232,7 @@ export default {
       getChemical(selected._value);
     };
     const openModal = () => {
-      modalTitle.value = "Nuevo Chemical";
+      modalTitle.value = "New Chemical";
       show.value = true;
     };
     const closeModal = () => {
@@ -244,7 +244,7 @@ export default {
     };
 
     const editChemical = (chemical) => {
-      modalTitle.value = "Editar Chemical";
+      modalTitle.value = "Update Chemical";
       show.value = true;
       form._value.id = chemical.id;
       form._value.name = chemical.name;

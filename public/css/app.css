@@ -1892,6 +1892,18 @@ select {
 .pb-2 {
 	padding-bottom: 0.5rem;
 }
+.pb-5 {
+	padding-bottom: 1.25rem;
+}
+.pb-20 {
+	padding-bottom: 5rem;
+}
+.pb-16 {
+	padding-bottom: 4rem;
+}
+.pt-16 {
+	padding-top: 4rem;
+}
 .text-left {
 	text-align: left;
 }
@@ -2428,9 +2440,9 @@ input::-webkit-inner-spin-button {
 	--tw-bg-opacity: 1;
 	background-color: rgba(1, 81, 141, var(--tw-bg-opacity));
 }
-.hover\:bg-blue-700:hover {
+.hover\:bg-red-800:hover {
 	--tw-bg-opacity: 1;
-	background-color: rgba(29, 78, 216, var(--tw-bg-opacity));
+	background-color: rgba(153, 27, 27, var(--tw-bg-opacity));
 }
 .hover\:text-gray-500:hover {
 	--tw-text-opacity: 1;
@@ -2678,8 +2690,16 @@ input::-webkit-inner-spin-button {
 		flex-direction: row;
 	}
 
+	.md\:justify-between {
+		justify-content: space-between;
+	}
+
 	.md\:gap-6 {
 		gap: 1.5rem;
+	}
+
+	.md\:gap-4 {
+		gap: 1rem;
 	}
 
 	.md\:border-t-0 {

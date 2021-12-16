@@ -286,11 +286,11 @@
       </p>
     </div>
 
-    <div class="flex justify-around w-full gap-4">
+    <div class="flex flex-col md:flex-row justify-around w-full gap-4">
       <button
         type="button"
         @click="closeModal"
-        class="bg-red-600 rounded w-full py-5 text-white px-3 mt-2"
+        class="bg-red-600 hover:bg-red-800 rounded w-full py-5 text-white px-3 mt-2"
       >
         Cancel
       </button>
