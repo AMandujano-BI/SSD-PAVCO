@@ -52,7 +52,8 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $company = $this->_company->createCompany($request);
+        return $company;
     }
 
     /**
