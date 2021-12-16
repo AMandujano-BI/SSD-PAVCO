@@ -3,7 +3,7 @@
     <div class="pt-5 mx-auto container">
       <h1 class="text-center text-2xl p-5 font-bold">Detalis</h1>
 
-      <div class="shadow-lg p-4 rounded-md mb-5">
+      <div class="shadow-lg p-4 rounded-md mb-2">
         <form-update-run-part :plateMethods="plateMethods" :run="run" />
       </div>
       <div class="shadow-lg mb-5 rounded min-h-[300] p-5">

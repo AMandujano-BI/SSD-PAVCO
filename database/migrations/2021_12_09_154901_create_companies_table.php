@@ -16,15 +16,15 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name',50);
-            $table->string('address',300);
-            $table->string('city',80);
-            $table->string('state',50);
-            $table->string('zip',10);
-            $table->string('phone',50);
-            $table->string('fax',50);
+            $table->string('address',300)->nullable();
+            $table->string('city',80)->nullable();
+            $table->string('state',50)->nullable();
+            $table->string('zip',10)->nullable();
+            $table->string('phone',50)->nullable();
+            $table->string('fax',50)->nullable();
             $table->boolean('customer')->default(0);
             $table->boolean('distributor')->default(0);
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->foreignId('country_id')->constrained();
             $table->timestamps();
         });
