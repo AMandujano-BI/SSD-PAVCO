@@ -320,17 +320,15 @@ export default {
     const calculateHours = (id,status, created_date, edit, lastDate, hours, closeDate) => {
       if (status === 1 ){ //cerrado
         if (edit) {
-          const hoursClose = Math.round( Math.abs(new Date(closeDate) - new Date(lastDate)) / 36e5);
-          return hoursClose + hours;
+          // const hoursClose = Math.round( Math.abs(new Date(closeDate) - new Date(lastDate)) / 36e5);
+          // return hoursClose + hours;
+          return hours;
         } else {
           return Math.round(Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5);
         }
       } else {
         if (edit) {
-          console.log(lastDate);
           const hoursEdited = Math.round( Math.abs(new Date() - new Date(lastDate)) / 36e5 )
-          console.log(hoursEdited);
-          console.log(hours + hoursEdited);
           return hours + hoursEdited;
         } else {
           return Math.round(Math.abs(new Date() - new Date(created_date)) / 36e5);

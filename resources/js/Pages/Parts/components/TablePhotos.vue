@@ -23,7 +23,7 @@
       <tr v-for="photo in photosTable" :key="photo.id">
         <td>{{ photo.name }}</td>
         <td>{{ photo.created_at }}</td>
-        <td>{{ photo.hours }}</td>
+        <td>{{ calculateHours(photo.isEdit, photo.last_edit, photo.created_at, photo.hours) }}</td>
         <td>{{ photo.description }}</td>
         <td class="text-center">
           <!-- <button @click="showPhotos"> -->
@@ -191,6 +191,15 @@ export default {
       openModalEdit.value = true;
     };
 
+    const calculateHours = (edit, lastDate, created_date, hours) => {
+        if (edit) {
+          const hoursEdited = Math.round( Math.abs(new Date() - new Date(lastDate)) / 36e5 )
+          return Number(hours)  + hoursEdited
+        } else {
+          return Math.round(Math.abs(new Date() - new Date(created_date)) / 36e5)
+        }
+    }
+
     generateDataTable();
     return {
       generateDataTable,
@@ -211,6 +220,7 @@ export default {
       ImgEdit,
       openModalEdit,
       openModalEditClick,
+      calculateHours,
       photoItem,
       closePhotosModal: () => (openModalEdit.value = false),
     };

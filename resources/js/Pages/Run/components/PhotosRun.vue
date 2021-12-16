@@ -23,7 +23,7 @@
                 <ul class="flex flex-row justify-between px-3">
                   <li><strong>Name: </strong>{{ photo.name }}</li>
                   <li><strong>Date added: </strong>{{ photo.created_at }}</li>
-                  <li><strong>Hours: </strong>{{ photo.hours }}</li>
+                  <li><strong>Hours: </strong>{{ calculateHours(photo.isEdit, photo.last_edit, photo.created_at, photo.hours) }}</li>
                 </ul>
               </div>
               <div class="px-3">
@@ -70,8 +70,17 @@ export default {
   setup(props, { emit }) {
     const { photos } = props;
     let currentPhotos = ref(photos);
+
+    const calculateHours = (edit, lastDate, created_date, hours) => {
+        if (edit) {
+          const hoursEdited = Math.round( Math.abs(new Date() - new Date(lastDate)) / 36e5 )
+          return Number(hours)  + hoursEdited
+        } else {
+          return Math.round(Math.abs(new Date() - new Date(created_date)) / 36e5);
+        }
+    }
+
     const closePhotosModal = () => emit("closeModal");
- 
 
     const photoEdited = () => emit("photoAdded");
 
@@ -79,6 +88,7 @@ export default {
       closePhotosModal,
       closePhotosModal,
       photoEdited,
+      calculateHours,
       currentPhotos,
       modules: [Pagination, Navigation],
     };

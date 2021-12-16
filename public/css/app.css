@@ -2428,10 +2428,6 @@ input::-webkit-inner-spin-button {
 	--tw-bg-opacity: 1;
 	background-color: rgba(1, 81, 141, var(--tw-bg-opacity));
 }
-.hover\:bg-blue-700:hover {
-	--tw-bg-opacity: 1;
-	background-color: rgba(29, 78, 216, var(--tw-bg-opacity));
-}
 .hover\:text-gray-500:hover {
 	--tw-text-opacity: 1;
 	color: rgba(107, 114, 128, var(--tw-text-opacity));

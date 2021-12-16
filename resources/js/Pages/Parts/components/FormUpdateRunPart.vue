@@ -92,11 +92,11 @@ export default {
       if (run.status === 1) {
         //cerrado
         if (run.isEdit) {
-          const hoursClose = Math.round(
-            Math.abs(new Date(run.closed_date) - new Date(run.last_edit)) /
-              36e5
-          );
-          return hoursClose + run.hours;
+          // const hoursClose = Math.round(
+          //   Math.abs(new Date(run.closed_date) - new Date(run.last_edit)) /
+          //     36e5
+          // );
+          return run.hours;
         } else {
           return Math.round(
             Math.abs(new Date(run.closed_date) - new Date(run.created_at)) /
@@ -180,8 +180,10 @@ export default {
       try {
         if (form.hours !== hours) {
           form.hasDiferentHours = true;
-          const date = new Date().toISOString();
-          form.last_edit = `${date.slice(0, 10)} ${date.slice(11, 19)}`;
+          const date = new Date()
+          const dateFormated = ''+date.getUTCFullYear()+'-'+(date.getUTCMonth()+1)+'-'+date.getUTCDate()+' '+date.getUTCHours()+':'+date.getUTCMinutes()+':'+date.getUTCSeconds();
+          form.last_edit = dateFormated;
+          console.log(form.last_edit);
         }
 
         const isFormCorrect = await v$.value.$validate();

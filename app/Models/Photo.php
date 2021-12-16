@@ -18,10 +18,22 @@ class Photo extends Model
         'description',
         'report',
         'run_id',
+        'created_at',
+        'last_edit',
+        'closed_date',
+        'isEdit',
     ];
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d',
-    ];
+    // protected $casts = [
+    //     'created_at' => 'datetime:Y-m-d',
+    // ];
+    public function getlastEditAttribute($value)
+    {
+        if ($value != null) {
+            return (new Carbon($value))->format('Y-m-d\TH:i:s.\0\0\0\0\0\0\Z');
+        } else {
+            return $value;
+        }
+    }
     public function getImageAttribute($value)
     {
         $image =  Storage::temporaryUrl($value, now()->addMinutes(5));
@@ -82,9 +94,13 @@ class Photo extends Model
 
             $photo = (new static)::find($request->id);
             $photo->name = $request->name;
-            $photo->hours = $request->hours;
             $photo->description = $request->description;
             $photo->report = $request->report;
+            if ($request->hasDiferentHours) {
+                $photo->isEdit = true;
+                $photo->last_edit = $request->last_edit;
+                $photo->hours = $request->hours;
+            }
             $photo->save();
             DB::commit();
             return [
