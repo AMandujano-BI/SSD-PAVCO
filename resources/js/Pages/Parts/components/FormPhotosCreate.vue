@@ -106,10 +106,22 @@
           {{ error.$message }}
         </p>
       </div>
-      <div v-if="!loading" class="w-full flex flex-col md:flex-row justify-between gap-4">
+      <div
+        v-if="!loading"
+        class="w-full flex flex-col md:flex-row justify-between gap-4"
+      >
         <button
           type="button"
-          class="bg-red-600 hover:bg-red-800 rounded w-full py-5 text-white px-3 mt-2"
+          class="
+            bg-red-600
+            hover:bg-red-800
+            rounded
+            w-full
+            py-5
+            text-white
+            px-3
+            mt-2
+          "
           @click="closeModal"
         >
           Cancel
@@ -183,6 +195,7 @@ export default {
       description: { required },
       hours: { required },
       name: { required },
+      image: { required },
     };
     const v$ = useVuelidate(rules, form);
 
@@ -197,30 +210,34 @@ export default {
       document.getElementById("image").click();
     };
     const saveImage = async () => {
-      const isFormCorrect = await v$.value.$validate();
-      if (!isFormCorrect) return;
-      loading.value = true;
-      // Prepare Data
-      const formData = new FormData();
-      formData.append("image", form.image);
-      formData.append("run", run_id);
-      formData.append("description", form.description);
-      formData.append("name", form.name);
-      formData.append("hours", form.hours);
-      formData.append("report", form.report);
-      const res = await axios.post(`/photo`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      const { ok, message, value } = res.data;
-      loading.value = false;
-      if (ok) {
-        makeToast(message);
-        photos.value.push(value);
-        emit("closeModal");
-      } else {
-        makeToast(message, "error");
+      try {
+        const isFormCorrect = await v$.value.$validate();
+        if (!isFormCorrect) return;
+        loading.value = true;
+        // Prepare Data
+        const formData = new FormData();
+        formData.append("image", form.image);
+        formData.append("run", run_id);
+        formData.append("description", form.description);
+        formData.append("name", form.name);
+        formData.append("hours", form.hours);
+        formData.append("report", form.report);
+        const res = await axios.post(`/photo`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        const { ok, message, value } = res.data;
+        loading.value = false;
+        if (ok) {
+          makeToast(message);
+          photos.value.push(value);
+          emit("closeModal");
+        } else {
+          makeToast(message, "error");
+        }
+      } catch (e) {
+        makeToast(e, "error");
       }
     };
     return {

@@ -56,8 +56,21 @@ class Company extends Model
             'value' => $company,
         ];
     }
-    public static function getDistributors(){
-        $customers = (new static)::where('distributor',1)->orderBy('name','asc')->get(['id AS value','name AS label']);
+    public static function getDistributors()
+    {
+        $customers = (new static)::where('distributor', 1)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
         return $customers;
+    }
+    public static function getCompanies($type)
+    {
+        if ($type == 1) {
+
+            $companies = (new static)::where('distributor', 1)->orderBy('name', 'asc')->get();
+        } else if ($type == 0) {
+            $companies = (new static)::where('distributor', 0)->orderBy('name', 'asc')->get();
+        } else {
+            $companies = (new static)::orderBy('name', 'asc')->get();
+        }
+        return $companies;
     }
 }

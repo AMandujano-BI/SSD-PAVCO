@@ -33,6 +33,11 @@ class CompanyController extends Controller
             'distributors' => $distributors
         ]);
     }
+    public function getCompanies($type){
+
+        $companies = $this->_company->getCompanies($type);
+        return $companies;
+    }
 
     /**
      * Show the form for creating a new resource.

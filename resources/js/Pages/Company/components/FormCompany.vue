@@ -35,10 +35,18 @@
         <multi-select
           :options="distributors"
           class="w-full"
+          :disabled="form.type == 1 ? true : false"
           v-model="form.distributor"
           :searchable="true"
           placeholder="Select Distributor"
         />
+        <p
+          v-for="error of v$.country_id.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
       </div>
     </div>
     <div class="shadow-lg rounded-md p-3">
