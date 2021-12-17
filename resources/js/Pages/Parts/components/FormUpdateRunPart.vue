@@ -104,28 +104,20 @@ export default {
       if (run.status === 1) {
         //cerrado
         if (run.isEdit) {
-          // const hoursClose = Math.round(
-          //   Math.abs(new Date(run.closed_date) - new Date(run.last_edit)) /
-          //     36e5
-          // );
           return run.hours;
         } else {
-          return Math.round(
-            Math.abs(new Date(run.closed_date) - new Date(run.created_at)) /
-              36e5
-          );
+          const closeNonEdit = Math.abs(new Date(run.closed_date) - new Date(run.created_at)) / 36e5;
+          return closeNonEdit | 0;
         }
       } else {
         // abierto
         if (run.isEdit) {
-          const hoursEdited = Math.round(
-            Math.abs(new Date() - new Date(run.last_edit)) / 36e5
-          );
+          const activeEdit = Math.abs(new Date() - new Date(run.last_edit)) / 36e5;
+          const hoursEdited = activeEdit | 0;
           return run.hours + hoursEdited;
         } else {
-          return Math.round(
-            Math.abs(new Date() - new Date(run.created_at)) / 36e5
-          );
+          const activeNonEdit = Math.abs(new Date() - new Date(run.created_at)) / 36e5;
+          return activeNonEdit | 0;
         }
       }
     };

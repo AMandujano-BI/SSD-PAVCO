@@ -348,20 +348,17 @@ export default {
         if (edit) {
           return hours;
         } else {
-          return Math.round(
-            Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5
-          );
+          const closeNonEdit = Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5
+          return closeNonEdit | 0;  // trunca los decimales y se queda con el entero
         }
       } else {
         if (edit) {
-          const hoursEdited = Math.round(
-            Math.abs(new Date() - new Date(lastDate)) / 36e5
-          );
+          const activeEdit = Math.abs(new Date() - new Date(lastDate)) / 36e5
+          const hoursEdited = activeEdit | 0; // trunca los decimales y se queda con el entero
           return hours + hoursEdited;
         } else {
-          return Math.round(
-            Math.abs(new Date() - new Date(created_date)) / 36e5
-          );
+          const activeNonEdit = Math.abs(new Date() - new Date(created_date)) / 36e5;
+          return activeNonEdit | 0; // trunca los decimales y se queda con el entero
         }
       }
     };
