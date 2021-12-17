@@ -2,8 +2,10 @@
   <app-layout title="Companies">
 
   <div class="p-5 mx-auto container">
-   <h1 class="text-center text-2xl p-5 font-bold">Company</h1>
-    <button @click="openModal">+</button>
+   <h1 class="text-center text-2xl p-5 font-bold">List Company</h1>
+    <button @click="openModal"
+    class="bg-primary hover:bg-primary-600 rounded w-[100] py-1 text-white px-3 mt-2"
+     >+</button>
     <modal :show="openModalCompany">
         <div class="p-5">
         <form-company :countries="countries" :distributors="distributors" @closeModal="closeModal"/>

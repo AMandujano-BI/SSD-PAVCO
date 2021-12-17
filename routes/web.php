@@ -7,6 +7,7 @@ use App\Http\Controllers\ChemicalController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -53,5 +54,6 @@ Route::middleware(['auth:sanctum', 'verified'])->resource('company', CompanyCont
 Route::middleware(['auth:sanctum', 'verified'])->resource('part', PartController::class);
 Route::middleware(['auth:sanctum', 'verified'])->resource('run', RunController::class);
 Route::middleware(['auth:sanctum', 'verified'])->resource('report', ReportController::class);
+Route::middleware(['auth:sanctum', 'verified'])->resource('user', UserController::class);
 
 
