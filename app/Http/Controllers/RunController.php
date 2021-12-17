@@ -217,7 +217,7 @@ class RunController extends Controller
         @page{margin: 0px;} body__first{margin: 0;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif}
         .rectangle {
             width: 130px;
-            float: left;
+            position:absolute;
             height: 40px;
             margin: 0 63px 0px 0;
             padding: 30px 54.8px 69px 54px;
@@ -226,7 +226,6 @@ class RunController extends Controller
         img.PavcoWhite {
           margin-top: 10px;
           width: 126.2px;
-          /* height: 40px; */
           object-fit: contain;
         }
         .content{
@@ -235,14 +234,9 @@ class RunController extends Controller
             position: relative;
         }
         .title {
-            margin: 0px 69px 41px 63px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 50px 69px 41px 340px;
             font-size: 20px;
             font-weight: 600;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal;
-            letter-spacing: normal;
             color: #3b4559;
             position: absolute;
         }
