@@ -231,6 +231,7 @@
 </template>
 
 <script>
+import dt from "datatables.net";
 import { Navigation, Pagination } from "swiper";
 import { ref, nextTick } from "vue";
 import Modal from "../../../Jetstream/Modal.vue";

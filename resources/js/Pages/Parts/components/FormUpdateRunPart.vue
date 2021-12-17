@@ -42,7 +42,19 @@
     </div>
     <div>
       <label>Hours</label>
-      <input type="number" class="w-full" v-model="form.hours" />
+      <input 
+        type="number" 
+        class="w-full" 
+        v-model="form.hours"
+        :class="{ 'border-red-500': v$.hours.$error }"
+      />
+      <p
+        v-for="error of v$.hours.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
     </div>
     <div>
       <label for="">Description</label>
@@ -68,7 +80,7 @@
 </template>
 
 <script>
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers, minValue } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import axios from "axios";
 import { ref, reactive } from "vue";
@@ -160,6 +172,10 @@ export default {
       },
       startDate: {
         required,
+      },
+      hours: {
+        required,
+        minValue: minValue(0)
       },
       plate_methods_id: {
         isDiferentZero: helpers.withMessage(
