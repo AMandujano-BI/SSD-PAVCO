@@ -195,7 +195,7 @@ export default {
       image: photoItem.image,
 
       hasDiferentHours: false,
-      last_edit: '',
+      last_edit: photoItem.last_edit,
     });
     const loading = ref(false);
     const url = ref(photoItem.image);
@@ -217,41 +217,50 @@ export default {
       document.getElementById("image").click();
     };
     const saveImage = async () => {
+      
       if (form.hours !== hours) {
         form.hasDiferentHours = true;
         last_editGlobal = new Date();
         const dateFormated = ''+last_editGlobal.getUTCFullYear()+'-'+(last_editGlobal.getUTCMonth()+1)+'-'+last_editGlobal.getUTCDate()+' '+last_editGlobal.getUTCHours()+':'+last_editGlobal.getUTCMinutes()+':'+last_editGlobal.getUTCSeconds();
         form.last_edit = dateFormated;
-        console.log(form.last_edit);
-        console.log(last_editGlobal);
       }
       const isFormCorrect = await v$.value.$validate();
       if (!isFormCorrect) return;
       loading.value = true;
       // Prepare Data
-      console.log(form);
       const res = await axios.put(`/photo/${form.id}`, form);
       if (form.hasDiferentHours) {
         form.hasDiferentHours = false;
       }
       const { ok, message, value } = res.data;
+      let currentHours;
       loading.value = false;
       if (ok) {
-        if (form.hasDiferentHours) {
+        if (form.hours !== hours) {
           form.isEdit = true;
+          currentHours = form.hours;
+        } else {
+          currentHours = photoItem.hours;
         }
         makeToast(message);
         const index = photos.value.findIndex((item) => item.id == form.id);
-        const currentDate = ''+last_editGlobal.getFullYear()+'-'+(last_editGlobal.getMonth()+1)+'-'+last_editGlobal.getDate()+' '+last_editGlobal.toString().slice(16,24)
+        let currentDate
+        if( last_editGlobal !== '') {
+          currentDate = ''+last_editGlobal.getFullYear()+'-'+(last_editGlobal.getMonth()+1)+'-'+last_editGlobal.getDate()+' '+last_editGlobal.toString().slice(16,24)
+        } else {
+          currentDate = form.last_edit
+        }
         photos.value[index] = {
           ...photos.value[index],
           name: form.name,
           description: form.description,
           report: form.report,
-          hours: form.hours,
+          hours: currentHours,
           last_edit: currentDate,
           isEdit: form.isEdit
         };
+        console.log(photos.value[index]);
+        console.log(form);
         emit("closeModal");
       } else {
         makeToast(message, "error");

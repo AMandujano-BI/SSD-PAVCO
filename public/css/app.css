@@ -1886,6 +1886,9 @@ select {
 .pl-10 {
 	padding-left: 2.5rem;
 }
+.pt-16 {
+	padding-top: 4rem;
+}
 .pl-9 {
 	padding-left: 2.25rem;
 }
@@ -2424,6 +2427,10 @@ input::-webkit-inner-spin-button {
 	--tw-bg-opacity: 1;
 	background-color: rgba(225, 232, 243, var(--tw-bg-opacity));
 }
+.hover\:bg-red-800:hover {
+	--tw-bg-opacity: 1;
+	background-color: rgba(153, 27, 27, var(--tw-bg-opacity));
+}
 .hover\:bg-primary-600:hover {
 	--tw-bg-opacity: 1;
 	background-color: rgba(1, 81, 141, var(--tw-bg-opacity));
@@ -2674,8 +2681,16 @@ input::-webkit-inner-spin-button {
 		flex-direction: row;
 	}
 
+	.md\:justify-between {
+		justify-content: space-between;
+	}
+
 	.md\:gap-6 {
 		gap: 1.5rem;
+	}
+
+	.md\:gap-4 {
+		gap: 1rem;
 	}
 
 	.md\:border-t-0 {

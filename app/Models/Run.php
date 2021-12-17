@@ -199,11 +199,11 @@ class Run extends Model
             $run->closed_date = Carbon::now();
             $totalHours = 0;
             if ($run->isEdit) {
-                $currentDate = new DateTime();
-                $lastDateEdit = new DateTime($run->lastDateEdit);
+                $currentDate = Carbon::now('UTC');
+                $lastDateEdit = new DateTime($run->last_edit);
                 $lastDate = $lastDateEdit->format('Y-m-d H:i:s');
                 $current = $currentDate->format('Y-m-d H:i:s');
-                $hourdiff = round((strtotime($current) - strtotime($lastDate)) / 3600, 1);
+                $hourdiff = round((strtotime($current) - strtotime($lastDate)) / 3600, 0);
                 $hours = intval($hourdiff, 10);
 
                 $totalHours = $hours + $run->hours;
