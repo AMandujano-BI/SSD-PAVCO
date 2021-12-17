@@ -1,5 +1,5 @@
 import IconCompany from './assets/Icons/IconCompany/list.png'
-import IconChemical from './assets/Icons/iconChemical/chemical.png'
+import IconChemical from './assets/Icons/IconChemical/chemical.png'
 import IconRun from './assets/Icons/IconRun/run.png'
 import IconMaintenance from './assets/Icons/IconMaintenance/gear.png'
 import IconUser from './assets/Icons/IconUserLeftBar/user.png'
@@ -21,9 +21,9 @@ export default [
       menu: [
         {
           label: 'Users',
-          href: '/chemical',
+          href: '/user',
           icon:IconUser,
-          itemRoute:'chemical.index'
+          itemRoute:'user.index'
         },
         {
           label: 'Company',
