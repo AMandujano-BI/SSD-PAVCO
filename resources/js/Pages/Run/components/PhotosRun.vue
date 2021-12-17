@@ -1,7 +1,7 @@
 <template>
   <modal :show="isModalPhotos" @close="closePhotosModal">
     <div class="container mx-auto p-5 relative">
-      <!-- <button @click="closePhotosModal" class="absolute right-10">X</button> -->
+      <button @click="closePhotosModal" class="absolute right-5">X</button>
       <p class="text-xl font-bold text-center">Pavco SSD Photo Viewer</p>
 
       <div class="mt-5" v-if="currentPhotos[0]">
@@ -20,9 +20,9 @@
                 class="object-cover h-80 w-full"
               />
               <div>
-                <ul class="flex flex-row justify-between px-3">
+                <ul class="flex flex-row justify-between px-3 pt-3">
                   <li><strong>Name: </strong>{{ photo.name }}</li>
-                  <li><strong>Date added: </strong>{{ photo.created_at }}</li>
+                  <li><strong>Date added: </strong>{{ photo.created_at.slice(0,10) }}</li>
                   <li><strong>Hours: </strong>{{ calculateHours(photo.isEdit, photo.last_edit, photo.created_at, photo.hours) }}</li>
                 </ul>
               </div>

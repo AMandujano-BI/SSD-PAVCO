@@ -3,35 +3,6 @@
   <div class="p-5">
     <form @submit.prevent="saveImage">
       <h1 class="text-2xl text-center font-bold">Update Photo</h1>
-      <!-- <div
-        class="
-          bg-primary
-          rounded-full
-          w-10
-          h-10
-          flex
-          justify-center
-          items-center
-          cursor-pointer
-        "
-        @click="selectImage"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          aria-hidden="true"
-          role="img"
-          width="24"
-          height="24"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 1024 1024"
-        >
-          <path
-            d="M864 260H728l-32.4-90.8a32.07 32.07 0 0 0-30.2-21.2H358.6c-13.5 0-25.6 8.5-30.1 21.2L296 260H160c-44.2 0-80 35.8-80 80v456c0 44.2 35.8 80 80 80h704c44.2 0 80-35.8 80-80V340c0-44.2-35.8-80-80-80zM512 716c-88.4 0-160-71.6-160-160s71.6-160 160-160s160 71.6 160 160s-71.6 160-160 160zm-96-160a96 96 0 1 0 192 0a96 96 0 1 0-192 0z"
-            fill="#f8f8f8"
-          />
-        </svg>
-      </div> -->
       <input
         type="file"
         class="hidden"
@@ -65,22 +36,7 @@
           {{ error.$message }}
         </p>
       </div>
-      <div>
-        <label for="">Date Added</label>
-        <input
-          type="date"
-          class="w-full"
-          v-model="form.hours"
-          :class="{ 'border-red-500': v$.hours.$error }"
-        />
-        <p
-          v-for="error of v$.hours.$errors"
-          :key="error.$uid"
-          class="text-red-400"
-        >
-          {{ error.$message }}
-        </p>
-      </div>
+
       <div>
         <label class="w-full pb-2 block">Report?</label>
         <input type="radio" value="1" v-model="form.report" id="yes" />
@@ -109,12 +65,36 @@
       </div>
       <div>
         <label>Hours</label>
-        <input type="number" class="w-full" v-model="form.hours"/>
+        <input
+          type="number"
+          class="w-full"
+          v-model="form.hours"
+          :class="{ 'border-red-500': v$.hours.$error }"
+        />
+        <p
+          v-for="error of v$.hours.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
       </div>
-      <div v-if="!loading" class="w-full flex flex-col md:flex-row md:justify-between gap-4 ">
+      <div
+        v-if="!loading"
+        class="w-full flex flex-col md:flex-row md:justify-between gap-4"
+      >
         <button
           type="button"
-          class="bg-red-600 hover:bg-red-800 rounded w-full py-5 text-white px-3 mt-2"
+          class="
+            bg-red-600
+            hover:bg-red-800
+            rounded
+            w-full
+            py-5
+            text-white
+            px-3
+            mt-2
+          "
           @click="closeModal"
         >
           Cancel
@@ -163,7 +143,7 @@
 import { reactive, ref } from "vue";
 import axios from "axios";
 import useHelper from "@/composables/useHelper";
-import { required } from "@vuelidate/validators";
+import { required, minValue } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 export default {
   emits: ["closeModal", "generateDataTable"],
@@ -171,18 +151,25 @@ export default {
   setup(props, { emit }) {
     const { photosTable, photoItem } = props;
     const photos = ref(photosTable);
-    let last_editGlobal = '';
+    let last_editGlobal = "";
 
     const calculateHours = (edit, lastDate, created_date, hours) => {
       if (edit) {
-        const hoursEdited = Math.round( Math.abs(new Date() - new Date(lastDate)) / 36e5 )
-        return Number(hours)  + hoursEdited
+        const hoursEdited = Math.round(
+          Math.abs(new Date() - new Date(lastDate)) / 36e5
+        );
+        return Number(hours) + hoursEdited;
       } else {
         return Math.round(Math.abs(new Date() - new Date(created_date)) / 36e5);
       }
-    }
+    };
 
-    const hours = calculateHours(photoItem.isEdit, photoItem.last_edit, photoItem.created_at, photoItem.hours);
+    const hours = calculateHours(
+      photoItem.isEdit,
+      photoItem.last_edit,
+      photoItem.created_at,
+      photoItem.hours
+    );
 
     const form = reactive({
       id: photoItem.id,
@@ -203,7 +190,7 @@ export default {
     const { makeToast } = useHelper();
     const rules = {
       description: { required },
-      hours: { required },
+      hours: { required, minValue: minValue(0) },
       name: { required },
     };
     const v$ = useVuelidate(rules, form);
@@ -217,57 +204,78 @@ export default {
       document.getElementById("image").click();
     };
     const saveImage = async () => {
-      
-      if (form.hours !== hours) {
-        form.hasDiferentHours = true;
-        last_editGlobal = new Date();
-        const dateFormated = ''+last_editGlobal.getUTCFullYear()+'-'+(last_editGlobal.getUTCMonth()+1)+'-'+last_editGlobal.getUTCDate()+' '+last_editGlobal.getUTCHours()+':'+last_editGlobal.getUTCMinutes()+':'+last_editGlobal.getUTCSeconds();
-        form.last_edit = dateFormated;
-      }
-      const isFormCorrect = await v$.value.$validate();
-      if (!isFormCorrect) return;
-      loading.value = true;
-      // Prepare Data
-      const res = await axios.put(`/photo/${form.id}`, form);
-      if (form.hasDiferentHours) {
-        form.hasDiferentHours = false;
-      }
-      const { ok, message, value } = res.data;
-      let currentHours;
-      loading.value = false;
-      if (ok) {
+      try {
         if (form.hours !== hours) {
-          form.isEdit = true;
-          currentHours = form.hours;
-        } else {
-          currentHours = photoItem.hours;
+          form.hasDiferentHours = true;
+          last_editGlobal = new Date();
+          const dateFormated =
+            "" +
+            last_editGlobal.getUTCFullYear() +
+            "-" +
+            (last_editGlobal.getUTCMonth() + 1) +
+            "-" +
+            last_editGlobal.getUTCDate() +
+            " " +
+            last_editGlobal.getUTCHours() +
+            ":" +
+            last_editGlobal.getUTCMinutes() +
+            ":" +
+            last_editGlobal.getUTCSeconds();
+          form.last_edit = dateFormated;
         }
-        makeToast(message);
-        const index = photos.value.findIndex((item) => item.id == form.id);
-        let currentDate
-        if( last_editGlobal !== '') {
-          currentDate = ''+last_editGlobal.getFullYear()+'-'+(last_editGlobal.getMonth()+1)+'-'+last_editGlobal.getDate()+' '+last_editGlobal.toString().slice(16,24)
-        } else {
-          currentDate = form.last_edit
+        const isFormCorrect = await v$.value.$validate();
+        if (!isFormCorrect) return;
+        loading.value = true;
+        // Prepare Data
+        const res = await axios.put(`/photo/${form.id}`, form);
+        if (form.hasDiferentHours) {
+          form.hasDiferentHours = false;
         }
-        photos.value[index] = {
-          ...photos.value[index],
-          name: form.name,
-          description: form.description,
-          report: form.report,
-          hours: currentHours,
-          last_edit: currentDate,
-          isEdit: form.isEdit
-        };
-        console.log(photos.value[index]);
-        console.log(form);
-        emit("closeModal");
-      } else {
-        makeToast(message, "error");
+        const { ok, message, value } = res.data;
+        let currentHours;
+        loading.value = false;
+        if (ok) {
+          if (form.hours !== hours) {
+            form.isEdit = true;
+            currentHours = form.hours;
+          } else {
+            currentHours = photoItem.hours;
+          }
+          makeToast(message);
+          const index = photos.value.findIndex((item) => item.id == form.id);
+          let currentDate;
+          if (last_editGlobal !== "") {
+            currentDate =
+              "" +
+              last_editGlobal.getFullYear() +
+              "-" +
+              (last_editGlobal.getMonth() + 1) +
+              "-" +
+              last_editGlobal.getDate() +
+              " " +
+              last_editGlobal.toString().slice(16, 24);
+          } else {
+            currentDate = form.last_edit;
+          }
+          photos.value[index] = {
+            ...photos.value[index],
+            name: form.name,
+            description: form.description,
+            report: form.report,
+            hours: currentHours,
+            last_edit: currentDate,
+            isEdit: form.isEdit,
+          };
+          emit("closeModal");
+        } else {
+          loading.value = false;
+          makeToast(message, "error");
+        }
+      } catch (e) {
+        loading.value = false;
+        makeToast("Error", "error");
       }
     };
-    
-
 
     return {
       url,

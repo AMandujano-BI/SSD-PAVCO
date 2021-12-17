@@ -21,10 +21,10 @@
     </thead>
     <tbody>
       <tr v-for="photo in photosTable" :key="photo.id">
-        <td>{{ photo.name }}</td>
-        <td>{{ photo.created_at }}</td>
-        <td>{{ calculateHours(photo.isEdit, photo.last_edit, photo.created_at, photo.hours) }}</td>
-        <td>{{ photo.description }}</td>
+        <td class="text-center">{{ photo.name }}</td>
+        <td class="text-center">{{ photo.created_at.slice(0,10) }}</td>
+        <td class="text-center">{{ calculateHours(photo.isEdit, photo.last_edit, photo.created_at, photo.hours) }}</td>
+        <td class="text-center">{{ photo.description }}</td>
         <td class="text-center">
           <!-- <button @click="showPhotos"> -->
           <button @click="showPhotos(photo.id)">

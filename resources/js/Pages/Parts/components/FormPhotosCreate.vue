@@ -39,8 +39,13 @@
         id="image"
         @change="fileChange"
       />
-      <div v-if="!url" class="w-full h-64 flex items-center justify-center">
+      <div
+        v-if="!url"
+        class="w-full h-64 flex items-center justify-center"
+        :class="{ 'text-red-500 font-bold transition ease-linear text-lg  delay-75 duration-75': v$.image.$error }"
+      >
         Select an Image
+      
       </div>
       <img
         v-if="url"
@@ -237,7 +242,8 @@ export default {
           makeToast(message, "error");
         }
       } catch (e) {
-        makeToast(e, "error");
+        loading.value = false;
+        makeToast('Error', "error");
       }
     };
     return {
