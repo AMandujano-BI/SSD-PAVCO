@@ -1150,6 +1150,15 @@ select {
 .right-10 {
 	right: 2.5rem;
 }
+.right-2 {
+	right: 0.5rem;
+}
+.right-4 {
+	right: 1rem;
+}
+.right-5 {
+	right: 1.25rem;
+}
 .z-0 {
 	z-index: 0;
 }
@@ -1381,14 +1390,14 @@ select {
 .w-screen {
 	width: 100vw;
 }
+.w-\[100\] {
+	width: 100;
+}
 .w-\[60px\] {
 	width: 60px;
 }
 .w-1\/2 {
 	width: 50%;
-}
-.w-\[100\] {
-	width: 100;
 }
 .min-w-0 {
 	min-width: 0px;
@@ -1895,6 +1904,9 @@ select {
 .pb-2 {
 	padding-bottom: 0.5rem;
 }
+.pt-3 {
+	padding-top: 0.75rem;
+}
 .text-left {
 	text-align: left;
 }
@@ -2133,6 +2145,9 @@ select {
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	transition-duration: 150ms;
 }
+.delay-75 {
+	transition-delay: 75ms;
+}
 .duration-150 {
 	transition-duration: 150ms;
 }
@@ -2159,6 +2174,9 @@ select {
 }
 .ease-in {
 	transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+}
+.ease-linear {
+	transition-timing-function: linear;
 }
 .scrollbar.overflow-y-hidden {
 	overflow-y: hidden;

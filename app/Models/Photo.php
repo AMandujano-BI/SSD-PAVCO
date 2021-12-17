@@ -56,19 +56,18 @@ class Photo extends Model
             $report = $request->input('report');
 
             //Save image in AWS
-            $image = $file->storeAs('images/run' . $run_id, $filename, 's3', 'public');
             $initialHours = 0;
             //Save Photo in database
             $photo = (new static)::create([
                 'name' => $name,
                 'hours' => $initialHours,
-                'image' => $image,
-                // 'image' => 'ss',
+                'image' => 'images/run' . $run_id . '/' . $filename,
                 'description' => $description,
                 'report' => $report,
                 'run_id' => $run_id,
             ]);
             $photo->save();
+            $image = $file->storeAs('images/run' . $run_id, $filename, 's3', 'public');
 
             DB::commit();
             return [
@@ -126,8 +125,8 @@ class Photo extends Model
             $image = $photoDeleted->getRawOriginal('image');
 
             if (Storage::disk('s3')->exists($image)) {
-                Storage::disk('s3')->delete($image);
                 $photoDeleted->delete();
+                Storage::disk('s3')->delete($image);
                 DB::commit();
                 return [
                     'ok' => true,
