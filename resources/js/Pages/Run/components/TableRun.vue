@@ -356,9 +356,6 @@ export default {
           const hoursEdited = Math.round(
             Math.abs(new Date() - new Date(lastDate)) / 36e5
           );
-          const hoursEdited = Math.round(
-            Math.abs(new Date() - new Date(lastDate)) / 36e5
-          );
           return hours + hoursEdited;
         } else {
           return Math.round(

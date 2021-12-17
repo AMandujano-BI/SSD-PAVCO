@@ -78,7 +78,19 @@
           <div>
             <div>
               <label for="">Name</label>
-              <input type="text" v-model="form.name" class="w-full py-4 px-5" />
+              <input 
+                type="text" 
+                v-model="form.name" 
+                class="w-full py-4 px-5"
+                :class="{ 'border-red-500': v$.name.$error }"
+                 />
+                <p
+                  v-for="error of v$.name.$errors"
+                  :key="error.$uid"
+                  class="text-red-400"
+                >
+                  {{ error.$message }}
+                </p>
             </div>
             <div>
               <label for="">Type</label>
@@ -89,6 +101,13 @@
                 :searchable="true"
                 placeholder="Select Type"
               />
+              <p
+                v-for="error of v$.type.$errors"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
           </div>
           <div class="flex flex-col md:flex-row md:justify-between w-full md:gap-4 pt-16">
@@ -147,6 +166,7 @@ import { ref, nextTick, onMounted } from "vue";
 import dt from "datatables.net";
 import axios from "axios";
 import { required } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
 import AppLayout from "../../Layouts/AppLayout.vue";
 import Modal from "../../Jetstream/Modal.vue";
 import ConfirmationModal from "../../Jetstream/ConfirmationModal.vue";
@@ -178,10 +198,12 @@ export default {
       name: {
         required,
       },
-      name: {
+      type: {
         required,
       },
     };
+
+    const v$ = useVuelidate(rules, form);
 
     const getChemical = async (type) => {
       try {
@@ -206,7 +228,9 @@ export default {
     ]);
 
     const submit = async () => {
-      if ((form.name === "") | (form.type === "")) return;
+      // if ((form.name === "") | (form.type === "")) return;
+      const isFormCorrect = await v$.value.$validate();
+      if (!isFormCorrect) return;
       let res;
       if (form._value.id !== 0) {
         res = await axios.put(`/chemical/${form._value.id}`, form._value);
@@ -308,6 +332,7 @@ export default {
       showDeleteModal,
       modalTitle,
       form,
+      v$,
       getChemical,
       submit,
       filterChemicals,

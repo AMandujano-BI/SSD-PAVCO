@@ -215,7 +215,109 @@ class RunController extends Controller
         $html = "
         <style>
         @page{margin: 0px;} body__first{margin: 0;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif}
-        .rectangle {width: 130px;float: left;height: 40px;margin: 0 63px 0px 0;padding: 30px 54.8px 69px 54px;background-color: #0271c5 !important;}img.PavcoWhite {margin-top: 10px;width: 126.2px;object-fit: contain;}.content{background-color: white;height: 139px;}.title {margin: 50px 0px 41px 0px;font-size: 20px;font-weight: 600;color: #3b4559;}.header{width: 100%;background-color: #e1e8f3;padding-top: 35px;padding-bottom: 35px;}.top-separation{margin-top: 10px;}.subheader{/* height: 22px; */color: #34689c;font-size: 16px;font-weight: 600;margin:35px 70px 64px 54px;}.subheader__content{/* height: 22px; */color:#34689c;font-size:16px;font-weight:600;margin-left:54px;margin-right:70px;}.subheader__label {margin-right:70px;font-size:16px;font-weight:600;color:#34689c;}.subheader__value{font-weight:normal;color:#3b4559;}body {background-color: #f8fafc;}.table__container{margin: 34px 34px 34px 34px;}table{background-color:white;border: none;border-collapse:collapse;}th{color:#3b4559;font-size:16px;font-weight:600;height:72px;border:none;}td{border-top: 1px solid #979797 !important;color:#3b4559;font-size:16px;font-weight:normal;padding-top:13px;padding-right:13px;padding-bottom:13px;padding-left:13px;}.notes__label{color: #34689c;font-size: 16px;font-weight:600;margin-left:34px;margin-right:34px;}
+        .rectangle {
+            width: 130px;
+            float: left;
+            height: 40px;
+            margin: 0 63px 0px 0;
+            padding: 30px 54.8px 69px 54px;
+            background-color: #0271c5 !important;
+        }
+        img.PavcoWhite {
+          margin-top: 10px;
+          width: 126.2px;
+          /* height: 40px; */
+          object-fit: contain;
+        }
+        .content{
+            background-color: white;
+            height: 139px;
+            position: relative;
+        }
+        .title {
+            margin: 0px 69px 41px 63px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #3b4559;
+            position: absolute;
+        }
+        .header{
+            width: 100%;
+            /* height: 50px; */
+            background-color: #e1e8f3;
+            padding-top: 35px;
+            padding-bottom: 35px;
+            /* display: grid; */
+        }
+        .top-separation{
+            margin-top: 10px;
+        }
+        .subheader{
+            /* height: 22px; */
+            margin: 35px 70px 64px 54px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #34689c;
+        }
+        .subheader__content{
+            /* height: 22px; */
+            margin-left: 54px;
+            margin-right: 70px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #34689c;
+        }
+        .subheader__label {
+            margin-right: 70px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #34689c;
+        }
+        .subheader__value{
+            font-weight: normal;
+            color: #3b4559;
+        }
+        body {
+            background-color: #f8fafc;
+        }
+        .table__container{
+            margin: 34px 34px 34px 34px;
+            
+        }
+        table{
+            background-color: white;
+            border: none;
+            border-collapse: collapse;
+        }
+        th{
+            color: #3b4559;
+            font-size: 16px;
+            font-weight: 600;
+            height: 72px;
+            border: none;
+        }
+        td{
+            border-top: 1px solid #979797 !important;
+            color: #3b4559;
+            font-size: 16px;
+            font-weight: 300;
+            padding-top: 13px;
+            padding-right: 13px;
+            padding-bottom: 13px;
+            padding-left: 13px;
+        }
+        .notes__label{
+            color: #34689c;   
+            font-size: 16px;
+            font-weight: 600;
+            margin-left: 34px;
+            margin-right: 34px;
+        }
         </style>
         <div class='body__first'>
             <div class='content'>
