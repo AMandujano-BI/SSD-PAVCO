@@ -37,7 +37,19 @@
               <span v-if="run.status == 0">Active</span>
               <span v-if="run.status == 1">Complete</span>
             </td>
-            <td class="text-center">{{ calculateHours(run.id, run.status, run.created_at, run.isEdit, run.last_edit, run.hours, run.closed_date)  }}</td>
+            <td class="text-center">
+              {{
+                calculateHours(
+                  run.id,
+                  run.status,
+                  run.created_at,
+                  run.isEdit,
+                  run.last_edit,
+                  run.hours,
+                  run.closed_date
+                )
+              }}
+            </td>
             <!-- Photos action -->
             <td class="text-center">
               <button @click="showPhotos(run.id)">
@@ -59,20 +71,32 @@
             <!-- Delete action -->
             <td class="text-center">
               <button @click="showDelete(run.id)">
-                <img :src="require('@/assets/Icons/iconDelete/iconDelete.png').default" alt="iconDelete" />
+                <img
+                  :src="
+                    require('@/assets/Icons/iconDelete/iconDelete.png').default
+                  "
+                  alt="iconDelete"
+                />
               </button>
             </td>
             <!-- Close action -->
             <td class="text-center">
               <button @click="showClose(run.id)" :disabled="run.status == 1">
-
-                <img :src="ImgClose" alt="iconClose"  :class="{'grayscale':run.status ==1}"/>
+                <img
+                  :src="ImgClose"
+                  alt="iconClose"
+                  :class="{ grayscale: run.status == 1 }"
+                />
               </button>
             </td>
             <!-- ReOpen action -->
             <td class="text-center">
               <button @click="showReOpen(run.id)" :disabled="run.status == 0">
-                <img :src="ImgReOpen" alt="iconNote"  :class="{'grayscale':run.status ==0}"/>
+                <img
+                  :src="ImgReOpen"
+                  alt="iconNote"
+                  :class="{ grayscale: run.status == 0 }"
+                />
               </button>
             </td>
             <!-- Notes action -->
@@ -207,7 +231,6 @@
 </template>
 
 <script>
-import dt from "datatables.net";
 import { Navigation, Pagination } from "swiper";
 import { ref, nextTick } from "vue";
 import Modal from "../../../Jetstream/Modal.vue";
@@ -225,7 +248,7 @@ import ImgNote from "@/assets/Icons/iconNote/iconNote.png";
 import ImgReOpen from "@/assets/Icons/iconReOpen/iconReOpen.png";
 import ImgEmail from "@/assets/Icons/iconEmail/iconEmail.png";
 import ImgReportRun from "@/assets/Icons/iconReport/iconReport.png";
-import { Inertia } from '@inertiajs/inertia'
+import { Inertia } from "@inertiajs/inertia";
 const $ = require("jquery");
 
 export default {
@@ -250,8 +273,7 @@ export default {
     const isModalReOpen = ref(false);
     const idGlobal = ref(0);
     const filterOption = ref(3);
-    const onSwiper = (swiper) => {
-    };
+    const onSwiper = (swiper) => {};
     const onSlideChange = () => {
       // console.log('slide change');
     };
@@ -297,44 +319,54 @@ export default {
       findRun(id);
       isModalDelete.value = true;
     };
-    const closeDeleteModal = () => {
-      isModalDelete.value = false;
-    };
+    const closeDeleteModal = () => (isModalDelete.value = false);
     // Close
     const showClose = (id) => {
       idGlobal.value = id;
       isModalClose.value = true;
     };
-    const closeCloseModal = () => {
-      isModalClose.value = false;
-    };
+    const closeCloseModal = () => (isModalClose.value = false);
     // ReOpen
     const showReOpen = (id) => {
       idGlobal.value = id;
       isModalReOpen.value = true;
     };
-    const closeReOpenModal = () => {
-      isModalReOpen.value = false;
-    };
+    const closeReOpenModal = () => (isModalReOpen.value = false);
 
-    const calculateHours = (id,status, created_date, edit, lastDate, hours, closeDate) => {
-      if (status === 1 ){ //cerrado
+    const calculateHours = (
+      id,
+      status,
+      created_date,
+      edit,
+      lastDate,
+      hours,
+      closeDate
+    ) => {
+      if (status === 1) {
+        //cerrado
         if (edit) {
-          // const hoursClose = Math.round( Math.abs(new Date(closeDate) - new Date(lastDate)) / 36e5);
-          // return hoursClose + hours;
           return hours;
         } else {
-          return Math.round(Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5);
+          return Math.round(
+            Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5
+          );
         }
       } else {
         if (edit) {
-          const hoursEdited = Math.round( Math.abs(new Date() - new Date(lastDate)) / 36e5 )
+          const hoursEdited = Math.round(
+            Math.abs(new Date() - new Date(lastDate)) / 36e5
+          );
+          const hoursEdited = Math.round(
+            Math.abs(new Date() - new Date(lastDate)) / 36e5
+          );
           return hours + hoursEdited;
         } else {
-          return Math.round(Math.abs(new Date() - new Date(created_date)) / 36e5);
+          return Math.round(
+            Math.abs(new Date() - new Date(created_date)) / 36e5
+          );
         }
       }
-    }
+    };
 
     const closeRun = async () => {
       try {
@@ -415,10 +447,10 @@ export default {
     };
 
     // const editRun = (id) => (window.location.href = `/part/${id}`);
-    const editRun = (id) =>{
+    const editRun = (id) => {
       // this.$inertia.get(route(`/part/${id}`));
-      Inertia.get(`/part/${id}`)
-    } 
+      Inertia.get(`/part/${id}`);
+    };
     const reportRun = (id) => {
       window.location.href = `/run/download/${id}`;
     };

@@ -34,15 +34,16 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
-Route::middleware(['auth:sanctum', 'verified'])->get('/run/downloadPlus/{id}', [RunController::class, 'downloadPlus'])->name('run.downloadPlus');
-Route::middleware(['auth:sanctum', 'verified'])->get('/run/download/{id}', [RunController::class, 'downloadPdf'])->name('run.downloadPdf');
-Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRuns/{status}', [RunController::class, 'getAllRuns'])->name('run.getAllRuns');
-Route::middleware(['auth:sanctum', 'verified'])->put('/run/closeRun/{id}', [RunController::class, 'closeRun'])->name('run.closeRun');
-Route::middleware(['auth:sanctum', 'verified'])->put('/run/reopenRun/{id}', [RunController::class, 'reopenRun'])->name('run.reopenRun');
 Route::middleware(['auth:sanctum', 'verified'])->delete('/run/deleteRun/{id}', [RunController::class, 'deleteRun'])->name('run.deleteRun');
 Route::middleware(['auth:sanctum', 'verified'])->get('/chemical/getChemicals/{type}', [ChemicalController::class, 'getChemicals'])->name('chemical.getChemicals');
+Route::middleware(['auth:sanctum', 'verified'])->get('/company/getCompanies/{type}', [CompanyController::class, 'getCompanies'])->name('company.getCompanies');
+Route::middleware(['auth:sanctum', 'verified'])->get('/run/download/{id}', [RunController::class, 'downloadPdf'])->name('run.downloadPdf');
+Route::middleware(['auth:sanctum', 'verified'])->get('/run/downloadPlus/{id}', [RunController::class, 'downloadPlus'])->name('run.downloadPlus');
+Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRuns/{status}', [RunController::class, 'getAllRuns'])->name('run.getAllRuns');
 Route::middleware(['auth:sanctum', 'verified'])->post('/note/add', [NoteController::class, 'store'])->name('note.add');
 Route::middleware(['auth:sanctum', 'verified'])->post('/photo/getAllUrlSignature', [PhotoController::class, 'getAllUrlSignature'])->name('photo.signature');
+Route::middleware(['auth:sanctum', 'verified'])->put('/run/closeRun/{id}', [RunController::class, 'closeRun'])->name('run.closeRun');
+Route::middleware(['auth:sanctum', 'verified'])->put('/run/reopenRun/{id}', [RunController::class, 'reopenRun'])->name('run.reopenRun');
 
 
 //Resources
