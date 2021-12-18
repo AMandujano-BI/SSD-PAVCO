@@ -155,12 +155,12 @@ export default {
 
     const calculateHours = (edit, lastDate, created_date, hours) => {
       if (edit) {
-        const hoursEdited = Math.round(
-          Math.abs(new Date() - new Date(lastDate)) / 36e5
-        );
-        return Number(hours) + hoursEdited;
+        const hoursEdited = Math.abs(new Date() - new Date(lastDate)) / 36e5;
+        const hoursRounded = hoursEdited | 0;
+        return Number(hours) + hoursRounded;
       } else {
-        return Math.round(Math.abs(new Date() - new Date(created_date)) / 36e5);
+        const hoursDiff = Math.abs(new Date() - new Date(created_date)) / 36e5;
+        return hoursDiff | 0;
       }
     };
 

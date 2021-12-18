@@ -203,8 +203,9 @@ class Run extends Model
                 $lastDateEdit = new DateTime($run->last_edit);
                 $lastDate = $lastDateEdit->format('Y-m-d H:i:s');
                 $current = $currentDate->format('Y-m-d H:i:s');
-                $hourdiff = round((strtotime($current) - strtotime($lastDate)) / 3600, 0);
-                $hours = intval($hourdiff, 10);
+                $hourdiff = (strtotime($current) - strtotime($lastDate)) / 3600;
+                $hourRounded = bcdiv($hourdiff, '1', 0);
+                $hours = intval($hourRounded, 10);
 
                 $totalHours = $hours + $run->hours;
             } else {
@@ -212,8 +213,9 @@ class Run extends Model
                 $current = $currentDate->format('Y-m-d H:i:s');
                 $created_at = new DateTime($run->created_at);
                 $createdDate = $created_at->format('Y-m-d H:i:s');
-                $hourdiff = round((strtotime($current) - strtotime($createdDate)) / 3600, 1);
-                $totalHours = intval($hourdiff, 10);
+                $hourdiff = (strtotime($current) - strtotime($createdDate)) / 3600;
+                $hourRounded = bcdiv($hourdiff, '1', 0);
+                $totalHours = intval($hourRounded, 10);
             }
             $run->hours = $totalHours;
 

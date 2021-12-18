@@ -42,7 +42,19 @@
     </div>
     <div>
       <label>Hours</label>
-      <input type="number" class="w-full" v-model="form.hours" />
+      <input 
+        type="number" 
+        class="w-full" 
+        v-model="form.hours"
+        :class="{ 'border-red-500': v$.hours.$error }"
+      />
+      <p
+        v-for="error of v$.hours.$errors"
+        :key="error.$uid"
+        class="text-red-400"
+      >
+        {{ error.$message }}
+      </p>
     </div>
     <div>
       <label for="">Description</label>
@@ -68,7 +80,7 @@
 </template>
 
 <script>
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers, minValue } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import axios from "axios";
 import { ref, reactive } from "vue";
@@ -92,28 +104,20 @@ export default {
       if (run.status === 1) {
         //cerrado
         if (run.isEdit) {
-          // const hoursClose = Math.round(
-          //   Math.abs(new Date(run.closed_date) - new Date(run.last_edit)) /
-          //     36e5
-          // );
           return run.hours;
         } else {
-          return Math.round(
-            Math.abs(new Date(run.closed_date) - new Date(run.created_at)) /
-              36e5
-          );
+          const closeNonEdit = Math.abs(new Date(run.closed_date) - new Date(run.created_at)) / 36e5;
+          return closeNonEdit | 0;
         }
       } else {
         // abierto
         if (run.isEdit) {
-          const hoursEdited = Math.round(
-            Math.abs(new Date() - new Date(run.last_edit)) / 36e5
-          );
+          const activeEdit = Math.abs(new Date() - new Date(run.last_edit)) / 36e5;
+          const hoursEdited = activeEdit | 0;
           return run.hours + hoursEdited;
         } else {
-          return Math.round(
-            Math.abs(new Date() - new Date(run.created_at)) / 36e5
-          );
+          const activeNonEdit = Math.abs(new Date() - new Date(run.created_at)) / 36e5;
+          return activeNonEdit | 0;
         }
       }
     };
@@ -160,6 +164,10 @@ export default {
       },
       startDate: {
         required,
+      },
+      hours: {
+        required,
+        minValue: minValue(0)
       },
       plate_methods_id: {
         isDiferentZero: helpers.withMessage(
