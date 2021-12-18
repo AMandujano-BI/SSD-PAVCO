@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Company extends Model
 {
@@ -60,6 +61,28 @@ class Company extends Model
     {
         $customers = (new static)::where('distributor', 1)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
         return $customers;
+    }
+    public static function deleteCompany($id)
+    {
+        DB::beginTransaction();
+        try {
+            $run = (new static)::find($id);
+            $run->status = 2;
+            $run->save();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Run was deleted successfully',
+                'value' => $run,
+            ];
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage()
+            ];
+        }
     }
     public static function getCompanies($type)
     {

@@ -27,6 +27,9 @@ class UserController extends Controller
     {
         //
     }
+    public function getUsers($tpye){
+        return $tpye;
+    }
 
     /**
      * Store a newly created resource in storage.
