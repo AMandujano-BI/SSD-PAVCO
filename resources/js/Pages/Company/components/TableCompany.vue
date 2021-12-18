@@ -1,4 +1,28 @@
 <template>
+  <button
+    @click="openModal"
+    class="
+      bg-primary
+      hover:bg-primary-600
+      rounded
+      w-[100]
+      py-1
+      text-white
+      px-3
+      mt-2
+    "
+  >
+    +
+  </button>
+  <modal :show="openModalCompany">
+    <div class="p-5">
+      <form-company
+        :countries="countries"
+        :distributors="distributors"
+        @closeModal="closeModal"
+      />
+    </div>
+  </modal>
   <table id="tableCompanies" class="display" style="width: 100%; height: 100%">
     <thead>
       <tr>
@@ -19,13 +43,12 @@
     <tbody>
       <tr v-for="company in companiesTable" :key="company.id">
         <td class="text-center">{{ company.name }}</td>
-        <!-- <td class="text-center">{{company.id}}</td> -->
         <td class="text-center">{{ "distributor" }}</td>
         <td class="text-center">{{ company.address }}</td>
         <td class="text-center">{{ company.city }}</td>
         <td class="text-center">{{ company.state }}</td>
         <td class="text-center">{{ company.zip }}</td>
-        <td class="text-center">{{ "country" }}</td>
+        <td class="text-center">{{ company.country.name }}</td>
         <td class="text-center">{{ company.phone }}</td>
         <td class="text-center">{{ company.fax }}</td>
         <td class="text-center">
@@ -63,8 +86,10 @@
         >
           Cancel
         </button>
-        <button class="bg-green-500 p-4 text-white rounded-md">
-          <!-- @click="deletePhoto()" -->
+        <button
+          class="bg-green-500 p-4 text-white rounded-md"
+          @click="deleteCompany()"
+        >
           Acept
         </button>
       </div>
@@ -78,27 +103,49 @@ import { ref, nextTick } from "vue";
 const $ = require("jquery");
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import Modal from "@/Jetstream/Modal";
+import useHelper from "@/composables/useHelper";
+import FormCompany from "./FormCompany.vue";
 export default {
+  props: ["countries", "distributors"],
   components: {
     modal: Modal,
     confirmationModal: ConfirmationModal,
+    FormCompany,
   },
   setup() {
     const companiesTable = ref([]);
+    const idCompany = ref(0);
     const showModalDelete = ref(false);
-
+    const { makeToast } = useHelper();
     const openModalEditClick = (id) => {
       console.log(id);
     };
     const openModalDeleteClick = (id) => {
       showModalDelete.value = true;
-      console.log(id);
+      idCompany.value = id;
     };
 
     const getCompanies = async () => {
       await axios.get("companies");
     };
-    const closeModalDelete = () => showModalDelete.value = false;
+    const deleteCompany = async () => {
+      try {
+        const res = await axios.delete(`/company/${idCompany.value}`);
+        console.log(res.data);
+        const { ok, message, value } = res.data;
+        if (ok) {
+          idCompany.value = 0;
+          showModalDelete.value = false;
+          makeToast(message)
+        } else {
+          makeToast(message,'error')
+        }
+      } catch (e) {
+          makeToast('Error','error')
+        console.log(e);
+      }
+    };
+    const closeModalDelete = () => (showModalDelete.value = false);
     const gettingData = async (type = 3) => {
       try {
         const res = await axios.get(`/company/getCompanies/${type}`);
@@ -109,6 +156,14 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    };
+    const openModalCompany = ref(false);
+    const openModal = () => {
+      openModalCompany.value = true;
+    };
+
+    const closeModal = () => {
+      openModalCompany.value = false;
     };
     const generateDataTable = () => {
       nextTick(() => {
@@ -129,6 +184,10 @@ export default {
       openModalDeleteClick,
       showModalDelete,
       closeModalDelete,
+      deleteCompany,
+      openModalCompany,
+      openModal,
+      closeModal,
     };
   },
 };

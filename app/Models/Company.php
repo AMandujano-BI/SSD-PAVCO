@@ -57,6 +57,37 @@ class Company extends Model
             'value' => $company,
         ];
     }
+    public static function updateCompany($id, $request)
+    {
+        DB::beginTransaction();
+        try {
+            $company = (new static)::find($id);
+            $company->name = $request->name;
+            $company->address = $request->address;
+            $company->city = $request->city;
+            $company->state= $request->state;
+            $company->zip = $request->zip;
+            $company->phone = $request->phone;
+            $company->fax= $request->fax;
+            $company->customer= $request->customer;
+            $company->distributor= $request->distributor;
+            $company->notes= $request->notes;
+            $company->country_id= $request->country_id;
+            $company->save();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Company was update successfully',
+                'value' => $company,
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
     public static function getDistributors()
     {
         $customers = (new static)::where('distributor', 1)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
@@ -66,14 +97,14 @@ class Company extends Model
     {
         DB::beginTransaction();
         try {
-            $run = (new static)::find($id);
-            $run->status = 2;
-            $run->save();
+            $company = (new static)::find($id);
+            //$company->status = 2;
+            $company->save();
             DB::commit();
             return [
                 'ok' => true,
-                'message' => 'Run was deleted successfully',
-                'value' => $run,
+                'message' => 'Company was deleted successfully',
+                'value' => $company,
             ];
         } catch (\Exception $e) {
 
@@ -88,12 +119,16 @@ class Company extends Model
     {
         if ($type == 1) {
 
-            $companies = (new static)::where('distributor', 1)->orderBy('name', 'asc')->get();
+            $companies = (new static)::with(['country'])->where('distributor', 1)->orderBy('name', 'asc')->get();
         } else if ($type == 0) {
-            $companies = (new static)::where('distributor', 0)->orderBy('name', 'asc')->get();
+            $companies = (new static)::with(['country'])->where('distributor', 0)->orderBy('name', 'asc')->get();
         } else {
-            $companies = (new static)::orderBy('name', 'asc')->get();
+            $companies = (new static)::with(['country'])->orderBy('name', 'asc')->get();
         }
         return $companies;
+    }
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
     }
 }

@@ -92,7 +92,9 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        //
+        
+        $company = $this->_company->updateCompany(1,$company);
+        return $company;
     }
 
     /**
