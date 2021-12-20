@@ -142,12 +142,45 @@ class RunController extends Controller
         $id_run = $run->id;
         $startDate = substr($run->startDate, 0, 10);
         $customer = 'Test';
-        $currentDate = new DateTime();
-        $pastDate = new DateTime($run->startDate);
-        $firstDate = $pastDate->format('Y-m-d H:i:s');
-        $endDate = $currentDate->format('Y-m-d H:i:s');
-        $hourdiff = round((strtotime($endDate) - strtotime($firstDate))/3600, 1);
-        $hours = intval($hourdiff, 10);
+
+        $current_date = new DateTime();
+        $currentDate = $current_date->format('Y-m-d H:i:s');
+        $created_at = new DateTime($run->created_at);
+        $createdDate = $created_at->format('Y-m-d H:i:s');
+        $last_edit = new DateTime($run->last_edit);
+        $lastDate = $last_edit->format('Y-m-d H:i:s');
+        $closed_date = new DateTime($run->closed_date);
+        $closedDate = $closed_date->format('Y-m-d H:i:s');
+        $hours = 0;
+
+        // $hourdiff = (strtotime($current) - strtotime($createdDate)) / 3600;
+        // $hourRounded = bcdiv($hourdiff, '1', 0);
+        // $totalHours = intval($hourRounded, 10);
+
+        if( $run->status == 1 ) {
+            if($run->isEdit) {
+                $hours = $run->hours;
+            } else {
+                $closeNonEdit = intval( bcdiv( (strtotime($closedDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
+                $hours = $closeNonEdit;
+            }
+        } else {
+            if($run->isEdit) {
+                // current - last
+                //$hours = result + $run->hours 
+                $activeEdit = intval( bcdiv( (strtotime($currentDate) - strtotime($lastDate)) / 3600, '1', 0), 10);
+                $hours = $run->hours + $activeEdit;
+            } else {
+                // $hours = current - created
+                $activeNonEdit = intval( bcdiv( (strtotime($currentDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
+                $hours = $activeNonEdit;
+            }
+        }
+
+
+
+        // $hourdiff = round((strtotime($endDate) - strtotime($firstDate))/3600, 1);
+        // $hours = intval($hourdiff, 10);
 
         $status = '';
         if ($run->status == '1') {
@@ -234,7 +267,7 @@ class RunController extends Controller
             position: relative;
         }
         .title {
-            margin: 50px 69px 41px 340px;
+            margin: 50px 69px 41px 300px;
             font-size: 20px;
             font-weight: 600;
             color: #3b4559;
@@ -299,7 +332,7 @@ class RunController extends Controller
             border-top: 1px solid #979797 !important;
             color: #3b4559;
             font-size: 16px;
-            font-weight: 300;
+            font-weight: normal;
             padding-top: 13px;
             padding-right: 13px;
             padding-bottom: 13px;
@@ -316,7 +349,7 @@ class RunController extends Controller
         <div class='body__first'>
             <div class='content'>
                 <span class='rectangle'>
-                    <img src='https://www.pavco.com/images/pavcoLogo3.jpg'  class='PavcoWhite'>
+                    <img src='https://pavco1.sfo3.digitaloceanspaces.com/assets/assets/pavco.png'  class='PavcoWhite'>
                     <!-- srcset='pavco@2x.png 2x, pavco@3x.png 3x' -->
                 </span>
                 <span class='title'>Salt Spray Report Results</span>
@@ -356,11 +389,11 @@ class RunController extends Controller
                     <div class='notes__label'>Notes: <span class='subheader__value'>Parts were salts sprayed using the guidelines of the ASTM B-117.</span></div>
                 </div>
                 <div class='top-separation'>
-                    <div class='notes__label'>Notes: <span class='subheader__value'>Pavco is not an independent testing laboratory. These results are for your information only and should be verified by an independent testing laboratory. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque reiciendis ratione saepe accusamus dolor aliquid, itaque quasi facere quaerat blanditiis eius necessitatibus? Non ab laudantium nisi aut dolorem, quae ipsa?</span></div>
+                    <div class='notes__label'>Notes: <span class='subheader__value'>Pavco is not an independent testing laboratory. These results are for your information only and should be verified by an independent testing laboratory. </span></div>
                 </div>
             </div>
         </div>
-        </html>";
+        ";
         $pdf->loadHTML($html);
 
         return $pdf->download('run_report_'.$run->id.'.pdf');
@@ -373,6 +406,45 @@ class RunController extends Controller
         $startDate = substr($run->startDate, 0, 10);
         // $customer = $run->user_id;
         $customer = 'test';
+
+
+        
+        $current_date = new DateTime();
+        $currentDate = $current_date->format('Y-m-d H:i:s');
+        $created_at = new DateTime($run->created_at);
+        $createdDate = $created_at->format('Y-m-d H:i:s');
+        $last_edit = new DateTime($run->last_edit);
+        $lastDate = $last_edit->format('Y-m-d H:i:s');
+        $closed_date = new DateTime($run->closed_date);
+        $closedDate = $closed_date->format('Y-m-d H:i:s');
+        $hours = 0;
+
+        // $hourdiff = (strtotime($current) - strtotime($createdDate)) / 3600;
+        // $hourRounded = bcdiv($hourdiff, '1', 0);
+        // $totalHours = intval($hourRounded, 10);
+
+        if( $run->status == 1 ) {
+            if($run->isEdit) {
+                $hours = $run->hours;
+            } else {
+                $closeNonEdit = intval( bcdiv( (strtotime($closedDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
+                $hours = $closeNonEdit;
+            }
+        } else {
+            if($run->isEdit) {
+                // current - last
+                //$hours = result + $run->hours 
+                $activeEdit = intval( bcdiv( (strtotime($currentDate) - strtotime($lastDate)) / 3600, '1', 0), 10);
+                $hours = $run->hours + $activeEdit;
+            } else {
+                // $hours = current - created
+                $activeNonEdit = intval( bcdiv( (strtotime($currentDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
+                $hours = $activeNonEdit;
+            }
+        }
+
+
+        $status = '';
         if ($run->status == '1') {
             $status = 'Active';
         } else {
@@ -424,57 +496,177 @@ class RunController extends Controller
 
         if( strlen($photos) > 0) {
             foreach ($photos as $photo) {
-                $photosContent .= 
-                "
+                if($photo->report === '1' ) {
+                    $photosContent .= 
+                    "
                     <div style='page-break-inside:avoid;'>
-                        <p>Image - $photo->name</p>
-                        <hr>
-                        <img src='$photo->image' alt='$photo->name' style='width: auto; max-height: 500px; margin-top: 4.7em' >
-                        <br>
-                        <br>
+                    <p>Image - $photo->name</p>
+                    <hr>
+                    <img src='$photo->image' alt='$photo->name' style='width: auto; max-height: 500px; margin-top: 4.7em' >
+                    <br>
+                    <br>
                     </div>
-                ";
+                    ";
+                }
             }
         } 
 
 
         $pdf = resolve('dompdf.wrapper');
         $html = "
-            <h1>Salt Spray Report Results</h1>
-            <hr>
-            <br>
-            <p> <strong>Run #</strong> $id_run</p>
-            <p> <strong>StartDate</strong> $startDate</p>
-            <p> <strong>Customer</strong> $customer</p>
-            <p> <strong>Status</strong> $status</p>
-            <p> <strong>Description</strong> $description</p>
-            <br>
-            <br>
+            <style>
+                @page{margin: 0px;} body__first{margin: 0;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif}
+                .rectangle {
+                    width: 130px;
+                    position:absolute;
+                    height: 40px;
+                    margin: 0 63px 0px 0;
+                    padding: 30px 54.8px 69px 54px;
+                    background-color: #0271c5 !important;
+                }
+                img.PavcoWhite {
+                  margin-top: 10px;
+                  width: 126.2px;
+                  object-fit: contain;
+                }
+                .content{
+                    background-color: white;
+                    height: 139px;
+                    position: relative;
+                }
+                .title {
+                    margin: 50px 69px 41px 300px;
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: #3b4559;
+                    position: absolute;
+                }
+                .header{
+                    width: 100%;
+                    /* height: 50px; */
+                    background-color: #e1e8f3;
+                    padding-top: 35px;
+                    padding-bottom: 35px;
+                    /* display: grid; */
+                }
+                .top-separation{
+                    margin-top: 10px;
+                }
+                .subheader{
+                    /* height: 22px; */
+                    margin: 35px 70px 64px 54px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #34689c;
+                }
+                .subheader__content{
+                    /* height: 22px; */
+                    margin-left: 54px;
+                    margin-right: 70px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #34689c;
+                }
+                .subheader__label {
+                    margin-right: 70px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #34689c;
+                }
+                .subheader__value{
+                    font-weight: normal;
+                    color: #3b4559;
+                }
+                body {
+                    background-color: #f8fafc;
+                }
+                .table__container{
+                    margin: 34px 34px 34px 34px;
 
-            <table  cellspacing='0' border='1'>
-                <thead>
-                    <tr>
-                        <th>Desc</th>
-                        <th>Plate</th>
-                        <th>Chromate</th>
-                        <th>Topcoat</th>
-                        <th>Secondary Topcoat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    $content                    
-                </tbody>
-            </table>
-            <br>
-            <br>
-            <hr>
-            <p><strong>Notes</strong>: Parts were salts sprayed using the guidelines of the ASTM B-117.</p>
-            <p><strong>Notes</strong>: Pavco is not an independent testing laboratory. These results are for your information only and should be verified by an independent testing laboratory.</p>
-            <br>
-            <br>
-            <br>
-            <br>
-            $photosContent
+                }
+                table{
+                    background-color: white;
+                    border: none;
+                    border-collapse: collapse;
+                }
+                th{
+                    color: #3b4559;
+                    font-size: 16px;
+                    font-weight: 600;
+                    height: 72px;
+                    border: none;
+                }
+                td{
+                    border-top: 1px solid #979797 !important;
+                    color: #3b4559;
+                    font-size: 16px;
+                    font-weight: normal;
+                    padding-top: 13px;
+                    padding-right: 13px;
+                    padding-bottom: 13px;
+                    padding-left: 13px;
+                }
+                .notes__label{
+                    color: #34689c;   
+                    font-size: 16px;
+                    font-weight: 600;
+                    margin-left: 34px;
+                    margin-right: 34px;
+                }
+                .image {
+                    margin: 34px;
+                }
+            </style>
+            <div class='body__first'>
+                <div class='content'>
+                    <span class='rectangle'>
+                        <img src='https://pavco1.sfo3.digitaloceanspaces.com/assets/assets/pavco.png'  class='PavcoWhite'>
+                        <!-- srcset='pavco@2x.png 2x, pavco@3x.png 3x' -->
+                    </span>
+                    <span class='title'>Salt Spray Report Results</span>
+                </div>
+                <div class='header'>
+                    <div class='subheader__content'>
+                        <span class='subheader__label'>Run: <span class='subheader__value'>$id_run</span></span>
+                        <span class='subheader'>StartDate: <span class='subheader__value'>$startDate</span></span>
+                        <span class='subheader'>Customer: <span class='subheader__value'>$customer</span></span>
+                        <span class='subheader'>Status: <span class='subheader__value'>$status</span></span>
+                    </div>
+                    <div class='top-separation'>
+                        <div class='subheader__content'>Description: <span class='subheader__value'>$description</span></div>
+                    </div>
+                    <div class='top-separation'>
+                        <div class='subheader__content'>Hours: <span class='subheader__value'>$hours</span></div>
+                    </div>
+                </div>
+                <div class='body'>
+                    <div class='table__container'>
+                        <table cellspacing='10' >
+                            <thead>
+                                <tr>
+                                    <th>Desc</th>
+                                    <th>Plate</th>
+                                    <th>Chromate</th>
+                                    <th>Topcoat</th>
+                                    <th>Secondary Topcoat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                $content
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='top-separation'>
+                        <div class='notes__label'>Notes: <span class='subheader__value'>Parts were salts sprayed using the guidelines of the ASTM B-117.</span></div>
+                    </div>
+                    <div class='top-separation'>
+                        <div class='notes__label'>Notes: <span class='subheader__value'>Pavco is not an independent testing laboratory. These results are for your information only and should be verified by an independent testing laboratory. </span></div>
+                    </div>
+                    <div class='image'>
+                        $photosContent
+                    </div>
+                </div>
+            </div>
         ";
         $pdf->loadHTML($html);
 
