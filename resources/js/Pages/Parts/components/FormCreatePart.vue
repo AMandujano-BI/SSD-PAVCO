@@ -112,7 +112,7 @@
     </div>
     <div>
       <label for="">TopCoat</label>
-      <div class="flex w-full justify-around gap-2">
+      <div class="flex w-full flex-col md:flex-row  gap-2">
         <div class="w-full">
           <multi-select
             :options="topCoats"
@@ -193,7 +193,7 @@
     </div>
     <div>
       <label for="">Secondary Topcoat</label>
-      <div class="flex w-full justify-around gap-2">
+      <div class="flex w-full flex-col md:flex-row  gap-2">
         <div class="w-full">
           <multi-select
             :options="secondaryCoats"
