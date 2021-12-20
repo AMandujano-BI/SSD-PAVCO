@@ -131,13 +131,13 @@ const styleInactive = "text-gray-500";
         class="flex-grow "
         >{{ item.label }}</span
       >
-      <icon
+      <!-- <icon
         v-if="hasDropdown"
         :path="dropdownIcon"
         class="flex-none"
         :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
         w="w-12"
-      />
+      /> -->
     </jet-nav-link>
     <!-- </component> -->
     <menu-list

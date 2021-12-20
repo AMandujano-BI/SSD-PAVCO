@@ -370,8 +370,8 @@ export default {
         if (ok) {
           isModalClose.value = false;
           makeToast(message);
-          gettingData();
-          // filterOption.value = 1;
+          gettingData(1);
+          filterOption.value = 1;
           idGlobal.value = 0;
         } else {
           console.log("ha ocurrido un error");
@@ -389,8 +389,9 @@ export default {
         if (ok) {
           isModalReOpen.value = false;
           makeToast(message);
-          gettingData();
-          // filterOption.value = 0;
+          gettingData(0);
+          
+          filterOption.value = 0;
           idGlobal.value = 1;
         } else {
           makeToast(message, "error");

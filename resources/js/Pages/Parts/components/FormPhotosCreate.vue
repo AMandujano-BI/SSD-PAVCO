@@ -243,7 +243,7 @@ export default {
         }
       } catch (e) {
         loading.value = false;
-        makeToast('Error', "error");
+        makeToast(e, "error");
       }
     };
     return {

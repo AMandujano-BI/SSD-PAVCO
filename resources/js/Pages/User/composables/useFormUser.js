@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers,sameAs,email } from "@vuelidate/validators";
 import useHelper from "@/composables/useHelper";
 import useVuelidate from "@vuelidate/core";
 const isDiferentZero = (value) => {
@@ -8,11 +8,15 @@ const isDiferentZero = (value) => {
 const useFormuser = (formProps) => {
     const form = reactive(formProps);
     const { makeToast } = useHelper();
+    console.log(form.password)
+    console.log(form)
+    console.log(formProps)
     const rules = {
         username: { required },
         firstname: { required },
         password: { required },
-        confirm_password: { required },
+        email: { required,email },
+        confirm_password: { sameAsPassword: sameAs('password'),required  },
         company_id: {
             isDiferentZero: helpers.withMessage(
                 "You must select an option",
@@ -23,6 +27,8 @@ const useFormuser = (formProps) => {
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {
         console.log('submit')
+        console.log(form)
+        console.log(form.password)
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return
     }

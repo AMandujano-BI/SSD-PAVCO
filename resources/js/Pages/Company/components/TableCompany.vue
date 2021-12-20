@@ -98,6 +98,8 @@
 </template>
 
 <script>
+
+import dt from "datatables.net";
 import axios from "axios";
 import { ref, nextTick } from "vue";
 const $ = require("jquery");

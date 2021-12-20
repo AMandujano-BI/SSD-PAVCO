@@ -27,8 +27,8 @@
           class="w-full"
           autocomplete="off"
           v-model="form.firstname"
+          :class="{ 'border-red-500': v$.firstname.$error }"
         />
-        <!-- :class="{ 'border-red-500': v$.name.$error }" -->
         <p
           v-for="error of v$.firstname.$errors"
           :key="error.$uid"
@@ -60,16 +60,16 @@
           type="text"
           class="w-full"
           autocomplete="off"
-          v-model="form.username"
+          v-model="form.email"
+          :class="{ 'border-red-500': v$.email.$error }"
         />
-        <!-- :class="{ 'border-red-500': v$.name.$error }" -->
-        <!-- <p
-          v-for="error of v$.name.$errors"
+        <p
+          v-for="error of v$.email.$errors"
           :key="error.$uid"
           class="text-red-400"
         >
           {{ error.$message }}
-        </p> -->
+        </p>
       </div>
       <div>
         <label for="">Company</label>
@@ -88,6 +88,7 @@
           class="w-full"
           autocomplete="off"
           v-model="form.password"
+          :class="{ 'border-red-500': v$.password.$error }"
         />
         <!-- :class="{ 'border-red-500': v$.name.$error }" -->
         <p
@@ -104,11 +105,12 @@
           type="password"
           class="w-full"
           autocomplete="off"
-          v-model="form.password"
+          v-model="form.confirm_password"
+          :class="{ 'border-red-500': v$.confirm_password.$error }"
         />
         <!-- :class="{ 'border-red-500': v$.name.$error }" -->
         <p
-          v-for="error of v$.password.$errors"
+          v-for="error of v$.confirm_password.$errors"
           :key="error.$uid"
           class="text-red-400"
         >
@@ -155,6 +157,7 @@ export default {
       firstname: "",
       lastname: "",
       username: "",
+      email: "",
       password: "",
       confirm_password: "",
       country_id: 0,
