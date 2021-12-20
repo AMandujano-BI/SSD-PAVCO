@@ -91,7 +91,6 @@ export default {
       hideMenu,
       isFullScreen,
       isAsideLgActive,
-      IconPavco,
       IconFooterLeftBar,
     };
   },
