@@ -238,8 +238,8 @@ export default {
         res = await axios.post("/chemical", form._value);
       }
       const { ok, message, value } = res.data;
-      makeToast(message);
       if (ok === true) {
+        makeToast(message);
         if (selected._value !== "0") {
           selected._value = form._value.type;
           getChemical(form._value.type);
@@ -248,7 +248,7 @@ export default {
         }
         reset();
       } else {
-        makeToast("There is an error. Try again please", "error");
+        makeToast(message, "error");
       }
     };
 

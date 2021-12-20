@@ -243,7 +243,7 @@ class Run extends Model
             $run = (new static)::find($id);
             $run->status = 0;
             $run->isEdit = true;
-            $run->last_Edit = Carbon::now();
+            $run->last_edit = Carbon::now();
             $run->save();
             DB::commit();
             return [

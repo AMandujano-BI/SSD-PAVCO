@@ -15,17 +15,27 @@ class Chemical extends Model
 
     public static function createChemical($request)
     {
-        $name = $request->name;
-        $type = $request->type;
-        $chemical = (new static)::create([
-            'name' => $name,
-            'type' => $type
-        ]);
-        return [
-            'ok' => true,
-            'message' => 'Chemical was added successfully',
-            'value' => $chemical,
-        ];
+        $chemical = (new static)::where('name', '=', $request->name)->first();
+        if($chemical == null) {
+            $name = $request->name;
+            $type = $request->type;
+            $chemical = (new static)::create([
+                'name' => $name,
+                'type' => $type
+            ]);
+            return [
+                'ok' => true,
+                'message' => 'Chemical was added successfully',
+                'value' => $chemical,
+            ];
+        } else {
+            return [
+                'ok' => false,
+                'message' => 'This chemical exist',
+                'value' => 0
+            ];
+        }
+       
     }
 
     public static function updateChemical($request)
