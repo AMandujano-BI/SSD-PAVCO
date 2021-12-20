@@ -1,7 +1,16 @@
 <template>
   <h1 class="text-center font-bold text-2xl">Table Photos</h1>
   <button
-    class="bg-primary hover:bg-primary-600 rounded w-[100] py-1 text-white px-3 mt-2"
+    class="
+      bg-primary
+      hover:bg-primary-600
+      rounded
+      w-[100]
+      py-1
+      text-white
+      px-3
+      mt-2
+    "
     @click="openModalPhotosForm"
   >
     +
@@ -22,8 +31,17 @@
     <tbody>
       <tr v-for="photo in photosTable" :key="photo.id">
         <td class="text-center">{{ photo.name }}</td>
-        <td class="text-center">{{ photo.created_at.slice(0,10) }}</td>
-        <td class="text-center">{{ calculateHours(photo.isEdit, photo.last_edit, photo.created_at, photo.hours) }}</td>
+        <td class="text-center">{{ photo.created_at.slice(0, 10) }}</td>
+        <td class="text-center">
+          {{
+            calculateHours(
+              photo.isEdit,
+              photo.last_edit,
+              photo.created_at,
+              photo.hours
+            )
+          }}
+        </td>
         <td class="text-center">{{ photo.description }}</td>
         <td class="text-center">
           <!-- <button @click="showPhotos"> -->
@@ -47,12 +65,12 @@
         <td class="text-center">{{ photo.report == 1 ? "Yes" : "No" }}</td>
         <td class="text-center">
           <button @click="openModalEditClick(photo.id)">
-            <img :src="ImgEdit" alt="icon Edit" />
+            <icon-edit />
           </button>
         </td>
         <td class="text-center">
           <button @click="openModalDeleteClick(photo.id)">
-              <img :src="require('@/assets/Icons/iconDelete/iconDelete.png').default" alt="iconDelete" />
+            <icon-delete />
           </button>
         </td>
       </tr>
@@ -120,8 +138,9 @@ import Modal from "@/Jetstream/Modal";
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import axios from "axios";
 import useHelper from "@/composables/useHelper";
-import ImgEdit from "@/assets/Icons/iconEdit/iconEdit.png";
 import FormPhotosUpdateVue from "./FormPhotosUpdate.vue";
+import IconEdit from "@/assets/Icons/iconEdit.vue";
+import IconDelete from "@/assets/Icons/iconDelete.vue";
 export default {
   props: ["photos", "run"],
   components: {
@@ -129,6 +148,8 @@ export default {
     formPhotosCreate: FormPhotosCreateVue,
     formPhotosUpdate: FormPhotosUpdateVue,
     modal: Modal,
+    IconEdit,
+    IconDelete,
     confirmationModal: ConfirmationModal,
   },
   setup(props) {
@@ -192,15 +213,15 @@ export default {
     };
 
     const calculateHours = (edit, lastDate, created_date, hours) => {
-        if (edit) {
-          const hoursEdited = Math.abs(new Date() - new Date(lastDate)) / 36e5;
-          const hoursRounded = hoursEdited | 0;
-          return Number(hours) + hoursRounded;
-        } else {
-          const hoursDiff = Math.abs(new Date() - new Date(created_date)) / 36e5
-          return hoursDiff | 0;
-        }
-    }
+      if (edit) {
+        const hoursEdited = Math.abs(new Date() - new Date(lastDate)) / 36e5;
+        const hoursRounded = hoursEdited | 0;
+        return Number(hours) + hoursRounded;
+      } else {
+        const hoursDiff = Math.abs(new Date() - new Date(created_date)) / 36e5;
+        return hoursDiff | 0;
+      }
+    };
 
     generateDataTable();
     return {
@@ -219,7 +240,6 @@ export default {
       openModalDeleteClick,
       deletePhoto,
       photosTable,
-      ImgEdit,
       openModalEdit,
       openModalEditClick,
       calculateHours,

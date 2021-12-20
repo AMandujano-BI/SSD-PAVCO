@@ -47,23 +47,13 @@
                 </td>
                 <td class="border text-center">
                   <button @click="editChemical(chemical)">
-                    <img
-                      :src="
-                        require('@/assets/Icons/iconEdit/iconEdit.png').default
-                      "
-                      alt="iconEdit"
-                    />
+
+                    <icon-edit/>
                   </button>
                 </td>
                 <td class="border text-center">
                   <button @click="deleteChemicalModal(chemical)">
-                    <img
-                      :src="
-                        require('@/assets/Icons/iconDelete/iconDelete.png')
-                          .default
-                      "
-                      alt="iconDelete"
-                    />
+                    <icon-delete/>
                   </button>
                 </td>
               </tr>
@@ -78,19 +68,19 @@
           <div>
             <div>
               <label for="">Name</label>
-              <input 
-                type="text" 
-                v-model="form.name" 
+              <input
+                type="text"
+                v-model="form.name"
                 class="w-full py-4 px-5"
                 :class="{ 'border-red-500': v$.name.$error }"
-                 />
-                <p
-                  v-for="error of v$.name.$errors"
-                  :key="error.$uid"
-                  class="text-red-400"
-                >
-                  {{ error.$message }}
-                </p>
+              />
+              <p
+                v-for="error of v$.name.$errors"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <label for="">Type</label>
@@ -110,10 +100,27 @@
               </p>
             </div>
           </div>
-          <div class="flex flex-col md:flex-row md:justify-between w-full md:gap-4 pt-16">
+          <div
+            class="
+              flex flex-col
+              md:flex-row md:justify-between
+              w-full
+              md:gap-4
+              pt-16
+            "
+          >
             <button
               type="button"
-              class="bg-red-600  hover:bg-red-800 rounded-sm w-full py-5 text-white px-3 mt-5"
+              class="
+                bg-red-600
+                hover:bg-red-800
+                rounded-sm
+                w-full
+                py-5
+                text-white
+                px-3
+                mt-5
+              "
               @click="closeModal"
             >
               Cancel
@@ -173,6 +180,8 @@ import ConfirmationModal from "../../Jetstream/ConfirmationModal.vue";
 import useHelper from "@/composables/useHelper";
 import Multiselect from "@vueform/multiselect";
 const $ = require("jquery");
+import IconEdit from "@/assets/Icons/iconEdit.vue";
+import IconDelete from "@/assets/Icons/iconDelete.vue";
 
 export default {
   components: {
@@ -180,6 +189,8 @@ export default {
     modal: Modal,
     confirmationModal: ConfirmationModal,
     multiSelect: Multiselect,
+    IconEdit,
+    IconDelete,
   },
   setup() {
     const { makeToast } = useHelper();

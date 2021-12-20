@@ -67,7 +67,6 @@ const styleInactive = "text-gray-500";
         v-if="item.icon"
         :src="item.icon"
         class="flex-none pr-3 pl-14"
-        :class="[vSlot && vSlot.isExactActive ? styleActive : styleInactive]"
         w="w-12"
       />
       <span

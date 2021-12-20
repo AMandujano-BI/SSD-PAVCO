@@ -56,18 +56,12 @@
         </td>
         <td class="text-center">
           <button @click="openModalEditClick(company.id)">
-            <img
-              :src="require('@/assets/Icons/iconEdit/iconEdit.png').default"
-              alt="iconDelete"
-            />
+            <icon-edit/>
           </button>
         </td>
         <td class="text-center">
           <button @click="openModalDeleteClick(company.id)">
-            <img
-              :src="require('@/assets/Icons/iconDelete/iconDelete.png').default"
-              alt="iconDelete"
-            />
+            <icon-delete/>
           </button>
         </td>
       </tr>
@@ -98,7 +92,6 @@
 </template>
 
 <script>
-
 import dt from "datatables.net";
 import axios from "axios";
 import { ref, nextTick } from "vue";
@@ -107,12 +100,16 @@ import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import Modal from "@/Jetstream/Modal";
 import useHelper from "@/composables/useHelper";
 import FormCompany from "./FormCompany.vue";
+import IconEdit from "@/assets/Icons/iconEdit.vue";
+import IconDelete from "@/assets/Icons/iconDelete.vue";
 export default {
   props: ["countries", "distributors"],
   components: {
     modal: Modal,
     confirmationModal: ConfirmationModal,
     FormCompany,
+    IconEdit,
+    IconDelete,
   },
   setup() {
     const companiesTable = ref([]);
@@ -138,12 +135,12 @@ export default {
         if (ok) {
           idCompany.value = 0;
           showModalDelete.value = false;
-          makeToast(message)
+          makeToast(message);
         } else {
-          makeToast(message,'error')
+          makeToast(message, "error");
         }
       } catch (e) {
-          makeToast('Error','error')
+        makeToast("Error", "error");
         console.log(e);
       }
     };

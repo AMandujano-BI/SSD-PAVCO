@@ -12,30 +12,30 @@ export default [
       href: '/run',
       label: 'Runs',
       icon: IconRun,
-      itemRoute:'run.index'
+      itemRoute: 'run.index'
       // updateMark: true
     },
     {
       label: 'Maintenance',
-      icon:IconMaintenance,
+      icon: IconMaintenance,
       menu: [
         {
           label: 'Users',
           href: '/user',
-          icon:IconUser,
-          itemRoute:'user.index'
+          icon: IconUser,
+          itemRoute: 'user.index'
         },
         {
           label: 'Company',
           href: '/company',
-          icon:IconCompany,
-          itemRoute:'company.index'
+          icon: IconCompany,
+          itemRoute: 'company.index'
         },
         {
           label: 'Chemical',
           href: '/chemical',
-          icon:IconChemical,
-          itemRoute:'chemical.index'
+          icon: IconChemical,
+          itemRoute: 'chemical.index'
         }
       ]
     },
@@ -44,7 +44,7 @@ export default [
       href: '/report',
       label: 'Reports',
       icon: IconReport,
-      itemRoute:'report.index',
+      itemRoute: 'report.index',
       updateMark: true
     },
   ],

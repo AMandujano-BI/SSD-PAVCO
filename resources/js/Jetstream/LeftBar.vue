@@ -38,7 +38,7 @@
         justify-center
       "
     >
-      <img :src="IconPavco" alt="pavcoIcon" />
+    <pavco-icon/>
     </div>
     <div class="w-full pt-20">
       <template v-for="(menuGroup, index) in menu">
@@ -64,13 +64,14 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
-import IconPavco from "../assets/Icons/PavcoIcon/pavcoIcon.png";
 import IconFooterLeftBar from "../assets/Icons/IconFooterLeftBar/pattern.png";
 import MenuList from "./MenuList";
+import pavcoIconVue from '../assets/Icons/PavcoIcon/pavcoIcon.vue';
 export default {
   props: ['menu'],
   components: {
     MenuList,
+    pavcoIcon:pavcoIconVue
   },
   setup() {
     const store = useStore();

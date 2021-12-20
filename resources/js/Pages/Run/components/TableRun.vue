@@ -53,62 +53,60 @@
             <!-- Photos action -->
             <td class="text-center">
               <button @click="showPhotos(run.id)">
-                <img :src="ImgPhotos" alt="iconPhotos" />
+                <icon-photo/>
               </button>
             </td>
             <!-- Result action -->
             <td class="text-center">
               <button @click="showResults(run.id)">
-                <img :src="ImgResult" alt="iconResult" />
+                <icon-result/>
               </button>
             </td>
             <!-- Edit action -->
             <td class="text-center">
               <button @click="editRun(run.id)">
-                <img :src="ImgEdit" alt="iconResult" />
+                <icon-edit/>
               </button>
             </td>
             <!-- Delete action -->
             <td class="text-center">
               <button @click="showDelete(run.id)">
-                <img
-                  :src="
-                    require('@/assets/Icons/iconDelete/iconDelete.png').default
-                  "
-                  alt="iconDelete"
-                />
+                <icon-delete />
               </button>
             </td>
             <!-- Close action -->
             <td class="text-center">
               <button @click="showClose(run.id)" :disabled="run.status == 1">
-                <img
-                  :src="ImgClose"
-                  alt="iconClose"
-                  :class="{ grayscale: run.status == 1 }"
-                />
+                <icon-close :class="{ grayscale: run.status == 1 }" />
               </button>
             </td>
             <!-- ReOpen action -->
             <td class="text-center">
               <button @click="showReOpen(run.id)" :disabled="run.status == 0">
-                <img
-                  :src="ImgReOpen"
-                  alt="iconNote"
-                  :class="{ grayscale: run.status == 0 }"
-                />
+                <icon-re-open :class="{ grayscale: run.status == 0 }" />
               </button>
             </td>
-            <!-- Notes action -->
-            <!-- <td class="text-center">
-              <button @click="showNotes(run.id)">
-                <img :src="ImgNote" alt="iconNote" />
-              </button>
-            </td> -->
             <!-- Report action -->
             <td class="text-center">
               <button @click="reportRun(run.id)">
-                <img :src="ImgReportRun" alt="iconReportRun" />
+                <svg
+                  width="25"
+                  height="25"
+                  viewBox="0 0 25 25"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g fill="none" fill-rule="evenodd">
+                    <path fill="#024CC5" d="M0 0h25v25H0z" />
+                    <g fill="#FFF" fill-rule="nonzero">
+                      <path
+                        d="M11.586 9.915a.564.564 0 0 0-.797 0l-1.851 1.852-.727-.728a.563.563 0 0 0-.796.796L8.54 12.96a.565.565 0 0 0 .795.001l2.25-2.25a.563.563 0 0 0 0-.796zM11.586 14.415a.564.564 0 0 0-.797 0l-1.851 1.852-.727-.727a.563.563 0 0 0-.796.796L8.54 17.46a.56.56 0 0 0 .796 0l2.25-2.25a.563.563 0 0 0 0-.796zM15.688 10.875h-2.25a.563.563 0 0 0 0 1.125h2.25a.563.563 0 0 0 0-1.125zM15.688 15.375h-2.25a.563.563 0 0 0 0 1.125h2.25a.563.563 0 0 0 0-1.125z"
+                      />
+                      <path
+                        d="M17.375 5.25h-2.25v-.563a.563.563 0 0 0-.563-.562h-1.22A1.692 1.692 0 0 0 11.75 3c-.733 0-1.359.47-1.592 1.125h-1.22a.563.563 0 0 0-.563.563v.562h-2.25C5.505 5.25 5 5.755 5 6.375v13.5C5 20.495 5.505 21 6.125 21h11.25c.62 0 1.125-.505 1.125-1.125v-13.5c0-.62-.505-1.125-1.125-1.125zm-7.875 0h1.125c.31 0 .563-.252.563-.563a.563.563 0 0 1 1.124 0c0 .311.252.563.563.563H14v1.125H9.5V5.25zm7.875 14.625H6.125v-13.5h2.25v.563c0 .31.252.562.563.562h5.624c.311 0 .563-.252.563-.563v-.562h2.25v13.5z"
+                      />
+                    </g>
+                  </g>
+                </svg>
               </button>
               <button @click="reportAndPhotosRun(run.id)">
                 <svg
@@ -130,7 +128,7 @@
             <!-- Email action -->
             <td class="text-center">
               <button>
-                <img :src="ImgEmail" alt="iconEmail" />
+                <icon-email />
               </button>
             </td>
           </tr>
@@ -240,16 +238,14 @@ import useHelper from "@/composables/useHelper";
 import NotesRun from "./NotesRun.vue";
 import PhotosRun from "./PhotosRun.vue";
 import TablePartDetailVue from "./TablePartDetail.vue";
-import ImgResult from "@/assets/Icons/documentShow/group5.png";
-import ImgPhotos from "@/assets/Icons/iconPhotos/iconPhotos.png";
-import ImgEdit from "@/assets/Icons/iconEdit/iconEdit.png";
-import ImgDelete from "@/assets/Icons/iconDelete/iconDelete.png";
-import ImgClose from "@/assets/Icons/iconClose/iconClose.png";
-import ImgNote from "@/assets/Icons/iconNote/iconNote.png";
-import ImgReOpen from "@/assets/Icons/iconReOpen/iconReOpen.png";
-import ImgEmail from "@/assets/Icons/iconEmail/iconEmail.png";
-import ImgReportRun from "@/assets/Icons/iconReport/iconReport.png";
 import { Inertia } from "@inertiajs/inertia";
+import IconEmail from "@/assets/Icons/iconEmail.vue";
+import IconEdit from "@/assets/Icons/iconEdit.vue";
+import IconDelete from "@/assets/Icons/iconDelete.vue";
+import IconReOpen from "@/assets/Icons/iconReopen.vue";
+import IconResult from "@/assets/Icons/iconResult.vue";
+import IconPhoto from "@/assets/Icons/iconPhoto.vue";
+import IconClose from "@/assets/Icons/iconClose.vue";
 const $ = require("jquery");
 
 export default {
@@ -258,7 +254,15 @@ export default {
     confirmationModal: ConfirmationModal,
     notesRun: NotesRun,
     photosRun: PhotosRun,
+    IconEmail,
+    IconEdit,
+    IconDelete,
+    IconReOpen,
+    IconClose,
+    IconResult,
+    IconPhoto,
     tablePartDetail: TablePartDetailVue,
+    IconClose,
   },
   setup() {
     const { makeToast } = useHelper();
@@ -348,16 +352,18 @@ export default {
         if (edit) {
           return hours;
         } else {
-          const closeNonEdit = Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5
-          return closeNonEdit | 0;  // trunca los decimales y se queda con el entero
+          const closeNonEdit =
+            Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5;
+          return closeNonEdit | 0; // trunca los decimales y se queda con el entero
         }
       } else {
         if (edit) {
-          const activeEdit = Math.abs(new Date() - new Date(lastDate)) / 36e5
+          const activeEdit = Math.abs(new Date() - new Date(lastDate)) / 36e5;
           const hoursEdited = activeEdit | 0; // trunca los decimales y se queda con el entero
           return hours + hoursEdited;
         } else {
-          const activeNonEdit = Math.abs(new Date() - new Date(created_date)) / 36e5;
+          const activeNonEdit =
+            Math.abs(new Date() - new Date(created_date)) / 36e5;
           return activeNonEdit | 0; // trunca los decimales y se queda con el entero
         }
       }
@@ -390,7 +396,7 @@ export default {
           isModalReOpen.value = false;
           makeToast(message);
           gettingData(0);
-          
+
           filterOption.value = 0;
           idGlobal.value = 1;
         } else {
@@ -497,17 +503,6 @@ export default {
       modalWidthDetail,
       idGlobal,
       calculateHours,
-
-      // IMAGES
-      ImgResult,
-      ImgPhotos,
-      ImgEdit,
-      ImgDelete,
-      ImgClose,
-      ImgNote,
-      ImgReOpen,
-      ImgEmail,
-      ImgReportRun,
     };
   },
 };
