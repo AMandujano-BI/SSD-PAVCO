@@ -5,6 +5,7 @@ use App\Http\Controllers\RunController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ChemicalController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
@@ -47,6 +48,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/photo/getAllUrlSignature
 Route::middleware(['auth:sanctum', 'verified'])->put('/run/closeRun/{id}', [RunController::class, 'closeRun'])->name('run.closeRun');
 Route::middleware(['auth:sanctum', 'verified'])->put('/run/reopenRun/{id}', [RunController::class, 'reopenRun'])->name('run.reopenRun');
 Route::middleware(['auth:sanctum', 'verified'])->get('/user/getUsers/{type}', [UserController::class, 'getUsers'])->name('user.getUsers');
+Route::middleware(['auth:sanctum', 'verified'])->get('/email/runResult', [MailController::class, 'store'])->name('mail.runResult');
 
 
 //Resources
