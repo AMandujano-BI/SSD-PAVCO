@@ -1,4 +1,4 @@
-import { reactive } from "vue";
+import { reactive,computed } from "vue";
 import { required, helpers,sameAs,email } from "@vuelidate/validators";
 import useHelper from "@/composables/useHelper";
 import useVuelidate from "@vuelidate/core";
@@ -11,24 +11,25 @@ const useFormuser = (formProps) => {
     console.log(form.password)
     console.log(form)
     console.log(formProps)
-    const rules = {
+    const rules =computed(() => ( {
         username: { required },
         firstname: { required },
         password: { required },
         email: { required,email },
-        confirm_password: { sameAsPassword: sameAs('password'),required  },
+        confirm_password: { sameAsPassword: sameAs(form.password)  },
         company_id: {
             isDiferentZero: helpers.withMessage(
                 "You must select an option",
                 isDiferentZero
             ),
         },
-    };
+    }))
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {
         console.log('submit')
         console.log(form)
         console.log(form.password)
+        console.log(form.confirm_password)
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return
     }

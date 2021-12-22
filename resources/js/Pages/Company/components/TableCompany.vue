@@ -19,6 +19,7 @@
       <form-company
         :countries="countries"
         :distributors="distributors"
+        @generateTable="generateDataTable"
         @closeModal="closeModal"
       />
     </div>
@@ -43,7 +44,9 @@
     <tbody>
       <tr v-for="company in companiesTable" :key="company.id">
         <td class="text-center">{{ company.name }}</td>
-        <td class="text-center">{{ "distributor" }}</td>
+        <td class="text-center">
+          {{ company.company_id == null ? "none" : "ff" }}
+        </td>
         <td class="text-center">{{ company.address }}</td>
         <td class="text-center">{{ company.city }}</td>
         <td class="text-center">{{ company.state }}</td>
@@ -52,16 +55,16 @@
         <td class="text-center">{{ company.phone }}</td>
         <td class="text-center">{{ company.fax }}</td>
         <td class="text-center">
-          {{ company.customer == 0 ? "Customer" : "Distributor" }}
+          {{ company.customer == 1 ? "Customer" : "Distributor" }}
         </td>
         <td class="text-center">
           <button @click="openModalEditClick(company.id)">
-            <icon-edit/>
+            <icon-edit />
           </button>
         </td>
         <td class="text-center">
           <button @click="openModalDeleteClick(company.id)">
-            <icon-delete/>
+            <icon-delete />
           </button>
         </td>
       </tr>
@@ -94,7 +97,7 @@
 <script>
 import dt from "datatables.net";
 import axios from "axios";
-import { ref, nextTick } from "vue";
+import { ref, nextTick, computed,watch, onMounted } from "vue";
 const $ = require("jquery");
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import Modal from "@/Jetstream/Modal";
@@ -102,6 +105,7 @@ import useHelper from "@/composables/useHelper";
 import FormCompany from "./FormCompany.vue";
 import IconEdit from "@/assets/Icons/iconEdit.vue";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
+import { useStore } from "vuex";
 export default {
   props: ["countries", "distributors"],
   components: {
@@ -112,16 +116,21 @@ export default {
     IconDelete,
   },
   setup() {
-    const companiesTable = ref([]);
-    const idCompany = ref(0);
+    const store = useStore();
+    // const companiesTable = ref([]);
+    const companiesTable = ref(computed(() =>store.state.companies.tableCompanies))
+    // watch(companiesTable,generateDataTable)
     const showModalDelete = ref(false);
     const { makeToast } = useHelper();
+    const openModalCompany = ref(false);
+
     const openModalEditClick = (id) => {
-      console.log(id);
+      store.commit("companies/setFormCompany", id);
+      openModalCompany.value = true;
     };
     const openModalDeleteClick = (id) => {
+      store.commit("companies/setFormCompany", id);
       showModalDelete.value = true;
-      idCompany.value = id;
     };
 
     const getCompanies = async () => {
@@ -129,13 +138,18 @@ export default {
     };
     const deleteCompany = async () => {
       try {
-        const res = await axios.delete(`/company/${idCompany.value}`);
-        console.log(res.data);
+        const id = store.state.companies.form.id
+        const res = await store.dispatch(
+          "companies/deleteCompany",
+          id
+        );
         const { ok, message, value } = res.data;
         if (ok) {
-          idCompany.value = 0;
           showModalDelete.value = false;
           makeToast(message);
+          store.commit("companies/setFormCompany", 0);
+          store.commit("companies/deleteItem", id);
+          await generateDataTable();
         } else {
           makeToast(message, "error");
         }
@@ -146,25 +160,18 @@ export default {
     };
     const closeModalDelete = () => (showModalDelete.value = false);
     const gettingData = async (type = 3) => {
-      try {
-        const res = await axios.get(`/company/getCompanies/${type}`);
-        console.log(res.data);
-        companiesTable.value = res.data;
-        // $("#tableCompanies").DataTable().destroy();
-        await generateDataTable();
-      } catch (e) {
-        console.log(e);
-      }
+      await store.dispatch("companies/getCompanies", type);
+      companiesTable.value = store.state.companies.tableCompanies;
+      await generateDataTable();
     };
-    const openModalCompany = ref(false);
     const openModal = () => {
+      store.commit("companies/setFormCompany", 0);
       openModalCompany.value = true;
     };
 
-    const closeModal = () => {
-      openModalCompany.value = false;
-    };
+    const closeModal = () => (openModalCompany.value = false);
     const generateDataTable = () => {
+      $("#tableCompanies").DataTable().destroy();
       nextTick(() => {
         $("#tableCompanies").DataTable({
           scrollY: 350,
@@ -174,8 +181,11 @@ export default {
         });
       });
     };
+    onMounted(() => {
+      gettingData();
+    });
+    // gettingData()
 
-    gettingData();
     return {
       getCompanies,
       companiesTable,
@@ -187,6 +197,7 @@ export default {
       openModalCompany,
       openModal,
       closeModal,
+      generateDataTable,
     };
   },
 };

@@ -1,5 +1,7 @@
 <template>
-  <h1 class="text-center font-bold text-2xl">New Company</h1>
+  <h1 class="text-center font-bold text-2xl">
+    {{ form.id == 0 ? "New Company" : "Update Company" }}
+  </h1>
   <form @submit.prevent="submitForm">
     <div class="shadow-lg rounded-md p-3">
       <p class="font-bold">General Properties</p>
@@ -22,26 +24,34 @@
       </div>
       <div>
         <label class="w-full pb-2 block">Type</label>
-        <input type="radio" value="1" v-model="form.type" id="yes" />
+        <input
+          type="radio"
+          value="1"
+          v-model="form.customer"
+          id="yes"
+          :change="v$.company_id.$touch"
+        />
         <label for="yes"> Customer </label>
-        <input type="radio" value="0" v-model="form.type" id="no" /><label
-          for="no"
-        >
-          Distributor</label
-        >
+        <input
+          type="radio"
+          value="0"
+          v-model="form.customer"
+          id="no"
+          :change="v$.company_id.$touch"
+        /><label for="no"> Distributor</label>
       </div>
       <div>
         <label for="">Distributor</label>
         <multi-select
           :options="distributors"
           class="w-full"
-          :disabled="form.type == 1 ? true : false"
-          v-model="form.distributor"
+          :disabled="form.customer == 0 ? true : false"
+          v-model="form.company_id"
           :searchable="true"
           placeholder="Select Distributor"
         />
         <p
-          v-for="error of v$.country_id.$errors"
+          v-for="error of v$.company_id.$errors"
           :key="error.$uid"
           class="text-red-400"
         >
@@ -98,6 +108,13 @@
           :searchable="true"
           placeholder="Select Country"
         />
+        <p
+          v-for="error of v$.country_id.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
       </div>
       <div>
         <label for="">Phone</label>
@@ -147,32 +164,20 @@
 <script>
 import Multiselect from "@vueform/multiselect";
 import useFormCompany from "../composables/useFormCompany";
+import { useStore } from "vuex";
 export default {
-  emits: ["closeModal"],
+  emits: ["closeModal", "generateTable"],
   props: ["countries", "distributors"],
   components: {
     multiSelect: Multiselect,
   },
   setup(props, { emit }) {
-    const { form, v$, submitForm } = useFormCompany({
-      id: 0,
-      name: "",
-      address: "",
-      city: "",
-      type: 1,
-      state: "",
-      zip: "",
-      phone: "",
-      fax: "",
-      customer: 0,
-      distributor: 0,
-      notes: "",
-      country_id: 0,
-    });
+    const store = useStore();
+    const { form, v$, submitForm } = useFormCompany(store.state.companies.form);
     const closeModal = () => {
       emit("closeModal");
     };
-
+  
     return {
       form,
       v$,
