@@ -21,6 +21,24 @@
         </p>
       </div>
       <div>
+        <label for="">Rol</label>
+        <multi-select
+          :options="rols"
+          class="w-full"
+          v-model="form.rol_id"
+          :searchable="true"
+          :multiple="true"
+          placeholder="Select a Rol"
+        />
+        <p
+          v-for="error of v$.rol_id.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
+      </div>
+      <div>
         <label for="">FirstName</label>
         <input
           type="text"
@@ -45,14 +63,6 @@
           autocomplete="off"
           v-model="form.lastname"
         />
-        <!-- :class="{ 'border-red-500': v$.name.$error }" -->
-        <!-- <p
-          v-for="error of v$.name.$errors"
-          :key="error.$uid"
-          class="text-red-400"
-        >
-          {{ error.$message }}
-        </p> -->
       </div>
       <div>
         <label for="">Email Address</label>
@@ -160,8 +170,8 @@ export default {
   components: {
     multiSelect: Multiselect,
   },
-  props: ["companies"],
-  setup(props,{ emit }) {
+  props: ["companies", "rols"],
+  setup(props, { emit }) {
     const store = useStore();
     const { form, submitForm, v$ } = useFormUser(store.state.users.form);
     const closeModal = () => {

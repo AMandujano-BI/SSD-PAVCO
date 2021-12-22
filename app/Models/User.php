@@ -61,11 +61,12 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function getUsers($type){
+    public function getUsers($type)
+    {
 
         $users = (new static)::with([
             'company'
-        ])->where('status','!=',0)->get();
+        ])->where('status', '!=', 0)->get();
         return $users;
     }
     public function createUser($request)
@@ -106,10 +107,45 @@ class User extends Authenticatable
             ];
         }
     }
+
+
+    public function updateUser()
+    {
+    }
+    public function deleteUser($id)
+    {
+        DB::beginTransaction();
+        try {
+            $user = (new static)::find($id);
+            DB::rollBack();
+            if ($user == null) {
+                return [
+                    'ok' => false,
+                    'message' => 'User not Found',
+                    'value' => 0
+                ];
+            }
+            $user->status = 0;
+            $user->save();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'User was deleted successfully',
+                'value' => $user,
+            ];
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage(),
+                'value' => 0
+            ];
+        }
+    }
     // ----------------RELATIONS
     public function company()
     {
         return $this->belongsTo(Company::class);
     }
-
 }

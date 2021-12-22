@@ -2,23 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
 use App\Models\Rol;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
-class UserController extends Controller
+class RolController extends Controller
 {
-    private $_company;
-    private $_user;
-    private $_rol;
-    public function __construct(Company $company, User $user,Rol $rol)
-    {
-        $this->_company = $company;
-        $this->_user = $user;
-        $this->_rol= $rol;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -27,19 +15,6 @@ class UserController extends Controller
     public function index()
     {
         //
-        $companies = $this->_company->getCompanies(3);
-        $rols= $this->_rol->getRols();
-        // dd($rols);
-        return Inertia::render('User/Index', [
-            'rols' => $rols,
-            'companies' => $companies,
-        ]);
-    }
-    public function getUsers($type)
-    {
-
-        $users = $this->_user->getUsers($type);
-        return $users;
     }
 
     /**
@@ -60,18 +35,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
-        $user = $this->_user->createUser($request);
-        return $user;
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Rol  $rol
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Rol $rol)
     {
         //
     }
@@ -79,10 +52,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Rol  $rol
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Rol $rol)
     {
         //
     }
@@ -91,25 +64,22 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Rol  $rol
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Rol $rol)
     {
-        $user = $this->_user->updateUser($request->id,$request);
-        return $user;
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Rol  $rol
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Rol $rol)
     {
-        
-        $user = $this->_user->deleteUser($id);
-        return $user;
+        //
     }
 }

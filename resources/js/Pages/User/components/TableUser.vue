@@ -14,7 +14,7 @@
   >
     +
   </button>
- 
+
   <div class="rounded-lg shadow-lg p-5">
     <table id="tableUsers" class="display" style="width: 100%; height: 100%">
       <thead>
@@ -36,11 +36,13 @@
           <td class="text-center">{{ user.name }}</td>
           <td class="text-center">{{ user.lastname }}</td>
           <td class="text-center">{{ user.company?.name }}</td>
-          <td class="text-center"><a :href="`mailto:${user.email}`">{{user.email}}</a></td>
+          <td class="text-center">
+            <a :href="`mailto:${user.email}`">{{ user.email }}</a>
+          </td>
           <td class="text-center">{{ "type" }}</td>
           <td class="text-center">
             <button @click="openModalResetPassword(user.id)">
-              <icon-reset/>
+              <icon-reset />
             </button>
           </td>
           <td class="text-center">
@@ -58,22 +60,21 @@
     </table>
   </div>
 
-
   <!-- MODAL RESET PASSWORD -->
- <modal :show="modalResetPassword" @close="closeModalResetPassword">
+  <modal :show="modalResetPassword" @close="closeModalResetPassword">
     <div class="p-5">
-      <form-reset @closeModal="closeModalResetPassword"/>
+      <form-reset @closeModal="closeModalResetPassword" />
     </div>
   </modal>
 
   <!-- MODAL FORM -->
- <modal :show="openModal">
+  <modal :show="openModal">
     <div class="p-5">
-      <form-user :companies="companies" @closeModal="closeModalForm" />
+      <form-user :companies="companies"  :rols="rols" @closeModal="closeModalForm" />
     </div>
   </modal>
   <!-- CONFIRMATION MODal -->
-    <confirmation-modal :show="showModalDelete">
+  <confirmation-modal :show="showModalDelete">
     <template v-slot:title>
       <h1>Are you sure that delete this User?</h1>
     </template>
@@ -108,8 +109,9 @@ import IconEdit from "@/assets/Icons/iconEdit.vue";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
 import IconReset from "@/assets/Icons/iconResetPassword.vue";
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
+import useHelper from "@/composables/useHelper";
 export default {
-  props: ["companies"],
+  props: ["companies","rols"],
   components: {
     Modal: ModalVue,
     FormUser: FormUserVue,
@@ -117,13 +119,15 @@ export default {
     IconEdit,
     IconDelete,
     IconReset,
-    FormReset:FormResetPasswordVue
+    FormReset: FormResetPasswordVue,
   },
-  setup() {
+  setup(props) {
+    console.log(props)
     const openModal = ref(false);
     const store = useStore();
-    const showModalDelete = ref(false)
-    const modalResetPassword =ref(false)
+    const { makeToast } = useHelper();
+    const showModalDelete = ref(false);
+    const modalResetPassword = ref(false);
     const usersTable = ref(computed(() => store.state.users.tableUsers));
 
     const gettingData = async (type = 3) => {
@@ -143,18 +147,39 @@ export default {
       });
     };
     const openModalDeleteClick = (id) => {
-      showModalDelete.value = true
+      store.commit("users/setFormUser", id);
+      showModalDelete.value = true;
+    };
+    const openModalForm = () => {
+      store.commit("users/setFormUser", 0);
+      openModal.value = true;
     };
     const openModalEditClick = (id) => {
-
-      openModal.value = true
+      store.commit("users/setFormUser", id);
+      openModal.value = true;
     };
-    const openModalResetPassword = (id)=>{
-      modalResetPassword.value = true
-    }
-    const deleteUser = () =>{
-      console.log('detele')
-    }
+    const openModalResetPassword = (id) => {
+      modalResetPassword.value = true;
+    };
+    const deleteUser = async () => {
+      try {
+        const id = store.state.users.form.id;
+        const res = await store.dispatch("users/deleteUser", id);
+        const { ok, message, value } = res.data;
+        if (ok) {
+          showModalDelete.value = false;
+          makeToast(message);
+          store.commit("users/setFormUser", 0);
+          store.commit("users/deleteItem", id);
+          await generateDataTable();
+        } else {
+          makeToast(message, "error");
+        }
+      } catch (e) {
+        makeToast("Error", "error");
+        console.log(e);
+      }
+    };
 
     onMounted(() => {
       gettingData();
@@ -162,7 +187,7 @@ export default {
     return {
       openModal,
       showModalDelete,
-      openModalForm: () => (openModal.value = true),
+      openModalForm,
       closeModalForm: () => (openModal.value = false),
       usersTable,
       generateDataTable,
@@ -171,8 +196,8 @@ export default {
       deleteUser,
       modalResetPassword,
       openModalResetPassword,
-      closeModalResetPassword:()=>modalResetPassword.value =false,
-      closeModalDelete:()=>showModalDelete.value =false,
+      closeModalResetPassword: () => (modalResetPassword.value = false),
+      closeModalDelete: () => (showModalDelete.value = false),
     };
   },
 };

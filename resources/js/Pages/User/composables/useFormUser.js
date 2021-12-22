@@ -23,6 +23,12 @@ const useFormuser = (formProps) => {
                 isDiferentZero
             ),
         },
+        rol_id: {
+            isDiferentZero: helpers.withMessage(
+                "You must select an option",
+                isDiferentZero
+            ),
+        },
     }))
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {

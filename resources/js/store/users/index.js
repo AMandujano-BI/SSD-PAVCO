@@ -9,7 +9,8 @@ const defaultValue = {
     email: "",
     password: "",
     confirm_password: "",
-    country_id: 0,
+    company_id: 0,
+    rol_id: 0,
 }
 const state = {
     form: defaultValue,
@@ -17,8 +18,20 @@ const state = {
 }
 
 const mutations = {
+    setFormUser(state, id) {
+        if (id == 0) {
+            state.form = defaultValue
+        } else {
+            const users = state.tableUsers.find(item => item.id == id)
+            state.form = { ...users }
+
+        }
+    },
     setDataTable(state, data) {
         state.tableUsers = data
+    },
+    deleteItem(state, id) {
+        state.tableUsers = state.tableUsers.filter(item => item.id != id)
     },
 }
 
@@ -41,6 +54,16 @@ const actions = {
         console.log(data)
         return data
         // commit('setDataTable', data)
+    },
+    async deleteUser({ commit }, id) {
+        try {
+            const res = await axios.delete(`/user/${id}`);
+            //  commit('deleteItem', id)
+            return res
+        } catch (e) {
+            return e
+        }
+
     },
 }
 

@@ -29,9 +29,9 @@ class AddFieldsTableUsers extends Migration
     public function down()
     {
         Schema::table('photos', function (Blueprint $table) {
-            $table->dropColumn('company_id');
+            $table->dropForeign('company_id');
             $table->dropColumn('lastname');
-            $table->dropColumn('username');
+            $table->dropUnique('username');
             $table->dropColumn('status');
         });
     }
