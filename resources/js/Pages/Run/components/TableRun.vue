@@ -53,19 +53,19 @@
             <!-- Photos action -->
             <td class="text-center">
               <button @click="showPhotos(run.id)">
-                <icon-photo/>
+                <icon-photo />
               </button>
             </td>
             <!-- Result action -->
             <td class="text-center">
               <button @click="showResults(run.id)">
-                <icon-result/>
+                <icon-result />
               </button>
             </td>
             <!-- Edit action -->
             <td class="text-center">
               <button @click="editRun(run.id)">
-                <icon-edit/>
+                <icon-edit />
               </button>
             </td>
             <!-- Delete action -->
@@ -127,7 +127,7 @@
             </td>
             <!-- Email action -->
             <td class="text-center">
-              <button>
+              <button @click="openModalEmail">
                 <icon-email />
               </button>
             </td>
@@ -152,6 +152,15 @@
       @photoEdited="photoAdded"
     />
 
+    <modal :show="modalEmail" @close="closeModalEmail">
+      <div class="p-5">
+        <h1 class="font-bold text-2xl text-center p-5">EMAIL RUN RESULTS</h1>
+        <p class="pb-4">Please enter a valid email address below. The email address that you enter below will receive an email from dvega@letternine.net. This email will contain the results to the run as well as a link to view all of the images for this run.</p>
+        <input type="text" class="w-full" placeholder="Email Address" />
+        <button class="bg-primary p-5 rounded-md text-center text-white mt-5 w-full">Send Email</button>
+      </div>
+    </modal>
+
     <notes-run
       v-if="run"
       :isModalNotes="isModalNotes"
@@ -159,6 +168,8 @@
       @closeModal="closeNotesModal"
       @noteAdded="noteAdded"
     />
+
+    <!-- CONFIRMATIONS MODAL -->
 
     <confirmation-modal :show="isModalDelete">
       <template v-slot:title>
@@ -278,6 +289,7 @@ export default {
     const isModalReOpen = ref(false);
     const idGlobal = ref(0);
     const filterOption = ref(3);
+    const modalEmail = ref(false);
     const onSwiper = (swiper) => {};
     const onSlideChange = () => {
       // console.log('slide change');
@@ -503,6 +515,9 @@ export default {
       modalWidthDetail,
       idGlobal,
       calculateHours,
+      modalEmail,
+      openModalEmail: () => (modalEmail.value = true),
+      closeModalEmail: () => (modalEmail.value = false),
     };
   },
 };

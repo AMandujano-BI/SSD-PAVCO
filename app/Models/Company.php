@@ -51,14 +51,14 @@ class Company extends Model
             if ($customer == 0) $company_id = null;
 
 
-            $companyFind = (new static)::where('name',$name)->first();
-            if($companyFind !=null){
+            $companyFind = (new static)::where('name', $name)->first();
+            if ($companyFind != null) {
                 DB::rollBack();
                 return [
                     'ok' => false,
                     'message' => 'Company already exist',
                     'value' => null,
-                ]; 
+                ];
             }
 
             $companyCreate  = (new static)::create([
@@ -131,7 +131,7 @@ class Company extends Model
     }
     public static function getDistributors()
     {
-        $customers = (new static)::where('distributor', 1)->where('status','!=',0)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
+        $customers = (new static)::where('distributor', 1)->where('status', '!=', 0)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
         return $customers;
     }
     public static function deleteCompany($id)
@@ -160,11 +160,14 @@ class Company extends Model
     {
         if ($type == 1) {
 
-            $companies = (new static)::with(['country'])->where('distributor', 1)->where('status','!=',0)->orderBy('name', 'asc')->get();
+            $companies = (new static)::with(['country'])->where('distributor', 1)->where('status', '!=', 0)->orderBy('name', 'asc')->get();
         } else if ($type == 0) {
-            $companies = (new static)::with(['country'])->where('distributor', 0)->where('status','!=',0)->orderBy('name', 'asc')->get();
+            $companies = (new static)::with(['country'])->where('distributor', 0)->where('status', '!=', 0)->orderBy('name', 'asc')->get();
+        } else if ($type == 3) {
+            //GET ALL COMPANIES FROM DROPDOWN
+            $companies = (new static)::with(['country'])->where('status', '!=', 0)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
         } else {
-            $companies = (new static)::with(['country'])->where('status','!=',0)->orderBy('name', 'asc')->get();
+            $companies = (new static)::with(['country'])->where('status', '!=', 0)->orderBy('name', 'asc')->get();
         }
         return $companies;
     }

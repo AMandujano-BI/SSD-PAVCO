@@ -26,11 +26,11 @@
           type="text"
           class="w-full"
           autocomplete="off"
-          v-model="form.firstname"
-          :class="{ 'border-red-500': v$.firstname.$error }"
+          v-model="form.name"
+          :class="{ 'border-red-500': v$.name.$error }"
         />
         <p
-          v-for="error of v$.firstname.$errors"
+          v-for="error of v$.name.$errors"
           :key="error.$uid"
           class="text-red-400"
         >
@@ -80,6 +80,13 @@
           :searchable="true"
           placeholder="Select Company"
         />
+        <p
+          v-for="error of v$.company_id.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
       </div>
       <div>
         <label for="">Password</label>
@@ -147,26 +154,25 @@
 <script>
 import useFormUser from "../composables/useFormUser";
 import Multiselect from "@vueform/multiselect";
+import { useStore } from "vuex";
 export default {
+  emits: ["closeModal"],
   components: {
     multiSelect: Multiselect,
   },
   props: ["companies"],
-  setup() {
-    const { form, submitForm, v$ } = useFormUser({
-      firstname: "",
-      lastname: "",
-      username: "",
-      email: "",
-      password: "",
-      confirm_password: "",
-      country_id: 0,
-    });
+  setup(props,{ emit }) {
+    const store = useStore();
+    const { form, submitForm, v$ } = useFormUser(store.state.users.form);
+    const closeModal = () => {
+      emit("closeModal");
+    };
 
     return {
       form,
       submitForm,
       v$,
+      closeModal,
     };
   },
 };

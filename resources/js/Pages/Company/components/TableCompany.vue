@@ -37,8 +37,8 @@
         <th>Phone</th>
         <th>Fax</th>
         <th>Type</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th class="no-sort">Edit</th>
+        <th class="no-sort">Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -51,7 +51,7 @@
         <td class="text-center">{{ company.city }}</td>
         <td class="text-center">{{ company.state }}</td>
         <td class="text-center">{{ company.zip }}</td>
-        <td class="text-center">{{ company.country.name }}</td>
+        <td class="text-center">{{ company.country?.name }}</td>
         <td class="text-center">{{ company.phone }}</td>
         <td class="text-center">{{ company.fax }}</td>
         <td class="text-center">
@@ -184,7 +184,6 @@ export default {
     onMounted(() => {
       gettingData();
     });
-    // gettingData()
 
     return {
       getCompanies,

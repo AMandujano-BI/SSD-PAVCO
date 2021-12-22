@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import companiesStore from './companies'
+import usersStore from './users'
 
 export default createStore({
   state: {
@@ -18,9 +19,7 @@ export default createStore({
   },
   actions: {
     asideMobileToggle({ commit, state }, payload = null) {
-      console.log('click')
       const isShow = payload !== null ? payload : !state.isAsideMobileExpanded
-
       document.getElementById('app').classList[isShow ? 'add' : 'remove']('ml-60', 'lg:ml-0')
 
       document.documentElement.classList[isShow ? 'add' : 'remove']('m-clipped')
@@ -53,7 +52,8 @@ export default createStore({
     },
   },
   modules:{
-    companies:companiesStore
+    companies:companiesStore,
+    users:usersStore
   }
 
 })

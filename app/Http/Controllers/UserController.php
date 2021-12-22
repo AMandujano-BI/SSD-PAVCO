@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class UserController extends Controller
 {
+    private $_company;
+    private $_user;
+    public function __construct(Company $company, User $user)
+    {
+        $this->_company = $company;
+        $this->_user = $user;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +24,16 @@ class UserController extends Controller
     public function index()
     {
         //
-        return Inertia::render('User/Index');
+        $companies = $this->_company->getCompanies(3);
+        return Inertia::render('User/Index', [
+            'companies' => $companies,
+        ]);
+    }
+    public function getUsers($type)
+    {
+
+        $users = $this->_user->getUsers($type);
+        return $users;
     }
 
     /**
@@ -27,9 +45,6 @@ class UserController extends Controller
     {
         //
     }
-    public function getUsers($tpye){
-        return $tpye;
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -39,7 +54,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $user = $this->_user->createUser($request);
+        return $user;
     }
 
     /**
