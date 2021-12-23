@@ -14,6 +14,14 @@
   >
     +
   </button>
+  <div class="pt-5">
+    <select class="w-full mb-5" @change="changeFilter" v-model="filterOption">
+      <option value="0" selected>All</option>
+      <option :value="rol.value" v-for="rol in rols" :key="rol.id">
+        {{ rol.label }}
+      </option>
+    </select>
+  </div>
 
   <div class="rounded-lg shadow-lg p-5">
     <table id="tableUsers" class="display" style="width: 100%; height: 100%">
@@ -32,13 +40,37 @@
       <tbody>
         <tr v-for="user in usersTable" :key="user.id">
           <td class="text-center">{{ user.username }}</td>
-          <td class="text-center">{{ user.name}} {{user.lastname || ''}}</td>
+          <td class="text-center">{{ user.name }} {{ user.lastname || "" }}</td>
           <td class="text-center">{{ user.company?.name }}</td>
           <td class="text-center">
             <a :href="`mailto:${user.email}`">{{ user.email }}</a>
           </td>
-          <td class="text-center justify-center w-full grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2 items-center h-full">
-            <span class="bg-primary-300 max-w-[150px]  font-bold text-sm rounded-md p-2 mx-1  break-words" v-for="rol in user.rols" :key="rol.id">{{rol.name}}</span>
+          <td
+            class="
+              text-center
+              justify-center
+              w-full
+              grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))]
+              gap-2
+              items-center
+              h-full
+            "
+          >
+            <span
+              class="
+                bg-primary-300
+                max-w-[150px]
+                font-bold
+                text-sm
+                rounded-md
+                p-2
+                mx-1
+                break-words
+              "
+              v-for="rol in user.rols"
+              :key="rol.id"
+              >{{ rol.name }}</span
+            >
           </td>
           <td class="text-center">
             <button @click="openModalResetPassword(user.username)">
@@ -61,16 +93,21 @@
   </div>
 
   <!-- MODAL RESET PASSWORD -->
-  <modal :show="modalResetPassword" >
+  <modal :show="modalResetPassword">
     <div class="p-5">
-      <form-reset @closeModal="closeModalResetPassword"  :username="username"/>
+      <form-reset @closeModal="closeModalResetPassword" :username="username" />
     </div>
   </modal>
 
   <!-- MODAL FORM -->
   <modal :show="openModal">
     <div class="p-5">
-      <form-user :companies="companies"  :rols="rols" @closeModal="closeModalForm"  @generateTable="generateDataTable"/>
+      <form-user
+        :companies="companies"
+        :rols="rols"
+        @closeModal="closeModalForm"
+        @generateTable="generateDataTable"
+      />
     </div>
   </modal>
   <!-- CONFIRMATION MODal -->
@@ -109,9 +146,10 @@ import IconEdit from "@/assets/Icons/iconEdit.vue";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
 import IconReset from "@/assets/Icons/iconResetPassword.vue";
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
+import Multiselect from "@vueform/multiselect";
 import useHelper from "@/composables/useHelper";
 export default {
-  props: ["companies","rols"],
+  props: ["companies", "rols"],
   components: {
     Modal: ModalVue,
     FormUser: FormUserVue,
@@ -120,19 +158,24 @@ export default {
     IconDelete,
     IconReset,
     FormReset: FormResetPasswordVue,
+    multiSelect: Multiselect,
   },
   setup(props) {
-    const username =ref('')
+    const username = ref("");
     const openModal = ref(false);
     const store = useStore();
     const { makeToast } = useHelper();
     const showModalDelete = ref(false);
     const modalResetPassword = ref(false);
+    const filterOption = ref(0);
     const usersTable = ref(computed(() => store.state.users.tableUsers));
 
-    const gettingData = async (type = 3) => {
-      await store.dispatch("users/getUsers", type);
-      usersTable.value = store.state.users.tableUsers;
+    const changeFilter = async (e) => {
+      await gettingData(filterOption.value);
+    };
+    const gettingData = async (type = 1) => {
+      const data = await store.dispatch("users/getUsers", type);
+      store.commit("users/setDataTable", data);
       await generateDataTable();
     };
     const generateDataTable = () => {
@@ -160,12 +203,12 @@ export default {
     };
     const openModalResetPassword = (user) => {
       modalResetPassword.value = true;
-      username.value = user
+      username.value = user;
     };
-    const closeModalResetPassword =()=>{
+    const closeModalResetPassword = () => {
       modalResetPassword.value = false;
-      username.value = null
-    }
+      username.value = null;
+    };
     const deleteUser = async () => {
       try {
         const id = store.state.users.form.id;
@@ -204,6 +247,8 @@ export default {
       closeModalResetPassword,
       closeModalDelete: () => (showModalDelete.value = false),
       username,
+      filterOption,
+      changeFilter,
     };
   },
 };

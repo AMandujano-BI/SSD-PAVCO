@@ -40,7 +40,8 @@ const mutations = {
         state.tableUsers= [data, ...state.tableUsers]
     },
     setDataTable(state, data) {
-        state.tableUsers = data
+        console.log('change')
+        state.tableUsers = [...data]
     },
     deleteItem(state, id) {
         state.tableUsers = state.tableUsers.filter(item => item.id != id)
@@ -56,8 +57,8 @@ const actions = {
     async getUsers({ commit }, type) {
         const res = await axios.get(`/user/getUsers/${type}`);
         const data = res.data
-        console.log(data)
-        commit('setDataTable', data)
+        return data
+        // commit('setDataTable', data)
     },
     async createUser({ commit }, form) {
         let res

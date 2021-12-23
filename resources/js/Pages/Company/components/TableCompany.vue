@@ -24,6 +24,13 @@
       />
     </div>
   </modal>
+  <div class="pt-5">
+    <select class="w-full mb-5" @change="changeFilter" v-model="filterOption">
+      <option value="0">All</option>
+      <option value="1">Customer</option>
+      <option value="2">Distributor</option>
+    </select>
+  </div>
   <table id="tableCompanies" class="display" style="width: 100%; height: 100%">
     <thead>
       <tr>
@@ -97,7 +104,7 @@
 <script>
 import dt from "datatables.net";
 import axios from "axios";
-import { ref, nextTick, computed,watch, onMounted } from "vue";
+import { ref, nextTick, computed, watch, onMounted } from "vue";
 const $ = require("jquery");
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import Modal from "@/Jetstream/Modal";
@@ -118,11 +125,14 @@ export default {
   setup() {
     const store = useStore();
     // const companiesTable = ref([]);
-    const companiesTable = ref(computed(() =>store.state.companies.tableCompanies))
+    const companiesTable = ref(
+      computed(() => store.state.companies.tableCompanies)
+    );
     // watch(companiesTable,generateDataTable)
     const showModalDelete = ref(false);
     const { makeToast } = useHelper();
     const openModalCompany = ref(false);
+    const filterOption = ref("1");
 
     const openModalEditClick = (id) => {
       store.commit("companies/setFormCompany", id);
@@ -138,11 +148,8 @@ export default {
     };
     const deleteCompany = async () => {
       try {
-        const id = store.state.companies.form.id
-        const res = await store.dispatch(
-          "companies/deleteCompany",
-          id
-        );
+        const id = store.state.companies.form.id;
+        const res = await store.dispatch("companies/deleteCompany", id);
         const { ok, message, value } = res.data;
         if (ok) {
           showModalDelete.value = false;
@@ -159,7 +166,7 @@ export default {
       }
     };
     const closeModalDelete = () => (showModalDelete.value = false);
-    const gettingData = async (type = 3) => {
+    const gettingData = async (type = 4) => {
       await store.dispatch("companies/getCompanies", type);
       companiesTable.value = store.state.companies.tableCompanies;
       await generateDataTable();
@@ -170,6 +177,7 @@ export default {
     };
 
     const closeModal = () => (openModalCompany.value = false);
+    const changeFilter = () => {};
     const generateDataTable = () => {
       $("#tableCompanies").DataTable().destroy();
       nextTick(() => {
@@ -197,6 +205,8 @@ export default {
       openModal,
       closeModal,
       generateDataTable,
+      filterOption,
+      changeFilter,
     };
   },
 };

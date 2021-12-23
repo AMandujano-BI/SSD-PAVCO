@@ -69,10 +69,22 @@ class User extends Authenticatable
     public static function getUsers($type)
     {
 
-        $users = (new static)::with([
-            'company',
-            'rols'
-        ])->where('status', '!=', 0)->get();
+        if ($type == 0) {
+
+            $users = (new static)::with([
+                'company',
+                'rols'
+            ])->where('status', '!=', 0)->get();
+        } else {
+
+            $users = (new static)::with([
+                'company',
+                'rols'
+            ])->where('status', '!=', 0)->whereHas('rols', function ($q)  use ($type) {
+                $q->where('rols.id', $type);
+            })->get();
+        }
+
         return $users;
     }
     public static function createUser($request)
@@ -84,7 +96,7 @@ class User extends Authenticatable
             $username = $request->username;
             $email = $request->email;
             $password = $request->password;
-            $company_id= $request->company_id;
+            $company_id = $request->company_id;
             $rols = $request->rols;
 
             $userFind = (new static)::where('email', $email)->first();
@@ -111,7 +123,7 @@ class User extends Authenticatable
             $userCreate->rols()->attach($rols);
 
             $userCreate->save();
-            $user= (new static)::with(['company','rols'])->where('username', $username)->first();
+            $user = (new static)::with(['company', 'rols'])->where('username', $username)->first();
             DB::commit();
 
             return [
@@ -135,11 +147,11 @@ class User extends Authenticatable
         DB::beginTransaction();
         try {
             $userUpdate = (new static)::find($request->id);
-            if($userUpdate == null){
+            if ($userUpdate == null) {
                 DB::rollBack();
                 return [
                     'ok' => false,
-                    'message' =>'User not found',
+                    'message' => 'User not found',
                     'value' => 0
                 ];
             }
@@ -149,7 +161,7 @@ class User extends Authenticatable
             $userUpdate->company_id = $request->company_id;
             $userUpdate->save();
             $userUpdate->rols()->sync($request->rols);
-            $user= (new static)::with(['company','rols'])->where('username', $request->username)->first();
+            $user = (new static)::with(['company', 'rols'])->where('username', $request->username)->first();
             DB::commit();
             return [
                 'ok' => true,
