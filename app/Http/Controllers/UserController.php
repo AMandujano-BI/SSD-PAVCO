@@ -96,8 +96,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = $this->_user->updateUser($request->id,$request);
+        $user = $this->_user->updateUser($request);
         return $user;
+    }
+
+    public function resetPassword(Request $request){
+        $user = $this->_user->resetPassword($request);
+        return $user;
+
     }
 
     /**

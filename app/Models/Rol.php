@@ -20,4 +20,7 @@ class Rol extends Model
         $rols = (new static)::where('status','!=',0)->get(['id AS value', 'name AS label']);
         return $rols;
     }
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
 }

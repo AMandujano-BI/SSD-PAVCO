@@ -49,6 +49,7 @@ Route::middleware(['auth:sanctum', 'verified'])->put('/run/closeRun/{id}', [RunC
 Route::middleware(['auth:sanctum', 'verified'])->put('/run/reopenRun/{id}', [RunController::class, 'reopenRun'])->name('run.reopenRun');
 Route::middleware(['auth:sanctum', 'verified'])->get('/user/getUsers/{type}', [UserController::class, 'getUsers'])->name('user.getUsers');
 Route::middleware(['auth:sanctum', 'verified'])->get('/email/runResult', [MailController::class, 'store'])->name('mail.runResult');
+Route::middleware(['auth:sanctum', 'verified'])->post('/user/resetPassword', [UserController::class, 'resetPassword'])->name('user.resetPassword');
 
 
 //Resources

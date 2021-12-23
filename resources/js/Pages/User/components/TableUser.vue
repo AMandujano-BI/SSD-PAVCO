@@ -20,8 +20,7 @@
       <thead>
         <tr>
           <th>Username</th>
-          <th>First Name</th>
-          <th>Last Name</th>
+          <th>Name</th>
           <th>Company</th>
           <th>Email Address</th>
           <th>User Type</th>
@@ -33,15 +32,16 @@
       <tbody>
         <tr v-for="user in usersTable" :key="user.id">
           <td class="text-center">{{ user.username }}</td>
-          <td class="text-center">{{ user.name }}</td>
-          <td class="text-center">{{ user.lastname }}</td>
+          <td class="text-center">{{ user.name}} {{user.lastname || ''}}</td>
           <td class="text-center">{{ user.company?.name }}</td>
           <td class="text-center">
             <a :href="`mailto:${user.email}`">{{ user.email }}</a>
           </td>
-          <td class="text-center">{{ "type" }}</td>
+          <td class="text-center justify-center w-full grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2 items-center h-full">
+            <span class="bg-primary-300 max-w-[150px]  font-bold text-sm rounded-md p-2 mx-1  break-words" v-for="rol in user.rols" :key="rol.id">{{rol.name}}</span>
+          </td>
           <td class="text-center">
-            <button @click="openModalResetPassword(user.id)">
+            <button @click="openModalResetPassword(user.username)">
               <icon-reset />
             </button>
           </td>
@@ -61,16 +61,16 @@
   </div>
 
   <!-- MODAL RESET PASSWORD -->
-  <modal :show="modalResetPassword" @close="closeModalResetPassword">
+  <modal :show="modalResetPassword" >
     <div class="p-5">
-      <form-reset @closeModal="closeModalResetPassword" />
+      <form-reset @closeModal="closeModalResetPassword"  :username="username"/>
     </div>
   </modal>
 
   <!-- MODAL FORM -->
   <modal :show="openModal">
     <div class="p-5">
-      <form-user :companies="companies"  :rols="rols" @closeModal="closeModalForm" />
+      <form-user :companies="companies"  :rols="rols" @closeModal="closeModalForm"  @generateTable="generateDataTable"/>
     </div>
   </modal>
   <!-- CONFIRMATION MODal -->
@@ -122,7 +122,7 @@ export default {
     FormReset: FormResetPasswordVue,
   },
   setup(props) {
-    console.log(props)
+    const username =ref('')
     const openModal = ref(false);
     const store = useStore();
     const { makeToast } = useHelper();
@@ -158,9 +158,14 @@ export default {
       store.commit("users/setFormUser", id);
       openModal.value = true;
     };
-    const openModalResetPassword = (id) => {
+    const openModalResetPassword = (user) => {
       modalResetPassword.value = true;
+      username.value = user
     };
+    const closeModalResetPassword =()=>{
+      modalResetPassword.value = false;
+      username.value = null
+    }
     const deleteUser = async () => {
       try {
         const id = store.state.users.form.id;
@@ -196,8 +201,9 @@ export default {
       deleteUser,
       modalResetPassword,
       openModalResetPassword,
-      closeModalResetPassword: () => (modalResetPassword.value = false),
+      closeModalResetPassword,
       closeModalDelete: () => (showModalDelete.value = false),
+      username,
     };
   },
 };

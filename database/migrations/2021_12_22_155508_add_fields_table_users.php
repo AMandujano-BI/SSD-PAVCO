@@ -15,7 +15,7 @@ class AddFieldsTableUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('company_id')->nullable()->constrained();
-            $table->string('lastname');
+            $table->string('lastname')->nullable();
             $table->string('username')->unique();
             $table->integer('status')->default(1);
         });
@@ -28,11 +28,14 @@ class AddFieldsTableUsers extends Migration
      */
     public function down()
     {
-        Schema::table('photos', function (Blueprint $table) {
-            $table->dropForeign('company_id');
-            $table->dropColumn('lastname');
-            $table->dropUnique('username');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('users_company_id_foreign');
+            $table->dropColumn('company_id');
+            $table->dropIndex('users_username_unique');
+            // $table->dropUnique('users_username_unique');
             $table->dropColumn('status');
+            $table->dropColumn('lastname');
+            $table->dropColumn('username');
         });
     }
 }

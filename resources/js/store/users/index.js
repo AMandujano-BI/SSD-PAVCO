@@ -4,13 +4,13 @@ import axios from "axios";
 const defaultValue = {
     id: 0,
     name: '',
-    lastname: "",
+    lastname: '',
     username: "",
     email: "",
     password: "",
     confirm_password: "",
     company_id: 0,
-    rol_id: 0,
+    rols: [],
 }
 const state = {
     form: defaultValue,
@@ -22,10 +22,22 @@ const mutations = {
         if (id == 0) {
             state.form = defaultValue
         } else {
-            const users = state.tableUsers.find(item => item.id == id)
-            state.form = { ...users }
+            const user= state.tableUsers.find(item => item.id == id)
+            const rolsArray = []
+            user.rols.map(item =>{
+                // rolsArray.push({value:item.id,label:item.name})
+                rolsArray.push(item.id)
+            })
+            // user.rols  = rolsArray
+            user.password ='123'
+            user.confirm_password='123'
+            state.form = { ...user }
+            state.form.rols  = rolsArray
 
         }
+    },
+    addDataTable(state, data) {
+        state.tableUsers= [data, ...state.tableUsers]
     },
     setDataTable(state, data) {
         state.tableUsers = data
@@ -33,6 +45,10 @@ const mutations = {
     deleteItem(state, id) {
         state.tableUsers = state.tableUsers.filter(item => item.id != id)
     },
+    updateItem(state, data) {
+        const index = state.tableUsers.findIndex(item => item.id == data.id)
+        state.tableUsers[index] = data
+    }
 }
 
 

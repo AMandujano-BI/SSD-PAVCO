@@ -26,9 +26,14 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
+        'lastname',
+        'username',
+        'status',
+        'company_id',
     ];
 
     /**
@@ -61,21 +66,27 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function getUsers($type)
+    public static function getUsers($type)
     {
 
         $users = (new static)::with([
-            'company'
+            'company',
+            'rols'
         ])->where('status', '!=', 0)->get();
         return $users;
     }
-    public function createUser($request)
+    public static function createUser($request)
     {
         DB::beginTransaction();
         try {
             $name = $request->name;
+            $lastname = $request->lastname;
+            $username = $request->username;
             $email = $request->email;
             $password = $request->password;
+            $company_id= $request->company_id;
+            $rols = $request->rols;
+
             $userFind = (new static)::where('email', $email)->first();
             if ($userFind != null) {
                 DB::rollback();
@@ -85,12 +96,22 @@ class User extends Authenticatable
                     'value' => 0
                 ];
             }
-            $user = (new static)::create([
+
+            $userCreate = (new static)::create([
                 'name' => $name,
+                'lastname' => $lastname,
+                'username' => $username,
+                'company_id' => $company_id,
                 'email' => $email,
                 'password' => Hash::make($password),
             ]);
-            $user->save();
+
+            //Add rols
+
+            $userCreate->rols()->attach($rols);
+
+            $userCreate->save();
+            $user= (new static)::with(['company','rols'])->where('username', $username)->first();
             DB::commit();
 
             return [
@@ -102,17 +123,49 @@ class User extends Authenticatable
             DB::rollback();
             return [
                 'ok' => false,
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'value' => 0
             ];
         }
     }
 
 
-    public function updateUser()
+    public static function updateUser($request)
     {
+        DB::beginTransaction();
+        try {
+            $userUpdate = (new static)::find($request->id);
+            if($userUpdate == null){
+                DB::rollBack();
+                return [
+                    'ok' => false,
+                    'message' =>'User not found',
+                    'value' => 0
+                ];
+            }
+            $userUpdate->name = $request->name;
+            $userUpdate->lastname = $request->lastname;
+            $userUpdate->email = $request->email;
+            $userUpdate->company_id = $request->company_id;
+            $userUpdate->save();
+            $userUpdate->rols()->sync($request->rols);
+            $user= (new static)::with(['company','rols'])->where('username', $request->username)->first();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'User was updated successfully',
+                'value' => $user,
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage(),
+                'value' => 0
+            ];
+        }
     }
-    public function deleteUser($id)
+    public static function deleteUser($id)
     {
         DB::beginTransaction();
         try {
@@ -143,9 +196,46 @@ class User extends Authenticatable
             ];
         }
     }
+
+
+    public static function resetPassword($request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $user = (new static)::where('username', $request->username)->first();
+            if ($user == null) {
+                DB::rollBack();
+                return [
+                    'ok' => false,
+                    'message' => 'User not found',
+                    'value' => 0
+                ];
+            }
+            $user->forceFill(['password' => Hash::make($request['password']),])->save();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Password changed successfully',
+                'value' => $user,
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage(),
+                'value' => 0
+            ];
+        }
+    }
     // ----------------RELATIONS
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function rols()
+    {
+        return $this->belongsToMany(Rol::class);
     }
 }

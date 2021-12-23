@@ -1,5 +1,5 @@
 import { reactive, computed, getCurrentInstance } from "vue";
-import { required, helpers, sameAs, email } from "@vuelidate/validators";
+import { required, helpers, sameAs, email,minLength } from "@vuelidate/validators";
 import useHelper from "@/composables/useHelper";
 import useVuelidate from "@vuelidate/core";
 import { useStore } from "vuex";
@@ -23,28 +23,29 @@ const useFormuser = (formProps) => {
                 isDiferentZero
             ),
         },
-        rol_id: {
-            isDiferentZero: helpers.withMessage(
-                "You must select an option",
-                isDiferentZero
-            ),
+        rols: {
+            required,
         },
     }))
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return
-
-        const res = await store.dispatch('users/createUser', form)
+        let res
+        if (form.id == 0)
+            res = await axios.post('/user', form)
+        else
+            res = await axios.put(`/user/${form.id}`, form)
         console.log(res)
-        const { ok, message, value } = res
+        const { ok, message, value } = res.data
         if (ok) {
             if (form.id == 0) {
-                // store.commit('companies/addDataTable', value)
-                // store.commit("companies/setFormCompany", 0);
+                makeToast(message)
+                store.commit('users/addDataTable', value)
+                store.commit("users/setFormUser", 0);
             }
             else
-                // store.commit('companies/updateItem', value)
+                store.commit('users/updateItem', value)
                 makeToast(message)
             emit('closeModal')
             emit('generateTable')

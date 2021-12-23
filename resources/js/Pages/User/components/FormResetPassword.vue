@@ -1,6 +1,10 @@
 <template>
   <h1 class="text-center font-bold text-2xl">Reset Password</h1>
   <form @submit.prevent="submitForm">
+    <div class="shadow rounded-md py-5 mb-3 px-2">
+      <p class="font-bold text-2xl">Username</p>
+      <p class="font-bold">{{ username }}</p>
+    </div>
     <div>
       <label for="">Password</label>
       <input
@@ -95,27 +99,29 @@
 </template>
 
 <script>
-import { computed, reactive } from "vue";
-import { useStore } from "vuex";
+import { computed, reactive, ref } from "vue";
 import useHelper from "@/composables/useHelper";
 import useVuelidate from "@vuelidate/core";
-import { required, sameAs } from "@vuelidate/validators";
+import { required, sameAs,minLength } from "@vuelidate/validators";
 import ButtonsFormVue from "@/Jetstream/ButtonsForm";
-import axios from 'axios';
+import axios from "axios";
 export default {
   components: {
     buttonsForm: ButtonsFormVue,
   },
+  props: ["username"],
   emits: ["closeModal"],
   setup(props, { emit }) {
+    const username = ref(props.username);
+    const loading = ref(false);
     const form = reactive({
-      username: "",
+      username: username,
       password: "",
       resetPassword: "",
     });
     const { makeToast } = useHelper();
     const rules = computed(() => ({
-      password: { required },
+      password: { required,minLength:minLength(8) },
       resetPassword: { sameAsPassword: sameAs(form.password) },
     }));
     const v$ = useVuelidate(rules, form);
@@ -123,15 +129,25 @@ export default {
     const submitForm = async () => {
       const isFormCorrect = await v$.value.$validate();
       if (!isFormCorrect) return;
-    //   const res = await  axios.post('user/resetPassword')
-      console.log(form);
+      loading.value = true;
+      const res = await axios.post("user/resetPassword", form);
+      loading.value = false;
+      const { ok, message, value } = res.data;
+      if (ok) {
+        makeToast(message);
+        emit("closeModal");
+      } else {
+        makeToast(message, "error");
+      }
     };
 
     return {
       v$,
       form,
       closeModalForm: () => emit("closeModal"),
+      username,
       submitForm,
+      loading,
     };
   },
 };
