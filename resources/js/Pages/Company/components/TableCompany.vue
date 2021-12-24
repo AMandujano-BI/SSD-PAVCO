@@ -26,9 +26,9 @@
   </modal>
   <div class="pt-5">
     <select class="w-full mb-5" @change="changeFilter" v-model="filterOption">
-      <option value="0">All</option>
-      <option value="1">Customer</option>
-      <option value="2">Distributor</option>
+      <option value="4">All</option>
+      <option value="0">Customer</option>
+      <option value="1">Distributor</option>
     </select>
   </div>
   <table id="tableCompanies" class="display" style="width: 100%; height: 100%">
@@ -132,7 +132,7 @@ export default {
     const showModalDelete = ref(false);
     const { makeToast } = useHelper();
     const openModalCompany = ref(false);
-    const filterOption = ref("1");
+    const filterOption = ref("4");
 
     const openModalEditClick = (id) => {
       store.commit("companies/setFormCompany", id);
@@ -167,8 +167,8 @@ export default {
     };
     const closeModalDelete = () => (showModalDelete.value = false);
     const gettingData = async (type = 4) => {
-      await store.dispatch("companies/getCompanies", type);
-      companiesTable.value = store.state.companies.tableCompanies;
+      const data = await store.dispatch("companies/getCompanies", type);
+      store.commit("companies/setDataTable", data);
       await generateDataTable();
     };
     const openModal = () => {
@@ -177,7 +177,9 @@ export default {
     };
 
     const closeModal = () => (openModalCompany.value = false);
-    const changeFilter = () => {};
+    const changeFilter = async () => {
+      await gettingData(filterOption.value)
+    };
     const generateDataTable = () => {
       $("#tableCompanies").DataTable().destroy();
       nextTick(() => {

@@ -34,7 +34,7 @@ const mutations = {
         }
     },
     setDataTable(state, data) {
-        state.tableCompanies = data
+        state.tableCompanies = [... data]
     },
     addDataTable(state, data) {
         state.tableCompanies = [data, ...state.tableCompanies]
@@ -53,12 +53,11 @@ const actions = {
     async getCompanies({ commit }, type) {
         const res = await axios.get(`/company/getCompanies/${type}`);
         const data = res.data
-        commit('setDataTable', data)
+        return data
     },
     async deleteCompany({ commit }, id) {
         try {
             const res = await axios.delete(`/company/${id}`);
-            //  commit('deleteItem', id)
             return res
         } catch (e) {
             return e

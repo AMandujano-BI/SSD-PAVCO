@@ -24,6 +24,7 @@ const useFormRun = () => {
         status: 0,
         idCustomer: 0,
         user_id: 0,
+        company_id: 0,
         plate_methods_id: 0,
         coatId: 0,
         primaryCoatId: 0,
@@ -59,7 +60,7 @@ const useFormRun = () => {
                 isDiferentZero
             ),
         },
-        user_id: {
+        company_id: {
             isDiferentZero: helpers.withMessage(
                 "You must select an option",
                 isDiferentZero

@@ -87,6 +87,8 @@ class User extends Authenticatable
 
         return $users;
     }
+
+   
     public static function createUser($request)
     {
         DB::beginTransaction();

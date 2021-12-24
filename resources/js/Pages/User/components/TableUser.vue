@@ -170,10 +170,10 @@ export default {
     const filterOption = ref(0);
     const usersTable = ref(computed(() => store.state.users.tableUsers));
 
-    const changeFilter = async (e) => {
+    const changeFilter = async () => {
       await gettingData(filterOption.value);
     };
-    const gettingData = async (type = 1) => {
+    const gettingData = async (type = 0) => {
       const data = await store.dispatch("users/getUsers", type);
       store.commit("users/setDataTable", data);
       await generateDataTable();

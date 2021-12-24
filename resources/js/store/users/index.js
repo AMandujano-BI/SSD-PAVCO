@@ -40,7 +40,6 @@ const mutations = {
         state.tableUsers= [data, ...state.tableUsers]
     },
     setDataTable(state, data) {
-        console.log('change')
         state.tableUsers = [...data]
     },
     deleteItem(state, id) {

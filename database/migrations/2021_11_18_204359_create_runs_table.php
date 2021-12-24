@@ -31,10 +31,10 @@ class CreateRunsTable extends Migration
             //$table->string('plateMethod',50);
             $table->foreignId('plate_methods_id')->constrained();
 
-            $table->integer('company_id')->default(1);
-            // $table->foreignId('company_id')->constrained();
-            $table->integer('user_id')->default(1);
-            // $table->foreignId('user_id')->constrained();
+            // $table->integer('company_id')->default(1);
+            $table->foreignId('company_id')->constrained();
+            // $table->integer('user_id')->default(1);
+            $table->foreignId('user_id')->constrained();
 
             $table->timestamps();
         });

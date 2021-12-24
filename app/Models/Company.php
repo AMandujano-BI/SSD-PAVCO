@@ -134,6 +134,11 @@ class Company extends Model
         $customers = (new static)::where('distributor', 1)->where('status', '!=', 0)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
         return $customers;
     }
+    public static function getCustomers()
+    {
+        $customers = (new static)::where('customer', 1)->where('status', '!=', 0)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
+        return $customers;
+    }
     public static function deleteCompany($id)
     {
         DB::beginTransaction();

@@ -1,5 +1,5 @@
 import { reactive, computed, getCurrentInstance } from "vue";
-import { required, helpers, sameAs, email,minLength } from "@vuelidate/validators";
+import { required, helpers, sameAs, email, minLength } from "@vuelidate/validators";
 import useHelper from "@/composables/useHelper";
 import useVuelidate from "@vuelidate/core";
 import { useStore } from "vuex";
@@ -46,7 +46,7 @@ const useFormuser = (formProps) => {
             }
             else
                 store.commit('users/updateItem', value)
-                makeToast(message)
+            makeToast(message)
             emit('closeModal')
             emit('generateTable')
         } else {
