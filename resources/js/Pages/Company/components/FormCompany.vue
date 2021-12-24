@@ -29,7 +29,6 @@
           value="1"
           v-model="form.customer"
           id="yes"
-          :change="v$.company_id.$touch"
         />
         <label for="yes"> Customer </label>
         <input
@@ -37,7 +36,6 @@
           value="0"
           v-model="form.customer"
           id="no"
-          :change="v$.company_id.$touch"
         /><label for="no"> Distributor</label>
       </div>
       <div>
@@ -50,13 +48,13 @@
           :searchable="true"
           placeholder="Select Distributor"
         />
-        <p
+        <!-- <p
           v-for="error of v$.company_id.$errors"
           :key="error.$uid"
           class="text-red-400"
         >
           {{ error.$message }}
-        </p>
+        </p> -->
       </div>
     </div>
     <div class="shadow-lg rounded-md p-3">
@@ -165,24 +163,28 @@
 import Multiselect from "@vueform/multiselect";
 import useFormCompany from "../composables/useFormCompany";
 import { useStore } from "vuex";
+import { computed, ref } from 'vue-demi';
 export default {
   emits: ["closeModal", "generateTable"],
-  props: ["countries", "distributors"],
+  props: ["countries"],
   components: {
     multiSelect: Multiselect,
   },
   setup(props, { emit }) {
     const store = useStore();
     const { form, v$, submitForm } = useFormCompany(store.state.companies.form);
+    const distributors = ref(computed(()=>store.state.companies.tableDistributors))
     const closeModal = () => {
       emit("closeModal");
     };
-  
+
     return {
       form,
       v$,
       submitForm,
       closeModal,
+      distributors
+
     };
   },
 };

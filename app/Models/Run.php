@@ -68,6 +68,7 @@ class Run extends Model
                 'parts.coat',
                 'parts.plateType',
                 'parts.topCoat',
+                'company',
             ])
                 ->where('status', '!=', 2)
                 ->where('user_id', $user->id)
@@ -84,6 +85,7 @@ class Run extends Model
                 'parts.coat',
                 'parts.plateType',
                 'parts.topCoat',
+                'company',
             ])
                 ->where('status', '!=', 2)
                 ->where('status', $status)
@@ -105,6 +107,7 @@ class Run extends Model
             'parts.coat',
             'parts.plateType',
             'parts.topCoat',
+            'company',
         ])
             ->where('status', '!=', 2)
             ->where('user_id',$user->id)
@@ -343,5 +346,8 @@ class Run extends Model
     public function parts()
     {
         return $this->hasMany(Part::class);
+    }
+    public  function company(){
+        return $this->belongsTo(Company::class);
     }
 }

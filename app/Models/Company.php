@@ -77,7 +77,8 @@ class Company extends Model
 
             ]);
             $company = (new static)::with([
-                'country'
+                'country',
+                'children'
             ])->find($companyCreate->id);
             DB::commit();
             return [
@@ -98,6 +99,38 @@ class Company extends Model
     {
         DB::beginTransaction();
         try {
+            $companyRelation = (new static)::where('company_id', $request->id)->where('customer', 1)->get();
+            if (count($companyRelation) > 0) {
+                DB::rollBack();
+                return [
+                    'ok' => false,
+                    'message' => 'The Company has a relation with other companies',
+                    'value' => 0
+                ];
+            }
+            $useRun = Run::where('company_id', $id)->get();
+            if (count($useRun) > 0) {
+                DB::rollBack();
+                return [
+                    'ok' => false,
+                    'message' => 'The Customer has a relation with  Runs',
+                    'value' => 0
+                ];
+            }
+            $company_id = $request->company_id;
+            $customer = $request->customer;
+            $distributor = $request->distributor;
+            if ($customer == 0) {
+                $distributor = 1;
+                $customer = 0;
+                $company_id = null;
+            } else {
+                $distributor = 0;
+                $customer = 1;
+            }
+            if ($company_id == 0) $company_id = null;
+            if ($customer == 0) $company_id = null;
+
             $companyCreate = (new static)::find($id);
             $companyCreate->name = $request->name;
             $companyCreate->address = $request->address;
@@ -106,14 +139,15 @@ class Company extends Model
             $companyCreate->zip = $request->zip;
             $companyCreate->phone = $request->phone;
             $companyCreate->fax = $request->fax;
-            $companyCreate->customer = $request->customer;
-            $companyCreate->distributor = $request->distributor;
+            $companyCreate->customer = $customer;
+            $companyCreate->distributor = $distributor;
             $companyCreate->notes = $request->notes;
             $companyCreate->country_id = $request->country_id;
-            $companyCreate->company_id = $request->company_id;
+            $companyCreate->company_id = $company_id;
             $companyCreate->save();
             $company = (new static)::with([
-                'country'
+                'country',
+                'children',
             ])->find($companyCreate->id);
             DB::commit();
             return [
@@ -129,9 +163,13 @@ class Company extends Model
             ];
         }
     }
-    public static function getDistributors()
+    public static function getDistributors($id)
     {
-        $customers = (new static)::where('distributor', 1)->where('status', '!=', 0)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
+        if ($id == 0) {
+            $customers = (new static)::where('distributor', 1)->where('status', '!=', 0)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
+        } else {
+            $customers = (new static)::where('distributor', 1)->where('status', '!=', 0)->where('id', '!=', $id)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
+        }
         return $customers;
     }
     public static function getCustomers()
@@ -143,6 +181,15 @@ class Company extends Model
     {
         DB::beginTransaction();
         try {
+            $useRun = Run::where('company_id', $id)->get();
+            if (count($useRun) > 0) {
+                DB::rollBack();
+                return [
+                    'ok' => false,
+                    'message' => 'The Customer has a relation with  Runs',
+                    'value' => 0
+                ];
+            }
             $company = (new static)::find($id);
             $company->status = 0;
             $company->save();
@@ -165,19 +212,25 @@ class Company extends Model
     {
         if ($type == 1) {
 
-            $companies = (new static)::with(['country'])->where('distributor', 1)->where('status', '!=', 0)->orderBy('name', 'asc')->get();
+            $companies = (new static)::with(['country', 'children'])->where('distributor', 1)->where('status', '!=', 0)->orderBy('name', 'asc')->get();
         } else if ($type == 0) {
-            $companies = (new static)::with(['country'])->where('distributor', 0)->where('status', '!=', 0)->orderBy('name', 'asc')->get();
+            $companies = (new static)::with(['country', 'children'])->where('distributor', 0)->where('status', '!=', 0)->orderBy('name', 'asc')->get();
         } else if ($type == 3) {
             //GET ALL COMPANIES FROM DROPDOWN
-            $companies = (new static)::with(['country'])->where('status', '!=', 0)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
+            $companies = (new static)::with(['country', 'children'])->where('status', '!=', 0)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
         } else {
-            $companies = (new static)::with(['country'])->where('status', '!=', 0)->orderBy('name', 'asc')->get();
+            $companies = (new static)::with(['country', 'children'])->where('status', '!=', 0)->orderBy('name', 'asc')->get();
         }
         return $companies;
     }
+
+    // RELATIONS
     public function country()
     {
         return $this->belongsTo(Country::class);
+    }
+    public function children()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
     }
 }

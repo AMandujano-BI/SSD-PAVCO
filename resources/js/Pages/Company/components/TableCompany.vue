@@ -18,7 +18,6 @@
     <div class="p-5">
       <form-company
         :countries="countries"
-        :distributors="distributors"
         @generateTable="generateDataTable"
         @closeModal="closeModal"
       />
@@ -49,10 +48,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="company in companiesTable" :key="company.id">
+      <tr
+        v-for="company in companiesTable"
+        :key="company.id"
+        class="cursor-pointer"
+      >
         <td class="text-center">{{ company.name }}</td>
         <td class="text-center">
-          {{ company.company_id == null ? "none" : "ff" }}
+          {{ company.company_id == null ? "none" : company.children?.name }}
         </td>
         <td class="text-center">{{ company.address }}</td>
         <td class="text-center">{{ company.city }}</td>
@@ -114,7 +117,7 @@ import IconEdit from "@/assets/Icons/iconEdit.vue";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
 import { useStore } from "vuex";
 export default {
-  props: ["countries", "distributors"],
+  props: ["countries"],
   components: {
     modal: Modal,
     confirmationModal: ConfirmationModal,
@@ -124,17 +127,17 @@ export default {
   },
   setup() {
     const store = useStore();
-    // const companiesTable = ref([]);
     const companiesTable = ref(
       computed(() => store.state.companies.tableCompanies)
     );
-    // watch(companiesTable,generateDataTable)
     const showModalDelete = ref(false);
     const { makeToast } = useHelper();
     const openModalCompany = ref(false);
     const filterOption = ref("4");
 
-    const openModalEditClick = (id) => {
+    const openModalEditClick = async (id) => {
+      const data = await store.dispatch("companies/getDistributors",id);
+      store.commit("companies/setDistributors", data);
       store.commit("companies/setFormCompany", id);
       openModalCompany.value = true;
     };
@@ -143,14 +146,11 @@ export default {
       showModalDelete.value = true;
     };
 
-    const getCompanies = async () => {
-      await axios.get("companies");
-    };
     const deleteCompany = async () => {
       try {
         const id = store.state.companies.form.id;
         const res = await store.dispatch("companies/deleteCompany", id);
-        const { ok, message, value } = res.data;
+        const { ok, message } = res.data;
         if (ok) {
           showModalDelete.value = false;
           makeToast(message);
@@ -171,14 +171,19 @@ export default {
       store.commit("companies/setDataTable", data);
       await generateDataTable();
     };
-    const openModal = () => {
+    const openModal = async () => {
       store.commit("companies/setFormCompany", 0);
+      const data = await store.dispatch("companies/getDistributors",0);
+      store.commit("companies/setDistributors", data);
       openModalCompany.value = true;
     };
 
-    const closeModal = () => (openModalCompany.value = false);
+    const closeModal = () => {
+      store.commit("companies/setFormCompany", 0);
+      openModalCompany.value = false;
+    };
     const changeFilter = async () => {
-      await gettingData(filterOption.value)
+      await gettingData(filterOption.value);
     };
     const generateDataTable = () => {
       $("#tableCompanies").DataTable().destroy();
@@ -196,7 +201,6 @@ export default {
     });
 
     return {
-      getCompanies,
       companiesTable,
       openModalEditClick,
       openModalDeleteClick,

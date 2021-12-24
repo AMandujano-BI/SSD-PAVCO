@@ -30,7 +30,7 @@
           <tr v-for="run in runs" :key="run.id">
             <td class="text-center">{{ run.startDate.slice(0, 10) }}</td>
             <!-- <td class="text-center">{{ run.user_id }}</td> -->
-            <td class="text-center">{{ "testing" }}</td>
+            <td class="text-center">{{ run.company?.name }}</td>
             <td class="text-center">{{ run.id }}</td>
             <td class="text-center">{{ run.method.name }}</td>
             <td class="text-center">
@@ -438,7 +438,6 @@ export default {
     const gettingData = async (status = 3) => {
       try {
         const res = await axios.get(`/run/getAllRuns/${status}`);
-        // runs.value = res.data.data;
         runs.value = res.data;
         $("#activeRuns").DataTable().destroy();
         await generateDataTable();

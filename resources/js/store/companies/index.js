@@ -1,5 +1,4 @@
 import axios from "axios"
-const { makeToast } = useHelper();
 import useHelper from "@/composables/useHelper";
 
 
@@ -21,7 +20,8 @@ const defaultValue = {
 }
 const state = {
     form: defaultValue,
-    tableCompanies: []
+    tableCompanies: [],
+    tableDistributors:[]
 }
 const mutations = {
     setFormCompany(state, id) {
@@ -36,6 +36,9 @@ const mutations = {
     setDataTable(state, data) {
         state.tableCompanies = [... data]
     },
+    setDistributors(state, data) {
+        state.tableDistributors = [... data]
+    },
     addDataTable(state, data) {
         state.tableCompanies = [data, ...state.tableCompanies]
     },
@@ -44,14 +47,19 @@ const mutations = {
     },
     updateItem(state, data) {
         const index = state.tableCompanies.findIndex(item => item.id == data.id)
-        console.log(index)
-        console.log(data)
         state.tableCompanies[index] = data
     }
 }
 const actions = {
     async getCompanies({ commit }, type) {
         const res = await axios.get(`/company/getCompanies/${type}`);
+        const data = res.data
+        console.log(data)
+        return data
+    },
+    async getDistributors({ commit },id) {
+        console.log(id)
+        const res = await axios.get(`/company/getDistributors/${id}`);
         const data = res.data
         return data
     },
