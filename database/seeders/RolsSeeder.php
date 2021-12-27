@@ -18,8 +18,8 @@ class RolsSeeder extends Seeder
         //
 
         DB::table('rols')->insert([ 'name' => 'Master Administrator','created_at' => Carbon::now(), ]);
-        DB::table('rols')->insert([ 'name' => 'Administrator ','created_at' => Carbon::now(), ]);
-        DB::table('rols')->insert([ 'name' => 'Distributor ','created_at' => Carbon::now(), ]);
+        DB::table('rols')->insert([ 'name' => 'Administrator','created_at' => Carbon::now(), ]);
+        DB::table('rols')->insert([ 'name' => 'Distributor','created_at' => Carbon::now(), ]);
         DB::table('rols')->insert([ 'name' => 'Customer','created_at' => Carbon::now(), ]);
     }
 }
