@@ -1,8 +1,8 @@
 import { required, helpers } from "@vuelidate/validators";
 import { reactive, ref, getCurrentInstance } from "vue";
 import useVuelidate from "@vuelidate/core";
-import axios from "axios";
 import useHelper from "@/composables/useHelper";
+import axios from "axios";
 
 const isDiferentZero = (value) => {
     return value != 0;
@@ -14,39 +14,25 @@ const useFormReport = (formProps) => {
     const { emit } = getCurrentInstance();
 
     const rules = {
-        name: { 
-            required 
-        },
-        plate_type: {
+        customer: { 
             isDiferentZero: helpers.withMessage(
                 'You must select an option',
                 isDiferentZero
             ),
         },
-        thickness: {
+        startDate: {
             isDiferentZero: helpers.withMessage(
                 'You must select an option',
                 isDiferentZero
             ),
         },
-        chromate: {
+        endDate: {
             isDiferentZero: helpers.withMessage(
                 'You must select an option',
                 isDiferentZero
             ),
         },
-        top_coat: {
-            isDiferentZero: helpers.withMessage(
-                'You must select an option',
-                isDiferentZero
-            ),
-        },
-        coat: {
-            isDiferentZero: helpers.withMessage(
-                'You must select an option',
-                isDiferentZero
-            ),
-        }
+       
     };
 
     const v$ = useVuelidate(rules, form);

@@ -7,7 +7,16 @@
                 <input 
                     type="text"
                     v-model="form.customer"
+                    :class="{ 'border-red-500': v$.customer.$error }"
                 />
+                <p
+                    v-for="error of v$.customer.$errors"
+                    :key="error.$uid"
+                    class="text-red-400"
+                >
+                    {{error.$message}}
+                </p>
+                
             </div>
     
             <div class="flex">
@@ -18,7 +27,15 @@
                 <input 
                     type="date"
                     v-model="form.startDate"
+                    :class="{ 'border-red-400': v$.startDate.$error }"
                 />
+                <p
+                    v-for="error of v$.startDate.$errors"
+                    :key="error.$uid"
+                    class="text-red-400"
+                >
+                    {{error.$message}}
+                </p>
             </div>
             
             <div class="flex">
@@ -26,7 +43,15 @@
                 <input 
                     type="date"
                     v-model="form.endDate"
+                    :class="{ 'border-red-400': v$.endDate.$error }"
                 />
+                <p
+                    v-for="error of v$.endDate.$error"
+                    :key="error.$uid"
+                    class="text-red-400"
+                >
+                    {{error.$message}}
+                </p>
             </div>
         </div>
 

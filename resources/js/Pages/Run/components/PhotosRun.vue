@@ -1,10 +1,9 @@
 <template>
-  <modal :show="isModalPhotos" @close="closePhotosModal">
-    <div class="container mx-auto p-5 relative">
-      <button @click="closePhotosModal" class="absolute right-5">X</button>
+  
+    
       <p class="text-xl font-bold text-center">Pavco SSD Photo Viewer</p>
 
-      <div class="mt-5" v-if="currentPhotos[0]">
+      <div class="mt-5" v-if="runDetail[0]">
         <swiper
           :modules="modules"
           :slides-per-view="1"
@@ -12,7 +11,7 @@
           navigation
           :pagination="{ clickable: true }"
         >
-          <swiper-slide v-for="photo in currentPhotos" :key="photo.id">
+          <swiper-slide v-for="photo in runDetail" :key="photo.id">
             <div>
               <img
                 :src="photo.image"
@@ -36,8 +35,6 @@
       <div v-else>
         <p class="text-center my-20">There is no images</p>
       </div>
-    </div>
-  </modal>
 </template>
 
 <script>
@@ -52,13 +49,8 @@ import axios from "axios";
 
 export default {
   props: {
-    photos: {
-      type: Object,
-      default: {},
-    },
-    isModalPhotos: {
-      type: Boolean,
-      default: false,
+    id: {
+      type: Number,
     },
   },
   components: {
@@ -66,10 +58,18 @@ export default {
     swiperSlide: SwiperSlide,
     modal: Modal,
   },
-  emits: ["closeModal", "photoEdited"],
-  setup(props, { emit }) {
-    const { photos } = props;
-    let currentPhotos = ref(photos);
+  setup(props) {
+    const { id } = props;
+    const runDetail = ref({});
+
+    const gettingData = async () => {
+      try {
+        const res = await axios.get(`/run/${id}`);
+        runDetail.value = res.data;
+      } catch (e) {
+        
+      }
+    }
 
     const calculateHours = (edit, lastDate, created_date, hours) => {
         if (edit) {
@@ -82,23 +82,18 @@ export default {
         }
     }
 
-    const closePhotosModal = () => emit("closeModal");
+    gettingData();
 
-    const photoEdited = () => emit("photoAdded");
+    // const closePhotosModal = () => emit("closeModal");
+
+    // const photoEdited = () => emit("photoAdded");
 
     return {
-      closePhotosModal,
-      closePhotosModal,
-      photoEdited,
+      gettingData,
       calculateHours,
-      currentPhotos,
+      runDetail,
       modules: [Pagination, Navigation],
     };
-  },
-  watch: {
-    photos() {
-      this.currentPhotos = this.photos;
-    },
   },
 };
 </script>
