@@ -2,11 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
+use App\Models\Rol;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class UserController extends Controller
 {
+    private $_company;
+    private $_user;
+    private $_rol;
+    public function __construct(Company $company, User $user,Rol $rol)
+    {
+        $this->_company = $company;
+        $this->_user = $user;
+        $this->_rol= $rol;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +27,19 @@ class UserController extends Controller
     public function index()
     {
         //
-        return Inertia::render('User/Index');
+        $companies = $this->_company->getCompanies(3);
+        $rols= $this->_rol->getRols();
+        // dd($rols);
+        return Inertia::render('User/Index', [
+            'rols' => $rols,
+            'companies' => $companies,
+        ]);
+    }
+    public function getUsers($type)
+    {
+
+        $users = $this->_user->getUsers($type);
+        return $users;
     }
 
     /**
@@ -27,9 +51,6 @@ class UserController extends Controller
     {
         //
     }
-    public function getUsers($tpye){
-        return $tpye;
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -39,7 +60,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $user = $this->_user->createUser($request);
+        return $user;
     }
 
     /**
@@ -73,7 +96,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = $this->_user->updateUser($request);
+        return $user;
+    }
+
+    public function resetPassword(Request $request){
+        $user = $this->_user->resetPassword($request);
+        return $user;
+
     }
 
     /**
@@ -84,6 +114,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        $user = $this->_user->deleteUser($id);
+        return $user;
     }
 }

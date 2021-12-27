@@ -4,7 +4,7 @@
       <h1 class="text-center text-2xl p-5 font-bold">List Users</h1>
   
    
-      <table-user />
+      <table-user  :companies="companies" :rols="rols"/>
     </div>
   </app-layout>
 </template>
@@ -14,6 +14,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import TableUserVue from "./components/TableUser.vue";
 
 export default {
+  props:['companies','rols'],
   components: {
     AppLayout: AppLayout,
     TableUser: TableUserVue,

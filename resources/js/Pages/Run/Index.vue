@@ -30,6 +30,7 @@
             :plates="plates"
             :secondaryCoats="secondaryCoats"
             :plateTypes="plateTypes"
+            :customers="customers"
             @closeModal="closeModal"
           />
         </div>
@@ -62,6 +63,7 @@ export default {
     "plates",
     "secondaryCoats",
     "plateTypes",
+    "customers",
   ],
   setup() {
     const openModal = ref(false);

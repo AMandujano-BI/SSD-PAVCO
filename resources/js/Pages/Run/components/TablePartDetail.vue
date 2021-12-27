@@ -9,7 +9,7 @@
       <ul v-if="runDetail">
         <li><strong>Run: </strong> {{ runDetail.id }}</li>
         <!-- <li><strong>Customer: </strong> {{ runDetail.user_id }}</li> -->
-        <li><strong>Customer: </strong> {{ "Testing" }}</li>
+        <li><strong>Customer: </strong> {{ runDetail.company?.name }}</li>
         <li><strong>Start Date: </strong> {{ runDetail.startDate }}</li>
         <li><strong>Description: </strong> {{ runDetail.description }}</li>
       </ul>

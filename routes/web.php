@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::middleware(['auth:sanctum', 'verified'])->delete('/run/deleteRun/{id}', [RunController::class, 'deleteRun'])->name('run.deleteRun');
 Route::middleware(['auth:sanctum', 'verified'])->get('/chemical/getChemicals/{type}', [ChemicalController::class, 'getChemicals'])->name('chemical.getChemicals');
 Route::middleware(['auth:sanctum', 'verified'])->get('/company/getCompanies/{type}', [CompanyController::class, 'getCompanies'])->name('company.getCompanies');
+Route::middleware(['auth:sanctum', 'verified'])->get('/company/getDistributors/{id}', [CompanyController::class, 'getDistributors'])->name('company.getDistributors');
 Route::middleware(['auth:sanctum', 'verified'])->get('/run/download/{id}', [RunController::class, 'downloadPdf'])->name('run.downloadPdf');
 Route::middleware(['auth:sanctum', 'verified'])->get('/run/downloadPlus/{id}', [RunController::class, 'downloadPlus'])->name('run.downloadPlus');
 Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRuns/{status}', [RunController::class, 'getAllRuns'])->name('run.getAllRuns');
@@ -49,6 +50,8 @@ Route::middleware(['auth:sanctum', 'verified'])->put('/run/closeRun/{id}', [RunC
 Route::middleware(['auth:sanctum', 'verified'])->put('/run/reopenRun/{id}', [RunController::class, 'reopenRun'])->name('run.reopenRun');
 Route::middleware(['auth:sanctum', 'verified'])->get('/user/getUsers/{type}', [UserController::class, 'getUsers'])->name('user.getUsers');
 Route::middleware(['auth:sanctum', 'verified'])->get('/email/runResult', [MailController::class, 'store'])->name('mail.runResult');
+Route::middleware(['auth:sanctum', 'verified'])->post('/user/resetPassword', [UserController::class, 'resetPassword'])->name('user.resetPassword');
+Route::middleware(['auth:sanctum', 'verified'])->post('/report/runReportDetail', [ReportController::class, 'runReportDetail'])->name('report.runReportDetail');
 
 
 //Resources

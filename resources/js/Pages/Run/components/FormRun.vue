@@ -5,15 +5,15 @@
       <label for="">Customer</label>
       <!-- <select v-model="form.type" class="w-full"> -->
 
-      <select class="w-full" v-model="form.user_id">
-        <option value="0" selected>Select a Customer</option>
-        <option value="1">Plating</option>
-        <option value="2">Chromate</option>
-        <option value="3">TopCoat</option>
-        <option value="4">Secondary TopCoat</option>
-      </select>
+      <multi-select
+        :options="customers"
+        class="w-full"
+        v-model="form.company_id"
+        :searchable="true"
+        placeholder="Select Customer"
+      />
       <p
-        v-for="error of v$.user_id.$errors"
+        v-for="error of v$.company_id.$errors"
         :key="error.$uid"
         class="text-red-400"
       >
@@ -451,6 +451,7 @@ export default {
     "chromates",
     "secondaryCoats",
     "plateTypes",
+    "customers",
   ],
   components: {
     multiSelect: Multiselect,

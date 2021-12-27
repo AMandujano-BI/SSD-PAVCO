@@ -57,6 +57,7 @@ class Run extends Model
 
     public static function getAllRun($status)
     {
+        $user = auth()->user();
         if ($status == 3) {
             $run = (new static)::with([
                 'notes',
@@ -67,8 +68,10 @@ class Run extends Model
                 'parts.coat',
                 'parts.plateType',
                 'parts.topCoat',
+                'company',
             ])
                 ->where('status', '!=', 2)
+                ->where('user_id', $user->id)
                 ->get();
             return $run;
         } else {
@@ -82,9 +85,11 @@ class Run extends Model
                 'parts.coat',
                 'parts.plateType',
                 'parts.topCoat',
+                'company',
             ])
                 ->where('status', '!=', 2)
                 ->where('status', $status)
+                ->where('user_id', $user->id)
                 ->get();
             return $run;
         }
@@ -92,6 +97,7 @@ class Run extends Model
 
     public static function getRun($id)
     {
+        $user = auth()->user();
         $run = (new static)::with([
             'notes',
             'photos',
@@ -101,8 +107,10 @@ class Run extends Model
             'parts.coat',
             'parts.plateType',
             'parts.topCoat',
+            'company',
         ])
             ->where('status', '!=', 2)
+            ->where('user_id',$user->id)
             ->find($id);
         return $run;
     }
@@ -111,11 +119,13 @@ class Run extends Model
     {
         DB::beginTransaction();
         try {
+            $user = auth()->user();
 
             $startDate = $request->startDate;
             $description = $request->description;
             $plate_types_id = $request->plate_types_id;
             $primaryCoatId = $request->primaryCoatId;
+            $company_id= $request->company_id;
             $coatId = $request->coatId;
             $topCoatId = $request->topCoatId;
             $plate_methods_id = $request->plate_methods_id;
@@ -125,13 +135,13 @@ class Run extends Model
                 'startDate' => $startDate,
                 'number' => 1,
                 'description' => $description,
+                'company_id' => $company_id,
                 'plateThick' => 0,
                 'primaryPer' => 0,
                 'coatPer' => 0,
                 'topCoatPer' => 0,
                 'plate_methods_id' => $plate_methods_id,
-                'company_id' => 1,
-                'user_id' => 1,
+                'user_id' => $user->id,
             ]);
             $run->save();
 
@@ -336,5 +346,8 @@ class Run extends Model
     public function parts()
     {
         return $this->hasMany(Part::class);
+    }
+    public  function company(){
+        return $this->belongsTo(Company::class);
     }
 }

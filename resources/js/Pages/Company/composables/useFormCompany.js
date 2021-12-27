@@ -37,12 +37,14 @@ const validationCustomer = (param) => helpers.withParams(
 
             if (value ==1) {
                 console.log('number',number)
-                if (number == undefined || number == null || number == 0) {
+                console.log(number)
+                if (number == undefined || number == null || number == 0 || number == 'null') {
                     console.log('nose')
                     return { $valid: false }
-                }
+                }else{
                     console.log('nose valido ')
-                return { $valid: true }
+                    return { $valid: true }
+                }
 
             } else {
                 console.log('entro a 0')
@@ -68,44 +70,51 @@ const useFormCompany = (formProps) => {
                 isDiferentZero
             ),
         },
-        company_id: {
-            isCustomer: helpers.withMessage(
-                "You must select an option",
-                validationCustomer(form.customer + '/normal')
+        // company_id: {
+        //     isCustomer: helpers.withMessage(
+        //         "You must select an option",
+        //         validationCustomer(form.customer + '/normal')
 
 
-            )
-        },
-        customer: {
-            isCustomer: helpers.withMessage(
-                "You must select an option",
-                validationCustomer(form.company_id + '/radio')
-                // validationCustomerReverse(form.company_id)
+        //     )
+        // },
+        // customer: {
+        //     isCustomer: helpers.withMessage(
+        //         "You must select an option",
+        //         validationCustomer(form.company_id + '/radio')
+        //         // validationCustomerReverse(form.company_id)
 
 
-            )
+        //     )
 
-        }
+        // }
     };
 
     const v$ = useVuelidate(rules, form);
 
     const submitForm = async () => {
         try {
+        
             const isFormCorrect = await v$.value.$validate();
             if (!isFormCorrect) return
-            let res
-            console.log(form)
-            return
 
+            if(form.customer ==1){
+                //Customer
+                if(form.company_id == 'null' || form.company_id == null || form.company_id == undefined || form.company_id == 0){
+                    makeToast('You must select a Distributor','error')
+                    return
+                }
+            }
+            let res
             if (form.id == 0)
                 res = await axios.post('/company', form)
             else
                 res = await axios.put(`/company/${form.id}`, form)
-            console.log(res.data)
             const { ok, message, value } = res.data
             if (ok) {
                 if (form.id == 0) {
+                    const data = await store.dispatch("companies/getDistributors");
+                    store.commit("companies/setDistributors", data);
                     store.commit('companies/addDataTable', value)
                     store.commit("companies/setFormCompany", 0);
                 }

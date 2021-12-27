@@ -26,7 +26,7 @@ class CreateCompaniesTable extends Migration
             $table->boolean('distributor')->default(0);
             $table->text('notes')->nullable();
             $table->integer('status')->default(1);
-            $table->foreignId('country_id')->constrained();
+            $table->foreignId('country_id')->nullable()->constrained();
             $table->foreignId('company_id')->nullable()->constrained();
             $table->timestamps();
         });
