@@ -377,7 +377,7 @@
                 <div class="w-full"></div>
                 <div class="flex gap-2">
                     <div>
-                        <button class="bg-primary rounded w-60 py-2.5 px-1.8 text-white hover:bg-primary-600">Run Summary Report</button>
+                        <!-- <button class="bg-primary rounded w-60 py-2.5 px-1.8 text-white hover:bg-primary-600">Run Summary Report</button> -->
                     </div>
                     <div>
                         <button class="bg-primary rounded w-60 py-2.5 px-1.8 text-white hover:bg-primary-600">Run Detailed Report</button>

@@ -29,6 +29,7 @@ class Part extends Model
         'coatPH',
         'coatDiptime',
         'run_id',
+        'created_at'
     ];
 
     public static function getPartsByRun($id)
