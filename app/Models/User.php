@@ -110,6 +110,15 @@ class User extends Authenticatable
                     'value' => 0
                 ];
             }
+            $userFindUser = (new static)::where('username', $username)->first();
+            if ($userFindUser != null) {
+                DB::rollback();
+                return [
+                    'ok' => false,
+                    'message' => 'Duplicate Username',
+                    'value' => 0
+                ];
+            }
 
             $userCreate = (new static)::create([
                 'name' => $name,

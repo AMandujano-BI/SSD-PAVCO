@@ -373,7 +373,8 @@ export default {
             { 
               targets: 2,
               render: function( data, type, row, meta ) {
-                return '<td>testing</td>';
+                console.log(row)
+                return `<td>${row.company?.name}</td>`;
               }
             },
             { 
