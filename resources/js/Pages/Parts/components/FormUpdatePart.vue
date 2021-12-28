@@ -326,7 +326,7 @@
     <div class="flex flex-col md:flex-row justify-around w-full gap-4">
       <button
         type="button"
-        @click="closeModal"
+        @click="closeModalForm"
         class="bg-red-600 hover:bg-red-800 rounded w-full py-5 text-white px-3 mt-2"
       >
         Cancel
@@ -469,7 +469,7 @@ export default {
       },
     };
     const v$ = useVuelidate(rules, form);
-    const closeModal = () => {
+    const closeModalForm = () => {
       emit("closeModal");
     };
     const submitForm = async () => {
@@ -505,7 +505,7 @@ export default {
     return {
       v$,
       form,
-      closeModal,
+      closeModalForm,
       submitForm,
     };
   },

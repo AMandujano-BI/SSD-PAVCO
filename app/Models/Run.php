@@ -194,7 +194,8 @@ class Run extends Model
             DB::rollback();
             return [
                 'ok' => false,
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'value'=>0
             ];
             // return $e->getMessage();
         }

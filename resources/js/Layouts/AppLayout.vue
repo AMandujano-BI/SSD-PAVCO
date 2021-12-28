@@ -12,10 +12,33 @@
           <slot name="header"></slot>
         </div>
       </header>
-      <left-bar :menu="menu"></left-bar>
       <!-- Page Content -->
+      <div
+        v-if="
+          $page.props.auth.rols.some(
+            (item) => item.name == 'Master Administrator'
+          )
+        "
+      >
+        <left-bar :menu="menu"></left-bar>
+      </div>
+      <div
+        v-else-if="
+          $page.props.auth.rols.some((item) => item.name == 'Distributor')
+        "
+      >
+        <left-bar :menu="menuCustomer"></left-bar>
+      </div>
+      <div
+        v-else-if="
+          $page.props.auth.rols.some((item) => item.name == 'Administrator')
+        "
+      >
+        <left-bar :menu="menuAdmin"></left-bar>
+      </div>
+      <div v-else><left-bar :menu="menuCustomer"></left-bar></div>
       <main
-        class="px-0  md:pl-20 xl:pl-64 py-6"
+        class="px-0 md:pl-20 xl:pl-64 py-6"
         :class="[
           isFullScreen ? 'flex h-screen items-center justify-center' : 'py-6',
         ]"
@@ -42,6 +65,8 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import NavbarVue from "../Jetstream/Navbar.vue";
 import menu from "@/menu.js";
+import menuAdmin from "@/menuAdmin.js";
+import menuCustomer from "@/menuCustomer.js";
 export default defineComponent({
   props: {
     title: String,
@@ -58,6 +83,8 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    // const menuIs = ref($page.props.auth.rols);
+    // console.log(menuIs);
     const isFullScreen = computed(() => store.state.isFullScreen);
     const menuToggleMobile = () => store.dispatch("asideMobileToggle");
     const showingNavigationDropdown = ref(false);
@@ -75,6 +102,8 @@ export default defineComponent({
       isAsideLgActive,
       overlayClick,
       menu,
+      menuAdmin,
+      menuCustomer,
     };
   },
 });
