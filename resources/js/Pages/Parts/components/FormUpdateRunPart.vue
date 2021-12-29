@@ -8,13 +8,20 @@
         <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
           >Customer</label
         >
-        <select class="w-full" v-model="form.user_id">
+        <!-- <select class="w-full" v-model="form.user_id">
           <option value="0" selected>Select a Customer</option>
           <option value="1">Test</option>
           <option value="2">Test2</option>
           <option value="3">Test3</option>
           <option value="4">Test4</option>
-        </select>
+        </select> -->
+            <multi-select
+        :options="customers"
+        class="w-full"
+        v-model="form.company_id"
+        :searchable="true"
+        placeholder="Select Customer"
+      />
         <p
           v-for="error of v$.user_id.$errors"
           :key="error.$uid"
@@ -109,7 +116,7 @@ const isDiferentZero = (value) => {
   return value != 0;
 };
 export default {
-  props: ["plateMethods", "run"],
+  props: ["plateMethods", "run","customers"],
   components: {
     multiSelect: Multiselect,
   },
@@ -156,6 +163,7 @@ export default {
       status: 0,
       idCustomer: run.idCustomer,
       user_id: 1,
+      company_id: run.company_id,
       plate_methods_id: run.plate_methods_id,
       coatId: 0,
       primaryCoatId: 0,

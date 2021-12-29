@@ -1,7 +1,7 @@
 <template>
   <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">Table Part</h1>
   <button @click="openModalPartClick">
-    <icon-plus/>
+    <icon-plus />
   </button>
   <table id="partsTable" class="display" style="width: 100%">
     <thead>
@@ -167,7 +167,7 @@ export default {
     formCreatePart: FormCreatePartVue,
     IconEdit,
     IconDelete,
-    IconPlus
+    IconPlus,
   },
   setup(props) {
     let { parts } = props;
@@ -192,6 +192,13 @@ export default {
           bLengthChange: false,
           bInfo: false,
           pageLength: 5,
+          language: {
+            paginate: {
+              next: `→`, // or '→'
+              previous: `←`, // or '←'
+            },
+            info: "Showing results page _PAGE_ of _PAGES_",
+          },
           // paging: false,
         });
       });

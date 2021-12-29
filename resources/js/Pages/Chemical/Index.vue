@@ -1,7 +1,9 @@
 <template>
   <app-layout title="Chemicals">
     <div class="container p-9 mx-auto">
-      <p class="text-3xl text-center font-bold p-5 font-sans">List of Chemicals</p>
+      <p class="text-3xl text-center font-bold p-5 font-sans">
+        List of Chemicals
+      </p>
       <button
         @click="openModal"
         class="bg-primary px-4 py-2 text-white rounded-md mb-2"
@@ -22,8 +24,8 @@
         <div class="rounded-lg shadow-lg p-5">
           <table
             id="chemicalTable"
-            class="display "
-            style="width: 100%; height: 100%;"
+            class="display"
+            style="width: 100%; height: 100%"
           >
             <thead>
               <tr>
@@ -34,7 +36,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="chemical in chemicalList" v-bind:key="chemical.id" class="hover:bg-[#e1e8f3] hover:cursor-pointer">
+              <tr
+                v-for="chemical in chemicalList"
+                v-bind:key="chemical.id"
+                class="hover:bg-[#e1e8f3] hover:cursor-pointer"
+              >
                 <td class="border px-4 py-2">
                   {{ chemical.name }}
                 </td>
@@ -321,9 +327,10 @@ export default {
           pageLength: 5,
           language: {
             paginate: {
-              next: "&#8594;", // or '→'
-              previous: "&#8592;", // or '←'
+              next: `→`, // or '→'
+              previous: `←`, // or '←'
             },
+            info: "Showing results page _PAGE_ of _PAGES_",
           },
         });
       });

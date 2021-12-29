@@ -3,7 +3,7 @@
     <div class="pt-12 mx-auto container">
 
       <div class=" p-6  mb-6 border-[1px] border-[#979797] bg-[#f8fafc]">
-        <form-update-run-part :plateMethods="plateMethods" :run="run" />
+        <form-update-run-part :plateMethods="plateMethods" :run="run"  :customers="customers"/>
       </div>
       
       <div class=" p-6  mb-6 border-[1px] border-[#979797] bg-[#f8fafc]">
@@ -43,6 +43,7 @@ export default {
     "chromates",
     "plateTypes",
     "secondaryCoats",
+    "customers",
   ],
   components: {
     tablePart: TablePart,
