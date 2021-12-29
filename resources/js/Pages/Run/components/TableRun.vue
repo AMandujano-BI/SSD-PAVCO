@@ -181,7 +181,7 @@ export default {
   },
   setup() {
     const { makeToast } = useHelper();
-    const runs = ref([]);
+    let runs = ref([]);
     const run = ref(null);
     const runDetail = ref(null);
     const modalWidthDetail = ref("200");
@@ -354,6 +354,7 @@ export default {
       gettingData(filterOption.value);
     };
     const generateDataTable = (status) => {
+      const self = this;
       nextTick(() => {
         $("#activeRuns").DataTable({
           scrollY: 350,
@@ -362,7 +363,20 @@ export default {
           pageLength: 5,
           processing: true,
           serverSide: true,
-          ajax: `/run/getAllRuns/${status}`,
+          stateSave: true,
+          ajax: {
+            url: `/run/getAllRuns/${status}`,
+          },
+          stateSaveCallback: function (settings, data) {
+            const state = settings.aoData;
+            let arr = [];
+            console.log(state);
+            state.forEach(element => {
+              arr.push(element._aData);
+            });
+            runs.value = arr;
+            console.log(runs);
+          },
           columns: [
             { 
               targets: 1,

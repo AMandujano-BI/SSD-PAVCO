@@ -30,7 +30,8 @@ class ChemicalController extends Controller
     public function getChemicals($type)
     {
         $chemicals = $this->_chemical->getAllForCategory($type);
-        return $chemicals;
+        // return $chemicals;
+        return datatables()->of($chemicals)->toJson();
     }
 
     /**

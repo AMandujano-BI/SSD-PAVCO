@@ -131,7 +131,7 @@
 const $ = require("jquery");
 import dt from "datatables.net";
 import { nextTick } from "vue";
-import PhotosRun from "../../Run/components/PhotosRun.vue";
+import PhotosRun2 from "../../Run/components/PhotosRun2.vue";
 import { ref } from "vue";
 import FormPhotosCreateVue from "./FormPhotosCreate.vue";
 import Modal from "@/Jetstream/Modal";
@@ -144,7 +144,7 @@ import IconDelete from "@/assets/Icons/iconDelete.vue";
 export default {
   props: ["photos", "run"],
   components: {
-    photosRun: PhotosRun,
+    photosRun: PhotosRun2,
     formPhotosCreate: FormPhotosCreateVue,
     formPhotosUpdate: FormPhotosUpdateVue,
     modal: Modal,

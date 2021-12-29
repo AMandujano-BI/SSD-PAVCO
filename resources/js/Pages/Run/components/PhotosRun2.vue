@@ -1,9 +1,11 @@
 <template>
-  
+    <modal :show="isModalPhotos" @close="closePhotosModal">
+    <div class="container mx-auto p-5 relative">
+      <button @click="closePhotosModal" class="absolute right-5">X</button>
     
       <p class="text-xl font-bold text-center">Pavco SSD Photo Viewer</p>
 
-      <div class="mt-5" v-if="runDetail[0] && !isLoading">
+      <div class="mt-5" v-if="currentPhotos[0]">
         <swiper
           :modules="modules"
           :slides-per-view="1"
@@ -11,7 +13,7 @@
           navigation
           :pagination="{ clickable: true }"
         >
-          <swiper-slide v-for="photo in runDetail" :key="photo.id">
+          <swiper-slide v-for="photo in currentPhotos" :key="photo.id">
             <div>
               <img
                 :src="photo.image"
@@ -32,12 +34,11 @@
           </swiper-slide>
         </swiper>
       </div>
-      <div v-if="!runDetail[0] && !isLoading">
+      <div v-else>
         <p class="text-center my-20">There is no images</p>
       </div>
-      <div v-if="isLoading">
-        <p class="text-center my-20">Cargando...</p>
-      </div>
+    </div>
+    </modal>
 </template>
 
 <script>
@@ -52,8 +53,13 @@ import axios from "axios";
 
 export default {
   props: {
-    id: {
-      type: String,
+    photos: {
+      type: Object,
+      default: {},
+    },
+    isModalPhotos: {
+      type: Boolean,
+      default: false,
     },
   },
   components: {
@@ -61,22 +67,10 @@ export default {
     swiperSlide: SwiperSlide,
     modal: Modal,
   },
-  setup(props) {
-    const { id } = props;
-    const runDetail = ref({});
-    const isLoading = ref(true);
-
-    const gettingData = async () => {
-      try {
-        const res = await axios.get(`/run/${id}`);
-        console.log(res);
-        runDetail.value = res.data.photos;
-        isLoading.value = false;
-        console.log(isLoading);
-      } catch (e) {
-        isLoading.value = false;
-      }
-    }
+  emits: ["closeModal", "photoEdited"],
+  setup(props, { emit }) {
+    const { photos } = props;
+    let currentPhotos = ref(photos);
 
     const calculateHours = (edit, lastDate, created_date, hours) => {
         if (edit) {
@@ -89,26 +83,23 @@ export default {
         }
     }
 
-    gettingData();
-
-    // const closePhotosModal = () => emit("closeModal");
-
-    // const photoEdited = () => emit("photoAdded");
+    const closePhotosModal = () => emit("closeModal");
+    const photoEdited = () => emit("photoAdded");
 
     return {
-      gettingData,
+      closePhotosModal,
+      closePhotosModal,
+      photoEdited,
       calculateHours,
-      runDetail,
-      isLoading,
+      currentPhotos,
       modules: [Pagination, Navigation],
     };
   },
   watch: {
-    isLoading: function(val){
-      console.log(val);
-      this.isLoading = val
-    }
-  }
+    photos() {
+      this.currentPhotos = this.photos;
+    },
+  },
 };
 </script>
 
