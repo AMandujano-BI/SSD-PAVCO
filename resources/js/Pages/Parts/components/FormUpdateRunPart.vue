@@ -5,7 +5,9 @@
     </h1>
     <div class="flex w-full justify-around gap-5 pb-8">
       <div class="w-full">
-        <label for="" class="text-[#3b4559] font-bold text-lg">Customer</label>
+        <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
+          >Customer</label
+        >
         <select class="w-full" v-model="form.user_id">
           <option value="0" selected>Select a Customer</option>
           <option value="1">Test</option>
@@ -22,14 +24,18 @@
         </p>
       </div>
       <div class="w-full">
-        <label for="" class="text-[#3b4559] font-bold text-lg">Start Date</label>
+        <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
+          >Start Date</label
+        >
         <input type="date" class="w-full" v-model="form.startDate" />
       </div>
     </div>
 
     <div class="flex w-full justify-around gap-5 pb-8">
       <div class="w-full">
-        <label for="" class="text-[#3b4559] font-bold text-lg">Plate Method</label>
+        <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
+          >Plate Method</label
+        >
         <multi-select
           :options="plateMethods"
           class="w-full"
@@ -46,7 +52,7 @@
         </p>
       </div>
       <div class="w-full">
-        <label class="text-[#3b4559] font-bold text-lg">Hours</label>
+        <label class="text-[#3b4559] font-bold text-lg pl-10 pb-2">Hours</label>
         <input
           type="number"
           class="w-full"
@@ -63,7 +69,9 @@
       </div>
     </div>
     <div>
-      <label for="" class="text-[#3b4559] font-bold text-lg">Description</label>
+      <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
+        >Description</label
+      >
       <textarea
         cols="30"
         rows="3"
@@ -79,20 +87,14 @@
         {{ error.$message }}
       </p>
     </div>
+    <div class="flex justify-end">
+
     <button
-      class="
-        bg-primary
-        hover:bg-primary-600
-        rounded
-        w-full
-        py-5
-        text-white
-        px-3
-        mt-2
-      "
+      class="bg-primary hover:bg-primary-600  py-5 text-white px-8 mt-2 w-[95px] "
     >
       Save
     </button>
+    </div>
   </form>
 </template>
 

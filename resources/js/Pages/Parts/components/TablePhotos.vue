@@ -1,20 +1,6 @@
 <template>
   <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">Table Photos</h1>
-  <button
-    class="
-      bg-primary
-      hover:bg-primary-600
-      rounded
-      w-[100]
-      py-1
-      text-white
-      px-3
-      mt-2
-    "
-    @click="openModalPhotosForm"
-  >
-    +
-  </button>
+  <button @click="openModalPhotosForm" > <icon-plus/> </button>
   <table id="photosTable" class="display" style="width: 100%">
     <thead>
       <tr>
@@ -146,6 +132,7 @@ import useHelper from "@/composables/useHelper";
 import FormPhotosUpdateVue from "./FormPhotosUpdate.vue";
 import IconEdit from "@/assets/Icons/iconEdit.vue";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
+import IconPlus from "@/assets/Icons/iconPlus.vue";
 export default {
   props: ["photos", "run"],
   components: {
@@ -155,6 +142,7 @@ export default {
     modal: Modal,
     IconEdit,
     IconDelete,
+    IconPlus,
     confirmationModal: ConfirmationModal,
   },
   setup(props) {

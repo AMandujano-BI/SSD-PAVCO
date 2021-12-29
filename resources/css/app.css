@@ -93,6 +93,63 @@ input::-webkit-inner-spin-button {
   background: #123e81 !important;
   color: #fff !important;
 }
+#activeRuns_previous{
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+#activeRuns_next{
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+#photosTable_previous{
+
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+#photosTable_next{
+
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+#partsTable_previous{
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+#partsTable_next{
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+#tableUsers_previous{
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+
+#tableUsers_next{
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+#tableCompanies_previous{
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+#tableCompanies_next{
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+#activeRunsDetail_previous{
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+
+#activeRunsDetail_previous{
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+#activeRunsDetail_next{
+  background: #123e81 !important;
+  color: #fff !important; 
+}
+
 .dataTables_paginate{
 
   color: #fff !important;
@@ -106,3 +163,20 @@ input::-webkit-inner-spin-button {
 }
 
 
+table.dataTable.display tbody tr:hover > .sorting_1,
+table.dataTable.order-column.hover tbody tr:hover > .sorting_1,
+tbody tr:hover {
+  background-color: #e1e8f3 !important;
+  color:  #3b4559;
+  font-size: 16px !important;
+  font-weight: 500;
+}
+table.dataTable.display tbody tr:hover > .sorting_1,
+table.dataTable.order-column.hover tbody tr:hover > .sorting_1,
+tbody tr{
+  /* background-color: #e1e8f3 !important; */
+  /* color:  #3b4559; */
+  font-size: 16px !important;
+  cursor: pointer;
+  font-weight: 500;
+}

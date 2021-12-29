@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Str;
 class Company extends Model
 {
     use HasFactory;
@@ -184,6 +184,7 @@ class Company extends Model
     }
     public static function deleteCompany($id)
     {
+        $uuid =Str::uuid();
         DB::beginTransaction();
         try {
             $useRun = Run::where('company_id', $id)->get();
@@ -197,6 +198,7 @@ class Company extends Model
             }
             $company = (new static)::find($id);
             $company->status = 0;
+            $company->name= $uuid;
             $company->save();
             DB::commit();
             return [
