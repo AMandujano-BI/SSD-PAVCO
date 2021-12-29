@@ -1,8 +1,14 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-
+body {
+  font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+}
 
 :root {
   --ms-tag-bg: #DBEAFE;
@@ -52,3 +58,51 @@ input::-webkit-inner-spin-button {
   cursor: default !important;
   background-image: none !important;
 }
+.dataTables_paginate a {
+  padding: 6px 9px !important;
+  /* background: #123e81 !important; */
+  /* border-color: #fff !important; */
+  /* color: #fff !important; */
+}
+
+.dataTables_paginate span {
+
+  /* background: #fff !important; */
+  /* color: #fff !important; */
+}
+.paginate_button{
+
+  background: #a2a2a2 !important;
+  color: #fff !important;
+}
+.paginate_button.previus{
+
+  background: #123e81 !important;
+  color: #fff !important;
+}
+.paginate_button.previus.disabled{
+
+  background: #123e81 !important;
+  color: #fff !important;
+}
+#chemicalTable_previous{
+  background: #123e81 !important;
+  color: #fff !important;
+}
+#chemicalTable_next{
+  background: #123e81 !important;
+  color: #fff !important;
+}
+.dataTables_paginate{
+
+  color: #fff !important;
+}
+
+.paginate_button.current
+{
+        background: none !important;
+        background-color: #0271c5 !important;
+        color:#fff !important
+}
+
+

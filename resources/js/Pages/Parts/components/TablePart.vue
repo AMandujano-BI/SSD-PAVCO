@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center font-bold text-2xl">Table Part</h1>
+  <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">Table Part</h1>
   <button
     class="
       bg-primary

@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center font-bold text-2xl">Table Photos</h1>
+  <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">Table Photos</h1>
   <button
     class="
       bg-primary
@@ -76,13 +76,18 @@
       </tr>
     </tbody>
   </table>
-
-  <photos-run
+  <modal :show="isModalPhotos" @close="closePhotosModalView">
+    <photos-run
+      :id="idPhoto"
+      :photos="currentPhoto"
+    />
+  </modal>
+   <!-- <photos-run
     v-if="photos"
     :isModalPhotos="isModalPhotos"
     :photos="currentPhoto"
     @closeModal="closePhotosModalView"
-  />
+  /> -->
   <!-- @photoEdited="photoAdded" -->
 
   <!-- MODAL-->
@@ -180,6 +185,7 @@ export default {
     const showPhotos = (id) => {
       const pic = photos.find((pic) => pic.id === id);
       currentPhoto.value.push(pic);
+      idPhoto.value = id
       isModalPhotos.value = true;
     };
     const closePhotosModalView = () => {
@@ -244,6 +250,7 @@ export default {
       openModalEditClick,
       calculateHours,
       photoItem,
+      idPhoto,
       closePhotosModal: () => (openModalEdit.value = false),
     };
   },

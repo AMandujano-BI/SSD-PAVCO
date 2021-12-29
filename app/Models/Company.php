@@ -99,24 +99,29 @@ class Company extends Model
     {
         DB::beginTransaction();
         try {
-            $companyRelation = (new static)::where('company_id', $request->id)->where('customer', 1)->get();
-            if (count($companyRelation) > 0) {
-                DB::rollBack();
-                return [
-                    'ok' => false,
-                    'message' => 'The Company has a relation with other companies',
-                    'value' => 0
-                ];
+            $lastCompany = Company::find($id);
+            if ($lastCompany->customer != $request->customer) {
+
+                $companyRelation = (new static)::where('company_id', $request->id)->where('customer', 1)->get();
+                if (count($companyRelation) > 0) {
+
+                    DB::rollBack();
+                    return [
+                        'ok' => false,
+                        'message' => 'The Company has a relation with other companies',
+                        'value' => 0
+                    ];
+                }
             }
-            $useRun = Run::where('company_id', $id)->get();
-            if (count($useRun) > 0) {
-                DB::rollBack();
-                return [
-                    'ok' => false,
-                    'message' => 'The Customer has a relation with  Runs',
-                    'value' => 0
-                ];
-            }
+            // $useRun = Run::where('company_id', $id)->get();
+            // if (count($useRun) > 0) {
+            //     DB::rollBack();
+            //     return [
+            //         'ok' => false,
+            //         'message' => 'The Customer has a relation with  Runs',
+            //         'value' => 0
+            //     ];
+            // }
             $company_id = $request->company_id;
             $customer = $request->customer;
             $distributor = $request->distributor;
