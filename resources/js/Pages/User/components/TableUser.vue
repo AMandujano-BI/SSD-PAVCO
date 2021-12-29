@@ -1,18 +1,8 @@
 <template>
   <button
     @click="openModalForm"
-    class="
-      bg-primary
-      hover:bg-primary-600
-      rounded
-      w-[100]
-      py-1
-      text-white
-      px-3
-      mt-2
-    "
   >
-    +
+  <icon-plus/>
   </button>
   <div class="pt-5">
     <select class="w-full mb-5" @change="changeFilter" v-model="filterOption">
@@ -148,6 +138,7 @@ import IconReset from "@/assets/Icons/iconResetPassword.vue";
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import Multiselect from "@vueform/multiselect";
 import useHelper from "@/composables/useHelper";
+import IconPlus from "@/assets/Icons/iconPlus.vue";
 export default {
   props: ["companies", "rols"],
   components: {
@@ -157,6 +148,7 @@ export default {
     IconEdit,
     IconDelete,
     IconReset,
+    IconPlus,
     FormReset: FormResetPasswordVue,
     multiSelect: Multiselect,
   },

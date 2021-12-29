@@ -32,7 +32,7 @@ class CreateRunsTable extends Migration
             $table->foreignId('plate_methods_id')->constrained();
 
             // $table->integer('company_id')->default(1);
-            $table->foreignId('company_id')->constrained();
+            $table->foreignId('company_id')->nullable()->constrained();
             // $table->integer('user_id')->default(1);
             $table->foreignId('user_id')->constrained();
 
