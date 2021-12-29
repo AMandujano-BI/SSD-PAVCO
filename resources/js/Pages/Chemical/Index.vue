@@ -1,7 +1,9 @@
 <template>
   <app-layout title="Chemicals">
     <div class="container p-9 mx-auto">
-      <p class="text-3xl text-center font-bold p-5">List of Chemicals</p>
+      <p class="text-3xl text-center font-bold p-5 font-sans">
+        List of Chemicals
+      </p>
       <button
         @click="openModal"
         class="bg-primary px-4 py-2 text-white rounded-md mb-2"
@@ -313,6 +315,13 @@ export default {
           processing: true,
           serverSide: true,
           stateSave: true,
+          language: {
+            paginate: {
+              next: `→`, // or '→'
+              previous: `←`, // or '←'
+            },
+            info: "Showing results page _PAGE_ of _PAGES_",
+          },
           ajax: `/chemical/getChemicals/${type}`,
           stateSaveCallback: function (settings, data) {
             const state = settings.aoData;
@@ -359,6 +368,7 @@ export default {
               deleteChemicalModal(e.currentTarget.attributes[1].value);
             });
           }
+          
         });
       });
     };

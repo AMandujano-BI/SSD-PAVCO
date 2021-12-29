@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Str;
 class Company extends Model
 {
     use HasFactory;
@@ -99,24 +99,29 @@ class Company extends Model
     {
         DB::beginTransaction();
         try {
-            $companyRelation = (new static)::where('company_id', $request->id)->where('customer', 1)->get();
-            if (count($companyRelation) > 0) {
-                DB::rollBack();
-                return [
-                    'ok' => false,
-                    'message' => 'The Company has a relation with other companies',
-                    'value' => 0
-                ];
+            $lastCompany = Company::find($id);
+            if ($lastCompany->customer != $request->customer) {
+
+                $companyRelation = (new static)::where('company_id', $request->id)->where('customer', 1)->get();
+                if (count($companyRelation) > 0) {
+
+                    DB::rollBack();
+                    return [
+                        'ok' => false,
+                        'message' => 'The Company has a relation with other companies',
+                        'value' => 0
+                    ];
+                }
             }
-            $useRun = Run::where('company_id', $id)->get();
-            if (count($useRun) > 0) {
-                DB::rollBack();
-                return [
-                    'ok' => false,
-                    'message' => 'The Customer has a relation with  Runs',
-                    'value' => 0
-                ];
-            }
+            // $useRun = Run::where('company_id', $id)->get();
+            // if (count($useRun) > 0) {
+            //     DB::rollBack();
+            //     return [
+            //         'ok' => false,
+            //         'message' => 'The Customer has a relation with  Runs',
+            //         'value' => 0
+            //     ];
+            // }
             $company_id = $request->company_id;
             $customer = $request->customer;
             $distributor = $request->distributor;
@@ -179,6 +184,7 @@ class Company extends Model
     }
     public static function deleteCompany($id)
     {
+        $uuid =Str::uuid();
         DB::beginTransaction();
         try {
             $useRun = Run::where('company_id', $id)->get();
@@ -192,6 +198,7 @@ class Company extends Model
             }
             $company = (new static)::find($id);
             $company->status = 0;
+            $company->name= $uuid;
             $company->save();
             DB::commit();
             return [

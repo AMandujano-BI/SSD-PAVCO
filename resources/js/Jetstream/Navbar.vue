@@ -24,9 +24,9 @@
       <div class="flex">
         <!-- Logo -->
         <div class="flex-shrink-0 items-center hidden md:flex">
-          <Link :href="route('dashboard')">
-            <h1>Salt Spray Database</h1>
-          </Link>
+          <!-- <Link :href="route('dashboard')"> -->
+            <h1 class="text-[#3b4559] font-bold text-[20px]">Salt Spray Database</h1>
+          <!-- </Link> -->
         </div>
 
         <!-- Navigation Links -->

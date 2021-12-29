@@ -1,12 +1,12 @@
 <template>
   <app-layout title="Parts Detail">
-    <div class="pt-5 mx-auto container">
-      <h1 class="text-center text-2xl p-5 font-bold">Detalis</h1>
+    <div class="pt-12 mx-auto container">
 
-      <div class="shadow-lg p-4 rounded-md mb-2">
-        <form-update-run-part :plateMethods="plateMethods" :run="run" />
+      <div class=" p-6  mb-6 border-[1px] border-[#979797] bg-[#f8fafc]">
+        <form-update-run-part :plateMethods="plateMethods" :run="run"  :customers="customers"/>
       </div>
-      <div class="shadow-lg mb-5 rounded min-h-[300] p-5">
+      
+      <div class=" p-6  mb-6 border-[1px] border-[#979797] bg-[#f8fafc]">
         <table-part
           :parts="parts"
           :run="run"
@@ -17,7 +17,8 @@
           :topCoats="topCoats"
         />
       </div>
-      <div class="shadow-lg rounded-md p-4 mb-5">
+    
+      <div class=" p-6  mb-2 border-[1px] border-[#979797] bg-[#f8fafc]">
         <table-photos :photos="photos" :run="run" />
       </div>
     </div>
@@ -42,6 +43,7 @@ export default {
     "chromates",
     "plateTypes",
     "secondaryCoats",
+    "customers",
   ],
   components: {
     tablePart: TablePart,

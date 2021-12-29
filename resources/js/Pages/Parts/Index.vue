@@ -1,6 +1,5 @@
 <template>
-  <h1>Parts Editor</h1>
-
+  <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">Parts Editor</h1>
   <table-part />
   <table-photos />
 
@@ -9,13 +8,8 @@
       <form-update-part />
     </div>
   </modal>
-  <h1 class="text-center font-bold p-5 text-2xl">List of Runs</h1>
-  <button
-    @click="openModalButton"
-    class="bg-blue-600 px-4 py-1 text-white rounded-md mb-2"
-  >
-    +
-  </button>
+  <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">List of Runs</h1>
+  <button @click="openModalButton" > <icon-plus/> </button>
 </template>
 
 <script>
@@ -24,13 +18,14 @@ import ModalVue from "../../Jetstream/Modal.vue";
 import FormUpdatePartVue from "./components/FormUpdatePart.vue";
 import TablePart from "./components/TablePart.vue";
 import TablePhotosVue from "./components/TablePhotos.vue";
-
+import IconPlus from "@/assets/Icons/iconPlus.vue";
 export default {
   components: {
     tablePart: TablePart,
     formUpdatePart: FormUpdatePartVue,
     tablePhotos: TablePhotosVue,
     modal: ModalVue,
+    IconPlus,
   },
   setup() {
     let openModal = ref(false);

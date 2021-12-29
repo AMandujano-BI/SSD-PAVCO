@@ -136,7 +136,7 @@ export default {
     const filterOption = ref("4");
 
     const openModalEditClick = async (id) => {
-      const data = await store.dispatch("companies/getDistributors",id);
+      const data = await store.dispatch("companies/getDistributors", id);
       store.commit("companies/setDistributors", data);
       store.commit("companies/setFormCompany", id);
       openModalCompany.value = true;
@@ -173,7 +173,7 @@ export default {
     };
     const openModal = async () => {
       store.commit("companies/setFormCompany", 0);
-      const data = await store.dispatch("companies/getDistributors",0);
+      const data = await store.dispatch("companies/getDistributors", 0);
       store.commit("companies/setDistributors", data);
       openModalCompany.value = true;
     };
@@ -193,6 +193,13 @@ export default {
           ordering: true,
           bLengthChange: false,
           pageLength: 5,
+          language: {
+            paginate: {
+              next: `→`, // or '→'
+              previous: `←`, // or '←'
+            },
+            info: "Showing results page _PAGE_ of _PAGES_",
+          },
         });
       });
     };

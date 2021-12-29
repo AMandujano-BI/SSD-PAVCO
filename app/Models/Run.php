@@ -194,7 +194,8 @@ class Run extends Model
             DB::rollback();
             return [
                 'ok' => false,
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'value'=>0
             ];
             // return $e->getMessage();
         }
@@ -302,6 +303,7 @@ class Run extends Model
             $run->startDate = $request->startDate;
             $run->description = $request->description;
             $run->plate_methods_id = $request->plate_methods_id;
+            $run->company_id = $request->company_id;
             if ($request->hasDiferentHours) {
                 $run->hours = $request->hours;
                 $run->last_edit = Carbon::parse($request->last_edit, 'UTC');

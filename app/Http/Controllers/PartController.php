@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chemical;
+use App\Models\Company;
 use App\Models\Part;
 use App\Models\PlateMethod;
 use App\Models\Run;
@@ -18,12 +19,14 @@ class PartController extends Controller
     private $_plateMethod;
     private $_run;
     private $_chemical;
-    public function __construct(Part $part,  PlateMethod $plateMethod, Run $run, Chemical $chemical)
+    private $_company;
+    public function __construct(Part $part,  PlateMethod $plateMethod, Run $run, Chemical $chemical,Company $company)
     {
         $this->_part = $part;
         $this->_plateMethod = $plateMethod;
         $this->_run = $run;
         $this->_chemical = $chemical;
+        $this->_company= $company;
     }
     /**
      * Display a listing of the resource.
@@ -75,6 +78,7 @@ class PartController extends Controller
         $Chromates = $this->_chemical->getByType(2);
         $plateType = $this->_chemical->getByType(3);
         $SecondaryCoats = $this->_chemical->getByType(4);
+        $customers =$this->_company->getCustomers();
         // dd($run);
         // $image=  Storage::temporaryUrl(
         //     'images/run4/mountain.jpg', now()->addMinutes(5)
@@ -89,6 +93,7 @@ class PartController extends Controller
                 'chromates' => $Chromates,
                 'plateTypes' => $plateType,
                 'secondaryCoats' => $SecondaryCoats,
+                'customers' => $customers,
                 // 'image' => $image,
             ]
         );

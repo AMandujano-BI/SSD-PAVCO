@@ -20,24 +20,34 @@ const state = {
 const mutations = {
     setFormUser(state, id) {
         if (id == 0) {
-            state.form = defaultValue
+            state.form = {
+                id: 0,
+                name: '',
+                lastname: '',
+                username: "",
+                email: "",
+                password: "",
+                confirm_password: "",
+                company_id: 0,
+                rols: [],
+            }
         } else {
-            const user= state.tableUsers.find(item => item.id == id)
+            const user = state.tableUsers.find(item => item.id == id)
             const rolsArray = []
-            user.rols.map(item =>{
+            user.rols.map(item => {
                 // rolsArray.push({value:item.id,label:item.name})
                 rolsArray.push(item.id)
             })
             // user.rols  = rolsArray
-            user.password ='123'
-            user.confirm_password='123'
+            user.password = '123'
+            user.confirm_password = '123'
             state.form = { ...user }
-            state.form.rols  = rolsArray
+            state.form.rols = rolsArray
 
         }
     },
     addDataTable(state, data) {
-        state.tableUsers= [data, ...state.tableUsers]
+        state.tableUsers = [data, ...state.tableUsers]
     },
     setDataTable(state, data) {
         state.tableUsers = [...data]

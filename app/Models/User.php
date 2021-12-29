@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-
+use Illuminate\Support\Str;
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -110,6 +110,15 @@ class User extends Authenticatable
                     'value' => 0
                 ];
             }
+            $userFindUser = (new static)::where('username', $username)->first();
+            if ($userFindUser != null) {
+                DB::rollback();
+                return [
+                    'ok' => false,
+                    'message' => 'Duplicate Username',
+                    'value' => 0
+                ];
+            }
 
             $userCreate = (new static)::create([
                 'name' => $name,
@@ -181,6 +190,7 @@ class User extends Authenticatable
     }
     public static function deleteUser($id)
     {
+        $uuid =Str::uuid();
         DB::beginTransaction();
         try {
             $user = (new static)::find($id);
@@ -193,6 +203,9 @@ class User extends Authenticatable
                 ];
             }
             $user->status = 0;
+            $user->username= $uuid;
+            $user->email= $uuid;
+
             $user->save();
             DB::commit();
             return [

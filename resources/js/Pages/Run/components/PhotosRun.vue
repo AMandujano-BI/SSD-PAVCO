@@ -68,6 +68,7 @@ export default {
 
     const gettingData = async () => {
       try {
+        console.log(id)
         const res = await axios.get(`/run/${id}`);
         console.log(res);
         runDetail.value = res.data.photos;

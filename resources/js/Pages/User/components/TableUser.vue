@@ -186,6 +186,13 @@ export default {
           ordering: true,
           bLengthChange: false,
           pageLength: 5,
+             language: {
+            paginate: {
+              next: `→`, // or '→'
+              previous: `←`, // or '←'
+            },
+            info: "Showing results page _PAGE_ of _PAGES_",
+          },
         });
       });
     };

@@ -1,19 +1,7 @@
 <template>
-  <h1 class="text-center font-bold text-2xl">Table Part</h1>
-  <button
-    class="
-      bg-primary
-      hover:bg-primary-600
-      rounded
-      w-[100]
-      py-1
-      text-white
-      px-3
-      mt-2
-    "
-    @click="openModalPartClick"
-  >
-    +
+  <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">Table Part</h1>
+  <button @click="openModalPartClick">
+    <icon-plus />
   </button>
   <table id="partsTable" class="display" style="width: 100%">
     <thead>
@@ -162,6 +150,7 @@ import useHelper from "@/composables/useHelper";
 import FormCreatePartVue from "./FormCreatePart.vue";
 import IconEdit from "@/assets/Icons/iconEdit.vue";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
+import IconPlus from "@/assets/Icons/iconPlus.vue";
 export default {
   props: [
     "parts",
@@ -178,6 +167,7 @@ export default {
     formCreatePart: FormCreatePartVue,
     IconEdit,
     IconDelete,
+    IconPlus,
   },
   setup(props) {
     let { parts } = props;
@@ -202,6 +192,13 @@ export default {
           bLengthChange: false,
           bInfo: false,
           pageLength: 5,
+          language: {
+            paginate: {
+              next: `→`, // or '→'
+              previous: `←`, // or '←'
+            },
+            info: "Showing results page _PAGE_ of _PAGES_",
+          },
           // paging: false,
         });
       });

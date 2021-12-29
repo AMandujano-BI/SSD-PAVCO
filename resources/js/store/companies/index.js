@@ -26,7 +26,22 @@ const state = {
 const mutations = {
     setFormCompany(state, id) {
         if (id == 0) {
-            state.form = defaultValue
+            state.form = {
+                id: 0,
+                name: "",
+                address: "",
+                city: "",
+                type: 1,
+                state: "",
+                zip: "",
+                phone: "",
+                fax: "",
+                customer: 0,
+                distributor: 0,
+                notes: "",
+                country_id: 0,
+                company_id: 0,
+            }
         } else {
             const company = state.tableCompanies.find(item => item.id == id)
             state.form = { ...company }

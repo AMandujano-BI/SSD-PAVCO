@@ -40,7 +40,6 @@ const useFormuser = (formProps) => {
         const { ok, message, value } = res.data
         if (ok) {
             if (form.id == 0) {
-                makeToast(message)
                 store.commit('users/addDataTable', value)
                 store.commit("users/setFormUser", 0);
             }

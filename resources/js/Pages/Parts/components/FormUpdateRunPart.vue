@@ -1,66 +1,87 @@
 <template>
   <form @submit.prevent="submitForm">
-    <h1 class="text-center">Run Editor</h1>
-    <div>
-      <label for="">Customer</label>
-      <select class="w-full" v-model="form.user_id">
-        <option value="0" selected>Select a Customer</option>
-        <option value="1">Test</option>
-        <option value="2">Test2</option>
-        <option value="3">Test3</option>
-        <option value="4">Test4</option>
-      </select>
-      <p
-        v-for="error of v$.user_id.$errors"
-        :key="error.$uid"
-        class="text-red-400"
-      >
-        {{ error.$message }}
-      </p>
-    </div>
-    <div>
-      <label for="">Start Date</label>
-      <input type="date" class="w-full" v-model="form.startDate" />
+    <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
+      Run Editor
+    </h1>
+    <div class="flex w-full justify-around gap-5 pb-8">
+      <div class="w-full">
+        <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
+          >Customer</label
+        >
+        <!-- <select class="w-full" v-model="form.user_id">
+          <option value="0" selected>Select a Customer</option>
+          <option value="1">Test</option>
+          <option value="2">Test2</option>
+          <option value="3">Test3</option>
+          <option value="4">Test4</option>
+        </select> -->
+            <multi-select
+        :options="customers"
+        class="w-full"
+        v-model="form.company_id"
+        :searchable="true"
+        placeholder="Select Customer"
+      />
+        <p
+          v-for="error of v$.user_id.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
+      </div>
+      <div class="w-full">
+        <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
+          >Start Date</label
+        >
+        <input type="date" class="w-full" v-model="form.startDate" />
+      </div>
     </div>
 
-    <div>
-      <label for="">Plate Method</label>
-      <multi-select
-        :options="plateMethods"
-        class="w-full"
-        v-model="form.plate_methods_id"
-        :searchable="true"
-        placeholder="Select plate Method"
-      />
-      <p
-        v-for="error of v$.plate_methods_id.$errors"
-        :key="error.$uid"
-        class="text-red-400"
-      >
-        {{ error.$message }}
-      </p>
+    <div class="flex w-full justify-around gap-5 pb-8">
+      <div class="w-full">
+        <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
+          >Plate Method</label
+        >
+        <multi-select
+          :options="plateMethods"
+          class="w-full"
+          v-model="form.plate_methods_id"
+          :searchable="true"
+          placeholder="Select plate Method"
+        />
+        <p
+          v-for="error of v$.plate_methods_id.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
+      </div>
+      <div class="w-full">
+        <label class="text-[#3b4559] font-bold text-lg pl-10 pb-2">Hours</label>
+        <input
+          type="number"
+          class="w-full"
+          v-model="form.hours"
+          :class="{ 'border-red-500': v$.hours.$error }"
+        />
+        <p
+          v-for="error of v$.hours.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
+      </div>
     </div>
     <div>
-      <label>Hours</label>
-      <input 
-        type="number" 
-        class="w-full" 
-        v-model="form.hours"
-        :class="{ 'border-red-500': v$.hours.$error }"
-      />
-      <p
-        v-for="error of v$.hours.$errors"
-        :key="error.$uid"
-        class="text-red-400"
+      <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
+        >Description</label
       >
-        {{ error.$message }}
-      </p>
-    </div>
-    <div>
-      <label for="">Description</label>
       <textarea
         cols="30"
-        rows="5"
+        rows="3"
         class="w-full"
         v-model="form.description"
         :class="{ 'border-red-500': v$.description.$error }"
@@ -73,9 +94,14 @@
         {{ error.$message }}
       </p>
     </div>
-    <button class="bg-primary hover:bg-primary-600 rounded w-full py-5 text-white px-3 mt-2">
+    <div class="flex justify-end">
+
+    <button
+      class="bg-primary hover:bg-primary-600  py-5 text-white px-8 mt-2 w-[95px] "
+    >
       Save
     </button>
+    </div>
   </form>
 </template>
 
@@ -90,7 +116,7 @@ const isDiferentZero = (value) => {
   return value != 0;
 };
 export default {
-  props: ["plateMethods", "run"],
+  props: ["plateMethods", "run","customers"],
   components: {
     multiSelect: Multiselect,
   },
@@ -106,17 +132,21 @@ export default {
         if (run.isEdit) {
           return run.hours;
         } else {
-          const closeNonEdit = Math.abs(new Date(run.closed_date) - new Date(run.created_at)) / 36e5;
+          const closeNonEdit =
+            Math.abs(new Date(run.closed_date) - new Date(run.created_at)) /
+            36e5;
           return closeNonEdit | 0;
         }
       } else {
         // abierto
         if (run.isEdit) {
-          const activeEdit = Math.abs(new Date() - new Date(run.last_edit)) / 36e5;
+          const activeEdit =
+            Math.abs(new Date() - new Date(run.last_edit)) / 36e5;
           const hoursEdited = activeEdit | 0;
           return run.hours + hoursEdited;
         } else {
-          const activeNonEdit = Math.abs(new Date() - new Date(run.created_at)) / 36e5;
+          const activeNonEdit =
+            Math.abs(new Date() - new Date(run.created_at)) / 36e5;
           return activeNonEdit | 0;
         }
       }
@@ -133,6 +163,7 @@ export default {
       status: 0,
       idCustomer: run.idCustomer,
       user_id: 1,
+      company_id: run.company_id,
       plate_methods_id: run.plate_methods_id,
       coatId: 0,
       primaryCoatId: 0,
@@ -167,7 +198,7 @@ export default {
       },
       hours: {
         required,
-        minValue: minValue(0)
+        minValue: minValue(0),
       },
       plate_methods_id: {
         isDiferentZero: helpers.withMessage(
@@ -188,8 +219,20 @@ export default {
       try {
         if (form.hours !== hours) {
           form.hasDiferentHours = true;
-          const date = new Date()
-          const dateFormated = ''+date.getUTCFullYear()+'-'+(date.getUTCMonth()+1)+'-'+date.getUTCDate()+' '+date.getUTCHours()+':'+date.getUTCMinutes()+':'+date.getUTCSeconds();
+          const date = new Date();
+          const dateFormated =
+            "" +
+            date.getUTCFullYear() +
+            "-" +
+            (date.getUTCMonth() + 1) +
+            "-" +
+            date.getUTCDate() +
+            " " +
+            date.getUTCHours() +
+            ":" +
+            date.getUTCMinutes() +
+            ":" +
+            date.getUTCSeconds();
           form.last_edit = dateFormated;
           console.log(form.last_edit);
         }

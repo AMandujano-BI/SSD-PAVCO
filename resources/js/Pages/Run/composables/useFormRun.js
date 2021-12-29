@@ -13,7 +13,7 @@ const useFormRun = () => {
     const { makeToast } = useHelper();
     const options = ref([
         {
-            value:'1',label:'fdas'
+            value: '1', label: 'fdas'
         }
     ])
     const form = reactive({
@@ -94,48 +94,20 @@ const useFormRun = () => {
             required,
             minValue: minValue(1)
         },
-        startDate: {
-            required,
-        },
-        topCoatPer: {
-            required,
-        },
-        topCoatTemp: {
-            required,
-        },
-        topCoatPH: {
-            required,
-        },
-        topCoatDiptime: {
-            required,
-        },
-        primaryPer: {
-            required,
-        },
-        primaryTemp: {
-            required,
-        },
-        primaryPH: {
-            required,
-        },
-        primaryDiptime: {
-            required,
-        },
-        plateThick: {
-            required
-        },
-        coatPH: {
-            required
-        },
-        coatPer: {
-            required
-        },
-        coatTemp: {
-            required
-        },
-        coatDiptime: {
-            required
-        }
+        startDate: { required, },
+        topCoatPer: { required, },
+        topCoatTemp: { required, },
+        topCoatPH: { required, },
+        topCoatDiptime: { required, },
+        primaryPer: { required, },
+        primaryTemp: { required, },
+        primaryPH: { required, },
+        primaryDiptime: { required, },
+        plateThick: { required },
+        coatPH: { required },
+        coatPer: { required },
+        coatTemp: { required },
+        coatDiptime: { required }
 
     };
     const v$ = useVuelidate(rules, form);
@@ -149,7 +121,7 @@ const useFormRun = () => {
             const { ok, value, message } = res.data;
             loading.value = false
             if (ok) {
-                makeToast("Run was created successfully");
+                makeToast(message);
                 // window.location.href = `/part/${value.id}`;
                 Inertia.get(`/part/${value.id}`)
             } else {
@@ -157,12 +129,13 @@ const useFormRun = () => {
                 makeToast("An error has occurred", "error");
             }
         } catch (e) {
+            loading.value = false
             console.log(e);
             makeToast("An error has occurred", "error");
         }
     };
 
-    const changeDropdown = (e) =>{
+    const changeDropdown = (e) => {
         console.log(e)
     }
     return {
