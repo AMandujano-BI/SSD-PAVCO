@@ -278,6 +278,7 @@ class Run extends Model
         try {
             $run = (new static)::find($id);
             $run->status = 2;
+            $run->company_id= null;
             $run->save();
             DB::commit();
             return [
