@@ -37,7 +37,7 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
-Route::middleware(['auth:sanctum', 'verified'])->get('/email/runResult/{id}', [MailController::class, 'store'])->name('mail.runResult');
+Route::middleware(['auth:sanctum', 'verified'])->post('/email/runResult', [MailController::class, 'store'])->name('mail.runResult');
 
 
 Route::middleware(['auth:sanctum', 'verified', 'rols'])->group(function () {

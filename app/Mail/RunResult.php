@@ -13,7 +13,7 @@ class RunResult extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject ="Testing";
+
     private $_run;
     /**
      * Create a new message instance.
@@ -22,7 +22,7 @@ class RunResult extends Mailable
      */
     public function __construct(Run $run)
     {
-        $this->_run=$run;
+        $this->_run = $run;
     }
 
     /**
@@ -32,6 +32,8 @@ class RunResult extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.runResult')->with(['run'=>$this->_run]);
+        return $this->view('emails.runResult')
+        ->with(['run' => $this->_run])
+        ->subject('Pavco Salt Spray Database - Run Results for Run #'.$this->_run->id) ;
     }
 }

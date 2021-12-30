@@ -22,13 +22,15 @@ class MailController extends Controller
         $this->_run = $run;
     }
 
-    public function store($id)
+    public function store(Request $request)
     {
         try {
 
+            $id = $request->id;
+            $email =$request->emailSend;
             $run = $this->_run->getRun($id);
             $run->startDate = Carbon::parse($run->startDate)->format('Y/m/d');
-            Mail::to('fernandomercado529@gmail.com')->send(new RunResult($run));
+            Mail::to($email)->send(new RunResult($run));
             return   [
                 'ok' => true,
                 'message' => 'Email sent successfully',
