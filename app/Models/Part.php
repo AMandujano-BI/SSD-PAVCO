@@ -173,7 +173,6 @@ class Part extends Model
         ];
     }
 
-
     // ===================================RELATIONS
     public function notes()
     {

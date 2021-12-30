@@ -1,19 +1,6 @@
 <template>
   <button
-    @click="openModal"
-    class="
-      bg-primary
-      hover:bg-primary-600
-      rounded
-      w-[100]
-      py-1
-      text-white
-      px-3
-      mt-2
-    "
-  >
-    +
-  </button>
+    @click="openModal" > <icon-plus/> </button>
   <modal :show="openModalCompany">
     <div class="p-5">
       <form-company
@@ -85,6 +72,7 @@ import useHelper from "@/composables/useHelper";
 import FormCompany from "./FormCompany.vue";
 import IconEdit from "@/assets/Icons/iconEdit.vue";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
+import IconPlus from "@/assets/Icons/iconPlus.vue";
 import { useStore } from "vuex";
 export default {
   props: ["countries"],
@@ -94,6 +82,7 @@ export default {
     FormCompany,
     IconEdit,
     IconDelete,
+    IconPlus,
   },
   setup() {
     const store = useStore();

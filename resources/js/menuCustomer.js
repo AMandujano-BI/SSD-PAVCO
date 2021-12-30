@@ -11,7 +11,7 @@ export default [
       // to: '/run',
       href: '/run',
       label: 'Runs',
-      icon: IconRun,
+      icon: 'run',
       itemRoute: 'run.index'
       // updateMark: true
     },

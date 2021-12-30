@@ -72,6 +72,7 @@ export default {
     const gettingData = async () => {
       try {
         const res = await axios.get(`/run/${id}`);
+        console.log(res.data)
         runDetail.value = res.data;
         runDetail.value.startDate = runDetail.value.startDate.slice(0, 10);
         // console.log(runDetail);

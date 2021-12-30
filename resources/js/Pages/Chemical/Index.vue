@@ -4,12 +4,7 @@
       <p class="text-3xl text-center font-bold p-5 font-sans">
         List of Chemicals
       </p>
-      <button
-        @click="openModal"
-        class="bg-primary px-4 py-2 text-white rounded-md mb-2"
-      >
-        +
-      </button>
+      <button @click="openModal" > <icon-plus/> </button>
       <div>
         Filter
         <select class="w-full" v-model="selected" @change="filterChemicals">
@@ -161,7 +156,7 @@ import Multiselect from "@vueform/multiselect";
 const $ = require("jquery");
 import IconEdit from "@/assets/Icons/iconEdit.vue";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
-
+import IconPlus from "@/assets/Icons/iconPlus.vue";
 export default {
   components: {
     AppLayout: AppLayout,
@@ -170,6 +165,7 @@ export default {
     multiSelect: Multiselect,
     IconEdit,
     IconDelete,
+    IconPlus,
   },
   setup() {
     const { makeToast } = useHelper();

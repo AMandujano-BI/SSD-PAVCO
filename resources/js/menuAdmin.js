@@ -10,13 +10,13 @@ export default [
     {
       href: '/run',
       label: 'Runs',
-      icon: IconRun,
+      icon: 'run',
       itemRoute: 'run.index'
     },
     {
       href: '/report',
       label: 'Reports',
-      icon: IconReport,
+      icon: 'Reports',
       itemRoute: 'report.index',
       updateMark: true
     },

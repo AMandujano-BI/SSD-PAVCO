@@ -54,19 +54,7 @@
 
     <modal :show="modalEmail" @close="closeModalEmail">
       <div class="p-5">
-        <h1 class="font-bold text-2xl text-center p-5">EMAIL RUN RESULTS</h1>
-        <p class="pb-4">
-          Please enter a valid email address below. The email address that you
-          enter below will receive an email from dvega@letternine.net. This
-          email will contain the results to the run as well as a link to view
-          all of the images for this run.
-        </p>
-        <input type="text" class="w-full" placeholder="Email Address" />
-        <button
-          class="bg-primary p-5 rounded-md text-center text-white mt-5 w-full"
-        >
-          Send Email
-        </button>
+        <form-email :emailSend="emailSend" :id="idGlobal" @closeModal="closeModalEmail"/>
       </div>
     </modal>
 
@@ -157,6 +145,7 @@ import ConfirmationModal from "../../../Jetstream/ConfirmationModal.vue";
 import useHelper from "@/composables/useHelper";
 import NotesRun from "./NotesRun.vue";
 import PhotosRun from "./PhotosRun.vue";
+import FormEmail from "./FormEmail.vue";
 import TablePartDetailVue from "./TablePartDetail.vue";
 import { Inertia } from "@inertiajs/inertia";
 import IconEmail from "@/assets/Icons/iconEmail.vue";
@@ -174,6 +163,7 @@ export default {
     confirmationModal: ConfirmationModal,
     notesRun: NotesRun,
     photosRun: PhotosRun,
+    FormEmail,
     IconEmail,
     IconEdit,
     IconDelete,
@@ -196,6 +186,7 @@ export default {
     const isModalDelete = ref(false);
     const isModalClose = ref(false);
     const isModalReOpen = ref(false);
+    const emailSend = ref("");
     const idGlobal = ref(0);
     const filterOption = ref(3);
     const modalEmail = ref(false);
@@ -383,7 +374,7 @@ export default {
             const state = settings.aoData;
             let arr = [];
             console.log(state);
-            state.forEach(element => {
+            state.forEach((element) => {
               arr.push(element._aData);
             });
             runs.value = arr;
@@ -571,7 +562,7 @@ export default {
               reportAndPhotosRun(e.currentTarget.attributes[1].value);
             });
             $(".runemail").on("click", function (e) {
-              console.log("send email");
+              openModalEmail(e.currentTarget.attributes[1].value);
             });
           },
         });
@@ -589,6 +580,14 @@ export default {
     const reportAndPhotosRun = (id) => {
       window.location.href = `/run/downloadPlus/${id}`;
     };
+    const openModalEmail = (id) => {
+      modalEmail.value = true;
+      idGlobal.value = id;
+    };
+    const closeModalEmail =()=>{
+      modalEmail.value = false
+      idGlobal.value = 0
+    }
 
     gettingData();
 
@@ -634,8 +633,9 @@ export default {
       idGlobal,
       calculateHours,
       modalEmail,
-      openModalEmail: () => (modalEmail.value = true),
-      closeModalEmail: () => (modalEmail.value = false),
+      openModalEmail,
+      emailSend,
+      closeModalEmail,
     };
   },
 };

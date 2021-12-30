@@ -457,8 +457,7 @@ export default {
     multiSelect: Multiselect,
   },
   setup(props, { emit }) {
-    const { form, v$, submitForm, loading, options, changeDropdown } =
-      useFormRun();
+    const { form, v$, submitForm, loading, options, changeDropdown } = useFormRun();
     const closeModal = () => emit("closeModal");
 
     return {

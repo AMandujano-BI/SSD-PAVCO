@@ -11,30 +11,30 @@ export default [
       // to: '/run',
       href: '/run',
       label: 'Runs',
-      icon: IconRun,
+      icon: 'run',
       itemRoute: 'run.index'
       // updateMark: true
     },
     {
       label: 'Maintenance',
-      icon: IconMaintenance,
+      icon: 'Maintenance',
       menu: [
         {
           label: 'Users',
           href: '/user',
-          icon: IconUser,
+          icon: 'Users',
           itemRoute: 'user.index'
         },
         {
           label: 'Company',
           href: '/company',
-          icon: IconCompany,
+          icon: 'Company',
           itemRoute: 'company.index'
         },
         {
           label: 'Chemical',
           href: '/chemical',
-          icon: IconChemical,
+          icon: 'Chemical',
           itemRoute: 'chemical.index'
         }
       ]
@@ -43,7 +43,7 @@ export default [
       // to: '/run',
       href: '/report',
       label: 'Reports',
-      icon: IconReport,
+      icon: 'Reports',
       itemRoute: 'report.index',
       updateMark: true
     },

@@ -199,6 +199,7 @@ class Company extends Model
             $company = (new static)::find($id);
             $company->status = 0;
             $company->name= $uuid;
+            $company->company_id= null;
             $company->save();
             DB::commit();
             return [

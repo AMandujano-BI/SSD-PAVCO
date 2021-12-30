@@ -70,24 +70,6 @@ const useFormCompany = (formProps) => {
                 isDiferentZero
             ),
         },
-        // company_id: {
-        //     isCustomer: helpers.withMessage(
-        //         "You must select an option",
-        //         validationCustomer(form.customer + '/normal')
-
-
-        //     )
-        // },
-        // customer: {
-        //     isCustomer: helpers.withMessage(
-        //         "You must select an option",
-        //         validationCustomer(form.company_id + '/radio')
-        //         // validationCustomerReverse(form.company_id)
-
-
-        //     )
-
-        // }
     };
 
     const v$ = useVuelidate(rules, form);
