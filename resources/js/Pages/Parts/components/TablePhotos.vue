@@ -1,6 +1,8 @@
 <template>
-  <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">Table Photos</h1>
-  <button @click="openModalPhotosForm" > <icon-plus/> </button>
+  <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
+    Table Photos
+  </h1>
+  <button @click="openModalPhotosForm"><icon-plus /></button>
   <table id="photosTable" class="display" style="width: 100%">
     <thead>
       <tr>
@@ -68,7 +70,7 @@
       :photos="currentPhoto"
     />
   </modal> -->
-   <photos-run
+  <photos-run
     v-if="photos"
     :isModalPhotos="isModalPhotos"
     :photos="currentPhoto"
@@ -167,13 +169,20 @@ export default {
           bLengthChange: false,
           bInfo: false,
           pageLength: 5,
+          language: {
+            paginate: {
+              next: `→`, // or '→'
+              previous: `←`, // or '←'
+            },
+            info: "Showing results page _PAGE_ of _PAGES_",
+          },
         });
       });
     };
     const showPhotos = (id) => {
       const pic = photos.find((pic) => pic.id === id);
       currentPhoto.value.push(pic);
-      idPhoto.value = id
+      idPhoto.value = id;
       isModalPhotos.value = true;
     };
     const closePhotosModalView = () => {

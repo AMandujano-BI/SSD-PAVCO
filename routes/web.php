@@ -48,6 +48,7 @@ Route::middleware(['auth:sanctum', 'verified', 'rols'])->group(function () {
     Route::middleware(['auth:sanctum', 'verified'])->get('/run/download/{id}', [RunController::class, 'downloadPdf'])->name('run.downloadPdf');
     Route::middleware(['auth:sanctum', 'verified'])->get('/run/downloadPlus/{id}', [RunController::class, 'downloadPlus'])->name('run.downloadPlus');
     Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRuns/{status}', [RunController::class, 'getAllRuns'])->name('run.getAllRuns');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/run/viewerPhotos/{id}', [RunController::class, 'viewerPhotos'])->name('run.viewerPhotos');
     Route::middleware(['auth:sanctum', 'verified'])->post('/note/add', [NoteController::class, 'store'])->name('note.add');
     Route::middleware(['auth:sanctum', 'verified'])->post('/photo/getAllUrlSignature', [PhotoController::class, 'getAllUrlSignature'])->name('photo.signature');
     Route::middleware(['auth:sanctum', 'verified'])->put('/run/closeRun/{id}', [RunController::class, 'closeRun'])->name('run.closeRun');
