@@ -48,36 +48,6 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        v-for="company in companiesTable"
-        :key="company.id"
-        class="cursor-pointer"
-      >
-        <td class="text-center">{{ company.name }}</td>
-        <td class="text-center">
-          {{ company.company_id == null ? "none" : company.children?.name }}
-        </td>
-        <td class="text-center">{{ company.address }}</td>
-        <td class="text-center">{{ company.city }}</td>
-        <td class="text-center">{{ company.state }}</td>
-        <td class="text-center">{{ company.zip }}</td>
-        <td class="text-center">{{ company.country?.name }}</td>
-        <td class="text-center">{{ company.phone }}</td>
-        <td class="text-center">{{ company.fax }}</td>
-        <td class="text-center">
-          {{ company.customer == 1 ? "Customer" : "Distributor" }}
-        </td>
-        <td class="text-center">
-          <button @click="openModalEditClick(company.id)">
-            <icon-edit />
-          </button>
-        </td>
-        <td class="text-center">
-          <button @click="openModalDeleteClick(company.id)">
-            <icon-delete />
-          </button>
-        </td>
-      </tr>
     </tbody>
   </table>
 
@@ -167,9 +137,9 @@ export default {
     };
     const closeModalDelete = () => (showModalDelete.value = false);
     const gettingData = async (type = 4) => {
-      const data = await store.dispatch("companies/getCompanies", type);
-      store.commit("companies/setDataTable", data);
-      await generateDataTable();
+      // const data = await store.dispatch("companies/getCompanies", type);
+      
+      await generateDataTable(type);
     };
     const openModal = async () => {
       store.commit("companies/setFormCompany", 0);
@@ -185,7 +155,7 @@ export default {
     const changeFilter = async () => {
       await gettingData(filterOption.value);
     };
-    const generateDataTable = () => {
+    const generateDataTable = (type) => {
       $("#tableCompanies").DataTable().destroy();
       nextTick(() => {
         $("#tableCompanies").DataTable({
@@ -193,6 +163,9 @@ export default {
           ordering: true,
           bLengthChange: false,
           pageLength: 5,
+          processing: true,
+          serverSide: true,
+          stateSave: true,
           language: {
             paginate: {
               next: `→`, // or '→'
@@ -200,6 +173,117 @@ export default {
             },
             info: "Showing results page _PAGE_ of _PAGES_",
           },
+          ajax: {
+            url: `/company/getCompanies/${type}`,
+          },
+          stateSaveCallback: function (settings, data) {
+            const state = settings.aoData;
+            let arr = [];
+            console.log(state);
+            state.forEach(element => {
+              arr.push(element._aData);
+            });
+            console.log(arr);
+            store.commit("companies/setDataTable", arr);
+          },
+          columns: [
+            {
+              targets: 1,
+              render: function(data, type, row, meta) {
+                return '<span>'+row.name+'</span>';
+              }
+            },
+            {
+              targets: 2,
+              render: function(data, type, row, meta) {
+                if( row.company_id === null ) {
+                  return '<span>None</span>';
+                } else {
+                  if( row.children !== null ) {
+                    return '<span>'+row.children.name+'</span>';
+                  } else {
+                    return '<span></span>';
+                  }
+                }
+              }
+            },
+            {
+              targets: 3,
+              render: function(data, type, row, meta) {
+                return '<span>'+row.address+'</span>';
+              }
+            },
+            {
+              targets: 4,
+              render: function(data, type, row, meta) {
+                return '<span>'+row.city+'</span>';
+              }
+            },
+            {
+              targets: 5,
+              render: function(data, type, row, meta) {
+                return '<span>'+row.state+'</span>';
+              }
+            },
+            {
+              targets: 6,
+              render: function(data, type, row, meta) {
+                return '<span>'+row.zip+'</span>';
+              }
+            },
+            {
+              targets: 7,
+              render: function(data, type, row, meta) {
+                return '<span>'+ row.country?.name == null ? '' :  row.country.name +'</span>';
+              }
+            },
+            {
+              targets: 8,
+              render: function(data, type, row, meta) {
+                return '<span>'+row.phone+'</span>';
+              }
+            },
+            {
+              targets: 9,
+              render: function(data, type, row, meta) {
+                if(row.fax === null) {
+                  return '<span></span>'
+                } else {
+                  return '<span>'+row.fax+'</span>'
+                }
+              }
+            },
+            {
+              targets: 10,
+              render: function(data, type, row, meta) {
+                return '<span>'+ row.customer == 1 ? "Customer" : "Distributor" +'</span>';
+              }
+            },
+            {
+              targets: 11,
+              render: function(data, type, row, meta) {
+                return '<button class="openmodaleditclick" cName='+ row.id +'> <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"> <g fill="none" fill-rule="evenodd"> <path fill="#227D9E" d="M0 0h25v25H0z"/> <g fill="#FFF" fill-rule="nonzero" stroke="#FFF" stroke-width=".5"> <path d="M18.218 13.773a.353.353 0 0 0-.357.35v3.103a1.06 1.06 0 0 1-1.07 1.048H6.783c-.59 0-1.069-.47-1.07-1.048V8.117c.001-.579.48-1.048 1.07-1.049H9.95a.353.353 0 0 0 .357-.35c0-.192-.16-.349-.357-.349H6.783C5.8 6.37 5.001 7.152 5 8.117v9.109c.001.965.799 1.746 1.783 1.748h10.008c.985-.002 1.783-.783 1.784-1.748v-3.104c0-.193-.16-.35-.357-.35z"/> <path d="M18.434 5.47a1.628 1.628 0 0 0-2.27 0L9.8 11.706a.348.348 0 0 0-.091.154l-.837 2.96a.345.345 0 0 0 .091.34.362.362 0 0 0 .348.09l3.02-.82a.358.358 0 0 0 .158-.09l6.363-6.235a1.552 1.552 0 0 0 0-2.225l-.418-.41zm-7.857 6.463 5.208-5.104 1.68 1.646-5.208 5.104-1.68-1.646zm-.335.66 1.342 1.315-1.856.504.514-1.82zm8.106-4.983-.379.371-1.68-1.646.38-.37a.905.905 0 0 1 1.26 0l.419.41a.863.863 0 0 1 0 1.235z"/> </g> </g></svg> </button>';
+              }
+            },
+            {
+              targets: 12,
+              render: function(data, type, row, meta) {
+                return '<button class="openmodaldeleteclick" cName='+ row.id +'> <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"> <g fill="none" fill-rule="evenodd"> <path fill="#0271C5" d="M0 0h25v25H0z"/> <g fill="#FFF" fill-rule="nonzero"> <path d="m18.495 8.13-.312-.927a.869.869 0 0 0-.826-.59h-2.62v-.846A.77.77 0 0 0 13.966 5h-2.4a.77.77 0 0 0-.772.767v.846h-2.62a.869.869 0 0 0-.826.59l-.311.926a.69.69 0 0 0 .096.625c.13.18.343.288.567.288h.326l.717 8.794A1.279 1.279 0 0 0 10.014 19h5.648c.66 0 1.218-.511 1.272-1.164l.717-8.794h.18a.703.703 0 0 0 .568-.288.69.69 0 0 0 .096-.625zM11.62 5.82h2.29v.793h-2.29V5.82zm4.49 11.95a.45.45 0 0 1-.448.41h-5.648a.45.45 0 0 1-.447-.41l-.712-8.728h7.966l-.712 8.728zM7.876 8.222l.255-.76a.043.043 0 0 1 .041-.029h9.184c.019 0 .035.012.041.03l.256.76H7.877z"/> <path d="M14.79 17.741h.022c.218 0 .401-.17.412-.388l.389-7.394a.412.412 0 0 0-.392-.43.412.412 0 0 0-.434.387l-.389 7.394a.411.411 0 0 0 .392.431zM10.324 17.354a.412.412 0 0 0 .436.387.411.411 0 0 0 .39-.432l-.406-7.394a.412.412 0 0 0-.436-.387.411.411 0 0 0-.39.432l.406 7.394zM12.77 17.742a.412.412 0 0 0 .413-.41V9.937a.412.412 0 0 0-.413-.41.412.412 0 0 0-.414.41v7.393c0 .227.185.41.414.41z"/> </g> </g></svg> </button>';
+              }
+            },
+          ],
+          drawCallback: function () {
+            $(".openmodaleditclick").on("click", function (e) {
+              const openmodaleditclickStr = e.currentTarget.attributes[1].value;
+              const openmodaleditclickId = Number(openmodaleditclickStr);
+              openModalEditClick(openmodaleditclickId);
+            });
+            $(".openmodaldeleteclick").on("click", function (e) {
+              const openmodaldeleteclickStr =  e.currentTarget.attributes[1].value;
+              const openmodaldeleteclickId = Number(openmodaldeleteclickStr);
+              openModalDeleteClick(openmodaldeleteclickId);
+            });
+          }
         });
       });
     };

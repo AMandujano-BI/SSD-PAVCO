@@ -34,7 +34,8 @@ class CompanyController extends Controller
     public function getCompanies($type){
 
         $companies = $this->_company->getCompanies($type);
-        return $companies;
+        // return $companies;
+        return datatables()->of($companies)->toJson();
     }
     public function getDistributors($id){
         $companies = $this->_company->getDistributors($id);

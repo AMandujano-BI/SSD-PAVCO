@@ -62,18 +62,18 @@
       </tr>
     </tbody>
   </table>
-  <modal :show="isModalPhotos" @close="closePhotosModalView">
+  <!-- <modal :show="isModalPhotos" @close="closePhotosModalView">
     <photos-run
       :id="idPhoto"
       :photos="currentPhoto"
     />
-  </modal>
-   <!-- <photos-run
+  </modal> -->
+   <photos-run
     v-if="photos"
     :isModalPhotos="isModalPhotos"
     :photos="currentPhoto"
     @closeModal="closePhotosModalView"
-  /> -->
+  />
   <!-- @photoEdited="photoAdded" -->
 
   <!-- MODAL-->

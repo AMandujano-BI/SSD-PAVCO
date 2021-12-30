@@ -392,12 +392,14 @@ export default {
           columns: [
             {
               targets: 1,
+              searchable: true,
               render: function (data, type, row, meta) {
                 return "<td>" + row.startDate.slice(0, 10) + "</td>";
               },
             },
             {
               targets: 2,
+              
               render: function (data, type, row, meta) {
                 return `<td>${row.company?.name}</td>`;
               },
