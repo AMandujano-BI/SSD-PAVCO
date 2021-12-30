@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
 class Company extends Model
 {
     use HasFactory;
@@ -100,6 +101,7 @@ class Company extends Model
         DB::beginTransaction();
         try {
             $lastCompany = Company::find($id);
+            // dd($lastCompany->customer,$request->customer);
             if ($lastCompany->customer != $request->customer) {
 
                 $companyRelation = (new static)::where('company_id', $request->id)->where('customer', 1)->get();
@@ -113,15 +115,15 @@ class Company extends Model
                     ];
                 }
             }
-            // $useRun = Run::where('company_id', $id)->get();
-            // if (count($useRun) > 0) {
-            //     DB::rollBack();
-            //     return [
-            //         'ok' => false,
-            //         'message' => 'The Customer has a relation with  Runs',
-            //         'value' => 0
-            //     ];
-            // }
+            $useRun = Run::where('company_id', $id)->get();
+            if (count($useRun) > 0) {
+                DB::rollBack();
+                return [
+                    'ok' => false,
+                    'message' => 'The Customer has a relation with  Runs',
+                    'value' => 0
+                ];
+            }
             $company_id = $request->company_id;
             $customer = $request->customer;
             $distributor = $request->distributor;
@@ -184,7 +186,7 @@ class Company extends Model
     }
     public static function deleteCompany($id)
     {
-        $uuid =Str::uuid();
+        $uuid = Str::uuid();
         DB::beginTransaction();
         try {
             $useRun = Run::where('company_id', $id)->get();
@@ -196,10 +198,19 @@ class Company extends Model
                     'value' => 0
                 ];
             }
+            $companiesRelation = (new static)::where('company_id', $id)->get();
+            if (count($companiesRelation) > 0) {
+                DB::rollBack();
+                return [
+                    'ok' => false,
+                    'message' => 'The Companie has a relation with  other Companies',
+                    'value' => 0
+                ];
+            }
             $company = (new static)::find($id);
             $company->status = 0;
-            $company->name= $uuid;
-            $company->company_id= null;
+            $company->name = $uuid;
+            $company->company_id = null;
             $company->save();
             DB::commit();
             return [
