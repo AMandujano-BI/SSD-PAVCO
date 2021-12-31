@@ -3,61 +3,66 @@
     The Report Wizard allows you to create a report based on selected criteria.
   </p>
   <form @submit.prevent="submitForm">
-    <div class="bg-white ml-2 mr-8 mt-4 mb-3 p-3 flex justify-around h-104">
-      <div class="flex">
+    <div class="bg-white mt-4 mb-3 p-3 flex w-full h-[104px] items-center">
+      <div class="flex items-center px-8 flex-1">
         <label class="pr-3 font-bold">Customer</label>
-        <multi-select
-          :options="customers"
-          class="min-w-full flex-1 w-[300px]"
-          v-model="form.customer"
-          :searchable="true"
-          :close-on-select="true"
-          placeholder="Select a Customer"
-        />
-        <p
-          v-for="error of v$.customer.$errors"
-          :key="error.$uid"
-          class="text-red-400"
-        >
-          {{ error.$message }}
-        </p>
+        <div class="w-full">
+          <multi-select
+            :options="customers"
+            class="w-[300px]"
+            v-model="form.customer"
+            :searchable="true"
+            :close-on-select="true"
+            placeholder="Select a Customer"
+          />
+          <p
+            v-for="error of v$.customer.$errors"
+            :key="error.$uid"
+            class="text-red-400"
+          >
+            {{ error.$message }}
+          </p>
+        </div>
       </div>
 
-      <div class="flex">
-        <div></div>
+      <div class="flex items-center p-4">
         <label class="pr-3 font-bold">Date Range</label>
-        <input
-          type="date"
-          v-model="form.startDate"
-          :class="{ 'border-red-400': v$.startDate.$error }"
-        />
-        <p
-          v-for="error of v$.startDate.$errors"
-          :key="error.$uid"
-          class="text-red-400"
-        >
-          {{ error.$message }}
-        </p>
+        <div>
+          <input
+            type="date"
+            v-model="form.startDate"
+            :class="{ 'border-red-400': v$.startDate.$error }"
+          />
+          <p
+            v-for="error of v$.startDate.$errors"
+            :key="error.$uid"
+            class="text-red-400"
+          >
+            {{ error.$message }}
+          </p>
+        </div>
       </div>
 
-      <div class="flex">
+      <div class="flex items-center">
         <label class="pr-3 font-bold">To</label>
-        <input
-          type="date"
-          v-model="form.endDate"
-          :class="{ 'border-red-400': v$.endDate.$error }"
-        />
-        <p
-          v-for="error of v$.endDate.$error"
-          :key="error.$uid"
-          class="text-red-400"
-        >
-          {{ error.$message }}
-        </p>
+        <div>
+          <input
+            type="date"
+            v-model="form.endDate"
+            :class="{ 'border-red-400': v$.endDate.$error }"
+          />
+          <p
+            v-for="error of v$.endDate.$error"
+            :key="error.$uid"
+            class="text-red-400"
+          >
+            {{ error.$message }}
+          </p>
+        </div>
       </div>
     </div>
 
-    <div class="bg-white ml-2 mr-8 mt-4 mb-3 p-3 h-170">
+    <div class="bg-white mt-4 mb-3 p-3 h-170">
       <div class="flex">
         <label class="pr-3 font-bold">Plate Type</label>
         <multi-select
@@ -67,18 +72,32 @@
           :searchable="true"
           placeholder="Select Plate Type"
         />
+        <p
+          v-for="error of v$.plate_type.$error"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
       </div>
 
       <div class="flex mt-3">
         <label class="pr-3 font-bold">Thickness</label>
         <div class="flex w-full flex-col md:flex-row gap-2">
-            <multi-select
-              :options="listThickness"
-              class=" w-[150px]"
-              v-model="form.thickness"
-              :searchable="true"
-              placeholder="Select Thickness"
-            />
+          <multi-select
+            :options="listThickness"
+            class="w-[150px]"
+            v-model="form.thickness"
+            :searchable="true"
+            placeholder="Select Thickness"
+          />
+          <p
+            v-for="error of v$.thickness.$error"
+            :key="error.$uid"
+            class="text-red-400"
+          >
+            {{ error.$message }}
+          </p>
           <div class="flex gap-2">
             <div>
               <input
@@ -87,6 +106,13 @@
                 placeholder="mil"
                 v-model="form.thickness_first_ml"
               />
+              <p
+                v-for="error of v$.thickness_first_ml.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -95,13 +121,20 @@
                 placeholder="mil"
                 v-model="form.thickness_second_ml"
               />
+              <p
+                v-for="error of v$.thickness_second_ml.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="bg-white ml-2 mr-8 mt-4 mb-3 p-3 h-338">
+    <div class="bg-white mt-4 mb-3 p-3 h-338">
       <div class="flex w-full flex-col md:flex-row gap-2">
         <div class="w-full"></div>
         <div class="flex gap-2">
@@ -163,6 +196,13 @@
               :searchable="true"
               placeholder="Select Chromate"
             />
+            <p
+              v-for="error of v$.chromate.$error"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
           </div>
           <div class="flex gap-2">
             <div>
@@ -172,6 +212,13 @@
                 placeholder="0"
                 v-model="form.primaryPer_more_than"
               />
+              <p
+                v-for="error of v$.primaryPer_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -180,6 +227,13 @@
                 placeholder="0"
                 v-model="form.primaryPer_less_than"
               />
+              <p
+                v-for="error of v$.primaryPer_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -188,6 +242,13 @@
                 placeholder="0"
                 v-model="form.primaryTemp_more_than"
               />
+              <p
+                v-for="error of v$.primaryTemp_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -196,6 +257,13 @@
                 placeholder="0"
                 v-model="form.primaryTemp_less_than"
               />
+              <p
+                v-for="error of v$.primaryTemp_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -204,6 +272,13 @@
                 placeholder="0"
                 v-model="form.primaryPH_more_than"
               />
+              <p
+                v-for="error of v$.primaryPH_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -212,6 +287,13 @@
                 placeholder="0"
                 v-model="form.primaryPH_less_than"
               />
+              <p
+                v-for="error of v$.primaryPH_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -220,6 +302,13 @@
                 placeholder="0"
                 v-model="form.primaryDiptime_more_than"
               />
+              <p
+                v-for="error of v$.primaryDiptime_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -228,6 +317,13 @@
                 placeholder="0"
                 v-model="form.primaryDiptime_less_than"
               />
+              <p
+                v-for="error of v$.primaryDiptime_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
           </div>
         </div>
@@ -244,6 +340,13 @@
               :searchable="true"
               placeholder="Select TopCoat"
             />
+            <p
+              v-for="error of v$.top_coat.$error"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
           </div>
           <div class="flex gap-2">
             <div>
@@ -253,6 +356,13 @@
                 placeholder="0"
                 v-model="form.topCoatPer_more_than"
               />
+              <p
+                v-for="error of v$.topCoatPer_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -261,6 +371,13 @@
                 placeholder="0"
                 v-model="form.topCoatPer_less_than"
               />
+              <p
+                v-for="error of v$.topCoatPer_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -269,6 +386,13 @@
                 placeholder="0"
                 v-model="form.topCoatTemp_more_than"
               />
+              <p
+                v-for="error of v$.topCoatTemp_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -277,6 +401,13 @@
                 placeholder="0"
                 v-model="form.topCoatTemp_less_than"
               />
+              <p
+                v-for="error of v$.topCoatTemp_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -285,6 +416,13 @@
                 placeholder="0"
                 v-model="form.topCoatPH_more_than"
               />
+              <p
+                v-for="error of v$.topCoatPH_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -293,6 +431,13 @@
                 placeholder="0"
                 v-model="form.topCoatPH_less_than"
               />
+              <p
+                v-for="error of v$.topCoatPH_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -301,6 +446,13 @@
                 placeholder="0"
                 v-model="form.topCoatDiptime_more_than"
               />
+              <p
+                v-for="error of v$.topCoatDiptime_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -309,6 +461,13 @@
                 placeholder="0"
                 v-model="form.topCoatDiptime_less_than"
               />
+              <p
+                v-for="error of v$.topCoatDiptime_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
           </div>
         </div>
@@ -325,6 +484,13 @@
               :searchable="true"
               placeholder="Select Secondary Topcoat"
             />
+            <p
+              v-for="error of v$.coat.$error"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
           </div>
           <div class="flex gap-2">
             <div>
@@ -334,6 +500,13 @@
                 placeholder="0"
                 v-model="form.coatPer_more_than"
               />
+              <p
+                v-for="error of v$.coatPer_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -342,6 +515,13 @@
                 placeholder="0"
                 v-model="form.coatPer_less_than"
               />
+              <p
+                v-for="error of v$.coatPer_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -350,6 +530,13 @@
                 placeholder="0"
                 v-model="form.coatTemp_more_than"
               />
+              <p
+                v-for="error of v$.coatTemp_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -358,6 +545,13 @@
                 placeholder="0"
                 v-model="form.coatTemp_less_than"
               />
+              <p
+                v-for="error of v$.coatTemp_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -366,6 +560,13 @@
                 placeholder="0"
                 v-model="form.coatPH_more_than"
               />
+              <p
+                v-for="error of v$.coatPH_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -374,6 +575,13 @@
                 placeholder="0"
                 v-model="form.coatPH_less_than"
               />
+              <p
+                v-for="error of v$.coatPH_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -382,6 +590,13 @@
                 placeholder="0"
                 v-model="form.coatDiptime_more_than"
               />
+              <p
+                v-for="error of v$.coatDiptime_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -390,6 +605,13 @@
                 placeholder="0"
                 v-model="form.coatDiptime_less_than"
               />
+              <p
+                v-for="error of v$.coatDiptime_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
           </div>
         </div>
@@ -426,11 +648,9 @@
 
 <script>
 import Multiselect from "@vueform/multiselect";
-// import Multiselect from '@vueform/multiselect/src/Multiselect'
 import useFormReport from "../composables/useFormReport";
-import { ref } from "vue-demi";
+import { ref } from "vue";
 
-// importar composable
 export default {
   props: ["customers", "topCoats", "chromates", "plateTypes", "secondaryCoats"],
   components: {

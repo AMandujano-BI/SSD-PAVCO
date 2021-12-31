@@ -158,7 +158,7 @@ class ReportController extends Controller
         if ($customer == null) {
             //ALL CUSTOMERS
             $parts = Part::whereBetween('created_at', [$startDate, $endDate])
-                ->where('plates_types_id',$plate_type)
+                ->where('plate_types_id',$plate_type)
                 ->where('primaryCoatId',$chromate)
                 ->where('coatId',$coat)
                 ->where('topCoatId',$top_coat)
