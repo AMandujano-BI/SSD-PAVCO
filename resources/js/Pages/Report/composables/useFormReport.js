@@ -46,12 +46,6 @@ const useFormReport = (formProps) => {
                 isDiferentZero
             ),
         },
-        thickness: {
-            isDiferentZero: helpers.withMessage(
-                'You must select an option',
-                isDiferentZero
-            ),
-        },
 
         top_coat: {
             isDiferentZero: helpers.withMessage(

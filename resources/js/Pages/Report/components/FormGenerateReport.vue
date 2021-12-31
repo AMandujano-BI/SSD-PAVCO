@@ -81,7 +81,7 @@
         </p>
       </div>
 
-      <div class="flex mt-3">
+      <!-- <div class="flex mt-3">
         <label class="pr-3 font-bold">Thickness</label>
         <div class="flex w-full flex-col md:flex-row gap-2">
           <multi-select
@@ -131,7 +131,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="bg-white mt-4 mb-3 p-3 h-338">
@@ -662,9 +662,6 @@ export default {
       startDate: "",
       endDate: "",
       plate_type: 0,
-      thickness: 0,
-      thickness_first_ml: 0,
-      thickness_second_ml: 0,
       chromate: 0,
       primaryPer_more_than: 0,
       primaryPer_less_than: 0,
