@@ -189,3 +189,6 @@ tbody tr{
   cursor: pointer;
   font-weight: 500;
 }
+table.dataTable.display tbody tr{
+  text-align: center;
+}

@@ -21,7 +21,7 @@ class RunController extends Controller
 
 
 
-    public function __construct(Run $run, PlateMethod $plateMethod, Chemical $chemical,Company $company)
+    public function __construct(Run $run, PlateMethod $plateMethod, Chemical $chemical, Company $company)
     {
         $this->_run = $run;
         $this->_plateMethod = $plateMethod;
@@ -38,7 +38,7 @@ class RunController extends Controller
         $Chromates = $this->_chemical->getByType(2);
         $plateType = $this->_chemical->getByType(3);
         $SecondaryCoats = $this->_chemical->getByType(4);
-        $customers =$this->_company->getCustomers();
+        $customers = $this->_company->getCustomers();
 
 
         return Inertia::render(
@@ -93,8 +93,18 @@ class RunController extends Controller
      */
     public function show(Run $run)
     {
-       $runGet = $this->_run->getRun($run->id) ;
-       return $runGet;
+        $runGet = $this->_run->getRun($run->id);
+        return $runGet;
+    }
+    public function viewerPhotos($id)
+    {
+        return Inertia::render(
+            'Run/ViewerPhotos',
+            [
+                'id' => $id,
+
+            ]
+        );
     }
 
     /**
@@ -162,22 +172,22 @@ class RunController extends Controller
         // $hourRounded = bcdiv($hourdiff, '1', 0);
         // $totalHours = intval($hourRounded, 10);
 
-        if( $run->status == 1 ) {
-            if($run->isEdit) {
+        if ($run->status == 1) {
+            if ($run->isEdit) {
                 $hours = $run->hours;
             } else {
-                $closeNonEdit = intval( bcdiv( (strtotime($closedDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
+                $closeNonEdit = intval(bcdiv((strtotime($closedDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
                 $hours = $closeNonEdit;
             }
         } else {
-            if($run->isEdit) {
+            if ($run->isEdit) {
                 // current - last
                 //$hours = result + $run->hours 
-                $activeEdit = intval( bcdiv( (strtotime($currentDate) - strtotime($lastDate)) / 3600, '1', 0), 10);
+                $activeEdit = intval(bcdiv((strtotime($currentDate) - strtotime($lastDate)) / 3600, '1', 0), 10);
                 $hours = $run->hours + $activeEdit;
             } else {
                 // $hours = current - created
-                $activeNonEdit = intval( bcdiv( (strtotime($currentDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
+                $activeNonEdit = intval(bcdiv((strtotime($currentDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
                 $hours = $activeNonEdit;
             }
         }
@@ -201,26 +211,26 @@ class RunController extends Controller
         foreach ($run->parts as $part) {
             $plate_type = $part->plateType->name;
 
-            $chromate= $part->chromate->name;
-            $primaryPer = $part->primaryPer .'%';
-            $primaryTemp = $part->primaryTemp .'º';
-            $primaryPH = $part->primaryPH .'pH';
-            $primaryDiptime = $part->primaryDiptime .'sec';
-            
+            $chromate = $part->chromate->name;
+            $primaryPer = $part->primaryPer . '%';
+            $primaryTemp = $part->primaryTemp . 'º';
+            $primaryPH = $part->primaryPH . 'pH';
+            $primaryDiptime = $part->primaryDiptime . 'sec';
+
             $topCoat = $part->topCoat->name;
             $topCoatPer = $part->topCoatPer . '%';
             $topCoatTemp = $part->topCoatTemp . '°';
             $topCoatPH = $part->topCoatPH . 'pH';
             $topCoatDiptime = $part->topCoatDiptime . 'sec';
 
-            $coat= $part->coat->name;
+            $coat = $part->coat->name;
             $coatPer = $part->coatPer . '%';
             $coatTemp = $part->coatTemp . '°';
             $coatPH = $part->coatPH . 'pH';
             $coatDiptime = $part->coatDiptime . 'sec';
 
             $content .=
-            "<tr>
+                "<tr>
                 <td>$part->description</td>
                 <td>$plate_type</td>
                 // 
@@ -401,9 +411,9 @@ class RunController extends Controller
         ";
         $pdf->loadHTML($html);
 
-        return $pdf->download('run_report_'.$run->id.'.pdf');
+        return $pdf->download('run_report_' . $run->id . '.pdf');
     }
-    
+
     public function downloadPlus($id)
     {
         $run = $this->_run->getRun($id);
@@ -413,7 +423,7 @@ class RunController extends Controller
         $customer = 'test';
 
 
-        
+
         $current_date = new DateTime();
         $currentDate = $current_date->format('Y-m-d H:i:s');
         $created_at = new DateTime($run->created_at);
@@ -428,22 +438,22 @@ class RunController extends Controller
         // $hourRounded = bcdiv($hourdiff, '1', 0);
         // $totalHours = intval($hourRounded, 10);
 
-        if( $run->status == 1 ) {
-            if($run->isEdit) {
+        if ($run->status == 1) {
+            if ($run->isEdit) {
                 $hours = $run->hours;
             } else {
-                $closeNonEdit = intval( bcdiv( (strtotime($closedDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
+                $closeNonEdit = intval(bcdiv((strtotime($closedDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
                 $hours = $closeNonEdit;
             }
         } else {
-            if($run->isEdit) {
+            if ($run->isEdit) {
                 // current - last
                 //$hours = result + $run->hours 
-                $activeEdit = intval( bcdiv( (strtotime($currentDate) - strtotime($lastDate)) / 3600, '1', 0), 10);
+                $activeEdit = intval(bcdiv((strtotime($currentDate) - strtotime($lastDate)) / 3600, '1', 0), 10);
                 $hours = $run->hours + $activeEdit;
             } else {
                 // $hours = current - created
-                $activeNonEdit = intval( bcdiv( (strtotime($currentDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
+                $activeNonEdit = intval(bcdiv((strtotime($currentDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
                 $hours = $activeNonEdit;
             }
         }
@@ -462,11 +472,11 @@ class RunController extends Controller
         $plate_type = '';
         foreach ($run->parts as $part) {
             $plate_type = $part->plateType->name;
-            $coat= $part->coat->name;
+            $coat = $part->coat->name;
             $topCoat = $part->topCoat->name;
-            $chromate= $part->chromate->name;
+            $chromate = $part->chromate->name;
             $content .=
-            "<tr>
+                "<tr>
                 <td>$part->description</td>
                 <td>$plate_type</td>
                 
@@ -499,11 +509,11 @@ class RunController extends Controller
         $photos = $run->photos;
         $photosContent = '';
 
-        if( strlen($photos) > 0) {
+        if (strlen($photos) > 0) {
             foreach ($photos as $photo) {
-                if($photo->report === '1' ) {
-                    $photosContent .= 
-                    "
+                if ($photo->report === '1') {
+                    $photosContent .=
+                        "
                     <div style='page-break-inside:avoid;'>
                     <p>Image - $photo->name</p>
                     <hr>
@@ -514,7 +524,7 @@ class RunController extends Controller
                     ";
                 }
             }
-        } 
+        }
 
 
         $pdf = resolve('dompdf.wrapper');

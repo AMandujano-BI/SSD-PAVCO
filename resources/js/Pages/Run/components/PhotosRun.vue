@@ -16,7 +16,7 @@
               <img
                 :src="photo.image"
                 :alt="photo.name"
-                class="object-cover h-80 w-full"
+                class="object-contain h-90 w-full"
               />
               <div>
                 <ul class="flex flex-row justify-between px-3 pt-3">
@@ -68,7 +68,6 @@ export default {
 
     const gettingData = async () => {
       try {
-        console.log(id)
         const res = await axios.get(`/run/${id}`);
         console.log(res);
         runDetail.value = res.data.photos;

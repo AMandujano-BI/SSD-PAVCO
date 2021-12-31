@@ -26,7 +26,7 @@
             <th>Chromate</th>
             <th>Topcoat</th>
             <th>Secondary Topcoat</th>
-           
+
             <!-- <th class="no-sort">Notes</th> -->
           </tr>
         </thead>
@@ -72,7 +72,7 @@ export default {
     const gettingData = async () => {
       try {
         const res = await axios.get(`/run/${id}`);
-        console.log(res.data)
+        console.log(res.data);
         runDetail.value = res.data;
         runDetail.value.startDate = runDetail.value.startDate.slice(0, 10);
         // console.log(runDetail);
@@ -91,6 +91,13 @@ export default {
           // bInfo: false,
           pageLength: 5,
           // paging: false,
+          language: {
+            paginate: {
+              next: `→`, // or '→'
+              previous: `←`, // or '←'
+            },
+            info: "Showing results page _PAGE_ of _PAGES_",
+          },
         });
       });
     };
@@ -105,6 +112,12 @@ export default {
 </script>
 
 <style scoped>
-.no-sort::after { display: none!important; }
-.no-sort { pointer-events: none!important; cursor: default!important; background-image: none !important }
+.no-sort::after {
+  display: none !important;
+}
+.no-sort {
+  pointer-events: none !important;
+  cursor: default !important;
+  background-image: none !important;
+}
 </style>

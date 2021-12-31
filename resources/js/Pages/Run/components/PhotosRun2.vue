@@ -18,7 +18,7 @@
               <img
                 :src="photo.image"
                 :alt="photo.name"
-                class="object-cover h-80 w-full"
+                class="object-contain h-90 w-full"
               />
               <div>
                 <ul class="flex flex-row justify-between px-3 pt-3">
