@@ -382,33 +382,36 @@ export default {
           },
           columns: [
             {
-              targets: 1,
+              name: 'startDate',
               searchable: true,
               render: function (data, type, row, meta) {
                 return "<td>" + row.startDate.slice(0, 10) + "</td>";
               },
             },
             {
-              targets: 2,
-              
+              name: 'company.name',
+              searchable: true,
               render: function (data, type, row, meta) {
-                return `<td>${row.company?.name}</td>`;
+                return "<td>"+row.company.name + "</td>";
               },
             },
             {
-              targets: 3,
+              name: 'id',
+              searchable: true,
               render: function (data, type, row, meta) {
                 return "<td>" + row.id + "</td>";
               },
             },
             {
-              targets: 4,
+              name: 'Method',
+              searchable: false,
               render: function (data, type, row, meta) {
                 return "<td>" + row.method.name + "</td>";
               },
             },
             {
-              targets: 5,
+              name: 'Status',
+              searchable: false,
               render: function (data, type, row, meta) {
                 let status;
                 if (row.status === 1) {
@@ -420,7 +423,8 @@ export default {
               },
             },
             {
-              targets: 6,
+              name: 'Hours',
+              searchable: false,
               render: function (data, type, row, meta) {
                 return (
                   '<td class="text-center">' +
@@ -438,7 +442,8 @@ export default {
               },
             },
             {
-              targets: 7,
+              name: 'PhotoAction',
+              searchable: false,
               render: function (data, type, row, meta) {
                 return (
                   '<button class="showphotos" itemId=' +
@@ -448,7 +453,8 @@ export default {
               },
             },
             {
-              targets: 8,
+              name: 'ResultAction',
+              searchable: false,
               render: function (data, type, row, meta) {
                 return (
                   '<button class="showresults" itemId=' +
@@ -458,7 +464,8 @@ export default {
               },
             },
             {
-              targets: 9,
+              name: 'EditAction',
+              searchable: false,
               render: function (data, type, row, meta) {
                 return (
                   '<button class="editrun" itemId=' +
@@ -468,7 +475,8 @@ export default {
               },
             },
             {
-              targets: 10,
+              name: 'DeleteAction',
+              searchable: false,
               render: function (data, type, row, meta) {
                 return (
                   '<button class="showdelete" itemId=' +
@@ -478,7 +486,8 @@ export default {
               },
             },
             {
-              targets: 11,
+              name: 'CloseAction',
+              searchable: false,
               render: function (data, type, row, meta) {
                 if (row.status === 1) {
                   return (
@@ -496,7 +505,8 @@ export default {
               },
             },
             {
-              targets: 12,
+              name: 'ReOpenAction' ,
+              searchable: false,
               render: function (data, type, row, meta) {
                 if (row.status === 0) {
                   return (
@@ -514,7 +524,8 @@ export default {
               },
             },
             {
-              targets: 13,
+              name: 'reportAction',
+              searchable: false,
               render: function (data, type, row, meta) {
                 return (
                   '<button class="reportrun" itemId=' +
@@ -526,7 +537,8 @@ export default {
               },
             },
             {
-              targets: 14,
+              name: 'emailAction',
+              searchable: false,
               render: function (data, type, row, meta) {
                 return (
                   '<button class="runemail" itemId=' +

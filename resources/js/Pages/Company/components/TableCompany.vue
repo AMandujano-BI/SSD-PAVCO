@@ -178,12 +178,16 @@ export default {
           columns: [
             {
               targets: 1,
+              name: 'name',
+              searchable: true,
               render: function(data, type, row, meta) {
                 return '<span>'+row.name+'</span>';
               }
             },
             {
               targets: 2,
+              name: 'children.name',
+              searchable: true,
               render: function(data, type, row, meta) {
                 if( row.company_id === null ) {
                   return '<span>None</span>';
@@ -198,36 +202,48 @@ export default {
             },
             {
               targets: 3,
+              searchable: true,
+              name: 'address',
               render: function(data, type, row, meta) {
                 return '<span>'+row.address+'</span>';
               }
             },
             {
               targets: 4,
+              searchable: true,
+              name: 'city',
               render: function(data, type, row, meta) {
                 return '<span>'+row.city+'</span>';
               }
             },
             {
               targets: 5,
+              searchable: true,
+              name: 'state',
               render: function(data, type, row, meta) {
                 return '<span>'+row.state+'</span>';
               }
             },
             {
               targets: 6,
+              searchable: true,
+              name: 'zip',
               render: function(data, type, row, meta) {
                 return '<span>'+row.zip+'</span>';
               }
             },
             {
               targets: 7,
+              searchable: true,
+              name: 'country.name',
               render: function(data, type, row, meta) {
                 return '<span>'+ row.country?.name == null ? '' :  row.country.name +'</span>';
               }
             },
             {
               targets: 8,
+              searchable: true,
+              name: 'phone',
               render: function(data, type, row, meta) {
                 return '<span>'+row.phone+'</span>';
               }
