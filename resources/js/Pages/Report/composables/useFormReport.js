@@ -14,8 +14,6 @@ const useFormReport = (formProps) => {
     const { emit } = getCurrentInstance();
 
     const rules = {
-        thickness_first_ml: { required },
-        thickness_second_ml: { required },
         customer: {
             isDiferentZero: helpers.withMessage(
                 'You must select an option',
@@ -101,8 +99,6 @@ const useFormReport = (formProps) => {
             data: form,
             // responseType: 'blob', // important
         }).then((response) => {
-            console.log(response)
-            return
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;

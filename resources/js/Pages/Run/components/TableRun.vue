@@ -54,7 +54,11 @@
 
     <modal :show="modalEmail" @close="closeModalEmail">
       <div class="p-5">
-        <form-email :emailSend="emailSend" :id="idGlobal" @closeModal="closeModalEmail"/>
+        <form-email
+          :emailSend="emailSend"
+          :id="idGlobal"
+          @closeModal="closeModalEmail"
+        />
       </div>
     </modal>
 
@@ -194,7 +198,11 @@ export default {
     const onSlideChange = () => {
       // console.log('slide change');
     };
-
+$(document).ready(function () {
+    $("#filterRunInput").off().keyup(function () {
+        $("#activeRuns").DataTable().search(this.value).draw();
+      });
+      })
     const findRun = (id) => {
       run.value = runs.value.find((run) => run.id === id);
       idGlobal.value = id;
@@ -292,7 +300,6 @@ export default {
           // filterOption.value = 1;
           idGlobal.value = 0;
         } else {
-          console.log("ha ocurrido un error");
           makeToast(message, "error");
         }
       } catch (e) {
@@ -373,44 +380,42 @@ export default {
           stateSaveCallback: function (settings, data) {
             const state = settings.aoData;
             let arr = [];
-            console.log(state);
             state.forEach((element) => {
               arr.push(element._aData);
             });
             runs.value = arr;
-            console.log(runs);
           },
           columns: [
             {
-              name: 'startDate',
+              name: "startDate",
               searchable: true,
               render: function (data, type, row, meta) {
                 return "<td>" + row.startDate.slice(0, 10) + "</td>";
               },
             },
             {
-              name: 'company.name',
+              name: "company.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>"+row.company.name + "</td>";
+                return "<td>" + row.company.name + "</td>";
               },
             },
             {
-              name: 'id',
+              name: "id",
               searchable: true,
               render: function (data, type, row, meta) {
                 return "<td>" + row.id + "</td>";
               },
             },
             {
-              name: 'Method',
+              name: "Method",
               searchable: false,
               render: function (data, type, row, meta) {
                 return "<td>" + row.method.name + "</td>";
               },
             },
             {
-              name: 'Status',
+              name: "Status",
               searchable: false,
               render: function (data, type, row, meta) {
                 let status;
@@ -423,7 +428,7 @@ export default {
               },
             },
             {
-              name: 'Hours',
+              name: "Hours",
               searchable: false,
               render: function (data, type, row, meta) {
                 return (
@@ -442,7 +447,7 @@ export default {
               },
             },
             {
-              name: 'PhotoAction',
+              name: "PhotoAction",
               searchable: false,
               render: function (data, type, row, meta) {
                 return (
@@ -453,7 +458,7 @@ export default {
               },
             },
             {
-              name: 'ResultAction',
+              name: "ResultAction",
               searchable: false,
               render: function (data, type, row, meta) {
                 return (
@@ -464,7 +469,7 @@ export default {
               },
             },
             {
-              name: 'EditAction',
+              name: "EditAction",
               searchable: false,
               render: function (data, type, row, meta) {
                 return (
@@ -475,7 +480,7 @@ export default {
               },
             },
             {
-              name: 'DeleteAction',
+              name: "DeleteAction",
               searchable: false,
               render: function (data, type, row, meta) {
                 return (
@@ -486,7 +491,7 @@ export default {
               },
             },
             {
-              name: 'CloseAction',
+              name: "CloseAction",
               searchable: false,
               render: function (data, type, row, meta) {
                 if (row.status === 1) {
@@ -505,7 +510,7 @@ export default {
               },
             },
             {
-              name: 'ReOpenAction' ,
+              name: "ReOpenAction",
               searchable: false,
               render: function (data, type, row, meta) {
                 if (row.status === 0) {
@@ -524,7 +529,7 @@ export default {
               },
             },
             {
-              name: 'reportAction',
+              name: "reportAction",
               searchable: false,
               render: function (data, type, row, meta) {
                 return (
@@ -537,7 +542,7 @@ export default {
               },
             },
             {
-              name: 'emailAction',
+              name: "emailAction",
               searchable: false,
               render: function (data, type, row, meta) {
                 return (
@@ -596,10 +601,10 @@ export default {
       modalEmail.value = true;
       idGlobal.value = id;
     };
-    const closeModalEmail =()=>{
-      modalEmail.value = false
-      idGlobal.value = 0
-    }
+    const closeModalEmail = () => {
+      modalEmail.value = false;
+      idGlobal.value = 0;
+    };
 
     gettingData();
 

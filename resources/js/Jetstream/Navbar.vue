@@ -16,16 +16,17 @@
       xl:pl-60
       lg:w-auto lg:items-stretch
       dark:bg-gray-900 dark:border-gray-800
-      
     "
     :class="{ 'ml-60 lg:ml-0': isAsideMobileExpanded }"
   >
-    <div class="flex w-full justify-between h-16 mx-auto container px-5 ">
+    <div class="flex w-full justify-between h-16 mx-auto container px-5">
       <div class="flex">
         <!-- Logo -->
         <div class="flex-shrink-0 items-center hidden md:flex">
           <!-- <Link :href="route('dashboard')"> -->
-            <h1 class="text-[#3b4559] font-bold text-[20px]">Salt Spray Database</h1>
+          <h1 class="text-[#3b4559] font-bold text-[20px]">
+            Salt Spray Database
+          </h1>
           <!-- </Link> -->
         </div>
 
@@ -100,8 +101,11 @@
         </div>
       </div>
       <div class="flex justify-center items-center">
-        <div class="flex  items-center justify-center px-3">
-          <div class="relative text-gray-600 focus-within:text-gray-400">
+        <div class="flex items-center justify-center px-3">
+          <div
+            class="relative text-gray-600 focus-within:text-gray-400"
+            :class="{ invisible: route().current().split('.')[0] != 'run' }"
+          >
             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
               <button
                 type="submit"
@@ -122,12 +126,8 @@
             </span>
             <input
               type="text"
-              class="
-                py-2
-                text-sm 
-                pl-10
-                rounded-full
-              "
+              class="py-2 text-sm pl-10 rounded-full"
+              id="filterRunInput"
               placeholder="Search Run..."
               autocomplete="off"
             />
@@ -185,7 +185,7 @@
           </div>
 
           <!-- Settings Dropdown -->
-          <div class="ml-3 relative -mr-2 flex items-center ">
+          <div class="ml-3 relative -mr-2 flex items-center">
             <jet-dropdown align="right" width="48">
               <template #trigger>
                 <button
@@ -287,14 +287,10 @@
           </div>
         </div>
       </div>
-  
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div
-     
-      class="hidden sm:hidden absolute"
-    >
+    <div class="hidden sm:hidden absolute">
       <div class="pt-2 pb-3 space-y-1">
         <jet-responsive-nav-link
           :href="route('dashboard')"
