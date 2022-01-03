@@ -36,7 +36,7 @@ class Photo extends Model
     }
     public function getImageAttribute($value)
     {
-        $image =  Storage::temporaryUrl($value, now()->addMinutes(5));
+        $image =  Storage::temporaryUrl($value, now()->addMinutes(30));
         return $image;
     }
     public static function createPhoto($request)
@@ -67,7 +67,7 @@ class Photo extends Model
                 'run_id' => $run_id,
             ]);
             $photo->save();
-            $image = $file->storeAs('images/run' . $run_id, $filename, 's3', 'public');
+            $image = $file->storeAs('images/run' . $run_id, $filename, 's3');
 
             DB::commit();
             return [
