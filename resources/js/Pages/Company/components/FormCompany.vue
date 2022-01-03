@@ -95,6 +95,13 @@
           autocomplete="off"
           v-model="form.zip"
         />
+         <p
+          v-for="error of v$.zip.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
       </div>
 
       <div>

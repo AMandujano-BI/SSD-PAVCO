@@ -1,6 +1,6 @@
 
 
-import { required, helpers } from "@vuelidate/validators";
+import { required, helpers,maxLength } from "@vuelidate/validators";
 import { reactive, ref, getCurrentInstance } from "vue";
 import useVuelidate from "@vuelidate/core";
 import axios from "axios";
@@ -70,6 +70,9 @@ const useFormCompany = (formProps) => {
                 isDiferentZero
             ),
         },
+        zip:{
+            maxLength:maxLength(10)
+        }
     };
 
     const v$ = useVuelidate(rules, form);
