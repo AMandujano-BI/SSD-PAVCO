@@ -247,9 +247,11 @@ export default {
               searchable: true,
               name: "country.name",
               render: function (data, type, row, meta) {
-                return "<span>" + row.country?.name == null
-                  ? ""
-                  : row.country.name + "</span>";
+                console.log(row.country)
+                if(row.country !=null){
+                    return `<span>${row.country?.name}</span> `
+                }
+                return `<span></span>`
               },
             },
             {

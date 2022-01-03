@@ -68,7 +68,7 @@ class PartController extends Controller
      */
     public function show($id)
     {
-        $parts = $this->_part->getPartsByRun($id);
+     
         $run = $this->_run->getRun($id);
         $plateMethods = $this->_plateMethod->getPlateMethods();
         $topCoats = $this->_chemical->getByType(1);
@@ -83,7 +83,7 @@ class PartController extends Controller
         return Inertia::render(
             'Parts/Detail',
             [
-                'parts' => $parts,
+                // 'parts' => $parts,
                 'plateMethods' => $plateMethods,
                 'run' => $run,
                 'topCoats' => $topCoats,
@@ -105,6 +105,10 @@ class PartController extends Controller
     public function edit(Part $part)
     {
         //
+    }
+    public function getPartsByRun($id){
+        $parts = $this->_part->getPartsByRun($id);
+        return $parts;
     }
 
     /**
