@@ -116,7 +116,6 @@ const styleInactive = "text-gray-500";
       </div>
     </div>
     <jet-nav-link
-      :is="componentIs"
       v-if="itemHref"
       :href="route(itemRoute)"
       class="

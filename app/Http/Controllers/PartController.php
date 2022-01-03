@@ -35,10 +35,7 @@ class PartController extends Controller
      */
     public function index()
     {
-        return Inertia::render(
-            'Parts/Index',
-            []
-        );
+   
     }
 
     /**
