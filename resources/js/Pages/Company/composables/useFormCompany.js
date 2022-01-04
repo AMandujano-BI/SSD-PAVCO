@@ -13,17 +13,11 @@ const isDiferentZero = (value) => {
 
 const validationCustomer = (param) => helpers.withParams(
     { type: 'validationCustomer', value: param }, (value) => {
-        console.log(param)
         const type = param.split('/')[1]
         const number = param.split('/')[0]
         if (type.toString() =='normal') {
-            console.log('entro normal',value)
-            console.log('entro normal number',number)
-
             if (parseInt(number) ==1) {
-                console.log('entro a 1')
                 if (value == undefined || value == null || value == 0) {
-                    console.log('calv')
                     return { $valid: false }
                 }
                 return { $valid: true }
@@ -32,22 +26,15 @@ const validationCustomer = (param) => helpers.withParams(
                 return { $valid: true }
             }
         } else {
-            console.log('entro radio',value)
-             console.log('company_id',number)
 
             if (value ==1) {
-                console.log('number',number)
-                console.log(number)
                 if (number == undefined || number == null || number == 0 || number == 'null') {
-                    console.log('nose')
                     return { $valid: false }
                 }else{
-                    console.log('nose valido ')
                     return { $valid: true }
                 }
 
             } else {
-                console.log('entro a 0')
                 return { $valid: true }
             }
 
@@ -114,7 +101,6 @@ const useFormCompany = (formProps) => {
 
         } catch (e) {
             makeToast('error', 'error')
-            console.log(e)
         }
     }
 

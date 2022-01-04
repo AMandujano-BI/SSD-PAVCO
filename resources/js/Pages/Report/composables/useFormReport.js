@@ -90,8 +90,6 @@ const useFormReport = (formProps) => {
 
     const submitForm = async () => {
         const isFormCorrect = await v$.value.$validate();
-        console.log(form);
-        console.log(isFormCorrect);
         if (!isFormCorrect) return
         axios({
             url: '/report/runReportDetail/',

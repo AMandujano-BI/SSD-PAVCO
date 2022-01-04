@@ -12,7 +12,7 @@
           :pagination="{ clickable: true }"
         >
           <swiper-slide v-for="photo in runDetail" :key="photo.id">
-            <div>
+            <div class="min-h-[400px] max-h-[500px]">
               <img
                 :src="photo.image"
                 :alt="photo.name"
@@ -69,10 +69,8 @@ export default {
     const gettingData = async () => {
       try {
         const res = await axios.get(`/run/${id}`);
-        console.log(res);
         runDetail.value = res.data.photos;
         isLoading.value = false;
-        console.log(isLoading);
       } catch (e) {
         isLoading.value = false;
       }
@@ -105,7 +103,6 @@ export default {
   },
   watch: {
     isLoading: function(val){
-      console.log(val);
       this.isLoading = val
     }
   }

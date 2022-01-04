@@ -36,7 +36,6 @@ const useFormuser = (formProps) => {
             res = await axios.post('/user', form)
         else
             res = await axios.put(`/user/${form.id}`, form)
-        console.log(res)
         const { ok, message, value } = res.data
         if (ok) {
             if (form.id == 0) {

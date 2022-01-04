@@ -166,11 +166,9 @@ export default {
           stateSaveCallback: function (settings, data) {
             const state = settings.aoData;
             let arr = [];
-            console.log(state);
             state.forEach((element) => {
               arr.push(element._aData);
             });
-            console.log(arr);
             store.commit("companies/setDataTable", arr);
           },
           columns: [
@@ -247,7 +245,6 @@ export default {
               searchable: true,
               name: "country.name",
               render: function (data, type, row, meta) {
-                console.log(row.country)
                 if(row.country !=null){
                     return `<span>${row.country?.name}</span> `
                 }

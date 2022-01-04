@@ -71,13 +71,11 @@ const actions = {
     },
     async createUser({ commit }, form) {
         let res
-        console.log(form)
         if (form.id == 0)
             res = await axios.post('/user', form)
         else
             res = await axios.put(`/user/${form.id}`, form)
         const data = res.data
-        console.log(data)
         return data
         // commit('setDataTable', data)
     },

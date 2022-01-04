@@ -124,12 +124,9 @@ export default {
         noteData.value.run_id = id;
         noteData.value.isPublic = form.isPublic ? 1 : 0;
         const res = await axios.post("/note/add", noteData._value);
-        console.log(res);
         const { ok, message, value } = res.data;
         if (ok) {
           notes.value.push({ note: value.note });
-          console.log(notes);
-          console.log(value);
           makeToast(message);
           v$.value.$reset();
           form.id= 0
@@ -139,7 +136,6 @@ export default {
           makeToast(message, "error");
         }
       } catch (e) {
-        console.log(e);
         makeToast(e, "error");
       }
     };

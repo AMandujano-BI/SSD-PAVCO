@@ -206,7 +206,6 @@ export default {
 
     const fileChange = (e) => {
       const file = e.target.files[0];
-      console.log(file);
       image.value = file;
       form.image = file;
       url.value = URL.createObjectURL(file);

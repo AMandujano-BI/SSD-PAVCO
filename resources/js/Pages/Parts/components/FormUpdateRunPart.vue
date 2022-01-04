@@ -122,7 +122,6 @@ export default {
   },
   setup(props) {
     const { run } = props;
-    console.log(run);
     const { makeToast } = useHelper();
     const hasDiferentHours = ref(false);
 
@@ -234,7 +233,6 @@ export default {
             ":" +
             date.getUTCSeconds();
           form.last_edit = dateFormated;
-          console.log(form.last_edit);
         }
 
         const isFormCorrect = await v$.value.$validate();
@@ -243,18 +241,14 @@ export default {
         res = await axios.put(`/run/${form.id}`, form);
         const { ok, value, message } = res.data;
         if (form.hasDiferentHours) {
-          console.log("has different value");
           form.hasDiferentHours = false;
         }
-        console.log(form);
         if (ok) {
           makeToast("Part was updated successfully");
         } else {
-          console.log(res.data);
           makeToast("An error has occurred", "error");
         }
       } catch (e) {
-        console.log(e);
         makeToast("An error has occurred", "error");
       }
     };

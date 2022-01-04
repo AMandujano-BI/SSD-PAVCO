@@ -84,7 +84,6 @@ export default defineComponent({
   setup() {
     const store = useStore();
     // const menuIs = ref($page.props.auth.rols);
-    // console.log(menuIs);
     const isFullScreen = computed(() => store.state.isFullScreen);
     const menuToggleMobile = () => store.dispatch("asideMobileToggle");
     const showingNavigationDropdown = ref(false);

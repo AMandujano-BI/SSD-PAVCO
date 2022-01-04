@@ -430,14 +430,11 @@ export default {
     const submitForm = async () => {
       try {
         const isFormCorrect = await v$.value.$validate();
-        console.log(isFormCorrect);
         if (!isFormCorrect) return;
         let res;
 
-        console.log(form);
         res = await axios.post(`/part`, form.value);
         const { ok,  message } = res.data;
-        console.log(res.data);
         if (ok) {
           makeToast(message);
           // parts.value = [...parts.value,value]
@@ -449,7 +446,6 @@ export default {
         }
       } catch (e) {
         makeToast(e, "error");
-        console.log(e);
       }
     };
 

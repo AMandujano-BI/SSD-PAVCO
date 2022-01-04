@@ -125,7 +125,6 @@ const useFormRun = () => {
                 // window.location.href = `/part/${value.id}`;
                 Inertia.get(`/part/${value.id}`)
             } else {
-                console.log(res.data);
                 makeToast("An error has occurred", "error");
             }
         } catch (e) {
