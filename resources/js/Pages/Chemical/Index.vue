@@ -1,10 +1,10 @@
 <template>
   <app-layout title="Chemicals">
-    <div class="container p-9 mx-auto">
+    <div class="container pt-7 mx-auto">
       <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
         List of Chemicals
       </h1>
-      <div class="flex gap-8 items-center mb-5 pt-5">
+      <div class="flex gap-8 items-center mb-5 pt-5 px-4 md:px-20">
         <button @click="openModal"><icon-plus /></button>
         <select class="w-full" v-model="selected" @change="filterChemicals">
           <option value="0" selected>All Chemical</option>

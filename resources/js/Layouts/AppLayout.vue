@@ -4,7 +4,7 @@
 
     <jet-banner />
 
-    <div class="min-h-screen bg-gray-100" id="app">
+    <div class="min-h-screen bg-gray-[#F8FAFC]" id="app">
       <navbar-vue />
       <!-- Page Heading -->
       <header class="bg-white shadow" v-if="$slots.header">

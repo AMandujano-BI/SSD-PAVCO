@@ -9,7 +9,7 @@
     </div>
   </modal>
 
-  <div class="flex gap-8 items-center mb-5">
+  <div class="flex gap-8 items-center mb-5 px-4 md:px-0">
     <button @click="openModal"><icon-plus /></button>
     <select class="w-full" @change="changeFilter" v-model="filterOption">
       <option value="4">All</option>
