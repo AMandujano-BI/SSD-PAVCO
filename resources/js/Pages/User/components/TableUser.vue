@@ -1,11 +1,7 @@
 <template>
-  <button
-    @click="openModalForm"
-  >
-  <icon-plus/>
-  </button>
-  <div class="pt-5">
-    <select class="w-full mb-5" @change="changeFilter" v-model="filterOption">
+  <div class="flex gap-8 items-center mb-5 pt-5">
+    <button @click="openModalForm"><icon-plus /></button>
+    <select class="w-full " @change="changeFilter" v-model="filterOption">
       <option value="0" selected>All</option>
       <option :value="rol.value" v-for="rol in rols" :key="rol.id">
         {{ rol.label }}
@@ -178,7 +174,7 @@ export default {
           ordering: true,
           bLengthChange: false,
           pageLength: 5,
-             language: {
+          language: {
             paginate: {
               next: `→`, // or '→'
               previous: `←`, // or '←'

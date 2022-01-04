@@ -1,10 +1,13 @@
 <template>
   <div class="container p-9">
-    <select class="w-full mb-5" @change="changeFilter" v-model="filterOption">
-      <option value="3">All</option>
+    <div class="flex gap-8 items-center  mb-5">
+    <button @click="openModalButton"><icon-plus /></button>
+    <select class="w-full " @change="changeFilter" v-model="filterOption">
+      <option value="3">Show All</option>
       <option value="0">Active</option>
       <option value="1">Complete</option>
     </select>
+    </div>
     <div class="rounded-lg shadow-lg p-5">
       <table id="activeRuns" class="display" style="width: 100%; height: 100%">
         <thead>
@@ -160,8 +163,9 @@ import IconResult from "@/assets/Icons/iconResult.vue";
 import IconPhoto from "@/assets/Icons/iconPhoto.vue";
 import IconClose from "@/assets/Icons/iconClose.vue";
 const $ = require("jquery");
-
+import IconPlusVue from "@/assets/Icons/iconPlus.vue";
 export default {
+  emits: ["openModalButton"],
   components: {
     modal: Modal,
     confirmationModal: ConfirmationModal,
@@ -175,10 +179,11 @@ export default {
     IconClose,
     IconResult,
     IconPhoto,
+    IconPlus: IconPlusVue,
     tablePartDetail: TablePartDetailVue,
     IconClose,
   },
-  setup() {
+  setup(props, { emit }) {
     const { makeToast } = useHelper();
     let runs = ref([]);
     const run = ref(null);
@@ -198,11 +203,13 @@ export default {
     const onSlideChange = () => {
       // console.log('slide change');
     };
-$(document).ready(function () {
-    $("#filterRunInput").off().keyup(function () {
-        $("#activeRuns").DataTable().search(this.value).draw();
-      });
-      })
+    $(document).ready(function () {
+      $("#filterRunInput")
+        .off()
+        .keyup(function () {
+          $("#activeRuns").DataTable().search(this.value).draw();
+        });
+    });
     const findRun = (id) => {
       run.value = runs.value.find((run) => run.id === id);
       idGlobal.value = id;
@@ -653,6 +660,7 @@ $(document).ready(function () {
       openModalEmail,
       emailSend,
       closeModalEmail,
+      openModalButton: () => emit("openModalButton"),
     };
   },
 };
