@@ -24,7 +24,16 @@ export default {
     AppLayout: AppLayout,
     formGenerateReport: FormGenerateReport,
   },
-  setup() {},
+  setup(props) {
+    const {customers} = props
+    customers.unshift( { "value": 0, "label": "All companies" } )
+    console.log(customers)
+
+    
+    
+
+   
+  },
 };
 </script>
 
