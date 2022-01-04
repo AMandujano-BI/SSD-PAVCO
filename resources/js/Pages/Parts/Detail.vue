@@ -8,9 +8,7 @@
       
       <div class=" p-6  mb-6 border-[1px] border-[#979797] bg-[#f8fafc]">
         <table-part
-          :parts="parts"
           :run="run"
-          :openModal="openModal"
           :chromates="chromates"
           :plateTypes="plateTypes"
           :secondaryCoats="secondaryCoats"
@@ -35,7 +33,7 @@ import FormCreatePartVue from "./components/FormCreatePart.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 export default {
   props: [
-    "parts",
+    // "parts",
     "query",
     "plateMethods",
     "run",

@@ -101,7 +101,6 @@ class Company extends Model
         DB::beginTransaction();
         try {
             $lastCompany = Company::find($id);
-            // dd($lastCompany->customer,$request->customer);
             if ($lastCompany->customer != $request->customer) {
 
                 $companyRelation = (new static)::where('company_id', $request->id)->where('customer', 1)->get();
@@ -114,15 +113,15 @@ class Company extends Model
                         'value' => 0
                     ];
                 }
-            }
-            $useRun = Run::where('company_id', $id)->get();
-            if (count($useRun) > 0) {
-                DB::rollBack();
-                return [
-                    'ok' => false,
-                    'message' => 'The Customer has a relation with  Runs',
-                    'value' => 0
-                ];
+                $useRun = Run::where('company_id', $id)->get();
+                if (count($useRun) > 0) {
+                    DB::rollBack();
+                    return [
+                        'ok' => false,
+                        'message' => 'The Customer has a relation with  Runs',
+                        'value' => 0
+                    ];
+                }
             }
             $company_id = $request->company_id;
             $customer = $request->customer;

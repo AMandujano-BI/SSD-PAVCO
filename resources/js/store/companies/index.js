@@ -69,11 +69,9 @@ const actions = {
     async getCompanies({ commit }, type) {
         const res = await axios.get(`/company/getCompanies/${type}`);
         const data = res.data
-        console.log(data)
         return data
     },
     async getDistributors({ commit },id) {
-        console.log(id)
         const res = await axios.get(`/company/getDistributors/${id}`);
         const data = res.data
         return data

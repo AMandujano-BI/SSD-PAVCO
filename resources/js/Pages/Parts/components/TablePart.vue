@@ -85,6 +85,7 @@
         @closeModal="closeModal"
         @generateDataTable="generateDataTable"
         :partsTable="partsTable"
+        @gettinDataParts="gettinDataParts"
       />
     </div>
   </modal>
@@ -125,14 +126,14 @@
     <div class="p-5">
       <form-create-part
         :run_id="run.id"
-        :partsTable="parts"
-        :openModal="openModal"
+        :partsTable="partsTable"
         :chromates="chromates"
         :plateTypes="plateTypes"
         :secondaryCoats="secondaryCoats"
         :topCoats="topCoats"
         @closeModalNewPart="closeModalNewPart"
         @generateDataTable="generateDataTable"
+        @gettinDataParts="gettinDataParts"
       />
     </div>
   </modal>
@@ -153,7 +154,7 @@ import IconDelete from "@/assets/Icons/iconDelete.vue";
 import IconPlus from "@/assets/Icons/iconPlus.vue";
 export default {
   props: [
-    "parts",
+    // "parts",
     "topCoats",
     "chromates",
     "plateTypes",
@@ -170,9 +171,9 @@ export default {
     IconPlus,
   },
   setup(props) {
-    let { parts } = props;
+    const {run} = props
     const openModal = ref(false);
-    const partsTable = ref(parts);
+    const partsTable = ref([]);
     const openModalNotes = ref(false);
     const openModalPartCreate = ref(false);
     const { makeToast } = useHelper();
@@ -183,6 +184,12 @@ export default {
       plateThick: 0,
       primaryPer: 0,
     });
+    const gettinDataParts = async()=>{
+      const res = await axios.get(`/part/getPartsByRun/${run.id}`)
+      partsTable.value = res.data
+      generateDataTable()
+    }
+    gettinDataParts()
     const generateDataTable = () => {
       $("#partsTable").DataTable().destroy();
       nextTick(() => {
@@ -265,6 +272,7 @@ export default {
       openModalPartCreate,
       openModalPartClick,
       closeModalNewPart,
+      gettinDataParts
     };
   },
 };

@@ -312,7 +312,7 @@ const isDiferentZero = (value) => {
   return value != 0;
 };
 export default {
-  emits: ["closeModalNewPart", "generateDataTable"],
+  emits: ["closeModalNewPart", "generateDataTable","gettinDataParts"],
   components: {
     multiSelect: Multiselect,
   },
@@ -430,26 +430,22 @@ export default {
     const submitForm = async () => {
       try {
         const isFormCorrect = await v$.value.$validate();
-        console.log(isFormCorrect);
         if (!isFormCorrect) return;
         let res;
 
-        console.log(form);
         res = await axios.post(`/part`, form.value);
-        const { ok, value, message } = res.data;
-        console.log(res.data);
+        const { ok,  message } = res.data;
         if (ok) {
           makeToast(message);
           // parts.value = [...parts.value,value]
-          parts.value.push(value);
-          emit("generateDataTable");
+          // parts.value.push(value);
+          emit("gettinDataParts")
           emit("closeModalNewPart");
         } else {
           makeToast("An error has occurred", "error");
         }
       } catch (e) {
         makeToast(e, "error");
-        console.log(e);
       }
     };
 

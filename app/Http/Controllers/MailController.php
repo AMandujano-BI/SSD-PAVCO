@@ -24,6 +24,7 @@ class MailController extends Controller
 
     public function store(Request $request)
     {
+        // dd(url(''));
         try {
 
             $id = $request->id;

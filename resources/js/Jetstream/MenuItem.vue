@@ -32,7 +32,6 @@ const itemTarget = computed(() =>
 );
 
 const menuClick = (event) => {
-  console.log(event);
   if (hasDropdown.value) {
     isDropdownActive.value = !isDropdownActive.value;
     if (event == undefined) return;

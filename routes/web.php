@@ -54,6 +54,7 @@ Route::middleware(['auth:sanctum', 'verified', 'rols'])->group(function () {
     Route::middleware(['auth:sanctum', 'verified'])->put('/run/closeRun/{id}', [RunController::class, 'closeRun'])->name('run.closeRun');
     Route::middleware(['auth:sanctum', 'verified'])->put('/run/reopenRun/{id}', [RunController::class, 'reopenRun'])->name('run.reopenRun');
     Route::middleware(['auth:sanctum', 'verified'])->get('/user/getUsers/{type}', [UserController::class, 'getUsers'])->name('user.getUsers');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/part/getPartsByRun/{id}', [PartController::class, 'getPartsByRun'])->name('part.getPartsByRun');
     Route::middleware(['auth:sanctum', 'verified'])->post('/user/resetPassword', [UserController::class, 'resetPassword'])->name('user.resetPassword');
     Route::middleware(['auth:sanctum', 'verified'])->post('/report/runReportDetail', [ReportController::class, 'runReportDetail'])->name('report.runReportDetail');
 

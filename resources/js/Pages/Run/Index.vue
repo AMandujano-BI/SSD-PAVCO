@@ -1,9 +1,9 @@
 <template>
   <app-layout title="Runs">
-    <div class="container mx-auto pt-5">
+    <div class="container mx-auto pt-7">
       <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">List of Runs</h1>
       <div class="pl-9">
-        <button @click="openModalButton" > <icon-plus/> </button>
+        <!-- <button @click="openModalButton" > <icon-plus/> </button> -->
       </div>
       <modal :show="openModal">
         <div class="p-5">
@@ -20,7 +20,7 @@
         </div>
       </modal>
 
-      <table-run />
+      <table-run  @openModalButton="openModalButton"/>
     </div>
   </app-layout>
 </template>

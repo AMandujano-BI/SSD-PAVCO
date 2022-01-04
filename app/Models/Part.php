@@ -135,6 +135,7 @@ class Part extends Model
             $part->coatTemp = $request->coatTemp;
             $part->coatPH = $request->coatPH;
             $part->coatDiptime = $request->coatDiptime;
+            $part->plateThick= $request->plateThick;
             $part->save();
             $run = Run::find($request->run_id);
             if ($run == null) {

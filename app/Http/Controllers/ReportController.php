@@ -116,11 +116,9 @@ class ReportController extends Controller
     }
     public function runReportDetail(Request $request)
     {
-        // return $request;
         $startDate = $request->startDate;
         $endDate = $request->endDate;
         $company_id = $request->customer;
-        // dd($request);
         $customer = $request->customer;
         $plate_type = $request->plate_type;
         $chromate = $request->chromate;

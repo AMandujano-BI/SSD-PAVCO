@@ -1,5 +1,4 @@
 <template>
-  <button @click="openModal"><icon-plus /></button>
   <modal :show="openModalCompany">
     <div class="p-5">
       <form-company
@@ -9,8 +8,10 @@
       />
     </div>
   </modal>
-  <div class="pt-5">
-    <select class="w-full mb-5" @change="changeFilter" v-model="filterOption">
+
+  <div class="flex gap-8 items-center mb-5 px-4 md:px-0">
+    <button @click="openModal"><icon-plus /></button>
+    <select class="w-full" @change="changeFilter" v-model="filterOption">
       <option value="4">All</option>
       <option value="0">Customer</option>
       <option value="1">Distributor</option>
@@ -166,11 +167,9 @@ export default {
           stateSaveCallback: function (settings, data) {
             const state = settings.aoData;
             let arr = [];
-            console.log(state);
             state.forEach((element) => {
               arr.push(element._aData);
             });
-            console.log(arr);
             store.commit("companies/setDataTable", arr);
           },
           columns: [
@@ -247,9 +246,10 @@ export default {
               searchable: true,
               name: "country.name",
               render: function (data, type, row, meta) {
-                return "<span>" + row.country?.name == null
-                  ? ""
-                  : row.country.name + "</span>";
+                if (row.country != null) {
+                  return `<span>${row.country?.name}</span> `;
+                }
+                return `<span></span>`;
               },
             },
             {
@@ -276,7 +276,9 @@ export default {
             {
               targets: 10,
               render: function (data, type, row, meta) {
-                return row.customer==1 ? "<span>Customer</span>":"<span>Distributor</span>"
+                return row.customer == 1
+                  ? "<span>Customer</span>"
+                  : "<span>Distributor</span>";
               },
             },
             {

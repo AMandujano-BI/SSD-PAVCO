@@ -128,7 +128,7 @@
     </div>
     <div>
       <label for="">TopCoat</label>
-      <div class="flex w-full justify-around gap-2">
+      <div class="flex w-full flex-col md:flex-row justify-around gap-2">
         <div class="w-full">
           <multi-select
             :options="topCoats"
@@ -218,7 +218,7 @@
     </div>
     <div>
       <label for="">Secondary Topcoat</label>
-      <div class="flex w-full justify-around gap-2">
+      <div class="flex w-full flex-col md:flex-row justify-around gap-2">
         <div class="w-full">
           <multi-select
             :options="secondaryCoats"
@@ -353,14 +353,14 @@
 import { required, helpers } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import axios from "axios";
-import { ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import useHelper from "@/composables/useHelper";
 import Multiselect from "@vueform/multiselect";
 const isDiferentZero = (value) => {
   return value != 0;
 };
 export default {
-  emits: ["closeModal", "generateDataTable"],
+  emits: ["closeModal", "generateDataTable","gettinDataParts"],
   props: [
     "plateMethods",
     "topCoats",
@@ -377,7 +377,7 @@ export default {
     const { partUpdate, partsTable } = props;
     const { makeToast } = useHelper();
     const parts = ref(partsTable);
-    const form = ref({
+    const form = reactive({
       id: partUpdate.id,
       description: partUpdate.description,
       run_id: partUpdate.run_id,
@@ -428,45 +428,19 @@ export default {
           isDiferentZero
         ),
       },
-      topCoatPer: {
-        required,
-      },
-      topCoatTemp: {
-        required,
-      },
-      topCoatPH: {
-        required,
-      },
-      topCoatDiptime: {
-        required,
-      },
-      primaryPer: {
-        required,
-      },
-      primaryTemp: {
-        required,
-      },
-      primaryPH: {
-        required,
-      },
-      primaryDiptime: {
-        required,
-      },
-      plateThick: {
-        required,
-      },
-      coatPH: {
-        required,
-      },
-      coatPer: {
-        required,
-      },
-      coatTemp: {
-        required,
-      },
-      coatDiptime: {
-        required,
-      },
+      topCoatPer: { required, },
+      topCoatTemp: { required, },
+      topCoatPH: { required, },
+      topCoatDiptime: { required, },
+      primaryPer: { required, },
+      primaryTemp: { required, },
+      primaryPH: { required, },
+      primaryDiptime: { required, },
+      plateThick: { required, },
+      coatPH: { required, },
+      coatPer: { required, },
+      coatTemp: { required, },
+      coatDiptime: { required, },
     };
     const v$ = useVuelidate(rules, form);
     const closeModalForm = () => {
@@ -475,24 +449,15 @@ export default {
     const submitForm = async () => {
       try {
         const isFormCorrect = await v$.value.$validate();
-        const id = form.value.id;
+        const id = form.id;
         if (!isFormCorrect) return;
         let res;
 
-        res = await axios.put(`/part/${id}`, form.value);
-        const { ok, value, message } = res.data;
+        res = await axios.put(`/part/${id}`, form);
+        const { ok, message } = res.data;
         if (ok) {
           makeToast(message);
-          const index = parts.value.findIndex((item) => item.id == id);
-          console.log(parts.value[index]);
-          parts.value[index] = {
-            ...parts.value[index],
-            primaryCoatId: form.value.primaryCoatId,
-            coatId: form.value.coatId,
-            topCoatId: form.value.topCoatId,
-            description: form.value.description,
-          };
-          emit("generateDataTable");
+          emit('gettinDataParts')
           emit("closeModal");
         } else {
           makeToast("An error has occurred", "error");

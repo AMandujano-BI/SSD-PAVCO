@@ -4,7 +4,7 @@
 
     <jet-banner />
 
-    <div class="min-h-screen bg-gray-100" id="app">
+    <div class="min-h-screen bg-gray-[#F8FAFC]" id="app">
       <navbar-vue />
       <!-- Page Heading -->
       <header class="bg-white shadow" v-if="$slots.header">
@@ -84,7 +84,6 @@ export default defineComponent({
   setup() {
     const store = useStore();
     // const menuIs = ref($page.props.auth.rols);
-    // console.log(menuIs);
     const isFullScreen = computed(() => store.state.isFullScreen);
     const menuToggleMobile = () => store.dispatch("asideMobileToggle");
     const showingNavigationDropdown = ref(false);
