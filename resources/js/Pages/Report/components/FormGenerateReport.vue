@@ -3,9 +3,20 @@
     The Report Wizard allows you to create a report based on selected criteria.
   </p>
   <form @submit.prevent="submitForm">
-    <div class="bg-white mt-4 mb-3 p-3 flex w-full h-[104px] items-center">
-      <div class="flex items-center px-8 flex-1">
-        <label class="pr-3 font-bold">Customer</label>
+    <div
+      class="
+        bg-white
+        mt-4
+        mb-3
+        p-3
+        flex flex-col
+        lg:flex-row
+        w-full
+        items-center
+      "
+    >
+      <div class="flex items-center p-4 flex-1 w-full">
+        <label class="pr-3 font-bold w-[110px]">Customer</label>
         <div class="w-full">
           <multi-select
             :options="customers"
@@ -15,16 +26,16 @@
             :close-on-select="true"
             placeholder="Select a Customer"
           />
-         
         </div>
       </div>
 
-      <div class="flex items-center p-4">
-        <label class="pr-3 font-bold">Date Range</label>
+      <div class="flex items-center flex-1 p-4 w-full">
+        <label class="pr-3 font-bold w-[110px]">Date Range</label>
         <div>
           <input
             type="date"
             v-model="form.startDate"
+            class="w-full"
             :class="{ 'border-red-400': v$.startDate.$error }"
           />
           <p
@@ -37,11 +48,12 @@
         </div>
       </div>
 
-      <div class="flex items-center">
-        <label class="pr-3 font-bold">To</label>
+      <div class="flex items-center flex-1 p-4 w-full">
+        <label class="pr-3 font-bold w-[110px]">To</label>
         <div>
           <input
             type="date"
+            class="w-full"
             v-model="form.endDate"
             :class="{ 'border-red-400': v$.endDate.$error }"
           />
@@ -56,9 +68,9 @@
       </div>
     </div>
 
-    <div class="bg-white mt-4 mb-3 p-3 h-170">
+    <div class="bg-white mt-4 mb-3 px-4 w-full h-170">
       <div class="flex">
-        <label class="pr-3 font-bold">Plate Type</label>
+        <label class="pr-3 font-bold w-[110px]">Plate Type</label>
         <multi-select
           :options="plateTypes"
           class="w-full"
@@ -66,116 +78,64 @@
           :searchable="true"
           placeholder="Select Plate Type"
         />
-       
       </div>
-
-      <!-- <div class="flex mt-3">
-        <label class="pr-3 font-bold">Thickness</label>
-        <div class="flex w-full flex-col md:flex-row gap-2">
-          <multi-select
-            :options="listThickness"
-            class="w-[150px]"
-            v-model="form.thickness"
-            :searchable="true"
-            placeholder="Select Thickness"
-          />
-          <p
-            v-for="error of v$.thickness.$error"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
-          <div class="flex gap-2">
-            <div>
-              <input
-                type="text"
-                class="w-20"
-                placeholder="mil"
-                v-model="form.thickness_first_ml"
-              />
-              <p
-                v-for="error of v$.thickness_first_ml.$error"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
-            </div>
-            <div>
-              <input
-                type="text"
-                class="w-20"
-                placeholder="mil"
-                v-model="form.thickness_second_ml"
-              />
-              <p
-                v-for="error of v$.thickness_second_ml.$error"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
 
     <div class="bg-white mt-4 mb-3 p-3 h-338">
-      <div class="flex w-full flex-col md:flex-row gap-2">
+      <div class="flex w-full flex-col lg:flex-row gap-2">
         <div class="w-full"></div>
-        <div class="flex gap-2">
+        <div class="flex gap-2 justify-center lg:justify-start">
           <div>
-            <div class="w-[130px] font-bold text-center">Conc%</div>
+            <div class="w-[80px] lg:w-[130px] font-bold text-center">Conc%</div>
           </div>
           <div>
-            <div class="w-[130px] font-bold text-center">Temp</div>
+            <div class="w-[80px] lg:w-[130px] font-bold text-center">Temp</div>
           </div>
           <div>
-            <div class="w-[130px] font-bold text-center">pH</div>
+            <div class="w-[80px] lg:w-[130px] font-bold text-center">pH</div>
           </div>
           <div>
-            <div class="w-[130px] font-bold text-center">Diptime</div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="flex w-full flex-col md:flex-row gap-2">
-          <div class="w-full"></div>
-          <div class="flex gap-2">
-            <div>
-              <div class="w-[60px] text-center">&gt;</div>
-            </div>
-            <div>
-              <div class="w-[60px] text-center">&lt;</div>
-            </div>
-            <div>
-              <div class="w-[60px] text-center">&gt;</div>
-            </div>
-            <div>
-              <div class="w-[60px] text-center">&lt;</div>
-            </div>
-            <div>
-              <div class="w-[60px] text-center">&gt;</div>
-            </div>
-            <div>
-              <div class="w-[60px] text-center">&lt;</div>
-            </div>
-            <div>
-              <div class="w-[60px] text-center">&gt;</div>
-            </div>
-            <div>
-              <div class="w-[60px] text-center">&lt;</div>
+            <div class="w-[80px] lg:w-[130px] font-bold text-center">
+              Diptime
             </div>
           </div>
         </div>
       </div>
 
       <div>
-        <label>Chromate</label>
-        <div class="flex w-full flex-col md:flex-row gap-2">
+        <div class="flex w-full flex-col lg:flex-row gap-2 lg:justify-end">
+          <div class="flex gap-2  justify-center lg:justify-start">
+            <div>
+              <div class="w-[30px] lg:w-[60px] text-center">&gt;</div>
+            </div>
+            <div>
+              <div class="w-[30px] lg:w-[60px] text-center">&lt;</div>
+            </div>
+            <div>
+              <div class="w-[30px] lg:w-[60px] text-center">&gt;</div>
+            </div>
+            <div>
+              <div class="w-[30px] lg:w-[60px] text-center">&lt;</div>
+            </div>
+            <div>
+              <div class="w-[30px] lg:w-[60px]] text-center">&gt;</div>
+            </div>
+            <div>
+              <div class="w-[30px] lg:w-[60px] text-center">&lt;</div>
+            </div>
+            <div>
+              <div class="w-[30px] lg:w-[60px] text-center">&gt;</div>
+            </div>
+            <div>
+              <div class="w-[30px] lg:w-[60px] text-center">&lt;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex w-full flex-col lg:flex-row gap-2 items-center px-4">
+          <label class="pr-3 font-bold w-[110px]">Chromate</label>
           <div class="w-full">
             <multi-select
               :options="chromates"
@@ -184,178 +144,160 @@
               :searchable="true"
               placeholder="Select Chromate"
             />
-            
           </div>
-          <div class="flex gap-2">
+          <div class="flex gap-1 lg:gap-2">
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.primaryPer_more_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.primaryPer_less_than"
               />
-             
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.primaryTemp_more_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.primaryTemp_less_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.primaryPH_more_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.primaryPH_less_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.primaryDiptime_more_than"
               />
-              
             </div>
             <div>
               <input
                 type="text"
-                class="w-[60px]"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.primaryDiptime_less_than"
               />
-              
             </div>
           </div>
         </div>
       </div>
 
       <div>
-        <label>Topcoat</label>
-        <div class="flex w-full flex-col md:flex-row gap-2">
-          <div class="w-full">
-            <multi-select
-              :options="topCoats"
-              class="w-full"
-              v-model="form.top_coat"
-              :searchable="true"
-              placeholder="Select TopCoat"
-            />
-           
-          </div>
+        <div class="flex w-full flex-col lg:flex-row gap-2 items-center px-4">
+          <label class="pr-3 font-bold w-[145px]">Topcoat </label>
+          <multi-select
+            :options="topCoats"
+            class="w-full"
+            v-model="form.top_coat"
+            :searchable="true"
+            placeholder="Select TopCoat"
+          />
           <div class="flex gap-2">
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.topCoatPer_more_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.topCoatPer_less_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.topCoatTemp_more_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.topCoatTemp_less_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.topCoatPH_more_than"
               />
-             
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.topCoatPH_less_than"
               />
-            
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.topCoatDiptime_more_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.topCoatDiptime_less_than"
               />
-            
             </div>
           </div>
         </div>
       </div>
 
       <div>
-        <label>Secondary Topcoat</label>
-        <div class="flex w-full flex-col md:flex-row gap-2">
+        <div class="flex w-full flex-col lg:flex-row gap-2 items-center px-4">
+          <label class="pr-3 font-bold w-[85px] break-words"
+            >Secondary Topcoat</label
+          >
           <div class="w-full">
             <multi-select
               :options="secondaryCoats"
@@ -364,80 +306,71 @@
               :searchable="true"
               placeholder="Select Secondary Topcoat"
             />
-            
           </div>
           <div class="flex gap-2">
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.coatPer_more_than"
               />
-             
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.coatPer_less_than"
               />
-             
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.coatTemp_more_than"
               />
-             
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.coatTemp_less_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.coatPH_more_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.coatPH_less_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                  class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.coatDiptime_more_than"
               />
-              
             </div>
             <div>
               <input
-                type="text"
-                class="w-[60px]"
+                type="number"
+                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.coatDiptime_less_than"
               />
-             
             </div>
           </div>
         </div>
@@ -445,7 +378,7 @@
     </div>
 
     <div class="ml-2 mr-8 mt-4 mb-3 p-3">
-      <div class="flex w-full flex-col md:flex-row gap-2">
+      <div class="flex w-full flex-col lg:flex-row gap-2">
         <div class="w-full"></div>
         <div class="flex gap-2">
           <div>
