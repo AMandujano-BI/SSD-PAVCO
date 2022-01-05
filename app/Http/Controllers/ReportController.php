@@ -116,6 +116,11 @@ class ReportController extends Controller
     }
     public function runReportDetail(Request $request)
     {
+        $pdf = PDF::loadView('pdf.parts');
+        $pdf->setPaper('a4' , 'portrait');
+        return $pdf->output();
+
+
         $startDate = $request->startDate;
         $endDate = $request->endDate;
         $company_id = $request->customer;
@@ -207,21 +212,38 @@ class ReportController extends Controller
                 ->whereBetween('parts.primaryTemp', [$primaryTemp_less_than, $primaryTemp_more_than])
                 ->whereBetween('parts.primaryPH', [$primaryPH_less_than, $primaryPH_more_than])
                 ->whereBetween('parts.primaryDiptime', [$primaryDiptime_less_than, $primaryDiptime_more_than])
-                ->select('parts.id', 'parts.plateThick', 'parts.description', 
-                'parts.topCoatPer', 'parts.topCoatTemp', 'parts.topCoatPH', 'parts.topCoatDiptime', 
-                'parts.primaryPer', 'parts.primaryTemp', 'parts.primaryPH', 'parts.primaryDiptime', 
-                'parts.coatPer', 'parts.coatTemp', 'parts.coatPH', 'parts.coatDiptime', 
-                'parts.plate_types_id', 'parts.primaryCoatId', 'parts.coatId', 'parts.topCoatId', 'parts.run_id', 'parts.created_at')
+                ->select(
+                    'parts.id',
+                    'parts.plateThick',
+                    'parts.description',
+                    'parts.topCoatPer',
+                    'parts.topCoatTemp',
+                    'parts.topCoatPH',
+                    'parts.topCoatDiptime',
+                    'parts.primaryPer',
+                    'parts.primaryTemp',
+                    'parts.primaryPH',
+                    'parts.primaryDiptime',
+                    'parts.coatPer',
+                    'parts.coatTemp',
+                    'parts.coatPH',
+                    'parts.coatDiptime',
+                    'parts.plate_types_id',
+                    'parts.primaryCoatId',
+                    'parts.coatId',
+                    'parts.topCoatId',
+                    'parts.run_id',
+                    'parts.created_at'
+                )
                 ->get();
         }
         // $parts = Part::whereBetween('created_at', [$startDate, $endDate])->get();
-       
+
         // }
         $pdf = PDF::loadView('pdf.parts', compact('parts'));
-       
-        
+
+
 
         return $pdf->download('detail_report' . '.pdf');
-
     }
 }

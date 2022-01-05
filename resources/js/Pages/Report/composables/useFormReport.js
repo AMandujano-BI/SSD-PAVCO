@@ -35,11 +35,9 @@ const useFormReport = (formProps) => {
     const submitForm = async () => {
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return
-        axios({
-            url: '/report/runReportDetail/',
-            method: 'post',
-            data: form,
-            // responseType: 'blob', // important
+        axios.post('/report/runReportDetail',form,{
+            Accept: 'application/pdf',
+            responseType:'blob'
         }).then((response) => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
@@ -47,7 +45,7 @@ const useFormReport = (formProps) => {
             link.setAttribute('download', 'file.pdf');
             document.body.appendChild(link);
             link.click();
-        });
+        }).catch(e=>console.log(e))
     }
 
     return {
