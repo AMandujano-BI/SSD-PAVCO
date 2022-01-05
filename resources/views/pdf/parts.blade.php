@@ -14,9 +14,18 @@
             margin: 0px;
         }
 
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+
         body__first {
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+            /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif */
         }
 
         .rectangle {
@@ -90,9 +99,6 @@
             color: #3b4559;
         }
 
-        body {
-            background-color: #f8fafc;
-        }
 
         .table__container {
             margin: 34px 34px 34px 34px;
@@ -154,7 +160,7 @@
                 <span class='subheader__label'>Plate: <span class='subheader__value'>{{$plate_typeName}}</span></span>
                 <span class='subheader'>Chromate: <span class='subheader__value'>{{$chromateName}} </span></span>
             </div>
-            <div class='subheader__content'  style="padding-top: 10px;">
+            <div class='subheader__content' style="padding-top: 10px;">
                 <span class='subheader__label'>TopCoat: <span class='subheader__value'>{{$top_coatName}} </span></span>
                 <span class='subheader'>Coat: <span class='subheader__value'>{{$coatName }}</span></span>
             </div>
