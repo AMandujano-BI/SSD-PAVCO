@@ -197,7 +197,7 @@ export default {
           scrollY: 300,
           ordering: true,
           bLengthChange: false,
-          bInfo: false,
+          // bInfo: false,
           pageLength: 5,
           language: {
             paginate: {

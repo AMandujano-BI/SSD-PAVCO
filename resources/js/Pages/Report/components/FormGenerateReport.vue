@@ -24,6 +24,7 @@
             v-model="form.customer"
             :searchable="true"
             :close-on-select="true"
+            @select="changeSelectCustomer"
             placeholder="Select a Customer"
           />
         </div>
@@ -76,6 +77,7 @@
           class="w-full"
           v-model="form.plate_type"
           :searchable="true"
+          @select="changeSelectPlateType"
           placeholder="Select Plate Type"
         />
       </div>
@@ -104,7 +106,7 @@
 
       <div>
         <div class="flex w-full flex-col lg:flex-row gap-2 lg:justify-end">
-          <div class="flex gap-2  justify-center lg:justify-start">
+          <div class="flex gap-2 justify-center lg:justify-start">
             <div>
               <div class="w-[30px] lg:w-[60px] text-center">&gt;</div>
             </div>
@@ -141,6 +143,7 @@
               :options="chromates"
               class="w-full"
               v-model="form.chromate"
+              @select="changeSelectChromate"
               :searchable="true"
               placeholder="Select Chromate"
             />
@@ -220,6 +223,7 @@
           <multi-select
             :options="topCoats"
             class="w-full"
+            @select="changeSelectTopCoat"
             v-model="form.top_coat"
             :searchable="true"
             placeholder="Select TopCoat"
@@ -303,6 +307,7 @@
               :options="secondaryCoats"
               class="w-full"
               v-model="form.coat"
+              @select="changeSelectCoat"
               :searchable="true"
               placeholder="Select Secondary Topcoat"
             />
@@ -359,7 +364,7 @@
             <div>
               <input
                 type="number"
-                  class="w-[40px] lg:w-[60px] text-sm"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.coatDiptime_more_than"
               />
@@ -367,7 +372,7 @@
             <div>
               <input
                 type="number"
-                 class="w-[40px] lg:w-[60px] text-sm"
+                class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.coatDiptime_less_than"
               />
@@ -386,6 +391,7 @@
           </div>
           <div>
             <button
+              v-if="!loading"
               class="
                 bg-primary
                 rounded
@@ -397,6 +403,23 @@
               "
             >
               Run Detailed Report
+            </button>
+            <button
+              v-if="loading"
+              class="
+                bg-primary
+                rounded
+                w-60
+                py-2.5
+                px-1.8
+                text-white
+                hover:bg-primary-600
+              "
+              disabled
+            >
+              <div
+                className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
+              ></div>
             </button>
           </div>
         </div>
@@ -416,8 +439,13 @@ export default {
     multiSelect: Multiselect,
   },
   setup() {
-    const { form, v$, submitForm } = useFormReport({
+    const { form, v$, submitForm, loading } = useFormReport({
       customer: 0,
+      customerName: "All companies",
+      chromateName: "All",
+      top_coatName: "All",
+      coatName: "All",
+      plate_typeName: "All",
       startDate: "",
       endDate: "",
       plate_type: 0,
@@ -461,6 +489,13 @@ export default {
       v$,
       submitForm,
       listThickness,
+      loading,
+      changeSelectCustomer: (value, data) => (form.customerName = data.label),
+      changeSelectChromate: (value, data) => (form.chromateName = data.label),
+      changeSelectTopCoat: (value, data) => (form.top_coatName = data.label),
+      changeSelectCoat: (value, data) => (form.coatName = data.label),
+      changeSelectPlateType: (value, data) =>
+        (form.plate_typeName = data.label),
     };
   },
 };

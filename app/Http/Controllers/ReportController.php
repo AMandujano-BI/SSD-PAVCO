@@ -116,9 +116,7 @@ class ReportController extends Controller
     }
     public function runReportDetail(Request $request)
     {
-        $pdf = PDF::loadView('pdf.parts');
-        $pdf->setPaper('a4' , 'portrait');
-        return $pdf->output();
+
 
 
         $startDate = $request->startDate;
@@ -129,6 +127,26 @@ class ReportController extends Controller
         $chromate = $request->chromate;
         $top_coat = $request->top_coat;
         $coat = $request->coat;
+
+        $customerName = $request->customerName;
+        $chromateName = $request->chromateName;
+        $top_coatName = $request->top_coatName;
+        $coatName = $request->coatName;
+        $plate_typeName = $request->plate_typeName;
+
+        if ($plate_type == 0) {
+            $plate_type ==null;
+            $plate_typeName = 'All';
+        }
+        if ($chromate == 0) {
+            $chromateName = 'All';
+        }
+        if ($top_coat == 0) {
+            $top_coatName = 'All';
+        }
+        if ($coat == 0) {
+            $coatName = 'All';
+        }
         //Coat
         $coatPer_less_than = $request->coatPer_less_than;
         $coatPer_more_than = $request->coatPer_more_than;
@@ -160,43 +178,25 @@ class ReportController extends Controller
 
 
 
-        $customer = Company::where('customer', 1)->where('id', $company_id)->first();
-        if ($customer == null) {
+        // $customer = Company::where('customer', 1)->where('id', $company_id)->first();
+        if ($company_id == 0) {
             //ALL CUSTOMERS
-            $parts = Part::whereBetween('created_at', [$startDate, $endDate])
-                ->where('plate_types_id', $plate_type)
-                ->where('primaryCoatId', $chromate)
-                ->where('coatId', $coat)
-                ->where('topCoatId', $top_coat)
-                //Coat
-                ->whereBetween('coatPer', [$coatPer_less_than, $coatPer_more_than])
-                ->whereBetween('coatTemp', [$coatTemp_less_than, $coatTemp_more_than])
-                ->whereBetween('coatPH', [$coatPH_less_than, $coatPH_more_than])
-                ->whereBetween('coatDiptime', [$coatDiptime_less_than, $coatDiptime_more_than])
-                //TopCoat
-                ->whereBetween('topCoatPer', [$topCoatPer_less_than, $topCoatPer_more_than])
-                ->whereBetween('topCoatTemp', [$topCoatTemp_less_than, $topCoatTemp_more_than])
-                ->whereBetween('topCoatPH', [$topCoatPH_less_than, $topCoatPH_more_than])
-                ->whereBetween('topCoatDiptime', [$topCoatDiptime_less_than, $topCoatDiptime_more_than])
-                //Chromate
-                ->whereBetween('primaryPer', [$primaryPer_less_than, $primaryPer_more_than])
-                ->whereBetween('primaryTemp', [$primaryTemp_less_than, $primaryTemp_more_than])
-                ->whereBetween('primaryPH', [$primaryPH_less_than, $primaryPH_more_than])
-                ->whereBetween('primaryDiptime', [$primaryDiptime_less_than, $primaryDiptime_more_than])
-
-                ->get();
-            return $parts;
-        } else {
-            //ONE CUSTOMER
             $parts = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
                 ->whereBetween('parts.created_at', [$startDate, $endDate])
-                ->where('plate_types_id', $plate_type)
-                ->where('primaryCoatId', $chromate)
-                ->where('coatId', $coat)
-                ->where('topCoatId', $top_coat)
-                ->where('runs.company_id', $company_id)
+                ->when($plate_type, function ($query, $plate_type) {
+                    return $query->where('plate_types_id', $plate_type);
+                })
+                ->when($chromate, function ($query, $chromate) {
+                    return $query->where('primaryCoatId', $chromate);
+                })
+                ->when($coat, function ($query, $coat) {
+                    return $query->where('coatId', $coat);
+                })
+                ->when($top_coat, function ($query, $top_coat) {
+                    return $query->where('topCoatId', $top_coat);
+                })
                 //Coat
                 ->whereBetween('parts.coatPer', [$coatPer_less_than, $coatPer_more_than])
                 ->whereBetween('parts.coatTemp', [$coatTemp_less_than, $coatTemp_more_than])
@@ -214,36 +214,94 @@ class ReportController extends Controller
                 ->whereBetween('parts.primaryDiptime', [$primaryDiptime_less_than, $primaryDiptime_more_than])
                 ->select(
                     'parts.id',
-                    'parts.plateThick',
+                    // 'parts.plateThick',
                     'parts.description',
-                    'parts.topCoatPer',
-                    'parts.topCoatTemp',
-                    'parts.topCoatPH',
-                    'parts.topCoatDiptime',
-                    'parts.primaryPer',
-                    'parts.primaryTemp',
-                    'parts.primaryPH',
-                    'parts.primaryDiptime',
-                    'parts.coatPer',
-                    'parts.coatTemp',
-                    'parts.coatPH',
-                    'parts.coatDiptime',
-                    'parts.plate_types_id',
-                    'parts.primaryCoatId',
-                    'parts.coatId',
-                    'parts.topCoatId',
+                    // 'parts.topCoatPer',
+                    // 'parts.topCoatTemp',
+                    // 'parts.topCoatPH',
+                    // 'parts.topCoatDiptime',
+                    // 'parts.primaryPer',
+                    // 'parts.primaryTemp',
+                    // 'parts.primaryPH',
+                    // 'parts.primaryDiptime',
+                    // 'parts.coatPer',
+                    // 'parts.coatTemp',
+                    // 'parts.coatPH',
+                    // 'parts.coatDiptime',
+                    // 'parts.plate_types_id',
+                    // 'parts.primaryCoatId',
+                    // 'parts.coatId',
+                    // 'parts.topCoatId',
                     'parts.run_id',
-                    'parts.created_at'
+                    'parts.created_at',
+                    'companies.name as company'
+
+                )
+                ->get();
+        } else {
+            //ONE CUSTOMER
+            $parts = DB::table('parts')
+                ->join('runs', 'parts.run_id', '=', 'runs.id')
+                ->join('companies', 'runs.company_id', '=', 'companies.id')
+                ->whereBetween('parts.created_at', [$startDate, $endDate])
+                ->where('runs.company_id', $company_id)
+                ->when($plate_type, function ($query, $plate_type) {
+                    return $query->where('plate_types_id', $plate_type);
+                })
+                ->when($chromate, function ($query, $chromate) {
+                    return $query->where('primaryCoatId', $chromate);
+                })
+                ->when($coat, function ($query, $coat) {
+                    return $query->where('coatId', $coat);
+                })
+                ->when($top_coat, function ($query, $top_coat) {
+                    return $query->where('topCoatId', $top_coat);
+                })
+                //Coat
+                ->whereBetween('parts.coatPer', [$coatPer_less_than, $coatPer_more_than])
+                ->whereBetween('parts.coatTemp', [$coatTemp_less_than, $coatTemp_more_than])
+                ->whereBetween('parts.coatPH', [$coatPH_less_than, $coatPH_more_than])
+                ->whereBetween('parts.coatDiptime', [$coatDiptime_less_than, $coatDiptime_more_than])
+                //TopCoat
+                ->whereBetween('parts.topCoatPer', [$topCoatPer_less_than, $topCoatPer_more_than])
+                ->whereBetween('parts.topCoatTemp', [$topCoatTemp_less_than, $topCoatTemp_more_than])
+                ->whereBetween('parts.topCoatPH', [$topCoatPH_less_than, $topCoatPH_more_than])
+                ->whereBetween('parts.topCoatDiptime', [$topCoatDiptime_less_than, $topCoatDiptime_more_than])
+                //Chromate
+                ->whereBetween('parts.primaryPer', [$primaryPer_less_than, $primaryPer_more_than])
+                ->whereBetween('parts.primaryTemp', [$primaryTemp_less_than, $primaryTemp_more_than])
+                ->whereBetween('parts.primaryPH', [$primaryPH_less_than, $primaryPH_more_than])
+                ->whereBetween('parts.primaryDiptime', [$primaryDiptime_less_than, $primaryDiptime_more_than])
+                ->select(
+                    'parts.id',
+                    // 'parts.plateThick',
+                    'parts.description',
+                    // 'parts.topCoatPer',
+                    // 'parts.topCoatTemp',
+                    // 'parts.topCoatPH',
+                    // 'parts.topCoatDiptime',
+                    // 'parts.primaryPer',
+                    // 'parts.primaryTemp',
+                    // 'parts.primaryPH',
+                    // 'parts.primaryDiptime',
+                    // 'parts.coatPer',
+                    // 'parts.coatTemp',
+                    // 'parts.coatPH',
+                    // 'parts.coatDiptime',
+                    // 'parts.plate_types_id',
+                    // 'parts.primaryCoatId',
+                    // 'parts.coatId',
+                    // 'parts.topCoatId',
+                    'parts.run_id',
+                    'parts.created_at',
+                    'companies.name as company',
+                    'parts.run_id'
                 )
                 ->get();
         }
-        // $parts = Part::whereBetween('created_at', [$startDate, $endDate])->get();
 
-        // }
-        $pdf = PDF::loadView('pdf.parts', compact('parts'));
-
-
-
-        return $pdf->download('detail_report' . '.pdf');
+        $pdf = PDF::loadView('pdf.parts', compact(['startDate', 'customerName', 'endDate', 'plate_typeName', 'chromateName', 'top_coatName', 'coatName', 'parts']));
+        $pdf->setPaper('a4', 'portrait');
+        return $pdf->output();
     }
 }

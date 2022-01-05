@@ -10,11 +10,12 @@ const isDiferentZero = (value) => {
 
 const useFormReport = (formProps) => {
     const form = reactive(formProps);
+    const loading = ref(false)
     const { makeToast } = useHelper();
     const { emit } = getCurrentInstance();
 
     const rules = {
-        
+
         startDate: {
             isDiferentZero: helpers.withMessage(
                 'You must select an option',
@@ -27,7 +28,7 @@ const useFormReport = (formProps) => {
                 isDiferentZero
             ),
         },
-      
+
     };
 
     const v$ = useVuelidate(rules, form);
@@ -35,23 +36,28 @@ const useFormReport = (formProps) => {
     const submitForm = async () => {
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return
-        axios.post('/report/runReportDetail',form,{
+        loading.value = true
+        axios.post('/report/runReportDetail', form, {
             Accept: 'application/pdf',
-            responseType:'blob'
+            responseType: 'blob'
         }).then((response) => {
+            loading.value = false
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
             link.setAttribute('download', 'file.pdf');
             document.body.appendChild(link);
             link.click();
-        }).catch(e=>console.log(e))
+        }).catch(e => {
+            loading.value = false
+        })
     }
 
     return {
         form,
         v$,
-        submitForm
+        submitForm,
+        loading
     }
 
 }
