@@ -188,12 +188,22 @@ class Company extends Model
         $uuid = Str::uuid();
         DB::beginTransaction();
         try {
+
             $useRun = Run::where('company_id', $id)->get();
             if (count($useRun) > 0) {
                 DB::rollBack();
                 return [
                     'ok' => false,
-                    'message' => 'The Customer has a relation with  Runs',
+                    'message' => 'The Company has a relation with  Runs',
+                    'value' => 0
+                ];
+            }
+            $users = User::where('company_id', $id)->get();
+            if (count($users) > 0) {
+                DB::rollBack();
+                return [
+                    'ok' => false,
+                    'message' => 'The Company has a relation with  Users',
                     'value' => 0
                 ];
             }
@@ -202,10 +212,11 @@ class Company extends Model
                 DB::rollBack();
                 return [
                     'ok' => false,
-                    'message' => 'The Companie has a relation with  other Companies',
+                    'message' => 'The Company has a relation with  other Companies',
                     'value' => 0
                 ];
             }
+
             $company = (new static)::find($id);
             $company->status = 0;
             $company->name = $uuid;
