@@ -200,3 +200,6 @@ tbody tr{
 table.dataTable.display tbody tr{
   text-align: center;
 }
+.img-leftbar{
+  background-image: url('../js/assets/Icons/IconFooterLeftBar/pattern.png');
+}
