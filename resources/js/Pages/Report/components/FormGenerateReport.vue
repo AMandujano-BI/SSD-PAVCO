@@ -120,7 +120,7 @@
               <div class="w-[30px] lg:w-[60px] text-center">&lt;</div>
             </div>
             <div>
-              <div class="w-[30px] lg:w-[60px]] text-center">&gt;</div>
+              <div class="w-[30px] lg:w-[60px] text-center">&gt;</div>
             </div>
             <div>
               <div class="w-[30px] lg:w-[60px] text-center">&lt;</div>

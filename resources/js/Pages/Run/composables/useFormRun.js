@@ -11,6 +11,12 @@ const isDiferentZero = (value) => {
 const useFormRun = () => {
     const loading = ref(false)
     const { makeToast } = useHelper();
+    const currentDate = new Date();
+    let month = currentDate.getMonth()+1;
+    let fullMonth = '0';
+    (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
+    const dateFormated = ''+currentDate.getFullYear()+'-'+fullMonth+'-'+currentDate.toString().slice(8,10)+'T'+currentDate.toString().slice(16,21);
+    console.log(dateFormated);
     const options = ref([
         {
             value: '1', label: 'fdas'
@@ -19,7 +25,7 @@ const useFormRun = () => {
     const form = reactive({
         id: 0,
         number: 0,
-        startDate: new Date().toISOString().slice(0, 10),
+        startDate: dateFormated,
         description: "",
         status: 0,
         idCustomer: 0,
