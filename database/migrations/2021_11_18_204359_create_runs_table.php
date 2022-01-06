@@ -16,7 +16,7 @@ class CreateRunsTable extends Migration
         Schema::create('runs', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('number');
-            $table->dateTime('startDate');
+            $table->dateTime('start_date');
             $table->text('description');
             $table->boolean('status')->default(0);
             $table->dateTime('dateCompleted')->nullable();

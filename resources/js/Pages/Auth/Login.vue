@@ -1,6 +1,6 @@
 <template>
   <Head title="Log in" />
-  <div class="h-[15vh] flex items-center justify-center">
+  <div class="h-[10vh]  md:min-h[15vh] flex items-center justify-center">
     <div
       class="
         bg-[#0271c5]
@@ -37,7 +37,8 @@
         bg-[#f8fafc]
         flex-1
         w-full
-        min-h-[85vh]
+        min-h-[90vh]
+        md:min-h[85vh]
         flex
         items-center
         justify-center
