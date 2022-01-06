@@ -154,16 +154,32 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.primaryPer_more_than.$error }"
                 v-model="form.primaryPer_more_than"
               />
+              <p
+                v-for="error of v$.primaryPer_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.primaryPer_less_than.$error }"
                 v-model="form.primaryPer_less_than"
               />
+              <p
+                v-for="error of v$.primaryPer_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
@@ -171,21 +187,38 @@
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
                 v-model="form.primaryTemp_more_than"
+                :class="{ 'border-red-400': v$.primaryTemp_more_than.$error }"
               />
+              <p
+                v-for="error of v$.primaryTemp_more_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.primaryTemp_less_than.$error }"
                 v-model="form.primaryTemp_less_than"
               />
+              <p
+                v-for="error of v$.primaryTemp_less_than.$error"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
             </div>
             <div>
               <input
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.primaryPH_more_than.$error }"
                 v-model="form.primaryPH_more_than"
               />
             </div>
@@ -194,6 +227,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.primaryPH_less_than.$error }"
                 v-model="form.primaryPH_less_than"
               />
             </div>
@@ -202,6 +236,9 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{
+                  'border-red-400': v$.primaryDiptime_more_than.$error,
+                }"
                 v-model="form.primaryDiptime_more_than"
               />
             </div>
@@ -210,6 +247,9 @@
                 type="text"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{
+                  'border-red-400': v$.primaryDiptime_less_than.$error,
+                }"
                 v-model="form.primaryDiptime_less_than"
               />
             </div>
@@ -234,6 +274,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.topCoatPer_more_than.$error }"
                 v-model="form.topCoatPer_more_than"
               />
             </div>
@@ -242,6 +283,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.topCoatPer_less_than.$error }"
                 v-model="form.topCoatPer_less_than"
               />
             </div>
@@ -250,6 +292,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.topCoatTemp_more_than.$error }"
                 v-model="form.topCoatTemp_more_than"
               />
             </div>
@@ -258,6 +301,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.topCoatTemp_less_than.$error }"
                 v-model="form.topCoatTemp_less_than"
               />
             </div>
@@ -266,6 +310,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.topCoatPH_more_than.$error }"
                 v-model="form.topCoatPH_more_than"
               />
             </div>
@@ -274,6 +319,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.topCoatPH_less_than.$error }"
                 v-model="form.topCoatPH_less_than"
               />
             </div>
@@ -282,6 +328,9 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{
+                  'border-red-400': v$.topCoatDiptime_more_than.$error,
+                }"
                 v-model="form.topCoatDiptime_more_than"
               />
             </div>
@@ -290,6 +339,9 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{
+                  'border-red-400': v$.topCoatDiptime_less_than.$error,
+                }"
                 v-model="form.topCoatDiptime_less_than"
               />
             </div>
@@ -318,6 +370,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.coatPer_more_than.$error }"
                 v-model="form.coatPer_more_than"
               />
             </div>
@@ -326,6 +379,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.coatPer_less_than.$error }"
                 v-model="form.coatPer_less_than"
               />
             </div>
@@ -334,6 +388,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.coatTemp_more_than.$error }"
                 v-model="form.coatTemp_more_than"
               />
             </div>
@@ -342,6 +397,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.coatTemp_less_than.$error }"
                 v-model="form.coatTemp_less_than"
               />
             </div>
@@ -350,6 +406,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.coatPH_more_than.$error }"
                 v-model="form.coatPH_more_than"
               />
             </div>
@@ -358,6 +415,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.coatPH_less_than.$error }"
                 v-model="form.coatPH_less_than"
               />
             </div>
@@ -366,6 +424,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.coatDiptime_more_than.$error }"
                 v-model="form.coatDiptime_more_than"
               />
             </div>
@@ -374,6 +433,7 @@
                 type="number"
                 class="w-[40px] lg:w-[60px] text-sm"
                 placeholder="0"
+                :class="{ 'border-red-400': v$.coatDiptime_less_than.$error }"
                 v-model="form.coatDiptime_less_than"
               />
             </div>

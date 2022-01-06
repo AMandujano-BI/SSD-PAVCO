@@ -28,6 +28,32 @@ const useFormReport = (formProps) => {
                 isDiferentZero
             ),
         },
+        primaryPer_more_than: { required },
+        primaryPer_less_than: { required },
+        primaryTemp_more_than: { required },
+        primaryTemp_less_than: { required },
+        primaryPH_more_than: { required },
+        primaryPH_less_than: { required },
+        primaryDiptime_more_than: { required },
+        primaryDiptime_less_than: { required },
+
+        topCoatPer_more_than: { required },
+        topCoatPer_less_than: { required },
+        topCoatTemp_more_than: { required },
+        topCoatTemp_less_than: { required },
+        topCoatPH_more_than: { required },
+        topCoatPH_less_than: { required },
+        topCoatDiptime_more_than: { required },
+        topCoatDiptime_less_than: { required },
+        
+        coatPer_more_than: { required },
+        coatPer_less_than: { required },
+        coatTemp_more_than: { required },
+        coatTemp_less_than: { required },
+        coatPH_more_than: { required },
+        coatPH_less_than: { required },
+        coatDiptime_more_than: { required },
+        coatDiptime_less_than: { required },
 
     };
 
