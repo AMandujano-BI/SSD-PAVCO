@@ -955,6 +955,12 @@ video {
 	height: 3.5rem;
 }.h-screen{
 	height: 100vh;
+}.h-\[120px\]{
+	height: 120px;
+}.h-\[239px\]{
+	height: 239px;
+}.h-\[60px\]{
+	height: 60px;
 }.h-\[550px\]{
 	height: 550px;
 }.h-64{
@@ -967,6 +973,8 @@ video {
 	max-height: 400px;
 }.min-h-screen{
 	min-height: 100vh;
+}.min-h-\[85vh\]{
+	min-height: 85vh;
 }.min-h-\[400px\]{
 	min-height: 400px;
 }.w-5{
@@ -999,6 +1007,8 @@ video {
 	width: 5rem;
 }.w-screen{
 	width: 100vw;
+}.w-\[235px\]{
+	width: 235px;
 }.w-\[60px\]{
 	width: 60px;
 }.w-1\/2{
@@ -1031,6 +1041,8 @@ video {
 	max-width: 36rem;
 }.max-w-6xl{
 	max-width: 72rem;
+}.max-w-\[400px\]{
+	max-width: 400px;
 }.max-w-\[150px\]{
 	max-width: 150px;
 }.flex-1{
@@ -1262,15 +1274,18 @@ video {
 }.bg-\[\#e1e8f3\]{
 	--tw-bg-opacity: 1;
 	background-color: rgba(225, 232, 243, var(--tw-bg-opacity));
+}.bg-\[\#f8fafc\]{
+	--tw-bg-opacity: 1;
+	background-color: rgba(248, 250, 252, var(--tw-bg-opacity));
+}.bg-\[\#123e81\]{
+	--tw-bg-opacity: 1;
+	background-color: rgba(18, 62, 129, var(--tw-bg-opacity));
 }.bg-red-500{
 	--tw-bg-opacity: 1;
 	background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
 }.bg-green-500{
 	--tw-bg-opacity: 1;
 	background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
-}.bg-\[\#f8fafc\]{
-	--tw-bg-opacity: 1;
-	background-color: rgba(248, 250, 252, var(--tw-bg-opacity));
 }.bg-primary-300{
 	--tw-bg-opacity: 1;
 	background-color: rgba(28, 156, 253, var(--tw-bg-opacity));
@@ -1443,6 +1458,8 @@ video {
 	line-height: 1.75rem;
 }.text-\[20px\]{
 	font-size: 20px;
+}.text-\[16px\]{
+	font-size: 16px;
 }.font-medium{
 	font-weight: 500;
 }.font-semibold{
@@ -1933,6 +1950,9 @@ tbody tr{
 }.hover\:bg-\[\#e1e8f3\]:hover{
 	--tw-bg-opacity: 1;
 	background-color: rgba(225, 232, 243, var(--tw-bg-opacity));
+}.hover\:bg-\[\#1D4786\]:hover{
+	--tw-bg-opacity: 1;
+	background-color: rgba(29, 71, 134, var(--tw-bg-opacity));
 }.hover\:text-gray-500:hover{
 	--tw-text-opacity: 1;
 	color: rgba(107, 114, 128, var(--tw-text-opacity));
@@ -2057,10 +2077,16 @@ tbody tr{
 		grid-column: span 1 / span 1;
 	}.md\:mt-0{
 		margin-top: 0px;
+	}.md\:block{
+		display: block;
 	}.md\:flex{
 		display: flex;
 	}.md\:grid{
 		display: grid;
+	}.md\:w-\[235px\]{
+		width: 235px;
+	}.md\:flex-none{
+		flex: none;
 	}.md\:grid-cols-3{
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}.md\:grid-cols-2{
