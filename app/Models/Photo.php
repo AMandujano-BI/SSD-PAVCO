@@ -67,7 +67,10 @@ class Photo extends Model
                 'run_id' => $run_id,
             ]);
             $photo->save();
-            $image = $file->storeAs('images/run' . $run_id, $filename, 's3');
+            $file_name = 'images/run' . $run_id.'/'.$filename;
+            // dd($file_name);
+            // $image = $file->storeAs('images/run' . $run_id, $filename, 's3');
+            Storage::put($file_name,file_get_contents($file), 's3');
 
             DB::commit();
             return [
