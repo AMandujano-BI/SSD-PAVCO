@@ -226,11 +226,13 @@ export default {
         formData.append("name", form.name);
         formData.append("hours", form.hours);
         formData.append("report", form.report);
+        console.log(formData)
         const res = await axios.post(`/photo`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+        console.log(res.data)
         const { ok, message, value } = res.data;
         loading.value = false;
         if (ok) {
