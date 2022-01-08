@@ -30,7 +30,7 @@ class MailController extends Controller
             $id = $request->id;
             $email =$request->emailSend;
             $run = $this->_run->getRun($id);
-            $run->startDate = Carbon::parse($run->startDate)->format('Y/m/d');
+            $run->start_date = Carbon::parse($run->start_date)->format('Y/m/d');
             Mail::to($email)->send(new RunResult($run));
             return   [
                 'ok' => true,

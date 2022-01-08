@@ -10,7 +10,7 @@
         <li><strong>Run: </strong> {{ runDetail.id }}</li>
         <!-- <li><strong>Customer: </strong> {{ runDetail.user_id }}</li> -->
         <li><strong>Customer: </strong> {{ runDetail.company?.name }}</li>
-        <li><strong>Start Date: </strong> {{ runDetail.startDate }}</li>
+        <li><strong>Start Date: </strong> {{ runDetail.start_date }}</li>
         <li><strong>Description: </strong> {{ runDetail.description }}</li>
       </ul>
     </div>
@@ -73,7 +73,7 @@ export default {
       try {
         const res = await axios.get(`/run/${id}`);
         runDetail.value = res.data;
-        runDetail.value.startDate = runDetail.value.startDate.slice(0, 10);
+        runDetail.value.start_date = runDetail.value.start_date.slice(0, 10);
         $("#activeRunsDetail").DataTable().destroy();
         await generateDataTableDetail();
       } catch (e) {

@@ -24,7 +24,7 @@ class RunRequest extends FormRequest
     public function rules()
     {
         return [
-            'startDate'=>'required',
+            'start_date'=>'required',
             // 'status'=>'required',
         ];
     }

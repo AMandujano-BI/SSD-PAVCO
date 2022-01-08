@@ -25,11 +25,11 @@
       <input
         type="datetime-local"
         class="w-full"
-        v-model="form.startDate"
-        :class="{ 'border-red-500': v$.startDate.$error }"
+        v-model="form.start_date"
+        :class="{ 'border-red-500': v$.start_date.$error }"
       />
       <p
-        v-for="error of v$.startDate.$errors"
+        v-for="error of v$.start_date.$errors"
         :key="error.$uid"
         class="text-red-400"
       >

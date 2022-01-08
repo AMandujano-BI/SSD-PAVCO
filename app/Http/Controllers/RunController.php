@@ -155,7 +155,7 @@ class RunController extends Controller
         // $pdf = PDF::loadView('runReport', compact('run'));
 
         $id_run = $run->id;
-        $startDate = substr($run->startDate, 0, 10);
+        $start_date = substr($run->start_date, 0, 10);
         $customer = 'Test';
 
         $current_date = new DateTime();
@@ -372,7 +372,7 @@ class RunController extends Controller
             <div class='header'>
                 <div class='subheader__content'>
                     <span class='subheader__label'>Run: <span class='subheader__value'>$id_run</span></span>
-                    <span class='subheader'>StartDate: <span class='subheader__value'>$startDate</span></span>
+                    <span class='subheader'>StartDate: <span class='subheader__value'>$start_date</span></span>
                     <span class='subheader'>Customer: <span class='subheader__value'>$customer</span></span>
                     <span class='subheader'>Status: <span class='subheader__value'>$status</span></span>
                 </div>
@@ -418,7 +418,7 @@ class RunController extends Controller
     {
         $run = $this->_run->getRun($id);
         $id_run = $run->id;
-        $startDate = substr($run->startDate, 0, 10);
+        $start_date = substr($run->start_date, 0, 10);
         // $customer = $run->user_id;
         $customer = 'test';
 
@@ -643,7 +643,7 @@ class RunController extends Controller
                 <div class='header'>
                     <div class='subheader__content'>
                         <span class='subheader__label'>Run: <span class='subheader__value'>$id_run</span></span>
-                        <span class='subheader'>StartDate: <span class='subheader__value'>$startDate</span></span>
+                        <span class='subheader'>StartDate: <span class='subheader__value'>$start_date</span></span>
                         <span class='subheader'>Customer: <span class='subheader__value'>$customer</span></span>
                         <span class='subheader'>Status: <span class='subheader__value'>$status</span></span>
                     </div>

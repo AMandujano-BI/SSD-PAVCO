@@ -16,7 +16,7 @@ const useFormReport = (formProps) => {
 
     const rules = {
 
-        startDate: {
+        start_date: {
             isDiferentZero: helpers.withMessage(
                 'You must select an option',
                 isDiferentZero

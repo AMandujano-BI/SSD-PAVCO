@@ -153,7 +153,7 @@
         <div class='header'>
             <div class='subheader__content'>
                 <span class='subheader__label'>Customer: <span class='subheader__value'>{{$customerName}}</span></span>
-                <span class='subheader'>StartDate: <span class='subheader__value'>{{$startDate}}</span></span>
+                <span class='subheader'>StartDate: <span class='subheader__value'>{{$start_date}}</span></span>
                 <span class='subheader'>EndDate: <span class='subheader__value'>{{$endDate}} </span></span>
             </div>
             <div class='subheader__content' style="padding-top: 10px;">

@@ -49,7 +49,7 @@
     </div>
     <div>
         <span class="title__header">Run : </span> <span>#{{$run->number}}</span>
-        <span class="title__header">Start Date: </span><span>{{$run->startDate}}</span>
+        <span class="title__header">Start Date: </span><span>{{$run->start_date}}</span>
         <span class="title__header">Customer : </span> <span>{{$run->company->name}}</span>
         <span class="title__header">Description : </span> <span>{{$run->description}} </span>
     </div>

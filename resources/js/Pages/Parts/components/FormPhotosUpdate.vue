@@ -177,7 +177,7 @@ export default {
       name: photoItem.name,
       report: photoItem.report,
       isEdit: photoItem.isEdit,
-      // startDate: new Date().toISOString().slice(0, 10),
+      // start_date: new Date().toISOString().slice(0, 10),
       hours: hours,
       image: photoItem.image,
 

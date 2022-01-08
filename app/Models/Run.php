@@ -15,7 +15,7 @@ class Run extends Model
     protected $fillable = [
         'id',
         'number',
-        'startDate',
+        'start_date',
         'description',
         'status',
         'dateCompleted',
@@ -52,7 +52,7 @@ class Run extends Model
             return $value;
         }
     }
-    public function getstart_dateAttribute($value)
+    public function getstartDateAttribute($value)
     {
         if ($value != null) {
             return (new Carbon($value))->format('Y-m-d\TH:i:s.\0\0\0\0\0\0\Z');
@@ -128,8 +128,11 @@ class Run extends Model
         DB::beginTransaction();
         try {
             $user = auth()->user();
-
-            $startDate = $request->startDate;
+            // $date = Carbon::parse($request->start_date)->format('Y-m-d H:i');
+            
+            // $startDate = Carbon::parse()->setTimezone('UTC');
+            // dd($startDate);
+            $start_date = $request->start_date;
             $description = $request->description;
             $plate_types_id = $request->plate_types_id;
             $primaryCoatId = $request->primaryCoatId;
@@ -140,7 +143,7 @@ class Run extends Model
             $numberParts = $request->numberParts;
 
             $run = (new static)::create([
-                'startDate' => $startDate,
+                'start_date' => $start_date,
                 'number' => 1,
                 'description' => $description,
                 'company_id' => $company_id,
@@ -230,9 +233,9 @@ class Run extends Model
             } else {
                 $currentDate = new DateTime();
                 $current = $currentDate->format('Y-m-d H:i:s');
-                $created_at = new DateTime($run->created_at);
-                $createdDate = $created_at->format('Y-m-d H:i:s');
-                $hourdiff = (strtotime($current) - strtotime($createdDate)) / 3600;
+                $start_date = new DateTime($run->start_date);
+                $startDate = $start_date->format('Y-m-d H:i:s');
+                $hourdiff = (strtotime($current) - strtotime($startDate)) / 3600;
                 $hourRounded = bcdiv($hourdiff, '1', 0);
                 $totalHours = intval($hourRounded, 10);
             }
@@ -309,11 +312,12 @@ class Run extends Model
         try {
             $run = (new static)::find($id);
             // $run->status = 1;
-            $run->startDate = $request->startDate;
+            $run->start_date = $request->start_date_edit;
             $run->description = $request->description;
             $run->plate_methods_id = $request->plate_methods_id;
             $run->company_id = $request->company_id;
             if ($request->hasDiferentHours) {
+                dd($request->hasDiferentHours);
                 $run->hours = $request->hours;
                 $run->last_edit = Carbon::parse($request->last_edit, 'UTC');
                 $run->isEdit = true;

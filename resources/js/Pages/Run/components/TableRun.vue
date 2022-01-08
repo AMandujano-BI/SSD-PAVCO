@@ -394,10 +394,10 @@ export default {
           },
           columns: [
             {
-              name: "startDate",
+              name: "start_date",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>" + row.startDate.slice(0, 10) + "</td>";
+                return "<td>" + row.start_date.slice(0, 10) + "</td>";
               },
             },
             {
@@ -443,7 +443,7 @@ export default {
                   calculateHours(
                     row.id,
                     row.status,
-                    row.created_at,
+                    row.start_date,
                     row.isEdit,
                     row.last_edit,
                     row.hours,

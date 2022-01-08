@@ -34,7 +34,7 @@
         <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
           >Start Date</label
         >
-        <input type="datetime-local" class="w-full" v-model="form.startDate" />
+        <input type="datetime-local" class="w-full" v-model="form.start_date" />
       </div>
     </div>
 
@@ -125,6 +125,8 @@ export default {
     const { makeToast } = useHelper();
     const hasDiferentHours = ref(false);
 
+    console.log(run);
+
     const calculateHours = () => {
       if (run.status === 1) {
         //cerrado
@@ -132,7 +134,7 @@ export default {
           return run.hours;
         } else {
           const closeNonEdit =
-            Math.abs(new Date(run.closed_date) - new Date(run.created_at)) /
+            Math.abs(new Date(run.closed_date) - new Date(run.start_date)) / 
             36e5;
           return closeNonEdit | 0;
         }
@@ -145,15 +147,16 @@ export default {
           return run.hours + hoursEdited;
         } else {
           const activeNonEdit =
-            Math.abs(new Date() - new Date(run.created_at)) / 36e5;
+            Math.abs(new Date() - new Date(run.start_date)) / 36e5;
           return activeNonEdit | 0;
         }
       }
     };
 
-    const hours = calculateHours();
+    let runHours = calculateHours();
+    console.log(runHours);
 
-    const currentDate = new Date(run.startDate);
+    const currentDate = new Date(run.start_date);
     let month = currentDate.getMonth()+1;
     let fullMonth = '0';
     (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
@@ -162,9 +165,9 @@ export default {
     const form = reactive({
       id: run.id,
       number: 0,
-      startDate: dateFormated,
+      start_date: dateFormated,
       description: run.description,
-      hours: hours,
+      hours: runHours,
       status: 0,
       idCustomer: run.idCustomer,
       user_id: 1,
@@ -193,12 +196,13 @@ export default {
 
       hasDiferentHours: false,
       last_edit: "",
+      start_date_edit: null
     });
     const rules = {
       description: {
         required,
       },
-      startDate: {
+      start_date: {
         required,
       },
       hours: {
@@ -222,7 +226,9 @@ export default {
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {
       try {
-        if (form.hours !== hours) {
+        console.log(form.hours);
+        console.log(runHours);
+        if (form.hours !== runHours) {
           form.hasDiferentHours = true;
           const date = new Date();
           const dateFormated =
@@ -241,6 +247,37 @@ export default {
           form.last_edit = dateFormated;
         }
 
+        
+        const currentStartDate = new Date(form.start_date);
+        let month = currentStartDate.getUTCMonth()+1;
+        let day = currentStartDate.getUTCDay()+2;
+        let hours = currentStartDate.getUTCHours();
+        let minutes = currentStartDate.getUTCMinutes();
+        let fullMonth = '0';
+        let fullDay = '0';
+        let fullHours = '0';
+        let fullMinutes = '0';
+        (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
+        (day.toString().length < 2) ? fullDay = fullDay.concat(day) : fullDay = day;
+        (hours.toString().length < 2) ? fullHours = fullHours.concat(hours) : fullHours = hours;
+        (minutes.toString().length < 2) ? fullMinutes = fullMinutes.concat(minutes) : fullMinutes = minutes;
+        const startUTCDate = 
+            ''+
+            currentStartDate.getUTCFullYear()+
+            '-'+
+            fullMonth+
+            '-'+
+            fullDay+
+            'T'+
+            fullHours+
+            ':'+
+            fullMinutes;
+        
+        form.start_date_edit = startUTCDate;
+        
+        console.log(form);
+        
+
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return;
         let res;
@@ -249,12 +286,15 @@ export default {
         if (form.hasDiferentHours) {
           form.hasDiferentHours = false;
         }
+        runHours = calculateHours();
+        form.hours = runHours;
         if (ok) {
           makeToast("Part was updated successfully");
         } else {
-          makeToast("An error has occurred", "error");
+          makeToast("An error has occurred in server", "error");
         }
       } catch (e) {
+        console.log(e);
         makeToast("An error has occurred", "error");
       }
     };

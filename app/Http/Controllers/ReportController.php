@@ -119,7 +119,7 @@ class ReportController extends Controller
 
 
 
-        $startDate = $request->startDate;
+        $start_date = $request->start_date;
         $endDate = $request->endDate;
         $company_id = $request->customer;
         $customer = $request->customer;
@@ -184,7 +184,7 @@ class ReportController extends Controller
             $parts = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
-                ->whereBetween('parts.created_at', [$startDate, $endDate])
+                ->whereBetween('parts.created_at', [$start_date, $endDate])
                 ->when($plate_type, function ($query, $plate_type) {
                     return $query->where('plate_types_id', $plate_type);
                 })
@@ -243,7 +243,7 @@ class ReportController extends Controller
             $parts = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
-                ->whereBetween('parts.created_at', [$startDate, $endDate])
+                ->whereBetween('parts.created_at', [$start_date, $endDate])
                 ->where('runs.company_id', $company_id)
                 ->when($plate_type, function ($query, $plate_type) {
                     return $query->where('plate_types_id', $plate_type);
@@ -300,7 +300,7 @@ class ReportController extends Controller
                 ->get();
         }
 
-        $pdf = PDF::loadView('pdf.parts', compact(['startDate', 'customerName', 'endDate', 'plate_typeName', 'chromateName', 'top_coatName', 'coatName', 'parts']));
+        $pdf = PDF::loadView('pdf.parts', compact(['start_date', 'customerName', 'endDate', 'plate_typeName', 'chromateName', 'top_coatName', 'coatName', 'parts']));
         $pdf->setPaper('a4', 'portrait');
         return $pdf->output();
     }

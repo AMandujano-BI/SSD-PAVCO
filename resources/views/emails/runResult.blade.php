@@ -247,7 +247,7 @@
                             <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
 
                               <div class="v-text-align" style="line-height: 140%; text-align: left; word-wrap: break-word;">
-                                <p style="font-size: 14px; line-height: 140%; text-align: left;"><span style="font-size: 16px; line-height: 22.4px;"><span style="color: #34689c; line-height: 22.4px; font-size: 16px;"><strong>Start Date</strong></span>: {{$run->startDate}}</span>
+                                <p style="font-size: 14px; line-height: 140%; text-align: left;"><span style="font-size: 16px; line-height: 22.4px;"><span style="color: #34689c; line-height: 22.4px; font-size: 16px;"><strong>Start Date</strong></span>: {{$run->start_date}}</span>
                                 </p>
                               </div>
 

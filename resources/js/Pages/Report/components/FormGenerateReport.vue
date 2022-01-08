@@ -35,12 +35,12 @@
         <div>
           <input
             type="date"
-            v-model="form.startDate"
+            v-model="form.start_date"
             class="w-full"
-            :class="{ 'border-red-400': v$.startDate.$error }"
+            :class="{ 'border-red-400': v$.start_date.$error }"
           />
           <p
-            v-for="error of v$.startDate.$errors"
+            v-for="error of v$.start_date.$errors"
             :key="error.$uid"
             class="text-red-400"
           >
@@ -506,7 +506,7 @@ export default {
       top_coatName: "All",
       coatName: "All",
       plate_typeName: "All",
-      startDate: "",
+      start_date: "",
       endDate: "",
       plate_type: 0,
       chromate: 0,

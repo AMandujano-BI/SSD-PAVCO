@@ -25,7 +25,7 @@ const useFormRun = () => {
     const form = reactive({
         id: 0,
         number: 0,
-        startDate: dateFormated,
+        start_date: dateFormated,
         description: "",
         status: 0,
         idCustomer: 0,
@@ -57,7 +57,7 @@ const useFormRun = () => {
         description: {
             required,
         },
-        startDate: {
+        start_date: {
             required,
         },
         plate_methods_id: {
@@ -100,7 +100,7 @@ const useFormRun = () => {
             required,
             minValue: minValue(1)
         },
-        startDate: { required, },
+        start_date: { required, },
         topCoatPer: { required, },
         topCoatTemp: { required, },
         topCoatPH: { required, },
@@ -123,6 +123,28 @@ const useFormRun = () => {
             if (!isFormCorrect) return;
             let res;
             loading.value = true
+            
+            const currentDate = new Date(form.start_date);
+            let month = currentDate.getUTCMonth()+1;
+            let day = currentDate.getUTCDay()+2;
+            let fullMonth = '0';
+            let fullDay = '0';
+            (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
+            (day.toString().length < 2) ? fullDay = fullDay.concat(day) : fullDay = day;
+            const startUTCDate = 
+                ''+
+                currentDate.getUTCFullYear()+
+                '-'+
+                fullMonth+
+                '-'+
+                fullDay+
+                'T'+
+                currentDate.getUTCHours()+
+                ':'+
+                currentDate.getUTCMinutes();
+            console.log(startUTCDate);
+            form.start_date = startUTCDate;
+
             res = await axios.post(`/run/`, form);
             const { ok, value, message } = res.data;
             loading.value = false
