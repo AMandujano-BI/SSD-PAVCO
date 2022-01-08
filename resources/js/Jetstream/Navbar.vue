@@ -12,14 +12,20 @@
       border-b border-gray-100
       z-30
       w-screen
+      h-[10vh]
       transition-position
       xl:pl-60
       lg:w-auto lg:items-stretch
       dark:bg-gray-900 dark:border-gray-800
+      flex 
+      justify-center
+      items-center
+      bg-primary 
+      md:bg-white
     "
     :class="{ 'ml-60 lg:ml-0': isAsideMobileExpanded }"
   >
-    <div class="flex w-full justify-between h-16 mx-auto container px-5">
+    <div class="flex w-full justify-between h-full mx-auto container px-5 ">
       <div class="flex">
         <!-- Logo -->
         <div class="flex-shrink-0 items-center hidden md:flex">
@@ -39,9 +45,12 @@
             sm:ml-10
             text-gray-900
             lg:hidden
+            
           "
           @click.prevent="menuToggleMobile"
         >
+        <div class="hidden md:block">
+
           <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -51,12 +60,33 @@
             height="24"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 1024 1024"
+            
           >
             <path
               d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM142.4 642.1L298.7 519a8.84 8.84 0 0 0 0-13.9L142.4 381.9c-5.8-4.6-14.4-.5-14.4 6.9v246.3a8.9 8.9 0 0 0 14.4 7z"
               fill="currentColor"
             />
           </svg>
+        </div>
+         <div class=" md:hidden">
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            aria-hidden="true"
+            role="img"
+            width="24"
+            height="24"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 1024 1024"
+            
+          >
+            <path
+              d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM142.4 642.1L298.7 519a8.84 8.84 0 0 0 0-13.9L142.4 381.9c-5.8-4.6-14.4-.5-14.4 6.9v246.3a8.9 8.9 0 0 0 14.4 7z"
+              fill="#fff"
+            />
+          </svg>
+        </div>
         </button>
         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
           <div>
@@ -100,11 +130,16 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-center items-center">
-        <div class="flex items-center justify-center px-3">
+      <div class="flex justify-around md:justify-end items-center flex-1">
+        <div class="flex items-center justify-center px-3 flex-1 md:flex-none">
+          <div  class="pl-12"  :class="{ hidden: route().current().split('.')[0] == 'run' }">
+
+               <pavco-icon/>
+          </div>
+          
           <div
             class="relative text-gray-600 focus-within:text-gray-400"
-            :class="{ invisible: route().current().split('.')[0] != 'run' }"
+            :class="{ hidden: route().current().split('.')[0] != 'run' }"
           >
             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
               <button
@@ -113,7 +148,7 @@
               >
                 <svg
                   fill="none"
-                  stroke="currentColor"
+                  stroke="#ccdbe9"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
@@ -124,11 +159,12 @@
                 </svg>
               </button>
             </span>
+           
             <input
               type="text"
-              class="py-2 text-sm pl-10 rounded-full"
+              class="py-2 text-sm pl-10 rounded-full border-[#ccdbe9] placeholder-[#ccdbe9] text-[#333]"
               id="filterRunInput"
-              placeholder="Search Run..."
+              placeholder="Search Runs..."
               autocomplete="off"
             />
           </div>
@@ -157,7 +193,6 @@
                       font-medium
                       rounded-md
                       text-gray-500
-                      bg-white
                       hover:bg-gray-50 hover:text-gray-700
                       focus:outline-none focus:bg-gray-50
                       active:bg-gray-50
@@ -188,7 +223,7 @@
           <div class="ml-3 relative -mr-2 flex items-center">
             <jet-dropdown align="right" width="48">
               <template #trigger>
-                <button
+                <div
                   v-if="$page.props.jetstream.managesProfilePhotos"
                   class="
                     flex
@@ -204,10 +239,10 @@
                     :src="$page.props.user.profile_photo_url"
                     :alt="$page.props.user.name"
                   />
-                </button>
+                </div>
 
                 <span v-else class="inline-flex rounded-md">
-                  <button
+                  <div
                     type="button"
                     class="
                       inline-flex
@@ -219,9 +254,10 @@
                       leading-4
                       font-medium
                       rounded-md
-                      text-gray-500
-                      bg-white
-                      hover:text-gray-700
+                    
+                      md:hover:text-gray-700
+                      text-white
+                      md:text-gray-500
                       focus:outline-none
                       transition
                     "
@@ -255,7 +291,7 @@
                         clip-rule="evenodd"
                       />
                     </svg>
-                  </button>
+                  </div>
                 </span>
               </template>
 
@@ -339,6 +375,7 @@ import JetDropdown from "@/Jetstream/Dropdown.vue";
 import JetDropdownLink from "@/Jetstream/DropdownLink.vue";
 import JetNavLink from "@/Jetstream/NavLink.vue";
 import JetResponsiveNavLink from "@/Jetstream/ResponsiveNavLink.vue";
+import pavcoIconVue from '../assets/Icons/PavcoIcon/pavcoIcon.vue';
 export default {
   components: {
     Head,
@@ -349,6 +386,7 @@ export default {
     JetNavLink,
     JetResponsiveNavLink,
     Link,
+     pavcoIcon:pavcoIconVue,
   },
   setup() {
     const store = useStore();

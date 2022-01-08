@@ -136,7 +136,7 @@
       </div>
 
       <div>
-        <div class="flex w-full flex-col lg:flex-row gap-2 items-center px-4">
+        <div class="flex w-full flex-col lg:flex-row gap-2 items-center px-4 mb-4">
           <label class="pr-3 font-bold w-[110px]">Chromate</label>
           <div class="w-full">
             <multi-select
@@ -258,7 +258,7 @@
       </div>
 
       <div>
-        <div class="flex w-full flex-col lg:flex-row gap-2 items-center px-4">
+        <div class="flex w-full flex-col lg:flex-row gap-2 items-center px-4 mb-4">
           <label class="pr-3 font-bold w-[145px]">Topcoat </label>
           <multi-select
             :options="topCoats"
