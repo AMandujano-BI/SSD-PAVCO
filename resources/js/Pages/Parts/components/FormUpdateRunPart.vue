@@ -226,8 +226,6 @@ export default {
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {
       try {
-        console.log(form.hours);
-        console.log(runHours);
         if (form.hours !== runHours) {
           form.hasDiferentHours = true;
           const date = new Date();
@@ -248,30 +246,33 @@ export default {
         }
 
         
-        const currentStartDate = new Date(form.start_date);
-        let month = currentStartDate.getUTCMonth()+1;
-        let day = currentStartDate.getUTCDay()+2;
-        let hours = currentStartDate.getUTCHours();
-        let minutes = currentStartDate.getUTCMinutes();
-        let fullMonth = '0';
-        let fullDay = '0';
-        let fullHours = '0';
-        let fullMinutes = '0';
-        (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
-        (day.toString().length < 2) ? fullDay = fullDay.concat(day) : fullDay = day;
-        (hours.toString().length < 2) ? fullHours = fullHours.concat(hours) : fullHours = hours;
-        (minutes.toString().length < 2) ? fullMinutes = fullMinutes.concat(minutes) : fullMinutes = minutes;
+        const currentUTCDate = new Date(form.start_date);
+        const monthUTC = currentUTCDate.getUTCMonth()+1;
+        const dayUTC = currentUTCDate.getUTCDate();
+        const hoursUTC = currentUTCDate.getUTCHours();
+        const minutesUTC = currentUTCDate.getUTCMinutes();
+        let fullMonthUTC = '0';
+        let fullDayUTC = '0';
+        let fullHoursUTC = '0';
+        let fullMinutesUTC = '0';
+        (monthUTC.toString().length < 2) ? fullMonthUTC = fullMonthUTC.concat(monthUTC) : fullMonthUTC = monthUTC;
+        (dayUTC.toString().length < 2) ? fullDayUTC = fullDayUTC.concat(dayUTC) : fullDayUTC = dayUTC;
+        (hoursUTC.toString().length < 2) ? fullHoursUTC = fullHoursUTC.concat(hoursUTC) : fullHoursUTC = hoursUTC;
+        (minutesUTC.toString().length < 2) ? fullMinutesUTC = fullMinutesUTC.concat(minutesUTC) : fullMinutesUTC = minutesUTC;
+         
+        
         const startUTCDate = 
             ''+
-            currentStartDate.getUTCFullYear()+
+            currentUTCDate.getUTCFullYear()+
             '-'+
-            fullMonth+
+            fullMonthUTC+
             '-'+
-            fullDay+
+            fullDayUTC+
             'T'+
-            fullHours+
+            fullHoursUTC+
             ':'+
-            fullMinutes;
+            fullMinutesUTC;
+            
         
         form.start_date_edit = startUTCDate;
         

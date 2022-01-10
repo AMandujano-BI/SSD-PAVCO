@@ -312,6 +312,7 @@ class Run extends Model
         try {
             $run = (new static)::find($id);
             // $run->status = 1;
+            // dd($request->start_date_edit);
             $run->start_date = $request->start_date_edit;
             $run->description = $request->description;
             $run->plate_methods_id = $request->plate_methods_id;
