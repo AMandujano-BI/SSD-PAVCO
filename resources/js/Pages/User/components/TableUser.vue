@@ -65,7 +65,7 @@
           </td>
           <td class="text-center">
             <button @click="openModalEditClick(user.id)">
-              <icon-edit />
+              <icon-edit  class="opacity-95 hover:opacity-1"/>
             </button>
           </td>
           <td class="text-center">

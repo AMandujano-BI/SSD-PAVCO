@@ -3,25 +3,18 @@
     <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
       Run Editor
     </h1>
-    <div class="flex w-full justify-around gap-5 pb-8">
+    <div class="flex w-full justify-around flex-col md:flex-row gap-5 pb-8">
       <div class="w-full">
         <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
           >Customer</label
         >
-        <!-- <select class="w-full" v-model="form.user_id">
-          <option value="0" selected>Select a Customer</option>
-          <option value="1">Test</option>
-          <option value="2">Test2</option>
-          <option value="3">Test3</option>
-          <option value="4">Test4</option>
-        </select> -->
-            <multi-select
-        :options="customers"
-        class="w-full"
-        v-model="form.company_id"
-        :searchable="true"
-        placeholder="Select Customer"
-      />
+        <multi-select
+          :options="customers"
+          class="w-full"
+          v-model="form.company_id"
+          :searchable="true"
+          placeholder="Select Customer"
+        />
         <p
           v-for="error of v$.user_id.$errors"
           :key="error.$uid"
@@ -38,7 +31,7 @@
       </div>
     </div>
 
-    <div class="flex w-full justify-around gap-5 pb-8">
+    <div class="flex w-full justify-around flex-col md:flex-row gap-5 pb-8">
       <div class="w-full">
         <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
           >Plate Method</label
@@ -95,12 +88,19 @@
       </p>
     </div>
     <div class="flex justify-end">
-
-    <button
-      class="bg-primary hover:bg-primary-600  py-5 text-white px-8 mt-2 w-[95px] "
-    >
-      Save
-    </button>
+      <button
+        class="
+          bg-primary
+          hover:bg-primary-600
+          py-5
+          text-white
+          px-8
+          mt-2
+          w-[95px]
+        "
+      >
+        Save
+      </button>
     </div>
   </form>
 </template>
@@ -116,7 +116,7 @@ const isDiferentZero = (value) => {
   return value != 0;
 };
 export default {
-  props: ["plateMethods", "run","customers"],
+  props: ["plateMethods", "run", "customers"],
   components: {
     multiSelect: Multiselect,
   },
@@ -125,7 +125,6 @@ export default {
     const { makeToast } = useHelper();
     const hasDiferentHours = ref(false);
 
-    console.log(run);
 
     const calculateHours = () => {
       if (run.status === 1) {
@@ -134,7 +133,7 @@ export default {
           return run.hours;
         } else {
           const closeNonEdit =
-            Math.abs(new Date(run.closed_date) - new Date(run.start_date)) / 
+            Math.abs(new Date(run.closed_date) - new Date(run.start_date)) /
             36e5;
           return closeNonEdit | 0;
         }
@@ -154,14 +153,22 @@ export default {
     };
 
     let runHours = calculateHours();
-    console.log(runHours);
 
     const currentDate = new Date(run.start_date);
-    let month = currentDate.getMonth()+1;
-    let fullMonth = '0';
-    (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
-    const dateFormated = ''+currentDate.getFullYear()+'-'+fullMonth+'-'+currentDate.toString().slice(8,10)+'T'+currentDate.toString().slice(16,21);
-    console.log(dateFormated);
+    let month = currentDate.getMonth() + 1;
+    let fullMonth = "0";
+    month.toString().length < 2
+      ? (fullMonth = fullMonth.concat(month))
+      : (fullMonth = month);
+    const dateFormated =
+      "" +
+      currentDate.getFullYear() +
+      "-" +
+      fullMonth +
+      "-" +
+      currentDate.toString().slice(8, 10) +
+      "T" +
+      currentDate.toString().slice(16, 21);
     const form = reactive({
       id: run.id,
       number: 0,
@@ -196,7 +203,7 @@ export default {
 
       hasDiferentHours: false,
       last_edit: "",
-      start_date_edit: null
+      start_date_edit: null,
     });
     const rules = {
       description: {
@@ -275,9 +282,7 @@ export default {
             
         
         form.start_date_edit = startUTCDate;
-        
-        console.log(form);
-        
+
 
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return;

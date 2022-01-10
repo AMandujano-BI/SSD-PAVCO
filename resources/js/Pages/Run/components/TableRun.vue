@@ -201,7 +201,6 @@ export default {
     const modalEmail = ref(false);
     const onSwiper = (swiper) => {};
     const onSlideChange = () => {
-      // console.log('slide change');
     };
     $(document).ready(function () {
       $("#filterRunInput")

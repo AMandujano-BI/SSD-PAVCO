@@ -68,8 +68,8 @@ class Photo extends Model
             ]);
             $photo->save();
             $file_name = 'images/run' . $run_id.'/'.$filename;
-            return $file;
-            dd($file);
+            // return $file;
+            // dd($file);
 
             // dd($file_name);
             // $image = $file->storeAs('images/run' . $run_id, $filename, 's3');

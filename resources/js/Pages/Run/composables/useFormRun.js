@@ -16,7 +16,6 @@ const useFormRun = () => {
     let fullMonth = '0';
     (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
     const dateFormated = ''+currentDate.getFullYear()+'-'+fullMonth+'-'+currentDate.toString().slice(8,10)+'T'+currentDate.toString().slice(16,21);
-    console.log(dateFormated);
     const options = ref([
         {
             value: '1', label: 'fdas'
@@ -142,7 +141,6 @@ const useFormRun = () => {
                 currentDate.getUTCHours()+
                 ':'+
                 currentDate.getUTCMinutes();
-            console.log(startUTCDate);
             form.start_date = startUTCDate;
 
             res = await axios.post(`/run/`, form);

@@ -1,6 +1,6 @@
 <template>
   <app-layout title="Users">
-    <div class="pt-7 mx-auto container">
+    <div class="pt-14 mx-auto container">
         <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">List Users</h1>
   
    

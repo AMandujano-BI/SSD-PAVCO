@@ -33,7 +33,7 @@
         bg-[#0271c5]
         text-white
         flex-1
-        h-32
+        h-[10vh]
         items-center
         justify-center
       "
