@@ -369,7 +369,7 @@ export default {
           scrollY: 350,
           ordering: true,
           bLengthChange: false,
-          pageLength: 5,
+          pageLength: 10,
           processing: true,
           serverSide: true,
           stateSave: true,

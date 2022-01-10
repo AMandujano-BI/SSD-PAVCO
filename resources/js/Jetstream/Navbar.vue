@@ -6,9 +6,6 @@
       left-0
       right-0
       fixed
-      flex
-      bg-white
-      h-14
       border-b border-gray-100
       z-30
       w-screen
