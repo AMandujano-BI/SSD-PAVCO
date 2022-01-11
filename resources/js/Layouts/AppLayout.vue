@@ -4,7 +4,7 @@
 
     <jet-banner />
 
-    <div class="min-h-screen bg-gray-[#F8FAFC]" id="app">
+    <div class="min-h-screen" id="app">
       <navbar-vue />
       <!-- Page Heading -->
       <header class="bg-white shadow" v-if="$slots.header">
@@ -38,7 +38,7 @@
       </div>
       <div v-else><left-bar :menu="menuCustomer"></left-bar></div>
       <main
-        class="px-0 md:pl-20 xl:pl-64 py-6"
+        class="px-0 md:pl-20 xl:pl-64 py-6 bg-[#f8fafc] min-h-screen"
         :class="[
           isFullScreen ? 'flex h-screen items-center justify-center' : 'py-6',
         ]"

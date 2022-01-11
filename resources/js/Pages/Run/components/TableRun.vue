@@ -8,7 +8,7 @@
         <option value="1">Complete</option>
       </select>
     </div>
-    <div class="rounded-lg shadow-lg p-5">
+    <div class="rounded-lg bg-white p-5">
       <table
         id="activeRuns"
         class="display nowrap"

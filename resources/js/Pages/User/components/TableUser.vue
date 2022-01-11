@@ -9,7 +9,7 @@
     </select>
   </div>
 
-  <div class="rounded-lg shadow-lg p-5">
+  <div class="rounded-lg bg-white p-5">
     <table id="tableUsers" class="display" style="width: 100%; height: 100%">
       <thead>
         <tr>

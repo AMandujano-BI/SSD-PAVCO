@@ -15,7 +15,7 @@
         </select>
       </div>
       <div class="mt-10">
-        <div class="rounded-lg shadow-lg p-5">
+        <div class="rounded-lg bg-white p-5">
           <table
             id="chemicalTable"
             class="display"

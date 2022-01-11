@@ -3,6 +3,8 @@
     Table Photos
   </h1>
   <button @click="openModalPhotosForm"><icon-plus /></button>
+  <div class="rounded-lg bg-white p-5">
+
   <table id="photosTable" class="display" style="width: 100%">
     <thead>
       <tr>
@@ -64,6 +66,8 @@
       </tr>
     </tbody>
   </table>
+
+  </div>
   <!-- <modal :show="isModalPhotos" @close="closePhotosModalView">
     <photos-run
       :id="idPhoto"

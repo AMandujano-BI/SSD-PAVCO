@@ -17,6 +17,8 @@
       <option value="1">Distributor</option>
     </select>
   </div>
+  <div class="rounded-lg bg-white p-5">
+
   <table id="tableCompanies" class="display" style="width: 100%; height: 100%">
     <thead>
       <tr>
@@ -37,6 +39,7 @@
     <tbody></tbody>
   </table>
 
+  </div>
   <confirmation-modal :show="showModalDelete">
     <template v-slot:title>
       <h1>Are you sure that delete this company?</h1>

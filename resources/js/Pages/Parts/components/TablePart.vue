@@ -3,6 +3,8 @@
   <button @click="openModalPartClick">
     <icon-plus />
   </button>
+  <div class="rounded-lg bg-white p-5">
+
   <table id="partsTable" class="display" style="width: 100%">
     <thead>
       <tr>
@@ -73,6 +75,7 @@
     </tbody>
   </table>
 
+  </div>
   <!-- MODALS -->
   <modal :show="openModal">
     <div class="p-5">
