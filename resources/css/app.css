@@ -20,6 +20,9 @@ body {
 
   --ms-placeholder-color: red;
 }
+input:focus{
+  border-color: #1e385e !important;
+}
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -200,6 +203,16 @@ tbody tr{
 table.dataTable.display tbody tr{
   text-align: center;
 }
+
+@media only screen and (max-width: 1500px) {
+  table.dataTable.display tbody tr{
+    text-align: left;
+  }
+
+}
 .img-leftbar{
   background-image: url('../js/assets/Icons/IconFooterLeftBar/pattern.png');
+}
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before{
+  background: #0271C5;
 }

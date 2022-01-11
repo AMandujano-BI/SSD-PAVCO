@@ -1,20 +1,24 @@
 <template>
   <div class="container p-9">
-    <div class="flex gap-8 items-center  mb-5">
-    <button @click="openModalButton"><icon-plus /></button>
-    <select class="w-full " @change="changeFilter" v-model="filterOption">
-      <option value="3">Show All</option>
-      <option value="0">Active</option>
-      <option value="1">Complete</option>
-    </select>
+    <div class="flex gap-8 items-center mb-5">
+      <button @click="openModalButton"><icon-plus /></button>
+      <select class="w-full" @change="changeFilter" v-model="filterOption">
+        <option value="3">Show All</option>
+        <option value="0">Active</option>
+        <option value="1">Complete</option>
+      </select>
     </div>
-    <div class="rounded-lg shadow-lg p-5">
-      <table id="activeRuns" class="display" style="width: 100%; height: 100%">
+    <div class="rounded-lg bg-white p-5">
+      <table
+        id="activeRuns"
+        class="display nowrap"
+        style="width: 100%; height: 100%"
+      >
         <thead>
           <tr>
             <th>StartDate</th>
-            <th>Customer</th>
             <th>Run #</th>
+            <th>Customer</th>
             <th>Method</th>
             <th>Status</th>
             <th>Hrs</th>
@@ -144,7 +148,6 @@
 </template>
 
 <script>
-import dt from "datatables.net";
 import { Navigation, Pagination } from "swiper";
 import { ref, nextTick } from "vue";
 import Modal from "../../../Jetstream/Modal.vue";
@@ -163,7 +166,11 @@ import IconResult from "@/assets/Icons/iconResult.vue";
 import IconPhoto from "@/assets/Icons/iconPhoto.vue";
 import IconClose from "@/assets/Icons/iconClose.vue";
 const $ = require("jquery");
+var dt = require("datatables.net");
+import "datatables.net-responsive-dt";
+import "datatables.net-rowreorder-dt";
 import IconPlusVue from "@/assets/Icons/iconPlus.vue";
+
 export default {
   emits: ["openModalButton"],
   components: {
@@ -200,8 +207,7 @@ export default {
     const filterOption = ref(3);
     const modalEmail = ref(false);
     const onSwiper = (swiper) => {};
-    const onSlideChange = () => {
-    };
+    const onSlideChange = () => {};
     $(document).ready(function () {
       $("#filterRunInput")
         .off()
@@ -366,23 +372,36 @@ export default {
       const self = this;
       nextTick(() => {
         $("#activeRuns").DataTable({
-          scrollY: 350,
+          // scrollY: 350,
           ordering: true,
           bLengthChange: false,
-          pageLength: 5,
+          pageLength: 10,
           processing: true,
           serverSide: true,
           stateSave: true,
+          // rowReorder: {
+          //   selector: "td:nth-child(2)",
+          // },
+          columnDefs: [
+            {
+              defaultContent: "-",
+              targets: "_all",
+            },
+          ],
+          responsive: true,
           language: {
             paginate: {
               next: `→`, // or '→'
               previous: `←`, // or '←'
             },
-            info: "Showing results page _PAGE_ of _PAGES_",
+            info: "Showing results _START_ to _END_ from _TOTAL_",
           },
           ajax: {
             url: `/run/getAllRuns/${status}`,
           },
+          // language:{
+          //   // processing:"<h1 style='background:#333;color:#fff;height:800px;'>Loading..</h1>"
+          // },
           stateSaveCallback: function (settings, data) {
             const state = settings.aoData;
             let arr = [];
@@ -399,18 +418,18 @@ export default {
                 return "<td>" + row.start_date.slice(0, 10) + "</td>";
               },
             },
+              {
+                name: "id",
+                searchable: true,
+                render: function (data, type, row, meta) {
+                  return "<td>" + row.id + "</td>";
+                },
+              },
             {
               name: "company.name",
               searchable: true,
               render: function (data, type, row, meta) {
                 return "<td>" + row.company.name + "</td>";
-              },
-            },
-            {
-              name: "id",
-              searchable: true,
-              render: function (data, type, row, meta) {
-                return "<td>" + row.id + "</td>";
               },
             },
             {
@@ -457,7 +476,7 @@ export default {
               searchable: false,
               render: function (data, type, row, meta) {
                 return (
-                  '<button class="showphotos" itemId=' +
+                  '<button class="showphotos"  itemId=' +
                   row.id +
                   '>  <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path fill="#75DDDD" d="M0 0h25v25H0z"/><g fill="#FFF" fill-rule="nonzero"><path d="M20.48 12.166c-.148-.21-3.679-5.138-8.187-5.138-4.51 0-8.04 4.928-8.188 5.138-.14.199-.14.469 0 .668.148.21 3.679 5.138 8.188 5.138 4.508 0 8.039-4.928 8.187-5.138a.582.582 0 0 0 0-.668zm-8.187 4.674c-3.322 0-6.198-3.271-7.05-4.34.85-1.07 3.721-4.34 7.05-4.34 3.32 0 6.197 3.27 7.049 4.34-.85 1.07-3.721 4.34-7.05 4.34z"/><path d="M12.293 9.104c-1.81 0-3.281 1.523-3.281 3.396s1.472 3.396 3.28 3.396c1.81 0 3.281-1.523 3.281-3.396s-1.472-3.396-3.28-3.396zm0 5.66c-1.206 0-2.187-1.015-2.187-2.264 0-1.249.98-2.264 2.187-2.264 1.206 0 2.187 1.015 2.187 2.264 0 1.249-.981 2.264-2.187 2.264z"/></g></g></svg>  </button>'
                 );
@@ -560,33 +579,15 @@ export default {
             },
           ],
           drawCallback: function () {
-            $(".showphotos").on("click", function (e) {
-              showPhotos(e.currentTarget.attributes[1].value);
-            });
-            $(".showresults").on("click", function (e) {
-              showResults(e.currentTarget.attributes[1].value);
-            });
-            $(".editrun").on("click", function (e) {
-              editRun(e.currentTarget.attributes[1].value);
-            });
-            $(".showdelete").on("click", function (e) {
-              showDelete(e.currentTarget.attributes[1].value);
-            });
-            $(".showclose").on("click", function (e) {
-              showClose(e.currentTarget.attributes[1].value);
-            });
-            $(".showreopen").on("click", function (e) {
-              showReOpen(e.currentTarget.attributes[1].value);
-            });
-            $(".reportrun").on("click", function (e) {
-              reportRun(e.currentTarget.attributes[1].value);
-            });
-            $(".reportandphotosrun").on("click", function (e) {
-              reportAndPhotosRun(e.currentTarget.attributes[1].value);
-            });
-            $(".runemail").on("click", function (e) {
-              openModalEmail(e.currentTarget.attributes[1].value);
-            });
+            $("#activeRuns").on("click","[class*=showphotos]", function (e) { showPhotos(e.currentTarget.attributes[1].value); });
+            $("#activeRuns").on("click","[class*=showresults]", function (e) { showResults(e.currentTarget.attributes[1].value); });
+            $("#activeRuns").on("click","[class*=editrun]", function (e) { editRun(e.currentTarget.attributes[1].value); });
+            $("#activeRuns").on("click","[class*=showdelete]", function (e) { showDelete(e.currentTarget.attributes[1].value); });
+            $("#activeRuns").on("click","[class*=showclose]", function (e) { showClose(e.currentTarget.attributes[1].value); });
+            $("#activeRuns").on("click","[class*=showreopen]", function (e) { showReOpen(e.currentTarget.attributes[1].value); });
+            $("#activeRuns").on("click","[class*=reportrun]", function (e) { reportRun(e.currentTarget.attributes[1].value); });
+            $("#activeRuns").on("click","[class*=reportandphotosrun]", function (e) { reportAndPhotosRun(e.currentTarget.attributes[1].value)});
+            $("#activeRuns").on("click","[class*=runemail]", function (e) { openModalEmail(e.currentTarget.attributes[1].value); });
           },
         });
       });
@@ -664,7 +665,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .no-sort::after {
   display: none !important;

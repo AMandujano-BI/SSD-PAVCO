@@ -1,6 +1,6 @@
 <template>
   <Head title="Log in" />
-  <div class="h-[10vh]  md:min-h[15vh] flex items-center justify-center">
+  <div class="h-[10vh] md:min-h[15vh] flex items-center justify-center">
     <div
       class="
         bg-[#0271c5]
@@ -29,8 +29,7 @@
   </div>
 
   <div class="flex w-full">
-    <div class="md:w-[235px] hidden md:flex flex-col img-leftbar">
-    </div>
+    <div class="md:w-[235px] hidden md:flex flex-col img-leftbar"></div>
 
     <div
       class="
@@ -40,12 +39,13 @@
         min-h-[90vh]
         md:min-h[85vh]
         flex
-        items-center
         justify-center
       "
     >
-      <div class="max-w-[450px] p-5 w-full">
-        <h1 class="text-center text-[#434343] text-[30px] pb-6 font-semibold">Log In</h1>
+      <div class="max-w-[450px] p-5 w-full mt-[70px]">
+        <h1 class="text-center text-[#434343] text-[30px] pb-6 font-semibold">
+          Log In
+        </h1>
         <jet-validation-errors class="mb-4" />
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -54,8 +54,21 @@
 
         <form @submit.prevent="submit">
           <div>
-            <div class="relative ">
-              <div class="absolute left-0 top-[2px] py-[9px] px-2  border-r-[1px] border-[#e1e1e1] bg-[#8fafc] flex items-center justify-center">
+            <div class="relative">
+              <div
+                class="
+                  absolute
+                  left-0
+                  top-[2px]
+                  py-[17px]
+                  px-4
+                  border-r-[1px] border-[#e1e1e1]
+                  bg-[#8fafc]
+                  flex
+                  items-center
+                  justify-center
+                "
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -82,7 +95,7 @@
               </div>
               <input
                 type="text"
-                class="pl-12 w-full border-[#e1e1e1] py-2"
+                class="pl-16 w-full border-[#e1e1e1] py-4"
                 v-model="form.username"
                 placeholder="Username"
                 required
@@ -92,13 +105,48 @@
           </div>
 
           <div class="mt-4">
-             <div class="relative ">
-              <div class="absolute left-0 top-[2px] py-[9px] px-2  border-r-[1px] border-[#e1e1e1] bg-[#8fafc] flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><rect x="0" y="0" width="24" height="24" fill="none" stroke="none" /><path d="M12 13a1.49 1.49 0 0 0-1 2.61V17a1 1 0 0 0 2 0v-1.39A1.49 1.49 0 0 0 12 13zm5-4V7A5 5 0 0 0 7 7v2a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-7a3 3 0 0 0-3-3zM9 7a3 3 0 0 1 6 0v2H9zm9 12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1z" fill="#0271c5"/></svg>
+            <div class="relative">
+              <div
+                class="
+                  absolute
+                  left-0
+                  top-[2px]
+                  py-[17px]
+                  px-4
+                  border-r-[1px] border-[#e1e1e1]
+                  bg-[#8fafc]
+                  flex
+                  items-center
+                  justify-center
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  aria-hidden="true"
+                  role="img"
+                  width="20"
+                  height="20"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 24 24"
+                >
+                  <rect
+                    x="0"
+                    y="0"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    stroke="none"
+                  />
+                  <path
+                    d="M12 13a1.49 1.49 0 0 0-1 2.61V17a1 1 0 0 0 2 0v-1.39A1.49 1.49 0 0 0 12 13zm5-4V7A5 5 0 0 0 7 7v2a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-7a3 3 0 0 0-3-3zM9 7a3 3 0 0 1 6 0v2H9zm9 12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1z"
+                    fill="#0271c5"
+                  />
+                </svg>
               </div>
               <input
                 type="password"
-                class="pl-12 w-full border-[#e1e1e1] py-2"
+                class="pl-16 w-full border-[#e1e1e1] py-4"
                 v-model="form.password"
                 placeholder="Password"
                 required
@@ -145,22 +193,27 @@
               </button>
             </div>
           </div>
-          <div class="block mt-4">
-            <label class="flex items-center">
-              <jet-checkbox name="remember" v-model:checked="form.remember" class="cursor-pointer" />
-              <span class="ml-2 text-sm text-[#a2a2a2] cursor-pointer">Remember me</span>
+          <div class=" mt-4 flex justify-between">
+            <label class="flex items-center ">
+              <jet-checkbox
+                name="remember"
+                v-model:checked="form.remember"
+                class="cursor-pointer"
+              />
+              <span class="ml-2 text-sm text-[#a2a2a2] cursor-pointer"
+                >Remember me</span
+              >
             </label>
+            <Link
+              v-if="canResetPassword"
+              :href="route('password.request')"
+              class="underline text-sm text-[#34689c] hover:text-gray-900"
+            >
+              Forgot your password?
+            </Link>
           </div>
 
-          <div class="flex items-center justify-end mt-4">
-            <!-- <Link
-          v-if="canResetPassword"
-          :href="route('password.request')"
-          class="underline text-sm text-gray-600 hover:text-gray-900"
-        >
-          Forgot your password?
-        </Link> -->
-          </div>
+          
         </form>
       </div>
     </div>

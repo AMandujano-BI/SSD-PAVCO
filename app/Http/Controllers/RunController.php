@@ -156,7 +156,7 @@ class RunController extends Controller
 
         $id_run = $run->id;
         $start_date = substr($run->start_date, 0, 10);
-        $customer = 'Test';
+        $customer = $run->company->name;
 
         $current_date = new DateTime();
         $currentDate = $current_date->format('Y-m-d H:i:s');
@@ -419,8 +419,7 @@ class RunController extends Controller
         $run = $this->_run->getRun($id);
         $id_run = $run->id;
         $start_date = substr($run->start_date, 0, 10);
-        // $customer = $run->user_id;
-        $customer = 'test';
+        $customer = $run->company->name;
 
 
 
@@ -685,7 +684,7 @@ class RunController extends Controller
         ";
         $pdf->loadHTML($html);
 
-        return $pdf->download('report.pdf');
+        return $pdf->download('run_report_' . $run->id . '.pdf');
     }
 
     /**

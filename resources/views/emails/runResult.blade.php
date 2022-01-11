@@ -121,7 +121,7 @@
 <body class="clean-body u_body" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #e7e7e7;color: #000000">
   <!--[if IE]><div class="ie-container"><![endif]-->
   <!--[if mso]><div class="mso-container"><![endif]-->
-  <table style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 320px;Margin: 0 auto;background-color: #e7e7e7;width:100%" cellpadding="0" cellspacing="0">
+  <table style="border-collapse: collapse;table-layout: fixed;border-spacing:0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 320px;Margin: 0 auto;background-color: #e7e7e7;width:100%" cellpadding="0" cellspacing="0">
     <tbody>
       <tr style="vertical-align: top">
         <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
@@ -247,7 +247,7 @@
                             <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
 
                               <div class="v-text-align" style="line-height: 140%; text-align: left; word-wrap: break-word;">
-                                <p style="font-size: 14px; line-height: 140%; text-align: left;"><span style="font-size: 16px; line-height: 22.4px;"><span style="color: #34689c; line-height: 22.4px; font-size: 16px;"><strong>Start Date</strong></span>: {{$run->start_date}}</span>
+                                <p style="font-size: 14px; line-height: 140%; text-align: left;"><span style="font-size: 16px; line-height: 22.4px;"><span style="color: #34689c; line-height: 22.4px; font-size: 16px;"><strong>Start Date</strong></span>: {{date("y-m-d",strtotime($run->start_date))}}</span>
                                 </p>
                               </div>
 
