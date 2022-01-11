@@ -27,7 +27,7 @@
         <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
           >Start Date</label
         >
-        <input type="datetime-local" class="w-full" v-model="form.start_date" />
+        <input type="datetime-local" class="w-full" v-model="form.start_date" @change="startDateListener" />
       </div>
     </div>
 
@@ -58,6 +58,7 @@
           class="w-full"
           v-model="form.hours"
           :class="{ 'border-red-500': v$.hours.$error }"
+          @change="hoursListener"
         />
         <p
           v-for="error of v$.hours.$errors"
@@ -123,15 +124,28 @@ export default {
   setup(props) {
     const { run } = props;
     const { makeToast } = useHelper();
-    const hasDiferentHours = ref(false);
+    let startDateChanged = false;
+    let hoursChanged = false;
+
+
+    const startDateListener = () => {
+      console.log('StartDate changed');
+      startDateChanged = true;
+    }
+    const hoursListener = () => {
+      console.log('Hours changed');
+      hoursChanged = true;
+    }
 
 
     const calculateHours = () => {
       if (run.status === 1) {
         //cerrado
         if (run.isEdit) {
+          console.log('close & edited');
           return run.hours;
         } else {
+          console.log('close & non edited');
           const closeNonEdit =
             Math.abs(new Date(run.closed_date) - new Date(run.start_date)) /
             36e5;
@@ -140,11 +154,13 @@ export default {
       } else {
         // abierto
         if (run.isEdit) {
+          console.log('active & edited');
           const activeEdit =
             Math.abs(new Date() - new Date(run.last_edit)) / 36e5;
           const hoursEdited = activeEdit | 0;
           return run.hours + hoursEdited;
         } else {
+          console.log('active & Non edited');
           const activeNonEdit =
             Math.abs(new Date() - new Date(run.start_date)) / 36e5;
           return activeNonEdit | 0;
@@ -232,69 +248,86 @@ export default {
     };
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {
+      // to hours
+      const date = new Date();
+      const dateFormated =
+        "" +
+        date.getUTCFullYear() +
+        "-" +
+        (date.getUTCMonth() + 1) +
+        "-" +
+        date.getUTCDate() +
+        " " +
+        date.getUTCHours() +
+        ":" +
+        date.getUTCMinutes() +
+        ":" +
+        date.getUTCSeconds();
+
+      // to startDate
+      const currentUTCDate = new Date(form.start_date);
+      const monthUTC = currentUTCDate.getUTCMonth()+1;
+      const dayUTC = currentUTCDate.getUTCDate();
+      const hoursUTC = currentUTCDate.getUTCHours();
+      const minutesUTC = currentUTCDate.getUTCMinutes();
+      let fullMonthUTC = '0';
+      let fullDayUTC = '0';
+      let fullHoursUTC = '0';
+      let fullMinutesUTC = '0';
+      (monthUTC.toString().length < 2) ? fullMonthUTC = fullMonthUTC.concat(monthUTC) : fullMonthUTC = monthUTC;
+      (dayUTC.toString().length < 2) ? fullDayUTC = fullDayUTC.concat(dayUTC) : fullDayUTC = dayUTC;
+      (hoursUTC.toString().length < 2) ? fullHoursUTC = fullHoursUTC.concat(hoursUTC) : fullHoursUTC = hoursUTC;
+      (minutesUTC.toString().length < 2) ? fullMinutesUTC = fullMinutesUTC.concat(minutesUTC) : fullMinutesUTC = minutesUTC;
+      
+      const startUTCDate = 
+          ''+
+          currentUTCDate.getUTCFullYear()+
+          '-'+
+          fullMonthUTC+
+          '-'+
+          fullDayUTC+
+          'T'+
+          fullHoursUTC+
+          ':'+
+          fullMinutesUTC;
+
       try {
-        if (form.hours !== runHours) {
+        if ( startDateChanged && hoursChanged ) {
+          console.log('Different hour');
           form.hasDiferentHours = true;
-          const date = new Date();
-          const dateFormated =
-            "" +
-            date.getUTCFullYear() +
-            "-" +
-            (date.getUTCMonth() + 1) +
-            "-" +
-            date.getUTCDate() +
-            " " +
-            date.getUTCHours() +
-            ":" +
-            date.getUTCMinutes() +
-            ":" +
-            date.getUTCSeconds();
           form.last_edit = dateFormated;
+          form.start_date_edit = startUTCDate;
+        } else {
+          if ( hoursChanged ) {
+            console.log('Different hour');
+            form.hasDiferentHours = true;
+            form.last_edit = dateFormated;
+            form.start_date_edit = startUTCDate;
+          } else {
+            if ( startDateChanged ) {
+              form.start_date_edit = startUTCDate;
+            }
+          }
         }
-
-        
-        const currentUTCDate = new Date(form.start_date);
-        const monthUTC = currentUTCDate.getUTCMonth()+1;
-        const dayUTC = currentUTCDate.getUTCDate();
-        const hoursUTC = currentUTCDate.getUTCHours();
-        const minutesUTC = currentUTCDate.getUTCMinutes();
-        let fullMonthUTC = '0';
-        let fullDayUTC = '0';
-        let fullHoursUTC = '0';
-        let fullMinutesUTC = '0';
-        (monthUTC.toString().length < 2) ? fullMonthUTC = fullMonthUTC.concat(monthUTC) : fullMonthUTC = monthUTC;
-        (dayUTC.toString().length < 2) ? fullDayUTC = fullDayUTC.concat(dayUTC) : fullDayUTC = dayUTC;
-        (hoursUTC.toString().length < 2) ? fullHoursUTC = fullHoursUTC.concat(hoursUTC) : fullHoursUTC = hoursUTC;
-        (minutesUTC.toString().length < 2) ? fullMinutesUTC = fullMinutesUTC.concat(minutesUTC) : fullMinutesUTC = minutesUTC;
-         
-        
-        const startUTCDate = 
-            ''+
-            currentUTCDate.getUTCFullYear()+
-            '-'+
-            fullMonthUTC+
-            '-'+
-            fullDayUTC+
-            'T'+
-            fullHoursUTC+
-            ':'+
-            fullMinutesUTC;
-            
-        
-        form.start_date_edit = startUTCDate;
-
 
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return;
         let res;
         res = await axios.put(`/run/${form.id}`, form);
         const { ok, value, message } = res.data;
+        run.isEdit = value.isEdit;
         if (form.hasDiferentHours) {
           form.hasDiferentHours = false;
         }
-        runHours = calculateHours();
-        form.hours = runHours;
         if (ok) {
+          
+          if ( startDateChanged && !run.isEdit) {
+            run.start_date = form.start_date;
+            runHours = calculateHours();
+            form.hours = runHours;
+          }
+          startDateChanged = false;
+          hoursChanged = false;
           makeToast("Part was updated successfully");
         } else {
           makeToast("An error has occurred in server", "error");
@@ -309,7 +342,10 @@ export default {
       form,
       v$,
       submitForm,
+      startDateListener,
+      hoursListener
     };
   },
+  
 };
 </script>

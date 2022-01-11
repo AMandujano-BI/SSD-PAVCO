@@ -125,7 +125,7 @@ const useFormRun = () => {
             
             const currentDate = new Date(form.start_date);
             let month = currentDate.getUTCMonth()+1;
-            let day = currentDate.getUTCDay()+2;
+            let day = currentDate.getUTCDate();
             let fullMonth = '0';
             let fullDay = '0';
             (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;

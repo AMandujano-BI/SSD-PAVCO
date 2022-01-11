@@ -318,7 +318,6 @@ class Run extends Model
             $run->plate_methods_id = $request->plate_methods_id;
             $run->company_id = $request->company_id;
             if ($request->hasDiferentHours) {
-                dd($request->hasDiferentHours);
                 $run->hours = $request->hours;
                 $run->last_edit = Carbon::parse($request->last_edit, 'UTC');
                 $run->isEdit = true;
