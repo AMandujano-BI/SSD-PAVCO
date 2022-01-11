@@ -14,7 +14,7 @@ const useFormuser = (formProps) => {
     const rules = computed(() => ({
         username: { required },
         name: { required },
-        password: { required },
+        password: { required,minLength:minLength(8) },
         email: { required, email },
         confirm_password: { sameAsPassword: sameAs(form.password) },
         company_id: {

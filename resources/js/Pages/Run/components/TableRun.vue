@@ -17,8 +17,8 @@
         <thead>
           <tr>
             <th>StartDate</th>
-            <th>Customer</th>
             <th>Run #</th>
+            <th>Customer</th>
             <th>Method</th>
             <th>Status</th>
             <th>Hrs</th>
@@ -379,9 +379,9 @@ export default {
           processing: true,
           serverSide: true,
           stateSave: true,
-          rowReorder: {
-            selector: "td:nth-child(2)",
-          },
+          // rowReorder: {
+          //   selector: "td:nth-child(2)",
+          // },
           columnDefs: [
             {
               defaultContent: "-",
@@ -399,6 +399,9 @@ export default {
           ajax: {
             url: `/run/getAllRuns/${status}`,
           },
+          // language:{
+          //   // processing:"<h1 style='background:#333;color:#fff;height:800px;'>Loading..</h1>"
+          // },
           stateSaveCallback: function (settings, data) {
             const state = settings.aoData;
             let arr = [];
@@ -415,18 +418,18 @@ export default {
                 return "<td>" + row.start_date.slice(0, 10) + "</td>";
               },
             },
+              {
+                name: "id",
+                searchable: true,
+                render: function (data, type, row, meta) {
+                  return "<td>" + row.id + "</td>";
+                },
+              },
             {
               name: "company.name",
               searchable: true,
               render: function (data, type, row, meta) {
                 return "<td>" + row.company.name + "</td>";
-              },
-            },
-            {
-              name: "id",
-              searchable: true,
-              render: function (data, type, row, meta) {
-                return "<td>" + row.id + "</td>";
               },
             },
             {

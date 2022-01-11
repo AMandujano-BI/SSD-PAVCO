@@ -1,4 +1,6 @@
 <script setup>
+import IconArrowTop from "@/assets/Icons/iconArrowTop.vue";
+import IconArrowBot from "@/assets/Icons/iconArrowBot.vue";
 import { ref, computed } from "vue";
 // import { mdiMinus, mdiPlus } from '@mdi/js'
 // import Icon from '@/components/Icon.vue'
@@ -20,16 +22,8 @@ const componentIs = computed(() => (props.item.href ? "a" : "div"));
 
 const hasDropdown = computed(() => !!props.item.menu);
 
-const dropdownIcon = computed(() => (isDropdownActive.value ? "" : ""));
-
-const itemTo = computed(() => props.item.to || null);
-
 const itemHref = computed(() => props.item.href || null);
 const itemRoute = computed(() => props.item.itemRoute || null);
-
-const itemTarget = computed(() =>
-  componentIs.value === "a" && props.item.target ? props.item.target : null
-);
 
 const menuClick = (event) => {
   if (hasDropdown.value) {
@@ -53,6 +47,7 @@ const styleInactive = "text-gray-500";
       v-if="!itemHref"
       class="
         flex
+        items-center
         cursor-pointer
         text-gray-700
         hover:bg-[#e1e8f3]
@@ -61,12 +56,6 @@ const styleInactive = "text-gray-500";
       :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
       @click="menuClick()"
     >
-      <!-- <img
-        v-if="item.icon"
-        :src="item.icon"
-        class="flex-none pr-3 pl-14"
-        w="w-12"
-      /> -->
       <div v-if="item.icon == 'Maintenance'" class="flex-none pr-3 pl-14">
         <svg
           width="20"
@@ -84,34 +73,12 @@ const styleInactive = "text-gray-500";
           </g>
         </svg>
       </div>
-      <span class="flex-grow">{{ item.label }}</span>
+      <span class="pr-3">{{ item.label }}</span>
       <div v-if="isDropdownActive" class="text-primary pr-5">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          aria-hidden="true"
-          role="img"
-          width="24"
-          height="24"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 20 20"
-        >
-          <path d="M15 14l-5-5l-5 5l-2-1l7-7l7 7z" fill="currentColor" />
-        </svg>
+        <IconArrowTop />
       </div>
-      <div v-if="!isDropdownActive" class="text-primary pr-5">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          aria-hidden="true"
-          role="img"
-          width="24"
-          height="24"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 20 20"
-        >
-          <path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="currentColor" />
-        </svg>
+      <div v-if="!isDropdownActive" class="text-primary">
+        <IconArrowBot />
       </div>
     </div>
     <jet-nav-link

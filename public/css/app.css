@@ -903,6 +903,8 @@ video {
 	margin-top: -1px;
 }.ml-60{
 	margin-left: 15rem;
+}.mt-\[70px\]{
+	margin-top: 70px;
 }.mb-5{
 	margin-bottom: 1.25rem;
 }.mr-4{
@@ -971,6 +973,8 @@ video {
 	min-height: 90vh;
 }.min-h-\[400px\]{
 	min-height: 400px;
+}.min-h-\[300px\]{
+	min-height: 300px;
 }.w-5{
 	width: 1.25rem;
 }.w-16{
@@ -1374,9 +1378,9 @@ video {
 }.px-0{
 	padding-left: 0px;
 	padding-right: 0px;
-}.py-\[9px\]{
-	padding-top: 9px;
-	padding-bottom: 9px;
+}.py-\[17px\]{
+	padding-top: 17px;
+	padding-bottom: 17px;
 }.px-8{
 	padding-left: 2rem;
 	padding-right: 2rem;
@@ -1421,6 +1425,8 @@ video {
 	padding-left: 2.5rem;
 }.pb-6{
 	padding-bottom: 1.5rem;
+}.pl-16{
+	padding-left: 4rem;
 }.pt-14{
 	padding-top: 3.5rem;
 }.pt-16{
@@ -1703,6 +1709,8 @@ video {
 }.error-dropdown{
 
   --ms-placeholder-color: red;
+}input:focus{
+  border-color: #1e385e !important;
 }input[type="number"] {
   -moz-appearance: textfield;
 }input[type="number"]:hover,
@@ -1865,6 +1873,8 @@ tbody tr{
 
 }.img-leftbar{
   background-image: url(/images/pattern.png?554c69142cf2e26611b498946ba3e3ce);
+}table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before{
+  background: #0271C5;
 }.focus-within\:text-gray-400:focus-within{
 	--tw-text-opacity: 1;
 	color: rgba(156, 163, 175, var(--tw-text-opacity));
