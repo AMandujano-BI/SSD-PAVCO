@@ -200,6 +200,13 @@ tbody tr{
 table.dataTable.display tbody tr{
   text-align: center;
 }
+
+@media only screen and (max-width: 1500px) {
+  table.dataTable.display tbody tr{
+    text-align: left;
+  }
+
+}
 .img-leftbar{
   background-image: url('../js/assets/Icons/IconFooterLeftBar/pattern.png');
 }

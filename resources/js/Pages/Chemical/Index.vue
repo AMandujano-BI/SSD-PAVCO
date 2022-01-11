@@ -155,6 +155,8 @@ const $ = require("jquery");
 import IconEdit from "@/assets/Icons/iconEdit.vue";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
 import IconPlus from "@/assets/Icons/iconPlus.vue";
+import "datatables.net-responsive-dt";
+import "datatables.net-rowreorder-dt";
 export default {
   components: {
     AppLayout: AppLayout,
@@ -305,19 +307,28 @@ export default {
     const generateDataTable = (type) => {
       nextTick(() => {
         $("#chemicalTable").DataTable({
-          scrollY: 350,
           ordering: true,
           bLengthChange: false,
           pageLength: 5,
           processing: true,
           serverSide: true,
           stateSave: true,
+            rowReorder: {
+            selector: "td:nth-child(2)",
+          },
+          columnDefs: [
+            {
+              defaultContent: "-",
+              targets: "_all",
+            },
+          ],
+          responsive: true,
           language: {
             paginate: {
               next: `→`, // or '→'
               previous: `←`, // or '←'
             },
-            info: "Showing results page _PAGE_ of _PAGES_",
+            info: "Showing results _START_ to _END_ from _TOTAL_",
           },
           ajax: `/chemical/getChemicals/${type}`,
           stateSaveCallback: function (settings, data) {
@@ -379,10 +390,10 @@ export default {
             },
           ],
           drawCallback: function () {
-            $(".editchemical").on("click", function (e) {
+            $("#chemicalTable").on("click","[class*=editchemical]", function (e) {
               editChemical(e.currentTarget.attributes[1].value);
             });
-            $(".deletechemical").on("click", function (e) {
+            $("#chemicalTable").on("click", "[class*=deletechemical]",function (e) {
               deleteChemicalModal(e.currentTarget.attributes[1].value);
             });
           },
