@@ -127,7 +127,6 @@ import FormUserVue from "./FormUser.vue";
 import FormResetPasswordVue from "./FormResetPassword.vue";
 import { useStore } from "vuex";
 const $ = require("jquery");
-import dt from "datatables.net";
 import IconEdit from "@/assets/Icons/iconEdit.vue";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
 import IconReset from "@/assets/Icons/iconResetPassword.vue";
@@ -135,6 +134,10 @@ import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import Multiselect from "@vueform/multiselect";
 import useHelper from "@/composables/useHelper";
 import IconPlus from "@/assets/Icons/iconPlus.vue";
+var dt = require("datatables.net");
+import "datatables.net-responsive-dt";
+import "datatables.net-rowreorder-dt";
+
 export default {
   props: ["companies", "rols"],
   components: {
@@ -170,16 +173,26 @@ export default {
       $("#tableUsers").DataTable().destroy();
       nextTick(() => {
         $("#tableUsers").DataTable({
-          scrollY: 350,
+          // scrollY: 350,
           ordering: true,
           bLengthChange: false,
           pageLength: 5,
+          rowReorder: {
+            selector: "td:nth-child(2)",
+          },
+          columnDefs: [
+            {
+              defaultContent: "-",
+              targets: "_all",
+            },
+          ],
+          responsive: true,
           language: {
             paginate: {
               next: `→`, // or '→'
               previous: `←`, // or '←'
             },
-            info: "Showing results page _PAGE_ of _PAGES_",
+            info: "Showing results _START_ to _END_ from _TOTAL_",
           },
         });
       });

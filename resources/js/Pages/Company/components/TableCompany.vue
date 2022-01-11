@@ -64,7 +64,6 @@
 </template>
 
 <script>
-import dt from "datatables.net";
 import axios from "axios";
 import { ref, nextTick, computed, watch, onMounted } from "vue";
 const $ = require("jquery");
@@ -76,6 +75,11 @@ import IconEdit from "@/assets/Icons/iconEdit.vue";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
 import IconPlus from "@/assets/Icons/iconPlus.vue";
 import { useStore } from "vuex";
+var dt = require("datatables.net");
+import "datatables.net-responsive-dt";
+import "datatables.net-rowreorder-dt";
+
+
 export default {
   props: ["countries"],
   components: {
@@ -150,19 +154,29 @@ export default {
       $("#tableCompanies").DataTable().destroy();
       nextTick(() => {
         $("#tableCompanies").DataTable({
-          scrollY: 350,
+          // scrollY: 350,
           ordering: true,
           bLengthChange: false,
           pageLength: 5,
           processing: true,
           serverSide: true,
           stateSave: true,
+          rowReorder: {
+            selector: "td:nth-child(2)",
+          },
+          columnDefs: [
+            {
+              defaultContent: "-",
+              targets: "_all",
+            },
+          ],
+          responsive: true,
           language: {
             paginate: {
               next: `→`, // or '→'
               previous: `←`, // or '←'
             },
-            info: "Showing results page _PAGE_ of _PAGES_",
+            info: "Showing results _START_ to _END_ from _TOTAL_",
           },
           ajax: {
             url: `/company/getCompanies/${type}`,
@@ -306,12 +320,12 @@ export default {
             },
           ],
           drawCallback: function () {
-            $(".openmodaleditclick").on("click", function (e) {
+            $("#tableCompanies").on("click", "[class*=openmodaleditclick]", function (e) {
               const openmodaleditclickStr = e.currentTarget.attributes[1].value;
               const openmodaleditclickId = Number(openmodaleditclickStr);
               openModalEditClick(openmodaleditclickId);
             });
-            $(".openmodaldeleteclick").on("click", function (e) {
+            $("#tableCompanies").on("click", "[class*=openmodaldeleteclick]", function (e) {
               const openmodaldeleteclickStr =
                 e.currentTarget.attributes[1].value;
               const openmodaldeleteclickId = Number(openmodaldeleteclickStr);
