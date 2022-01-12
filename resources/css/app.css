@@ -23,6 +23,13 @@ body {
 input:focus{
   border-color: #1e385e !important;
 }
+select:focus{
+  border-color: #1e385e !important;
+}
+option:nth-child(odd) {
+  background-color: #ebf2fd;
+}
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -30,6 +37,7 @@ input[type="number"]:hover,
 input[type="number"]:focus {
   -moz-appearance: number-input;
 }
+.dataTables_filter { display: none; }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

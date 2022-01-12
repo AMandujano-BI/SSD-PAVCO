@@ -1,12 +1,58 @@
 <template>
   <div class="container p-9">
-    <div class="flex gap-8 items-center mb-5">
-      <button @click="openModalButton"><icon-plus /></button>
-      <select class="w-full" @change="changeFilter" v-model="filterOption">
-        <option value="3">Show All</option>
-        <option value="0">Active</option>
-        <option value="1">Complete</option>
-      </select>
+    <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
+      <div class="flex gap-8 items-center flex-1 w-full">
+        <button @click="openModalButton"><icon-plus /></button>
+        <select
+          class="w-full p-3 rounded-sm border-[#a2a2a2] text-[#a2a2a2] flex-1"
+          @change="changeFilter"
+          v-model="filterOption"
+        >
+          <option value="3" >Show All</option>
+          <option value="0">Active</option>
+          <option value="1">Complete</option>
+        </select>
+      </div>
+
+      <div
+        class="relative text-gray-600 focus-within:text-gray-400 flex-1 w-full"
+      >
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button
+            type="submit"
+            class="p-1 focus:outline-none focus:shadow-outline"
+          >
+            <svg
+              fill="none"
+              stroke="#a2a2a2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              class="w-6 h-6"
+            >
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        </span>
+
+        <input
+          type="text"
+          class="
+            py-[14px]
+            text-sm
+            w-full
+            pl-10
+            rounded-sm
+            border-[#a2a2a2]
+            placeholder-[#a2a2a2]
+            text-[#333]
+          "
+          id="filterRunInputBot"
+          placeholder="Search Runs..."
+          autocomplete="off"
+        />
+      </div>
     </div>
     <div class="rounded-lg bg-white p-5">
       <table
@@ -214,6 +260,11 @@ export default {
         .keyup(function () {
           $("#activeRuns").DataTable().search(this.value).draw();
         });
+          $("#filterRunInputBot")
+        .off()
+        .keyup(function () {
+          $("#activeRuns").DataTable().search(this.value).draw();
+        });
     });
     const findRun = (id) => {
       run.value = runs.value.find((run) => run.id === id);
@@ -224,9 +275,7 @@ export default {
       findRun(id);
       isModalPhotos.value = true;
     };
-    const closePhotosModal = () => {
-      isModalPhotos.value = false;
-    };
+    const closePhotosModal = () => (isModalPhotos.value = false);
     // Results
     const showResults = (id) => {
       findRun(id);
@@ -242,15 +291,9 @@ export default {
       findRun(id);
       isModalNotes.value = true;
     };
-    const closeNotesModal = () => {
-      isModalNotes.value = false;
-    };
-    const noteAdded = () => {
-      gettingData();
-    };
-    const photoAdded = () => {
-      gettingData();
-    };
+    const closeNotesModal = () => (isModalNotes.value = false);
+    const noteAdded = () => gettingData();
+    const photoAdded = () => gettingData();
     // Delete
     const showDelete = (id) => {
       findRun(id);
@@ -388,6 +431,7 @@ export default {
               targets: "_all",
             },
           ],
+          // searching:false,
           responsive: true,
           language: {
             paginate: {
@@ -418,13 +462,13 @@ export default {
                 return "<td>" + row.start_date.slice(0, 10) + "</td>";
               },
             },
-              {
-                name: "id",
-                searchable: true,
-                render: function (data, type, row, meta) {
-                  return "<td>" + row.id + "</td>";
-                },
+            {
+              name: "id",
+              searchable: true,
+              render: function (data, type, row, meta) {
+                return "<td>" + row.id + "</td>";
               },
+            },
             {
               name: "company.name",
               searchable: true,
@@ -579,15 +623,37 @@ export default {
             },
           ],
           drawCallback: function () {
-            $("#activeRuns").on("click","[class*=showphotos]", function (e) { showPhotos(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=showresults]", function (e) { showResults(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=editrun]", function (e) { editRun(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=showdelete]", function (e) { showDelete(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=showclose]", function (e) { showClose(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=showreopen]", function (e) { showReOpen(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=reportrun]", function (e) { reportRun(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=reportandphotosrun]", function (e) { reportAndPhotosRun(e.currentTarget.attributes[1].value)});
-            $("#activeRuns").on("click","[class*=runemail]", function (e) { openModalEmail(e.currentTarget.attributes[1].value); });
+            $("#activeRuns").on("click", "[class*=showphotos]", function (e) {
+              showPhotos(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=showresults]", function (e) {
+              showResults(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=editrun]", function (e) {
+              editRun(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=showdelete]", function (e) {
+              showDelete(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=showclose]", function (e) {
+              showClose(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=showreopen]", function (e) {
+              showReOpen(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=reportrun]", function (e) {
+              reportRun(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on(
+              "click",
+              "[class*=reportandphotosrun]",
+              function (e) {
+                reportAndPhotosRun(e.currentTarget.attributes[1].value);
+              }
+            );
+            $("#activeRuns").on("click", "[class*=runemail]", function (e) {
+              openModalEmail(e.currentTarget.attributes[1].value);
+            });
           },
         });
       });
