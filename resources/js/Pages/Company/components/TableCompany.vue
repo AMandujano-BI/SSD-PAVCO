@@ -154,16 +154,12 @@ export default {
       $("#tableCompanies").DataTable().destroy();
       nextTick(() => {
         $("#tableCompanies").DataTable({
-          // scrollY: 350,
           ordering: true,
           bLengthChange: false,
-          pageLength: 5,
+          pageLength: 10,
           processing: true,
           serverSide: true,
           stateSave: true,
-          rowReorder: {
-            selector: "td:nth-child(2)",
-          },
           columnDefs: [
             {
               defaultContent: "-",
@@ -173,8 +169,8 @@ export default {
           responsive: true,
           language: {
             paginate: {
-              next: `→`, // or '→'
-              previous: `←`, // or '←'
+              next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
+              previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
             },
             info: "Showing results _START_ to _END_ from _TOTAL_",
           },

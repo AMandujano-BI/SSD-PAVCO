@@ -30,6 +30,9 @@ option:nth-child(odd) {
   background-color: #ebf2fd;
 }
 
+.arrow_icon{
+  display: inline;
+}
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -79,16 +82,9 @@ input::-webkit-inner-spin-button {
 }
 .dataTables_paginate a {
   padding: 6px 9px !important;
-  /* background: #123e81 !important; */
-  /* border-color: #fff !important; */
-  /* color: #fff !important; */
 }
 
-.dataTables_paginate span {
 
-  /* background: #fff !important; */
-  /* color: #fff !important; */
-}
 .paginate_button{
 
   background: #a2a2a2 !important;
@@ -223,4 +219,16 @@ table.dataTable.display tbody tr{
 }
 table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before{
   background: #0271C5;
+}
+.dtr-details{
+  width: 100%;
+}
+table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
+  background:#fff;
+}
+table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{
+  background:#fff ;
+}
+table.dataTable.display tbody tr.even>.sorting_1, table.dataTable.order-column.stripe tbody tr.even>.sorting_1{
+  background:#fff ;
 }
