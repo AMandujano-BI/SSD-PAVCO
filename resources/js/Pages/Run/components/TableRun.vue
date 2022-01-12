@@ -8,7 +8,7 @@
           @change="changeFilter"
           v-model="filterOption"
         >
-          <option value="3"  >Show All</option>
+          <option value="3">Show All</option>
           <option value="0">Active</option>
           <option value="1">Complete</option>
         </select>
@@ -58,7 +58,7 @@
       <table
         id="activeRuns"
         class="display nowrap"
-        style="width: 100%; height: 100%;"
+        style="width: 100%; height: 100%"
       >
         <thead>
           <tr>
@@ -260,7 +260,7 @@ export default {
         .keyup(function () {
           $("#activeRuns").DataTable().search(this.value).draw();
         });
-          $("#filterRunInputBot")
+      $("#filterRunInputBot")
         .off()
         .keyup(function () {
           $("#activeRuns").DataTable().search(this.value).draw();

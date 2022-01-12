@@ -8,37 +8,84 @@
       />
     </div>
   </modal>
-
-  <div class="flex gap-8 items-center mb-5 px-4 md:px-0">
+ <div class="container p-9">
+ <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
+     <div class="flex gap-8 items-center flex-1 w-full">
     <button @click="openModal"><icon-plus /></button>
-    <select class="w-full" @change="changeFilter" v-model="filterOption">
+    <select
+      class="w-full p-3 rounded-sm border-[#a2a2a2] text-[#a2a2a2] flex-1"
+      @change="changeFilter"
+      v-model="filterOption"
+    >
       <option value="4">All</option>
       <option value="0">Customer</option>
       <option value="1">Distributor</option>
     </select>
+     </div>
+    <div
+      class="relative text-gray-600 focus-within:text-gray-400 flex-1 w-full"
+    >
+      <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+        <button
+          type="submit"
+          class="p-1 focus:outline-none focus:shadow-outline"
+        >
+          <svg
+            fill="none"
+            stroke="#a2a2a2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            class="w-6 h-6"
+          >
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </button>
+      </span>
+
+      <input
+        type="text"
+        class="
+          py-[14px]
+          text-sm
+          w-full
+          pl-10
+          rounded-sm
+          border-[#a2a2a2]
+          placeholder-[#a2a2a2]
+          text-[#333]
+        "
+        id="filterCompaniesInputBot"
+        placeholder="Search Companies..."
+        autocomplete="off"
+      />
+    </div>
   </div>
   <div class="rounded-lg bg-white p-5">
-
-  <table id="tableCompanies" class="display" style="width: 100%; height: 100%">
-    <thead>
-      <tr>
-        <th>Company</th>
-        <th>Distributor</th>
-        <th>Address</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Zip</th>
-        <th>Country</th>
-        <th>Phone</th>
-        <th>Fax</th>
-        <th>Type</th>
-        <th class="no-sort">Edit</th>
-        <th class="no-sort">Delete</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
+    <table
+      id="tableCompanies"
+      class="display"
+      style="width: 100%; height: 100%"
+    >
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Distributor</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip</th>
+          <th>Country</th>
+          <th>Phone</th>
+          <th>Fax</th>
+          <th>Type</th>
+          <th class="no-sort">Edit</th>
+          <th class="no-sort">Delete</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
   <confirmation-modal :show="showModalDelete">
     <template v-slot:title>
@@ -61,6 +108,7 @@
       </div>
     </template>
   </confirmation-modal>
+  </div>
 </template>
 
 <script>
@@ -78,7 +126,6 @@ import { useStore } from "vuex";
 var dt = require("datatables.net");
 import "datatables.net-responsive-dt";
 import "datatables.net-rowreorder-dt";
-
 
 export default {
   props: ["countries"],
@@ -150,6 +197,13 @@ export default {
     const changeFilter = async () => {
       await gettingData(filterOption.value);
     };
+    $(document).ready(function () {
+      $("#filterCompaniesInputBot")
+        .off()
+        .keyup(function () {
+          $("#tableCompanies").DataTable().search(this.value).draw();
+        });
+    });
     const generateDataTable = (type) => {
       $("#tableCompanies").DataTable().destroy();
       nextTick(() => {
@@ -316,17 +370,26 @@ export default {
             },
           ],
           drawCallback: function () {
-            $("#tableCompanies").on("click", "[class*=openmodaleditclick]", function (e) {
-              const openmodaleditclickStr = e.currentTarget.attributes[1].value;
-              const openmodaleditclickId = Number(openmodaleditclickStr);
-              openModalEditClick(openmodaleditclickId);
-            });
-            $("#tableCompanies").on("click", "[class*=openmodaldeleteclick]", function (e) {
-              const openmodaldeleteclickStr =
-                e.currentTarget.attributes[1].value;
-              const openmodaldeleteclickId = Number(openmodaldeleteclickStr);
-              openModalDeleteClick(openmodaldeleteclickId);
-            });
+            $("#tableCompanies").on(
+              "click",
+              "[class*=openmodaleditclick]",
+              function (e) {
+                const openmodaleditclickStr =
+                  e.currentTarget.attributes[1].value;
+                const openmodaleditclickId = Number(openmodaleditclickStr);
+                openModalEditClick(openmodaleditclickId);
+              }
+            );
+            $("#tableCompanies").on(
+              "click",
+              "[class*=openmodaldeleteclick]",
+              function (e) {
+                const openmodaldeleteclickStr =
+                  e.currentTarget.attributes[1].value;
+                const openmodaldeleteclickId = Number(openmodaldeleteclickStr);
+                openModalDeleteClick(openmodaldeleteclickId);
+              }
+            );
           },
         });
       });

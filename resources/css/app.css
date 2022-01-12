@@ -26,6 +26,9 @@ input:focus{
 select:focus{
   border-color: #1e385e !important;
 }
+option{
+  color:#1e385e;
+}
 option:nth-child(odd) {
   background-color: #ebf2fd;
 }
@@ -232,3 +235,20 @@ table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.st
 table.dataTable.display tbody tr.even>.sorting_1, table.dataTable.order-column.stripe tbody tr.even>.sorting_1{
   background:#fff ;
 }
+.dtr-data{
+  display: inline-flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+table.dataTable>tbody>tr.child ul.dtr-details{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}
+@media only screen and (max-width: 500px) {
+
+table.dataTable>tbody>tr.child ul.dtr-details{
+  display: grid;
+  grid-template-columns: repeat(1,1fr);
+}
+
+ }

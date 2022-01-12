@@ -18,6 +18,7 @@ const useFormuser = (formProps) => {
         email: { required, email },
         confirm_password: { sameAsPassword: sameAs(form.password) },
         company_id: {
+            required,
             isDiferentZero: helpers.withMessage(
                 "You must select an option",
                 isDiferentZero

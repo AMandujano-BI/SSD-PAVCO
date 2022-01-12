@@ -1,18 +1,70 @@
 <template>
   <app-layout title="Chemicals">
+     <div class="container p-9">
     <div class="container pt-14 mx-auto">
       <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
         List of Chemicals
       </h1>
-      <div class="flex gap-8 items-center mb-5 pt-5 px-4">
-        <button @click="openModal"><icon-plus /></button>
-        <select class="w-full" v-model="selected" @change="filterChemicals">
-          <option value="0" selected>All Chemical</option>
-          <option value="1">Plating</option>
-          <option value="2">Chromate</option>
-          <option value="3">TopCoat</option>
-          <option value="4">Secondary TopCoat</option>
-        </select>
+      <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
+        <div class="flex gap-8 items-center flex-1 w-full">
+          <button @click="openModal"><icon-plus /></button>
+          <select
+            class="w-full p-3 rounded-sm border-[#a2a2a2] text-[#a2a2a2] flex-1"
+            v-model="selected"
+            @change="filterChemicals"
+          >
+            <option value="0" selected>All Chemical</option>
+            <option value="1">Plating</option>
+            <option value="2">Chromate</option>
+            <option value="3">TopCoat</option>
+            <option value="4">Secondary TopCoat</option>
+          </select>
+        </div>
+        <div
+          class="
+            relative
+            text-gray-600
+            focus-within:text-gray-400
+            flex-1
+            w-full
+          "
+        >
+          <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+            <button
+              type="submit"
+              class="p-1 focus:outline-none focus:shadow-outline"
+            >
+              <svg
+                fill="none"
+                stroke="#a2a2a2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                class="w-6 h-6"
+              >
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </button>
+          </span>
+
+          <input
+            type="text"
+            class="
+              py-[14px]
+              text-sm
+              w-full
+              pl-10
+              rounded-sm
+              border-[#a2a2a2]
+              placeholder-[#a2a2a2]
+              text-[#333]
+            "
+            id="filterChemicalInputBot"
+            placeholder="Search Companies..."
+            autocomplete="off"
+          />
+        </div>
       </div>
       <div class="mt-10">
         <div class="rounded-lg bg-white p-5">
@@ -136,6 +188,7 @@
           </div>
         </template>
       </confirmation-modal>
+    </div>
     </div>
   </app-layout>
 </template>
@@ -303,6 +356,13 @@ export default {
         makeToast(message, "error");
       }
     };
+    $(document).ready(function () {
+      $("#filterChemicalInputBot")
+        .off()
+        .keyup(function () {
+          $("#chemicalTable").DataTable().search(this.value).draw();
+        });
+    });
 
     const generateDataTable = (type) => {
       nextTick(() => {

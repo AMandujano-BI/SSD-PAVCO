@@ -1,123 +1,175 @@
 <template>
-  <div class="flex gap-8 items-center mb-5 pt-5">
-    <button @click="openModalForm"><icon-plus /></button>
-    <select class="w-full " @change="changeFilter" v-model="filterOption">
-      <option value="0" selected>All</option>
-      <option :value="rol.value" v-for="rol in rols" :key="rol.id">
-        {{ rol.label }}
-      </option>
-    </select>
-  </div>
-
-  <div class="rounded-lg bg-white p-5">
-    <table id="tableUsers" class="display" style="width: 100%; height: 100%">
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Name</th>
-          <th>Company</th>
-          <th>Email Address</th>
-          <th>User Type</th>
-          <th class="no-sort">Reset Password</th>
-          <th class="no-sort">Edit</th>
-          <th class="no-sort">Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in usersTable" :key="user.id">
-          <td class="text-center">{{ user.username }}</td>
-          <td class="text-center">{{ user.name }} {{ user.lastname || "" }}</td>
-          <td class="text-center">{{ user.company?.name }}</td>
-          <td class="text-center">
-            <a :href="`mailto:${user.email}`">{{ user.email }}</a>
-          </td>
-          <td
-            class="
-              text-center
-              justify-center
-              w-full
-              grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))]
-              gap-2
-              items-center
-              h-full
-            "
-          >
-            <span
-              class="
-                bg-primary-300
-                max-w-[150px]
-                font-bold
-                text-sm
-                rounded-md
-                p-2
-                mx-1
-                break-words
-              "
-              v-for="rol in user.rols"
-              :key="rol.id"
-              >{{ rol.name }}</span
-            >
-          </td>
-          <td class="text-center">
-            <button @click="openModalResetPassword(user.username)">
-              <icon-reset />
-            </button>
-          </td>
-          <td class="text-center">
-            <button @click="openModalEditClick(user.id)">
-              <icon-edit  class="opacity-95 hover:opacity-1"/>
-            </button>
-          </td>
-          <td class="text-center">
-            <button @click="openModalDeleteClick(user.id)">
-              <icon-delete />
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- MODAL RESET PASSWORD -->
-  <modal :show="modalResetPassword">
-    <div class="p-5">
-      <form-reset @closeModal="closeModalResetPassword" :username="username" />
-    </div>
-  </modal>
-
-  <!-- MODAL FORM -->
-  <modal :show="openModal">
-    <div class="p-5">
-      <form-user
-        :companies="companies"
-        :rols="rols"
-        @closeModal="closeModalForm"
-        @generateTable="generateDataTable"
-      />
-    </div>
-  </modal>
-  <!-- CONFIRMATION MODal -->
-  <confirmation-modal :show="showModalDelete">
-    <template v-slot:title>
-      <h1>Are you sure that delete this User?</h1>
-    </template>
-    <template v-slot:content>
-      <div class="flex justify-center">
-        <button
-          class="bg-red-500 p-4 text-white rounded-md mr-4"
-          @click="closeModalDelete"
+  <div class="container p-9">
+    <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
+      <div class="flex gap-8 items-center flex-1 w-full">
+        <button @click="openModalForm"><icon-plus /></button>
+        <select
+          class="w-full p-3 rounded-sm border-[#a2a2a2] text-[#a2a2a2] flex-1"
+          @change="changeFilter"
+          v-model="filterOption"
         >
-          Cancel
-        </button>
-        <button
-          class="bg-green-500 p-4 text-white rounded-md"
-          @click="deleteUser()"
-        >
-          Acept
-        </button>
+          <option value="0" selected>All</option>
+          <option :value="rol.value" v-for="rol in rols" :key="rol.id">
+            {{ rol.label }}
+          </option>
+        </select>
       </div>
-    </template>
-  </confirmation-modal>
+      <div
+        class="relative text-gray-600 focus-within:text-gray-400 flex-1 w-full"
+      >
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button
+            type="submit"
+            class="p-1 focus:outline-none focus:shadow-outline"
+          >
+            <svg
+              fill="none"
+              stroke="#a2a2a2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              class="w-6 h-6"
+            >
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        </span>
+
+        <input
+          type="text"
+          class="
+            py-[14px]
+            text-sm
+            w-full
+            pl-10
+            rounded-sm
+            border-[#a2a2a2]
+            placeholder-[#a2a2a2]
+            text-[#333]
+          "
+          id="filterUserInput"
+          placeholder="Search Users..."
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div class="rounded-lg bg-white p-5">
+      <table id="tableUsers" class="display" style="width: 100%; height: 100%">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Email Address</th>
+            <th>User Type</th>
+            <th class="no-sort">Reset Password</th>
+            <th class="no-sort">Edit</th>
+            <th class="no-sort">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in usersTable" :key="user.id">
+            <td class="text-center">{{ user.username }}</td>
+            <td class="text-center">
+              {{ user.name }} {{ user.lastname || "" }}
+            </td>
+            <td class="text-center">{{ user.company?.name }}</td>
+            <td class="text-center">
+              <a :href="`mailto:${user.email}`">{{ user.email }}</a>
+            </td>
+            <td
+              class="
+                text-center
+                justify-center
+                w-full
+                grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))]
+                gap-2
+                items-center
+                h-full
+              "
+            >
+              <span
+                class="
+                  bg-primary-300
+                  font-bold
+                  w-full
+                  text-sm
+                  rounded-md
+                  p-2
+                  mx-1
+                  break-words
+                "
+                v-for="rol in user.rols"
+                :key="rol.id"
+                >{{ rol.name }}</span
+              >
+            </td>
+            <td class="text-center">
+              <button @click="openModalResetPassword(user.username)">
+                <icon-reset />
+              </button>
+            </td>
+            <td class="text-center">
+              <button @click="openModalEditClick(user.id)">
+                <icon-edit class="opacity-95 hover:opacity-1" />
+              </button>
+            </td>
+            <td class="text-center">
+              <button @click="openModalDeleteClick(user.id)">
+                <icon-delete />
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- MODAL RESET PASSWORD -->
+    <modal :show="modalResetPassword">
+      <div class="p-5">
+        <form-reset
+          @closeModal="closeModalResetPassword"
+          :username="username"
+        />
+      </div>
+    </modal>
+
+    <!-- MODAL FORM -->
+    <modal :show="openModal">
+      <div class="p-5">
+        <form-user
+          :companies="companies"
+          :rols="rols"
+          @closeModal="closeModalForm"
+          @generateTable="generateDataTable"
+        />
+      </div>
+    </modal>
+    <!-- CONFIRMATION MODal -->
+    <confirmation-modal :show="showModalDelete">
+      <template v-slot:title>
+        <h1>Are you sure that delete this User?</h1>
+      </template>
+      <template v-slot:content>
+        <div class="flex justify-center">
+          <button
+            class="bg-red-500 p-4 text-white rounded-md mr-4"
+            @click="closeModalDelete"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-green-500 p-4 text-white rounded-md"
+            @click="deleteUser()"
+          >
+            Acept
+          </button>
+        </div>
+      </template>
+    </confirmation-modal>
+  </div>
 </template>
 
 <script>
@@ -169,6 +221,13 @@ export default {
       store.commit("users/setDataTable", data);
       await generateDataTable();
     };
+    $(document).ready(function () {
+      $("#filterUserInput")
+        .off()
+        .keyup(function () {
+          $("#tableUsers").DataTable().search(this.value).draw();
+        });
+    });
     const generateDataTable = () => {
       $("#tableUsers").DataTable().destroy();
       nextTick(() => {

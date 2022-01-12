@@ -971,10 +971,10 @@ video {
 	min-height: 100vh;
 }.min-h-\[90vh\]{
 	min-height: 90vh;
-}.min-h-\[400px\]{
-	min-height: 400px;
 }.min-h-\[300px\]{
 	min-height: 300px;
+}.min-h-\[400px\]{
+	min-height: 400px;
 }.w-5{
 	width: 1.25rem;
 }.w-16{
@@ -1039,8 +1039,6 @@ video {
 	max-width: 72rem;
 }.max-w-\[450px\]{
 	max-width: 450px;
-}.max-w-\[150px\]{
-	max-width: 150px;
 }.flex-1{
 	flex: 1 1 0%;
 }.flex-none{
@@ -1226,6 +1224,9 @@ video {
 }.border-\[\#979797\]{
 	--tw-border-opacity: 1;
 	border-color: rgba(151, 151, 151, var(--tw-border-opacity));
+}.border-\[\#a2a2a2\]{
+	--tw-border-opacity: 1;
+	border-color: rgba(162, 162, 162, var(--tw-border-opacity));
 }.border-red-400{
 	--tw-border-opacity: 1;
 	border-color: rgba(248, 113, 113, var(--tw-border-opacity));
@@ -1383,6 +1384,9 @@ video {
 }.py-\[17px\]{
 	padding-top: 17px;
 	padding-bottom: 17px;
+}.py-\[14px\]{
+	padding-top: 14px;
+	padding-bottom: 14px;
 }.px-8{
 	padding-left: 2rem;
 	padding-right: 2rem;
@@ -1473,10 +1477,10 @@ video {
 	line-height: 1.75rem;
 }.text-\[20px\]{
 	font-size: 20px;
-}.text-\[30px\]{
-	font-size: 30px;
 }.text-\[16px\]{
 	font-size: 16px;
+}.text-\[30px\]{
+	font-size: 30px;
 }.font-medium{
 	font-weight: 500;
 }.font-semibold{
@@ -1569,12 +1573,12 @@ video {
 }.text-\[\#a2a2a2\]{
 	--tw-text-opacity: 1;
 	color: rgba(162, 162, 162, var(--tw-text-opacity));
-}.text-red-400{
-	--tw-text-opacity: 1;
-	color: rgba(248, 113, 113, var(--tw-text-opacity));
 }.text-\[\#34689c\]{
 	--tw-text-opacity: 1;
 	color: rgba(52, 104, 156, var(--tw-text-opacity));
+}.text-red-400{
+	--tw-text-opacity: 1;
+	color: rgba(248, 113, 113, var(--tw-text-opacity));
 }.underline{
 	text-decoration: underline;
 }.antialiased{
@@ -1589,6 +1593,15 @@ video {
 }.placeholder-\[\#ccdbe9\]::placeholder{
 	--tw-placeholder-opacity: 1;
 	color: rgba(204, 219, 233, var(--tw-placeholder-opacity));
+}.placeholder-\[\#a2a2a2\]::-moz-placeholder{
+	--tw-placeholder-opacity: 1;
+	color: rgba(162, 162, 162, var(--tw-placeholder-opacity));
+}.placeholder-\[\#a2a2a2\]:-ms-input-placeholder{
+	--tw-placeholder-opacity: 1;
+	color: rgba(162, 162, 162, var(--tw-placeholder-opacity));
+}.placeholder-\[\#a2a2a2\]::placeholder{
+	--tw-placeholder-opacity: 1;
+	color: rgba(162, 162, 162, var(--tw-placeholder-opacity));
 }.opacity-0{
 	opacity: 0;
 }.opacity-100{
@@ -1716,12 +1729,20 @@ video {
   --ms-placeholder-color: red;
 }input:focus{
   border-color: #1e385e !important;
+}select:focus{
+  border-color: #1e385e !important;
+}option{
+  color:#1e385e;
+}option:nth-child(odd) {
+  background-color: #ebf2fd;
+}.arrow_icon{
+  display: inline;
 }input[type="number"] {
   -moz-appearance: textfield;
 }input[type="number"]:hover,
 input[type="number"]:focus {
   -moz-appearance: number-input;
-}input::-webkit-outer-spin-button,
+}.dataTables_filter { display: none; }input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
@@ -1775,13 +1796,6 @@ input::-webkit-inner-spin-button {
   background-image: none !important;
 }.dataTables_paginate a {
   padding: 6px 9px !important;
-  /* background: #123e81 !important; */
-  /* border-color: #fff !important; */
-  /* color: #fff !important; */
-}.dataTables_paginate span {
-
-  /* background: #fff !important; */
-  /* color: #fff !important; */
 }.paginate_button{
 
   background: #a2a2a2 !important;
@@ -1880,7 +1894,29 @@ tbody tr{
   background-image: url(/images/pattern.png?554c69142cf2e26611b498946ba3e3ce);
 }table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before{
   background: #0271C5;
-}.focus-within\:text-gray-400:focus-within{
+}.dtr-details{
+  width: 100%;
+}table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
+  background:#fff;
+}table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{
+  background:#fff ;
+}table.dataTable.display tbody tr.even>.sorting_1, table.dataTable.order-column.stripe tbody tr.even>.sorting_1{
+  background:#fff ;
+}.dtr-data{
+  display: inline-flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}table.dataTable>tbody>tr.child ul.dtr-details{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}@media only screen and (max-width: 500px) {
+
+table.dataTable>tbody>tr.child ul.dtr-details{
+  display: grid;
+  grid-template-columns: repeat(1,1fr);
+}
+
+ }.focus-within\:text-gray-400:focus-within{
 	--tw-text-opacity: 1;
 	color: rgba(156, 163, 175, var(--tw-text-opacity));
 }.focus\:z-10:focus{
