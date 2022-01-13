@@ -6,7 +6,6 @@
         :modules="modules"
         :slides-per-view="1"
         :space-between="50"
-        navigation
         :pagination="{ clickable: true }"
       >
         <swiper-slide v-for="photo in runDetail" :key="photo.id">

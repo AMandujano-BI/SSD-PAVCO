@@ -10,7 +10,6 @@
           :modules="modules"
           :slides-per-view="1"
           :space-between="50"
-          navigation
           :pagination="{ clickable: true }"
         >
           <swiper-slide v-for="photo in currentPhotos" :key="photo.id">
@@ -27,7 +26,7 @@
                   <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Hours: </strong>{{ calculateHours(photo.isEdit, photo.last_edit, photo.created_at, photo.hours) }}</li>
                 </ul>
               </div>
-              <div class="px-3 mt-1 md:mt-5">
+              <div class="px-3 mt-1 md:mt-5 text-[#7e7f82]">
                 <strong class="text-[#1e385e]">Description: </strong>{{ photo.description }}
               </div>
             </div>

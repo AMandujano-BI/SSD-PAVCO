@@ -20,6 +20,7 @@ body {
 .multiselect.is-active{
   box-shadow: none !important;
 }
+
 .multiselect-option:nth-child(odd){
   background:#ebf2fd ;
 
@@ -256,6 +257,10 @@ table.dataTable>tbody>tr.child ul.dtr-details{
   display: grid;
   grid-template-columns: repeat(2,1fr);
 }
+table >thead {
+  color: #3b4559;
+}
+
 table.dataTable.no-footer {
   border-bottom: 0 !important;
   padding-bottom: 15px;

@@ -68,11 +68,11 @@
       >
         <thead>
           <tr>
-            <th data-priority="1">StartDate</th>
-            <th data-priority="2">Run #</th>
-            <th data-priority="3">Customer</th>
+            <th data-priority="2">StartDate</th>
+            <th data-priority="1">Run #</th>
+            <th data-priority="1">Customer</th>
             <th>Method</th>
-            <th data-priority="4">Status</th>
+            <th data-priority="2">Status</th>
             <th>Hrs</th>
             <th class="no-sort">Photos</th>
             <th class="no-sort">Results</th>
@@ -95,22 +95,12 @@
     >
       <table-part-detail :id="idGlobal" />
     </modal>
-
-    <!-- <photos-run
-      v-if="run"
-      :isModalPhotos="isModalPhotos"
-      :photos="run.photos"
-      @closeModal="closePhotosModal"
-      @photoEdited="photoAdded"
-    /> -->
-
     <modal :show="isModalPhotos" @close="closePhotosModal">
       <div class="container mx-auto p-5 relative bg-[#ebf2fd]">
         <button @click="closePhotosModal" class="absolute right-5">X</button>
         <photos-run :id="idGlobal" />
       </div>
     </modal>
-
     <modal :show="modalEmail" @close="closeModalEmail">
       <div class="p-5">
         <form-email
