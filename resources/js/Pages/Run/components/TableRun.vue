@@ -1,4 +1,10 @@
 <template>
+  <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
+    {{
+      filterOption == 3 ? "All" : filterOption == 0 ? "Active" : "Complete"
+    }}
+    Runs
+  </h1>
   <div class="container p-9">
     <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
       <div class="flex gap-8 items-center flex-1 w-full">
@@ -57,16 +63,16 @@
     <div class="rounded-lg bg-white p-5">
       <table
         id="activeRuns"
-        class="display nowrap"
+        class="display nowrap responsive"
         style="width: 100%; height: 100%"
       >
         <thead>
           <tr>
-            <th>StartDate</th>
-            <th>Run #</th>
-            <th>Customer</th>
+            <th data-priority="1">StartDate</th>
+            <th data-priority="2">Run #</th>
+            <th data-priority="3">Customer</th>
             <th>Method</th>
-            <th>Status</th>
+            <th data-priority="4">Status</th>
             <th>Hrs</th>
             <th class="no-sort">Photos</th>
             <th class="no-sort">Results</th>
@@ -277,11 +283,8 @@ export default {
     };
     const closePhotosModal = () => (isModalPhotos.value = false);
     // Results
-    const showResults = (id) => {
-      findRun(id);
-      idGlobal.value = id;
-      isModalResults.value = true;
-    };
+    const showResults = (id) => ( Inertia.get(`/run/detail/${id}`));
+    // Close run
     const closeResultsModal = () => {
       isModalResults.value = false;
       idGlobal.value = 0;
@@ -427,6 +430,7 @@ export default {
               targets: "_all",
             },
           ],
+
           responsive: true,
           language: {
             paginate: {

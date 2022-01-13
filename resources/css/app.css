@@ -252,3 +252,10 @@ table.dataTable>tbody>tr.child ul.dtr-details{
 }
 
  }
+ /* @media only screen and (max-width: 600px) {
+table.dataTable>tbody>tr{
+  display: flex;
+  flex-direction: column;
+}
+
+  } */

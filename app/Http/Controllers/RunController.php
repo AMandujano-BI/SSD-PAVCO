@@ -96,6 +96,17 @@ class RunController extends Controller
         $runGet = $this->_run->getRun($run->id);
         return $runGet;
     }
+    public function runDetail($id){
+        $run= $this->_run->getRun($id);
+        return Inertia::render(
+            'Run/DetailRun',
+            [
+                'run' => $run,
+
+            ]
+        );
+
+    }
     public function viewerPhotos($id)
     {
         return Inertia::render(
