@@ -1,80 +1,119 @@
 <template>
   <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">Table Part</h1>
-  <button @click="openModalPartClick">
-    <icon-plus />
-  </button>
-  <div class="rounded-lg bg-white p-5">
+  <div class="flex gap-5">
+    <button @click="openModalPartClick">
+      <icon-plus />
+    </button>
+    <div
+      class="relative text-gray-600 focus-within:text-gray-400 flex-1 w-full"
+    >
+      <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+        <button
+          type="submit"
+          class="p-1 focus:outline-none focus:shadow-outline"
+        >
+          <svg
+            fill="none"
+            stroke="#a2a2a2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            class="w-6 h-6"
+          >
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </button>
+      </span>
 
-  <table id="partsTable" class="display" style="width: 100%">
-    <thead>
-      <tr>
-        <th>Part Description</th>
-        <th>Plate Type</th>
-        <th>Chromate</th>
-        <th>Topcoat</th>
-        <th>Secondary TopCoat</th>
-        <th class="no-sort">Edit</th>
-        <th class="no-sort">Delete</th>
-        <!-- <th class="no-sort">Notes</th> -->
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="part in partsTable" :key="part.id">
-        <td>{{ part.description }}</td>
-        <td>{{ part.plate_type.name }}</td>
-        <td>
-          {{
-            part.chromate.name +
-            " / " +
-            part.primaryPer +
-            " / " +
-            part.primaryTemp +
-            " / " +
-            part.primaryPH +
-            " / " +
-            part.primaryDiptime
-          }}
-        </td>
-        <td>
-          {{
-            part.top_coat.name +
-            " / " +
-            part.topCoatPer +
-            " / " +
-            part.topCoatTemp +
-            " / " +
-            part.topCoatPH +
-            " / " +
-            part.topCoatDiptime
-          }}
-        </td>
-        <td>
-          {{
-            part.coat.name +
-            " / " +
-            part.coatPer +
-            " / " +
-            part.coatTemp +
-            " / " +
-            part.coatPH +
-            " / " +
-            part.coatDiptime
-          }}
-        </td>
-        <td class="text-center">
-          <button @click="editPart(part)">
-            <icon-edit />
-          </button>
-        </td>
-        <td class="text-center">
-          <button @click="openModalDelete(part.id)">
-            <icon-delete />
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+      <input
+        type="text"
+        class="
+          py-[14px]
+          text-sm
+          w-full
+          pl-10
+          rounded-sm
+          border-[#a2a2a2]
+          placeholder-[#a2a2a2]
+          text-[#333]
+        "
+        id="filterPartInputBot"
+        placeholder="Search Part..."
+        autocomplete="off"
+      />
+    </div>
+  </div>
+  <div class="rounded-lg bg-white p-5 mt-2">
+    <table id="partsTable" class="display" style="width: 100%">
+      <thead>
+        <tr>
+          <th>Part Description</th>
+          <th>Plate Type</th>
+          <th>Chromate</th>
+          <th>Topcoat</th>
+          <th>Secondary TopCoat</th>
+          <th class="no-sort">Edit</th>
+          <th class="no-sort">Delete</th>
+          <!-- <th class="no-sort">Notes</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="part in partsTable" :key="part.id">
+          <td>{{ part.description }}</td>
+          <td>{{ part.plate_type.name }}</td>
+          <td>
+            {{
+              part.chromate.name +
+              " / " +
+              part.primaryPer +
+              " / " +
+              part.primaryTemp +
+              " / " +
+              part.primaryPH +
+              " / " +
+              part.primaryDiptime
+            }}
+          </td>
+          <td>
+            {{
+              part.top_coat.name +
+              " / " +
+              part.topCoatPer +
+              " / " +
+              part.topCoatTemp +
+              " / " +
+              part.topCoatPH +
+              " / " +
+              part.topCoatDiptime
+            }}
+          </td>
+          <td>
+            {{
+              part.coat.name +
+              " / " +
+              part.coatPer +
+              " / " +
+              part.coatTemp +
+              " / " +
+              part.coatPH +
+              " / " +
+              part.coatDiptime
+            }}
+          </td>
+          <td class="text-center">
+            <button @click="editPart(part)">
+              <icon-edit />
+            </button>
+          </td>
+          <td class="text-center">
+            <button @click="openModalDelete(part.id)">
+              <icon-delete />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <!-- MODALS -->
   <modal :show="openModal">
@@ -174,7 +213,7 @@ export default {
     IconPlus,
   },
   setup(props) {
-    const {run} = props
+    const { run } = props;
     const openModal = ref(false);
     const partsTable = ref([]);
     const openModalNotes = ref(false);
@@ -187,12 +226,19 @@ export default {
       plateThick: 0,
       primaryPer: 0,
     });
-    const gettinDataParts = async()=>{
-      const res = await axios.get(`/part/getPartsByRun/${run.id}`)
-      partsTable.value = res.data
-      generateDataTable()
-    }
-    gettinDataParts()
+    const gettinDataParts = async () => {
+      const res = await axios.get(`/part/getPartsByRun/${run.id}`);
+      partsTable.value = res.data;
+      generateDataTable();
+    };
+    gettinDataParts();
+    $(document).ready(function () {
+      $("#filterPartInputBot")
+        .off()
+        .keyup(function () {
+          $("#partsTable").DataTable().search(this.value).draw();
+        });
+    });
     const generateDataTable = () => {
       $("#partsTable").DataTable().destroy();
       nextTick(() => {
@@ -206,7 +252,7 @@ export default {
               next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
               previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
             },
-             info: "Showing results _START_ to _END_ from _TOTAL_",
+            info: "Showing results _START_ to _END_ from _TOTAL_",
           },
           // paging: false,
         });
@@ -274,7 +320,7 @@ export default {
       openModalPartCreate,
       openModalPartClick,
       closeModalNewPart,
-      gettinDataParts
+      gettinDataParts,
     };
   },
 };

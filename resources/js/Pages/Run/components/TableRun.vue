@@ -105,7 +105,7 @@
     /> -->
 
     <modal :show="isModalPhotos" @close="closePhotosModal">
-      <div class="container mx-auto p-5 relative">
+      <div class="container mx-auto p-5 relative bg-[#ebf2fd]">
         <button @click="closePhotosModal" class="absolute right-5">X</button>
         <photos-run :id="idGlobal" />
       </div>
@@ -402,9 +402,6 @@ export default {
     };
     const gettingData = async (status = 3) => {
       try {
-        // const res = await axios.get(`/run/getAllRuns/${status}`);
-        // runs.value = res.data.data;
-        // runs.value = res.data;
         $("#activeRuns").DataTable().destroy();
         await generateDataTable(status);
       } catch (e) {
