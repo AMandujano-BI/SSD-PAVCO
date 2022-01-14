@@ -95,6 +95,7 @@ class RunController extends Controller
     {
         $runGet = $this->_run->getRun($run->id);
         return $runGet;
+        // return datatables()->of($runGet)->toJson();
     }
     public function viewerPhotos($id)
     {

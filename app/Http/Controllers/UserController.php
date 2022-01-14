@@ -39,7 +39,8 @@ class UserController extends Controller
     {
 
         $users = $this->_user->getUsers($type);
-        return $users;
+        // return $users;
+        return datatables()->of($users)->toJson();
     }
 
     /**

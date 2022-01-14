@@ -108,7 +108,8 @@ class PartController extends Controller
     }
     public function getPartsByRun($id){
         $parts = $this->_part->getPartsByRun($id);
-        return $parts;
+        // return $parts;
+        return datatables()->of($parts)->toJson();
     }
 
     /**
