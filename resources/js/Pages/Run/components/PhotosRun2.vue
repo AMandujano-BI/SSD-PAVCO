@@ -1,6 +1,6 @@
 <template>
-    <modal :show="isModalPhotos" @close="closePhotosModal">
-    <div class="container mx-auto p-5 relative">
+    <modal :show="isModalPhotos" @close="closePhotosModal" >
+    <div class="container mx-auto p-5 relative bg-[#ebf2fd]" >
       <button @click="closePhotosModal" class="absolute right-5">X</button>
     
       <p class="text-xl font-bold text-center">Pavco SSD Photo Viewer</p>
@@ -10,7 +10,6 @@
           :modules="modules"
           :slides-per-view="1"
           :space-between="50"
-          navigation
           :pagination="{ clickable: true }"
         >
           <swiper-slide v-for="photo in currentPhotos" :key="photo.id">
@@ -18,17 +17,17 @@
               <img
                 :src="photo.image"
                 :alt="photo.name"
-                class="object-contain h-90 max-h-[400px] w-full"
+                class="object-cover object-left-top h-[400px] max-h-[400px] w-full"
               />
               <div>
                 <ul class="flex flex-row justify-between px-3 pt-3">
-                  <li><strong>Name: </strong>{{ photo.name }}</li>
-                  <li><strong>Date added: </strong>{{ photo.created_at.slice(0,10) }}</li>
-                  <li><strong>Hours: </strong>{{ calculateHours(photo.isEdit, photo.last_edit, photo.created_at, photo.hours) }}</li>
+                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Name: </strong>{{ photo.name }}</li>
+                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Date added: </strong>{{ photo.created_at.slice(0,10) }}</li>
+                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Hours: </strong>{{ calculateHours(photo.isEdit, photo.last_edit, photo.created_at, photo.hours) }}</li>
                 </ul>
               </div>
-              <div class="px-3">
-                <strong>Description: </strong>{{ photo.description }}
+              <div class="px-3 mt-1 md:mt-5 text-[#7e7f82]">
+                <strong class="text-[#1e385e]">Description: </strong>{{ photo.description }}
               </div>
             </div>
           </swiper-slide>

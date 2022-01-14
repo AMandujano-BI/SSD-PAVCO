@@ -39,8 +39,8 @@ const mutations = {
                 rolsArray.push(item.id)
             })
             // user.rols  = rolsArray
-            user.password = '123'
-            user.confirm_password = '123'
+            user.password = '123456789'
+            user.confirm_password = '123456789'
             state.form = { ...user }
             state.form.rols = rolsArray
 

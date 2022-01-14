@@ -1,26 +1,78 @@
 <template>
+  <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
+    {{
+      filterOption == 3 ? "All" : filterOption == 0 ? "Active" : "Complete"
+    }}
+    Runs
+  </h1>
   <div class="container p-9">
-    <div class="flex gap-8 items-center mb-5">
-      <button @click="openModalButton"><icon-plus /></button>
-      <select class="w-full" @change="changeFilter" v-model="filterOption">
-        <option value="3">Show All</option>
-        <option value="0">Active</option>
-        <option value="1">Complete</option>
-      </select>
+    <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
+      <div class="flex gap-8 items-center flex-1 w-full">
+        <button @click="openModalButton"><icon-plus /></button>
+        <select
+          class="w-full p-3 rounded-sm border-[#a2a2a2] text-[#a2a2a2] flex-1"
+          @change="changeFilter"
+          v-model="filterOption"
+        >
+          <option value="3">Show All</option>
+          <option value="0">Active</option>
+          <option value="1">Complete</option>
+        </select>
+      </div>
+
+      <div
+        class="relative text-gray-600 focus-within:text-gray-400 flex-1 w-full"
+      >
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button
+            type="submit"
+            class="p-1 focus:outline-none focus:shadow-outline"
+          >
+            <svg
+              fill="none"
+              stroke="#a2a2a2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              class="w-6 h-6"
+            >
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        </span>
+
+        <input
+          type="text"
+          class="
+            py-[14px]
+            text-sm
+            w-full
+            pl-10
+            rounded-sm
+            border-[#a2a2a2]
+            placeholder-[#a2a2a2]
+            text-[#333]
+          "
+          id="filterRunInputBot"
+          placeholder="Search Runs..."
+          autocomplete="off"
+        />
+      </div>
     </div>
     <div class="rounded-lg bg-white p-5">
       <table
         id="activeRuns"
-        class="display nowrap"
+        class="display nowrap responsive"
         style="width: 100%; height: 100%"
       >
         <thead>
           <tr>
-            <th>StartDate</th>
-            <th>Run #</th>
-            <th>Customer</th>
+            <th data-priority="2">StartDate</th>
+            <th data-priority="1">Run #</th>
+            <th data-priority="1">Customer</th>
             <th>Method</th>
-            <th>Status</th>
+            <th data-priority="2">Status</th>
             <th>Hrs</th>
             <th class="no-sort">Photos</th>
             <th class="no-sort">Results</th>
@@ -43,22 +95,12 @@
     >
       <table-part-detail :id="idGlobal" />
     </modal>
-
-    <!-- <photos-run
-      v-if="run"
-      :isModalPhotos="isModalPhotos"
-      :photos="run.photos"
-      @closeModal="closePhotosModal"
-      @photoEdited="photoAdded"
-    /> -->
-
     <modal :show="isModalPhotos" @close="closePhotosModal">
-      <div class="container mx-auto p-5 relative">
+      <div class="container mx-auto p-5 relative bg-[#ebf2fd]">
         <button @click="closePhotosModal" class="absolute right-5">X</button>
         <photos-run :id="idGlobal" />
       </div>
     </modal>
-
     <modal :show="modalEmail" @close="closeModalEmail">
       <div class="p-5">
         <form-email
@@ -214,6 +256,11 @@ export default {
         .keyup(function () {
           $("#activeRuns").DataTable().search(this.value).draw();
         });
+      $("#filterRunInputBot")
+        .off()
+        .keyup(function () {
+          $("#activeRuns").DataTable().search(this.value).draw();
+        });
     });
     const findRun = (id) => {
       run.value = runs.value.find((run) => run.id === id);
@@ -224,15 +271,10 @@ export default {
       findRun(id);
       isModalPhotos.value = true;
     };
-    const closePhotosModal = () => {
-      isModalPhotos.value = false;
-    };
+    const closePhotosModal = () => (isModalPhotos.value = false);
     // Results
-    const showResults = (id) => {
-      findRun(id);
-      idGlobal.value = id;
-      isModalResults.value = true;
-    };
+    const showResults = (id) => ( Inertia.get(`/run/detail/${id}`));
+    // Close run
     const closeResultsModal = () => {
       isModalResults.value = false;
       idGlobal.value = 0;
@@ -242,15 +284,9 @@ export default {
       findRun(id);
       isModalNotes.value = true;
     };
-    const closeNotesModal = () => {
-      isModalNotes.value = false;
-    };
-    const noteAdded = () => {
-      gettingData();
-    };
-    const photoAdded = () => {
-      gettingData();
-    };
+    const closeNotesModal = () => (isModalNotes.value = false);
+    const noteAdded = () => gettingData();
+    const photoAdded = () => gettingData();
     // Delete
     const showDelete = (id) => {
       findRun(id);
@@ -356,9 +392,6 @@ export default {
     };
     const gettingData = async (status = 3) => {
       try {
-        // const res = await axios.get(`/run/getAllRuns/${status}`);
-        // runs.value = res.data.data;
-        // runs.value = res.data;
         $("#activeRuns").DataTable().destroy();
         await generateDataTable(status);
       } catch (e) {
@@ -372,27 +405,24 @@ export default {
       const self = this;
       nextTick(() => {
         $("#activeRuns").DataTable({
-          // scrollY: 350,
           ordering: true,
           bLengthChange: false,
           pageLength: 10,
           processing: true,
           serverSide: true,
           stateSave: true,
-          // rowReorder: {
-          //   selector: "td:nth-child(2)",
-          // },
           columnDefs: [
             {
               defaultContent: "-",
               targets: "_all",
             },
           ],
+
           responsive: true,
           language: {
             paginate: {
-              next: `→`, // or '→'
-              previous: `←`, // or '←'
+              next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
+              previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
             },
             info: "Showing results _START_ to _END_ from _TOTAL_",
           },
@@ -418,13 +448,13 @@ export default {
                 return "<td>" + row.start_date.slice(0, 10) + "</td>";
               },
             },
-              {
-                name: "id",
-                searchable: true,
-                render: function (data, type, row, meta) {
-                  return "<td>" + row.id + "</td>";
-                },
+            {
+              name: "id",
+              searchable: true,
+              render: function (data, type, row, meta) {
+                return "<td>" + row.id + "</td>";
               },
+            },
             {
               name: "company.name",
               searchable: true,
@@ -579,15 +609,37 @@ export default {
             },
           ],
           drawCallback: function () {
-            $("#activeRuns").on("click","[class*=showphotos]", function (e) { showPhotos(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=showresults]", function (e) { showResults(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=editrun]", function (e) { editRun(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=showdelete]", function (e) { showDelete(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=showclose]", function (e) { showClose(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=showreopen]", function (e) { showReOpen(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=reportrun]", function (e) { reportRun(e.currentTarget.attributes[1].value); });
-            $("#activeRuns").on("click","[class*=reportandphotosrun]", function (e) { reportAndPhotosRun(e.currentTarget.attributes[1].value)});
-            $("#activeRuns").on("click","[class*=runemail]", function (e) { openModalEmail(e.currentTarget.attributes[1].value); });
+            $("#activeRuns").on("click", "[class*=showphotos]", function (e) {
+              showPhotos(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=showresults]", function (e) {
+              showResults(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=editrun]", function (e) {
+              editRun(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=showdelete]", function (e) {
+              showDelete(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=showclose]", function (e) {
+              showClose(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=showreopen]", function (e) {
+              showReOpen(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on("click", "[class*=reportrun]", function (e) {
+              reportRun(e.currentTarget.attributes[1].value);
+            });
+            $("#activeRuns").on(
+              "click",
+              "[class*=reportandphotosrun]",
+              function (e) {
+                reportAndPhotosRun(e.currentTarget.attributes[1].value);
+              }
+            );
+            $("#activeRuns").on("click", "[class*=runemail]", function (e) {
+              openModalEmail(e.currentTarget.attributes[1].value);
+            });
           },
         });
       });

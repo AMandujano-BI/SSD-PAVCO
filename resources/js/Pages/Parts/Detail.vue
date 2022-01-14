@@ -1,8 +1,8 @@
 <template>
   <app-layout title="Parts Detail">
-    <div class="pt-12 mx-auto container">
+    <div class="pt-14 mx-auto container">
 
-      <div class=" p-6  mb-6 border-[1px] border-[#979797] bg-[#f8fafc]">
+      <div class=" p-6  mb-6 border-[1px] border-[#979797] bg-[#f8fafc] mt-10">
         <form-update-run-part :plateMethods="plateMethods" :run="run"  :customers="customers"/>
       </div>
       

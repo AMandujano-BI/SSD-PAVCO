@@ -2,71 +2,110 @@
   <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
     Table Photos
   </h1>
-  <button @click="openModalPhotosForm"><icon-plus /></button>
-  <div class="rounded-lg bg-white p-5">
+  <div class="flex gap-5">
+    <button @click="openModalPhotosForm"><icon-plus /></button>
+    <div
+      class="relative text-gray-600 focus-within:text-gray-400 flex-1 w-full"
+    >
+      <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+        <button
+          type="submit"
+          class="p-1 focus:outline-none focus:shadow-outline"
+        >
+          <svg
+            fill="none"
+            stroke="#a2a2a2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            class="w-6 h-6"
+          >
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </button>
+      </span>
 
-  <table id="photosTable" class="display" style="width: 100%">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Date Added</th>
-        <th>Hours</th>
-        <th>Description</th>
-        <th class="no-sort">View</th>
-        <th class="no-sort">Report</th>
-        <th class="no-sort">Edit</th>
-        <th class="no-sort">Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="photo in photosTable" :key="photo.id">
-        <td class="text-center">{{ photo.name }}</td>
-        <td class="text-center">{{ photo.created_at.slice(0, 10) }}</td>
-        <td class="text-center">
-          {{
-            calculateHours(
-              photo.isEdit,
-              photo.last_edit,
-              photo.created_at,
-              photo.hours
-            )
-          }}
-        </td>
-        <td class="text-center">{{ photo.description }}</td>
-        <td class="text-center">
-          <!-- <button @click="showPhotos"> -->
-          <button @click="showPhotos(photo.id)">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-          </button>
-        </td>
-        <td class="text-center">{{ photo.report == 1 ? "Yes" : "No" }}</td>
-        <td class="text-center">
-          <button @click="openModalEditClick(photo.id)">
-            <icon-edit />
-          </button>
-        </td>
-        <td class="text-center">
-          <button @click="openModalDeleteClick(photo.id)">
-            <icon-delete />
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+      <input
+        type="text"
+        class="
+          py-[14px]
+          text-sm
+          w-full
+          pl-10
+          rounded-sm
+          border-[#a2a2a2]
+          placeholder-[#a2a2a2]
+          text-[#333]
+        "
+        id="filterPhotosInputBot"
+        placeholder="Search Photos..."
+        autocomplete="off"
+      />
+    </div>
+  </div>
+  <div class="rounded-lg bg-white p-5 mt-2">
+    <table id="photosTable" class="display" style="width: 100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Date Added</th>
+          <th>Hours</th>
+          <th>Description</th>
+          <th class="no-sort">Report</th>
+          <th class="no-sort">View</th>
+          <th class="no-sort">Edit</th>
+          <th class="no-sort">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="photo in photosTable" :key="photo.id">
+          <td class="text-center">{{ photo.name }}</td>
+          <td class="text-center">{{ photo.created_at.slice(0, 10) }}</td>
+          <td class="text-center">
+            {{
+              calculateHours(
+                photo.isEdit,
+                photo.last_edit,
+                photo.created_at,
+                photo.hours
+              )
+            }}
+          </td>
+          <td class="text-center">{{ photo.description }}</td>
+          <td class="text-center">{{ photo.report == 1 ? "Yes" : "No" }}</td>
+          <td class="text-center">
+            <!-- <button @click="showPhotos"> -->
+            <button @click="showPhotos(photo.id)">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </button>
+          </td>
+          <td class="text-center">
+            <button @click="openModalEditClick(photo.id)">
+              <icon-edit />
+            </button>
+          </td>
+          <td class="text-center">
+            <button @click="openModalDeleteClick(photo.id)">
+              <icon-delete />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <!-- <modal :show="isModalPhotos" @close="closePhotosModalView">
     <photos-run
@@ -164,21 +203,26 @@ export default {
     const openModalPhotosCreate = ref(false);
     const photoItem = ref(null);
     const { makeToast } = useHelper();
-
+   $(document).ready(function () {
+      $("#filterPhotosInputBot")
+        .off()
+        .keyup(function () {
+          $("#photosTable").DataTable().search(this.value).draw();
+        });
+    });
     const generateDataTable = () => {
       nextTick(() => {
         $("#photosTable").DataTable({
           scrollY: 300,
           ordering: true,
           bLengthChange: false,
-          // bInfo: false,
           pageLength: 5,
           language: {
             paginate: {
-              next: `→`, // or '→'
-              previous: `←`, // or '←'
+              next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
+              previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
             },
-            info: "Showing results page _PAGE_ of _PAGES_",
+            info: "Showing results _START_ to _END_ from _TOTAL_",
           },
         });
       });

@@ -9,7 +9,7 @@
         <label for="">UserName</label>
         <input
           type="text"
-          class="w-full"
+          class="w-full my-2"
           autocomplete="off"
           v-model="form.username"
           :class="{ 'border-red-500': v$.username.$error }"
@@ -28,10 +28,10 @@
 
       </div>
       <div>
-        <label for="">Rol</label>
+        <label for="" class="pb-2">Rol</label>
         <multi-select
           :options="rols"
-          class="w-full"
+          class="w-full my-2"
           v-model="form.rols"
           :searchable="true"
           mode="tags"
@@ -47,10 +47,10 @@
         </p>
       </div>
       <div>
-        <label for="">FirstName</label>
+        <label for="" >FirstName</label>
         <input
           type="text"
-          class="w-full"
+          class="w-full my-2"
           autocomplete="off"
           v-model="form.name"
           :class="{ 'border-red-500': v$.name.$error }"
@@ -67,7 +67,7 @@
         <label for="">LastName</label>
         <input
           type="text"
-          class="w-full"
+          class="w-full my-2"
           autocomplete="off"
           v-model="form.lastname"
         />
@@ -76,7 +76,7 @@
         <label for="">Email Address</label>
         <input
           type="text"
-          class="w-full"
+          class="w-full my-2"
           autocomplete="off"
           v-model="form.email"
           :class="{ 'border-red-500': v$.email.$error }"
@@ -90,10 +90,10 @@
         </p>
       </div>
       <div >
-        <label for="">Company</label>
+        <label class="mb-2">Company</label>
         <multi-select
           :options="companies"
-          class="w-full"
+          class="w-full my-2"
           v-model="form.company_id"
           :searchable="true"
           placeholder="Select Company"
@@ -107,11 +107,10 @@
         </p>
       </div>
       <div v-if="form.id == 0">
-        <div>
           <label for="">Password</label>
           <input
             type="password"
-            class="w-full"
+            class="w-full my-2"
             autocomplete="off"
             v-model="form.password"
             :class="{ 'border-red-500': v$.password.$error }"
@@ -124,12 +123,11 @@
           >
             {{ error.$message }}
           </p>
-        </div>
         <div>
           <label for="">Confirm Password</label>
           <input
             type="password"
-            class="w-full"
+            class="w-full my-2"
             autocomplete="off"
             v-model="form.confirm_password"
             :class="{ 'border-red-500': v$.confirm_password.$error }"

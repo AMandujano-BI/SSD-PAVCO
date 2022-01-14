@@ -12,16 +12,42 @@ body {
 
 :root {
   --ms-tag-bg: #DBEAFE;
-  --ms-tag-color: #2563EB;
-  --ms-option-bg-selected-pointed: #2563EB;
-  --ms-option-bg-selected:  #2563EB;
+  --ms-tag-color: #1e385e;
+  --ms-option-bg-selected-pointed: #1e385e;
+  --ms-option-bg-selected:  #1e385e;
+  /* --ms-ring-color:#2563EB; */
+}
+.multiselect.is-active{
+  box-shadow: none !important;
+}
+
+.multiselect-option:nth-child(odd){
+  background:#ebf2fd ;
+
 }
 .error-dropdown{
 
   --ms-placeholder-color: red;
 }
+textarea:focus{
+
+  border-color: #1e385e !important;
+}
 input:focus{
   border-color: #1e385e !important;
+}
+select:focus{
+  border-color: #1e385e !important;
+}
+option{
+  color:#1e385e;
+}
+option:nth-child(odd) {
+  background-color: #ebf2fd;
+}
+
+.arrow_icon{
+  display: inline;
 }
 input[type="number"] {
   -moz-appearance: textfield;
@@ -30,6 +56,7 @@ input[type="number"]:hover,
 input[type="number"]:focus {
   -moz-appearance: number-input;
 }
+.dataTables_filter { display: none; }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -71,16 +98,9 @@ input::-webkit-inner-spin-button {
 }
 .dataTables_paginate a {
   padding: 6px 9px !important;
-  /* background: #123e81 !important; */
-  /* border-color: #fff !important; */
-  /* color: #fff !important; */
 }
 
-.dataTables_paginate span {
 
-  /* background: #fff !important; */
-  /* color: #fff !important; */
-}
 .paginate_button{
 
   background: #a2a2a2 !important;
@@ -216,3 +236,47 @@ table.dataTable.display tbody tr{
 table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before{
   background: #0271C5;
 }
+.dtr-details{
+  width: 100%;
+}
+table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
+  background:#fff;
+}
+table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{
+  background:#fff ;
+}
+table.dataTable.display tbody tr.even>.sorting_1, table.dataTable.order-column.stripe tbody tr.even>.sorting_1{
+  background:#fff ;
+}
+.dtr-data{
+  display: inline-flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+table.dataTable>tbody>tr.child ul.dtr-details{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}
+table >thead {
+  color: #3b4559;
+}
+
+table.dataTable.no-footer {
+  border-bottom: 0 !important;
+  padding-bottom: 15px;
+}
+@media only screen and (max-width: 500px) {
+
+table.dataTable>tbody>tr.child ul.dtr-details{
+  display: grid;
+  grid-template-columns: repeat(1,1fr);
+}
+
+ }
+ /* @media only screen and (max-width: 600px) {
+table.dataTable>tbody>tr{
+  display: flex;
+  flex-direction: column;
+}
+
+  } */

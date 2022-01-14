@@ -1,73 +1,124 @@
 <template>
-  <div class="flex gap-8 items-center mb-5 pt-5">
-    <button @click="openModalForm"><icon-plus /></button>
-    <select class="w-full " @change="changeFilter" v-model="filterOption">
-      <option value="0" selected>All</option>
-      <option :value="rol.value" v-for="rol in rols" :key="rol.id">
-        {{ rol.label }}
-      </option>
-    </select>
-  </div>
 
-  <div class="rounded-lg bg-white p-5">
-    <table id="tableUsers" class="display" style="width: 100%; height: 100%">
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Name</th>
-          <th>Company</th>
-          <th>Email Address</th>
-          <th>User Type</th>
-          <th class="no-sort">Reset Password</th>
-          <th class="no-sort">Edit</th>
-          <th class="no-sort">Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- MODAL RESET PASSWORD -->
-  <modal :show="modalResetPassword">
-    <div class="p-5">
-      <form-reset @closeModal="closeModalResetPassword" :username="username" />
-    </div>
-  </modal>
-
-  <!-- MODAL FORM -->
-  <modal :show="openModal">
-    <div class="p-5">
-      <form-user
-        :companies="companies"
-        :rols="rols"
-        @closeModal="closeModalForm"
-        @generateTable="generateDataTable"
-      />
-    </div>
-  </modal>
-  <!-- CONFIRMATION MODal -->
-  <confirmation-modal :show="showModalDelete">
-    <template v-slot:title>
-      <h1>Are you sure that delete this User?</h1>
-    </template>
-    <template v-slot:content>
-      <div class="flex justify-center">
-        <button
-          class="bg-red-500 p-4 text-white rounded-md mr-4"
-          @click="closeModalDelete"
+  <div class="container p-9">
+    <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
+      <div class="flex gap-8 items-center flex-1 w-full">
+        <button @click="openModalForm"><icon-plus /></button>
+        <select
+          class="w-full p-3 rounded-sm border-[#a2a2a2] text-[#a2a2a2] flex-1"
+          @change="changeFilter"
+          v-model="filterOption"
         >
-          Cancel
-        </button>
-        <button
-          class="bg-green-500 p-4 text-white rounded-md"
-          @click="deleteUser()"
-        >
-          Acept
-        </button>
+          <option value="0" selected>All</option>
+          <option :value="rol.value" v-for="rol in rols" :key="rol.id">
+            {{ rol.label }}
+          </option>
+        </select>
       </div>
-    </template>
-  </confirmation-modal>
+      <div
+        class="relative text-gray-600 focus-within:text-gray-400 flex-1 w-full"
+      >
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button
+            type="submit"
+            class="p-1 focus:outline-none focus:shadow-outline"
+          >
+            <svg
+              fill="none"
+              stroke="#a2a2a2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              class="w-6 h-6"
+            >
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        </span>
+
+        <input
+          type="text"
+          class="
+            py-[14px]
+            text-sm
+            w-full
+            pl-10
+            rounded-sm
+            border-[#a2a2a2]
+            placeholder-[#a2a2a2]
+            text-[#333]
+          "
+          id="filterUserInput"
+          placeholder="Search Users..."
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div class="rounded-lg bg-white p-5">
+      <table id="tableUsers" class="display" style="width: 100%; height: 100%">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Email Address</th>
+            <th>User Type</th>
+            <th class="no-sort">Reset Password</th>
+            <th class="no-sort">Edit</th>
+            <th class="no-sort">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- MODAL RESET PASSWORD -->
+    <modal :show="modalResetPassword">
+      <div class="p-5">
+        <form-reset
+          @closeModal="closeModalResetPassword"
+          :username="username"
+        />
+      </div>
+    </modal>
+
+    <!-- MODAL FORM -->
+    <modal :show="openModal">
+      <div class="p-5">
+        <form-user
+          :companies="companies"
+          :rols="rols"
+          @closeModal="closeModalForm"
+          @generateTable="generateDataTable"
+        />
+      </div>
+    </modal>
+    <!-- CONFIRMATION MODal -->
+    <confirmation-modal :show="showModalDelete">
+      <template v-slot:title>
+        <h1>Are you sure that delete this User?</h1>
+      </template>
+      <template v-slot:content>
+        <div class="flex justify-center">
+          <button
+            class="bg-red-500 p-4 text-white rounded-md mr-4"
+            @click="closeModalDelete"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-green-500 p-4 text-white rounded-md"
+            @click="deleteUser()"
+          >
+            Acept
+          </button>
+        </div>
+      </template>
+    </confirmation-modal>
+  </div>
 </template>
 
 <script>
@@ -119,11 +170,17 @@ export default {
       // store.commit("users/setDataTable", data);
       await generateDataTable(type);
     };
+    $(document).ready(function () {
+      $("#filterUserInput")
+        .off()
+        .keyup(function () {
+          $("#tableUsers").DataTable().search(this.value).draw();
+        });
+    });
     const generateDataTable = (type = 0) => {
       $("#tableUsers").DataTable().destroy();
       nextTick(() => {
         $("#tableUsers").DataTable({
-          // scrollY: 350,
           ordering: true,
           bLengthChange: false,
           pageLength: 5,
@@ -140,8 +197,8 @@ export default {
           responsive: true,
           language: {
             paginate: {
-              next: `→`, // or '→'
-              previous: `←`, // or '←'
+              next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
+              previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
             },
             info: "Showing results _START_ to _END_ from _TOTAL_",
           },
@@ -168,14 +225,22 @@ export default {
               name: "name",
               searchable: true,
               render: function(data, type, row, meta){
-                return "<span>"+ row.name + " " + row.lastname+"</span>";
+                let lastname = '';
+                if( row.lastname ) {
+                  lastname = row.lastname
+                } 
+                return "<span>"+ row.name + " " + lastname+"</span>";
               },
             },
             {
               name: "company.name",
               searchable: true,
               render: function(data, type, row, meta){
-                return "<span>" + row.company?.name + "</span>";
+                let company = '';
+                if( row.company ) {
+                  company = row.company.name
+                } 
+                return "<span>" + company + "</span>";
               },
             },
             {

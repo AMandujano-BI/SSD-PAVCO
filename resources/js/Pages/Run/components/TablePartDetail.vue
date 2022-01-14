@@ -37,22 +37,6 @@
             <td>{{ part.chromate.name + " - " + part.primaryPer + " % " }}</td>
             <td>{{ part.top_coat.name + " - " + part.topCoatPer + " % " }}</td>
             <td>{{ part.coat.name + " - " + part.coatPer + " % " }}</td>
-            <!-- <td class="text-center">
-              <button>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="#DA9C14"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </button>
-            </td> -->
           </tr>
         </tbody>
       </table>
@@ -86,15 +70,13 @@ export default {
           scrollY: 300,
           ordering: true,
           bLengthChange: false,
-          // bInfo: false,
           pageLength: 5,
-          // paging: false,
           language: {
             paginate: {
-              next: `→`, // or '→'
-              previous: `←`, // or '←'
+              next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
+              previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
             },
-            info: "Showing results page _PAGE_ of _PAGES_",
+             info: "Showing results _START_ to _END_ from _TOTAL_",
           },
         });
       });

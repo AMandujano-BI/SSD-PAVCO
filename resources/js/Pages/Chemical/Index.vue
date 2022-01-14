@@ -1,142 +1,200 @@
 <template>
   <app-layout title="Chemicals">
-    <div class="container pt-14 mx-auto">
-      <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
-        List of Chemicals
-      </h1>
-      <div class="flex gap-8 items-center mb-5 pt-5 px-4 ">
-        <button @click="openModal"><icon-plus /></button>
-        <select class="w-full" v-model="selected" @change="filterChemicals">
-          <option value="0" selected>All Chemical</option>
-          <option value="1">Plating</option>
-          <option value="2">Chromate</option>
-          <option value="3">TopCoat</option>
-          <option value="4">Secondary TopCoat</option>
-        </select>
-      </div>
-      <div class="mt-10">
-        <div class="rounded-lg bg-white p-5">
-          <table
-            id="chemicalTable"
-            class="display"
-            style="width: 100%; height: 100%"
-          >
-            <thead>
-              <tr>
-                <td>Name</td>
-                <td>Type</td>
-                <td class="no-sort">Edit</td>
-                <td class="no-sort">Delete</td>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-
-      <modal :show="show">
-        <form @submit.prevent="submit" class="container mx-auto p-5">
-          <p class="text-xl font-bold text-center">{{ modalTitle }}</p>
-          <div>
-            <div>
-              <label for="">Name</label>
-              <input
-                type="text"
-                v-model="form.name"
-                class="w-full py-4 px-5"
-                :class="{ 'border-red-500': v$.name.$error }"
-              />
-              <p
-                v-for="error of v$.name.$errors"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
-            </div>
-            <div>
-              <label for="">Type</label>
-              <multi-select
-                :options="typesArray"
-                class="w-full"
-                v-model="form.type"
-                :searchable="true"
-                placeholder="Select Type"
-              />
-              <p
-                v-for="error of v$.type.$errors"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
-            </div>
+      <div class="container pt-14 mx-auto">
+        <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
+          List of Chemicals
+        </h1>
+        <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
+          <div class="flex gap-8 items-center flex-1 w-full">
+            <button @click="openModal"><icon-plus /></button>
+            <select
+              class="
+                w-full
+                p-3
+                rounded-sm
+                border-[#a2a2a2]
+                text-[#a2a2a2]
+                flex-1
+              "
+              v-model="selected"
+              @change="filterChemicals"
+            >
+              <option value="0" selected>All Chemical</option>
+              <option value="1">Plating</option>
+              <option value="2">Chromate</option>
+              <option value="3">TopCoat</option>
+              <option value="4">Secondary TopCoat</option>
+            </select>
           </div>
           <div
             class="
-              flex flex-col
-              md:flex-row md:justify-between
+              relative
+              text-gray-600
+              focus-within:text-gray-400
+              flex-1
               w-full
-              md:gap-4
-              pt-16
             "
           >
-            <button
-              type="button"
+            <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+              <button
+                type="submit"
+                class="p-1 focus:outline-none focus:shadow-outline"
+              >
+                <svg
+                  fill="none"
+                  stroke="#a2a2a2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  class="w-6 h-6"
+                >
+                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </button>
+            </span>
+
+            <input
+              type="text"
               class="
-                bg-red-600
-                hover:bg-red-800
-                rounded-sm
+                py-[14px]
+                text-sm
                 w-full
-                py-5
-                text-white
-                px-3
-                mt-5
+                pl-10
+                rounded-sm
+                border-[#a2a2a2]
+                placeholder-[#a2a2a2]
+                text-[#333]
               "
-              @click="closeModal"
+              id="filterChemicalInputBot"
+              placeholder="Search Chemicals..."
+              autocomplete="off"
+            />
+          </div>
+        </div>
+        <div class="mt-10">
+          <div class="rounded-lg bg-white p-5">
+            <table
+              id="chemicalTable"
+              class="display"
+              style="width: 100%; height: 100%"
             >
-              Cancel
-            </button>
-            <button
+              <thead>
+                <tr>
+                  <td>Name</td>
+                  <td>Type</td>
+                  <td class="no-sort">Edit</td>
+                  <td class="no-sort">Delete</td>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <modal :show="show">
+          <form @submit.prevent="submit" class="container mx-auto p-5">
+            <p class="text-xl font-bold text-center">{{ modalTitle }}</p>
+            <div>
+              <div>
+                <label for="">Name</label>
+                <input
+                  type="text"
+                  v-model="form.name"
+                  class="w-full py-4 px-5"
+                  :class="{ 'border-red-500': v$.name.$error }"
+                />
+                <p
+                  v-for="error of v$.name.$errors"
+                  :key="error.$uid"
+                  class="text-red-400"
+                >
+                  {{ error.$message }}
+                </p>
+              </div>
+              <div>
+                <label for="">Type</label>
+                <multi-select
+                  :options="typesArray"
+                  class="w-full"
+                  v-model="form.type"
+                  :searchable="true"
+                  placeholder="Select Type"
+                />
+                <p
+                  v-for="error of v$.type.$errors"
+                  :key="error.$uid"
+                  class="text-red-400"
+                >
+                  {{ error.$message }}
+                </p>
+              </div>
+            </div>
+            <div
               class="
-                bg-primary
-                rounded-sm
-                p-5
-                font-bold
-                text-white
-                mt-5
-                block
-                hover:bg-primary-600
+                flex flex-col
+                md:flex-row md:justify-between
                 w-full
+                md:gap-4
+                pt-16
               "
             >
-              Save
-            </button>
-          </div>
-        </form>
-      </modal>
-      <confirmation-modal :show="showDeleteModal">
-        <template v-slot:title>
-          <h1>Are you sure that delete this chemical?</h1>
-        </template>
-        <template v-slot:content>
-          <div class="flex justify-center">
-            <button
-              class="bg-red-500 p-4 text-white rounded-md mr-4"
-              @click="closeModalChemical"
-            >
-              Cancel
-            </button>
-            <button
-              class="bg-green-500 p-4 text-white rounded-md"
-              @click="deleteChemical"
-            >
-              Acept
-            </button>
-          </div>
-        </template>
-      </confirmation-modal>
-    </div>
+              <button
+                type="button"
+                class="
+                  bg-red-600
+                  hover:bg-red-800
+                  rounded-sm
+                  w-full
+                  py-5
+                  text-white
+                  px-3
+                  mt-5
+                "
+                @click="closeModal"
+              >
+                Cancel
+              </button>
+              <button
+                class="
+                  bg-primary
+                  rounded-sm
+                  p-5
+                  font-bold
+                  text-white
+                  mt-5
+                  block
+                  hover:bg-primary-600
+                  w-full
+                "
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </modal>
+        <confirmation-modal :show="showDeleteModal">
+          <template v-slot:title>
+            <h1>Are you sure that delete this chemical?</h1>
+          </template>
+          <template v-slot:content>
+            <div class="flex justify-center">
+              <button
+                class="bg-red-500 p-4 text-white rounded-md mr-4"
+                @click="closeModalChemical"
+              >
+                Cancel
+              </button>
+              <button
+                class="bg-green-500 p-4 text-white rounded-md"
+                @click="deleteChemical"
+              >
+                Acept
+              </button>
+            </div>
+          </template>
+        </confirmation-modal>
+      </div>
   </app-layout>
 </template>
 
@@ -303,19 +361,23 @@ export default {
         makeToast(message, "error");
       }
     };
+    $(document).ready(function () {
+      $("#filterChemicalInputBot")
+        .off()
+        .keyup(function () {
+          $("#chemicalTable").DataTable().search(this.value).draw();
+        });
+    });
 
     const generateDataTable = (type) => {
       nextTick(() => {
         $("#chemicalTable").DataTable({
           ordering: true,
           bLengthChange: false,
-          pageLength: 5,
+          pageLength: 10,
           processing: true,
           serverSide: true,
           stateSave: true,
-            rowReorder: {
-            selector: "td:nth-child(2)",
-          },
           columnDefs: [
             {
               defaultContent: "-",
@@ -325,8 +387,8 @@ export default {
           responsive: true,
           language: {
             paginate: {
-              next: `→`, // or '→'
-              previous: `←`, // or '←'
+              next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
+              previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
             },
             info: "Showing results _START_ to _END_ from _TOTAL_",
           },
@@ -390,12 +452,20 @@ export default {
             },
           ],
           drawCallback: function () {
-            $("#chemicalTable").on("click","[class*=editchemical]", function (e) {
-              editChemical(e.currentTarget.attributes[1].value);
-            });
-            $("#chemicalTable").on("click", "[class*=deletechemical]",function (e) {
-              deleteChemicalModal(e.currentTarget.attributes[1].value);
-            });
+            $("#chemicalTable").on(
+              "click",
+              "[class*=editchemical]",
+              function (e) {
+                editChemical(e.currentTarget.attributes[1].value);
+              }
+            );
+            $("#chemicalTable").on(
+              "click",
+              "[class*=deletechemical]",
+              function (e) {
+                deleteChemicalModal(e.currentTarget.attributes[1].value);
+              }
+            );
           },
         });
       });
