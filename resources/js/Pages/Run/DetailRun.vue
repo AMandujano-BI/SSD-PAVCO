@@ -52,7 +52,7 @@
             <span class="text-[#838A97] font-light block py-2 md:inline">
               Start Date
             </span>
-            <span> {{ runDetail.start_date }} </span>
+            <span> {{ startDate }} </span>
           </p>
           <p class="text-[#3b4559] text-[16px] font-semibold">
             <span class="text-[#838A97] font-light block py-2 md:inline"
@@ -66,11 +66,11 @@
             </span>
             <span> {{ runDetail.company?.name }} </span>
           </p>
-          <p class="text-[#3b4559] text-[16px] font-semibold">
+          <p class="text-[#bcbec4] text-[16px] font-semibold">
             <span class="text-[#838A97] font-light block py-2 md:inline"
               >Hrs
             </span>
-            <span> {{ runDetail.hours }} </span>
+            <span> {{ calculateHours( runDetail.status, runDetail.start_date, runDetail.isEdit, runDetail.last_edit, runDetail.hours, runDetail.closed_date) }} </span>
           </p>
           <p class="text-[#3b4559] text-[16px] font-semibold">
             <span class="text-[#838A97] font-light block py-2 md:inline"
@@ -277,17 +277,6 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="part in runDetail.parts" :key="part.id">
-              <td>{{ part.description }}</td>
-              <td>{{ part.plate_type.name }}</td>
-              <td>
-                {{ part.chromate.name + " - " + part.primaryPer + " % " }}
-              </td>
-              <td>
-                {{ part.top_coat.name + " - " + part.topCoatPer + " % " }}
-              </td>
-              <td>{{ part.coat.name + " - " + part.coatPer + " % " }}</td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -327,28 +316,66 @@ export default {
   setup() {
     const id = Inertia.page.url.split("/")[3];
     const runDetail = ref({});
+    const startDate = ref('');
     const gettingData = async () => {
       try {
         const res = await axios.get(`/run/${id}`);
         console.log(res.data);
         runDetail.value = res.data;
-        runDetail.value.start_date = runDetail.value.start_date.slice(0, 10);
+        startDate.value = runDetail.value.start_date.slice(0, 10);
         $("#activeRunsDetail").DataTable().destroy();
         await generateDataTableDetail();
       } catch (e) {
         console.log(e);
       }
     };
+
+    const calculateHours = (
+      status,
+      created_date,
+      edit,
+      lastDate,
+      hours,
+      closeDate
+    ) => {
+      if (status === 1) {
+        //cerrado
+        if (edit) {
+          return hours;
+        } else {
+          const closeNonEdit =
+            Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5;
+          return closeNonEdit | 0; // trunca los decimales y se queda con el entero
+        }
+      } else {
+        if (edit) {
+          const activeEdit = Math.abs(new Date() - new Date(lastDate)) / 36e5;
+          const hoursEdited = activeEdit | 0; // trunca los decimales y se queda con el entero
+          return hours + hoursEdited;
+        } else {
+          const activeNonEdit =
+            Math.abs(new Date() - new Date(created_date)) / 36e5;
+          return activeNonEdit | 0; // trunca los decimales y se queda con el entero
+        }
+      }
+    };
+
     const goBack = () => {
       Inertia.replace("/run");
     };
     const generateDataTableDetail = () => {
       nextTick(() => {
         $("#activeRunsDetail").DataTable({
-          scrollY: 300,
           ordering: true,
           bLengthChange: false,
-          pageLength: 5,
+          pageLength: 10,
+          columnDefs: [
+            {
+              defaultContent: "-",
+              targets: "_all",
+            },
+          ],
+          responsive: true,
           language: {
             paginate: {
               next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
@@ -356,6 +383,47 @@ export default {
             },
             info: "Showing results _START_ to _END_ from _TOTAL_",
           },
+          ajax: {
+            url: `/part/getPartsByRun/${runDetail.value.id}`,
+          },
+          columns: [
+            {
+              name: "description",
+              searchable: true,
+              render: function (data, type, row, meta) {
+                return "<td>" + row.description  + "</td>";
+              },
+            },
+            {
+              name: "plate_type.name",
+              searchable: true,
+              render: function (data, type, row, meta) {
+                return "<td>" + row.plate_type.name + "</td>";
+              },
+            },
+            {
+              name: "part.chromate.name",
+              searchable: true,
+              render: function (data, type, row, meta) {
+                return "<td>" + row.chromate.name + " - " + row.primaryPer + " % " + "</td>";
+              },
+            },
+            {
+              name: "part.top_coat.name",
+              searchable: true,
+              render: function (data, type, row, meta) {
+                return "<td>" + row.top_coat.name + " - " + row.topCoatPer + " % " + "</td>";
+              },
+            },
+            {
+              name: "part.coat.name",
+              searchable: true,
+              render: function (data, type, row, meta) {
+                return "<td>" + row.coat.name + " - " + row.coatPer + " % " + "</td>";
+              },
+            },
+            
+          ]
         });
       });
     };
@@ -363,7 +431,9 @@ export default {
     return {
       generateDataTableDetail,
       gettingData,
+      calculateHours,
       runDetail,
+      startDate,
       goBack,
     };
   },

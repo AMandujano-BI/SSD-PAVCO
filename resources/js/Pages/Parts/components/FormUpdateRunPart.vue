@@ -142,10 +142,10 @@ export default {
       if (run.status === 1) {
         //cerrado
         if (run.isEdit) {
-          console.log('close & edited');
+          
           return run.hours;
         } else {
-          console.log('close & non edited');
+          
           const closeNonEdit =
             Math.abs(new Date(run.closed_date) - new Date(run.start_date)) /
             36e5;
@@ -154,13 +154,13 @@ export default {
       } else {
         // abierto
         if (run.isEdit) {
-          console.log('active & edited');
+          
           const activeEdit =
             Math.abs(new Date() - new Date(run.last_edit)) / 36e5;
           const hoursEdited = activeEdit | 0;
           return run.hours + hoursEdited;
         } else {
-          console.log('active & Non edited');
+          
           const activeNonEdit =
             Math.abs(new Date() - new Date(run.start_date)) / 36e5;
           return activeNonEdit | 0;
