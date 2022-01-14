@@ -185,6 +185,7 @@ export default {
           bLengthChange: false,
           pageLength: 5,
           stateSave: true,
+          serverSide:true,
           rowReorder: {
             selector: "td:nth-child(2)",
           },
