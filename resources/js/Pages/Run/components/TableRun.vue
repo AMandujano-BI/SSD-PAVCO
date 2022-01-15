@@ -647,7 +647,6 @@ export default {
 
     // const editRun = (id) => (window.location.href = `/part/${id}`);
     const editRun = (id) => {
-      // this.$inertia.get(route(`/part/${id}`));
       Inertia.get(`/part/${id}`);
     };
     const reportRun = (id) => {

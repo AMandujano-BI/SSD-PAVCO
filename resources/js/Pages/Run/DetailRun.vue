@@ -19,10 +19,18 @@
             "
             @click="goBack"
           >
-<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M35 12.5L22.5 25L35 37.5L32.5 42.5L15 25L32.5 7.5L35 12.5Z" fill="white"/>
-</svg>
-
+            <svg
+              width="50"
+              height="50"
+              viewBox="0 0 50 50"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M35 12.5L22.5 25L35 37.5L32.5 42.5L15 25L32.5 7.5L35 12.5Z"
+                fill="white"
+              />
+            </svg>
           </div>
 
           <h1
@@ -58,7 +66,7 @@
             <span class="text-[#838A97] font-light block py-2 md:inline"
               >Status
             </span>
-            <span> {{ runDetail.status }} </span>
+            <span> {{ runDetail.status == 0 ? "Active" : "Complete" }} </span>
           </p>
           <p class="text-[#3b4559] text-[16px] font-semibold">
             <span class="text-[#838A97] font-light block py-2 md:inline"
@@ -66,11 +74,22 @@
             </span>
             <span> {{ runDetail.company?.name }} </span>
           </p>
-          <p class="text-[#bcbec4] text-[16px] font-semibold">
+          <p class="text-[#3b4559] text-[16px] font-semibold">
             <span class="text-[#838A97] font-light block py-2 md:inline"
               >Hrs
             </span>
-            <span> {{ calculateHours( runDetail.status, runDetail.start_date, runDetail.isEdit, runDetail.last_edit, runDetail.hours, runDetail.closed_date) }} </span>
+            <span>
+              {{
+                calculateHours(
+                  runDetail.status,
+                  runDetail.start_date,
+                  runDetail.isEdit,
+                  runDetail.last_edit,
+                  runDetail.hours,
+                  runDetail.closed_date
+                )
+              }}
+            </span>
           </p>
           <p class="text-[#3b4559] text-[16px] font-semibold">
             <span class="text-[#838A97] font-light block py-2 md:inline"
@@ -101,25 +120,12 @@
               py-4
               justify-center
             "
+            @click="showPhotos"
           >
             <icon-photo />
             Photos
           </div>
-          <div
-            class="
-              flex
-              gap-2
-              items-center
-              bg-[#508991]
-              cursor-pointer
-              text-white
-              py-4
-              justify-center
-            "
-          >
-            <icon-result />
-            Results
-          </div>
+
           <div
             class="
               flex
@@ -131,6 +137,7 @@
               py-4
               justify-center
             "
+            @click="editRun"
           >
             <icon-edit />
             Edit
@@ -146,11 +153,12 @@
               py-4
               justify-center
             "
+            @click="showDelete"
           >
             <icon-delete />
             Delete
           </div>
-          <div
+          <button
             class="
               flex
               gap-2
@@ -161,11 +169,34 @@
               py-4
               justify-center
             "
+            :class="{ 'bg-[#F0F0F0]': runDetail.status == 1 }"
+            @click="showClose"
+            :disabled="runDetail.status == 1"
           >
-            <icon-close />
-            Close
-          </div>
-          <div
+            <div v-if="runDetail.status == 1">
+              <svg
+                width="25"
+                height="25"
+                viewBox="0 0 40 40"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g fill="none" fill-rule="evenodd">
+                  <path fill="#F0F0F0" d="M0 0h40v40H0z" />
+                  <path
+                    stroke="#FFF"
+                    stroke-linecap="round"
+                    d="m11.2 11.2 17.806 17.806M29.006 11.2 11.2 29.006"
+                  />
+                </g>
+              </svg>
+            </div>
+
+            <icon-close v-if="runDetail.status == 0" /> 
+             <span :class="{ 'text-gray-200': runDetail.status == 1 }">
+              Close
+            </span>
+          </button>
+          <button
             class="
               flex
               gap-2
@@ -176,10 +207,43 @@
               py-4
               justify-center
             "
+            @click="showReOpen"
+            :class="{ 'bg-[#F0F0F0]': runDetail.status == 0 }"
+            :disabled="runDetail.status == 0"
           >
-            <icon-re-open />
-            Re-Open
-          </div>
+            <div v-if="runDetail.status == 0">
+              <svg
+                width="25"
+                height="25"
+                viewBox="0 0 40 40"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g fill="none" fill-rule="evenodd">
+                  <path fill="#F0F0F0" d="M0 0h40v40H0z" />
+                  <rect
+                    stroke="#FFF"
+                    x="10.1"
+                    y="10.1"
+                    width="13.4"
+                    height="13.4"
+                    rx="1"
+                  />
+                  <rect
+                    stroke="#FFF"
+                    x="18.1"
+                    y="18.1"
+                    width="13.4"
+                    height="13.4"
+                    rx="1"
+                  />
+                </g>
+              </svg>
+            </div>
+            <icon-re-open v-if="runDetail.status == 1" />
+            <span :class="{ 'text-gray-200': runDetail.status == 0 }">
+              Re-Open
+            </span>
+          </button>
 
           <div
             class="
@@ -192,6 +256,7 @@
               py-4
               justify-center
             "
+            @click="reportRun"
           >
             <svg
               width="25"
@@ -224,6 +289,7 @@
               py-4
               justify-center
             "
+            @click="reportAndPhotosRun"
           >
             <svg
               width="25"
@@ -258,6 +324,7 @@
               py-4
               justify-center
             "
+            @click="openModalEmail"
           >
             <icon-email />
             E-mail
@@ -276,9 +343,90 @@
               <!-- <th class="no-sort">Notes</th> -->
             </tr>
           </thead>
-          <tbody>
-          </tbody>
+          <tbody></tbody>
         </table>
+        <modal :show="isModalPhotos" @close="closePhotosModal">
+          <div class="container mx-auto p-5 relative bg-[#ebf2fd]">
+            <button @click="closePhotosModal" class="absolute right-5">
+              X
+            </button>
+            <photos-run :id="id" />
+          </div>
+        </modal>
+        <modal :show="modalEmail" @close="closeModalEmail">
+          <div class="p-5">
+            <form-email
+              :emailSend="emailSend"
+              :id="id"
+              @closeModal="closeModalEmail"
+            />
+          </div>
+        </modal>
+        <confirmation-modal :show="isModalDelete">
+          <template v-slot:title>
+            <h1>Are you sure that you want to delete this run #{{ id }}?</h1>
+          </template>
+          <template v-slot:content>
+            <div class="flex justify-center gap-4 items-center">
+              <button
+                class="bg-red-500 p-4 text-white rounded-md mr-4"
+                @click="closeDeleteModal"
+              >
+                Cancel
+              </button>
+              <button
+                class="bg-green-500 p-4 text-white rounded-md"
+                @click="deleteRun"
+              >
+                Acept
+              </button>
+            </div>
+          </template>
+        </confirmation-modal>
+
+        <confirmation-modal :show="isModalClose">
+          <template v-slot:title>
+            <h1>Are you sure that you want to close this run #{{ id }}?</h1>
+          </template>
+          <template v-slot:content>
+            <div class="flex justify-center gap-4 items-center">
+              <button
+                class="bg-red-500 p-4 text-white rounded-md mr-4 min-w-[400]"
+                @click="closeCloseModal"
+              >
+                Cancel
+              </button>
+              <button
+                class="bg-green-500 p-4 text-white rounded-md"
+                @click="closeRun"
+              >
+                Acept
+              </button>
+            </div>
+          </template>
+        </confirmation-modal>
+
+        <confirmation-modal :show="isModalReOpen">
+          <template v-slot:title>
+            <h1>Are you sure that you want to re open this run #{{ id }}</h1>
+          </template>
+          <template v-slot:content>
+            <div class="flex justify-center gap-4 items-center">
+              <button
+                class="bg-red-500 p-4 text-white rounded-md mr-4"
+                @click="closeReOpenModal"
+              >
+                Cancel
+              </button>
+              <button
+                class="bg-green-500 p-4 text-white rounded-md"
+                @click="reopenRun"
+              >
+                Acept
+              </button>
+            </div>
+          </template>
+        </confirmation-modal>
       </div>
     </div>
   </app-layout>
@@ -299,10 +447,19 @@ import IconReOpen from "@/assets/Icons/iconReopen.vue";
 import IconResult from "@/assets/Icons/iconResult.vue";
 import IconPhoto from "@/assets/Icons/iconPhoto.vue";
 import IconClose from "@/assets/Icons/iconClose.vue";
+import Modal from "../../Jetstream/Modal.vue";
+import FormEmail from "./components/FormEmail.vue";
+import useHelper from "@/composables/useHelper";
+import ConfirmationModal from "../../Jetstream/ConfirmationModal.vue";
+import PhotosRun from "./components/PhotosRun.vue";
 export default {
   components: {
+    modal: Modal,
+    confirmationModal: ConfirmationModal,
     AppLayout: AppLayout,
+    photosRun: PhotosRun,
     IconEmail,
+    FormEmail,
     IconEdit,
     IconDelete,
     IconReOpen,
@@ -315,12 +472,18 @@ export default {
   props: ["run"],
   setup() {
     const id = Inertia.page.url.split("/")[3];
+    const { makeToast } = useHelper();
     const runDetail = ref({});
-    const startDate = ref('');
+    const startDate = ref("");
+    const modalEmail = ref(false);
+    const emailSend = ref("");
+    const isModalDelete = ref(false);
+    const isModalClose = ref(false);
+    const isModalReOpen = ref(false);
+    const isModalPhotos = ref(false);
     const gettingData = async () => {
       try {
         const res = await axios.get(`/run/${id}`);
-        console.log(res.data);
         runDetail.value = res.data;
         startDate.value = runDetail.value.start_date.slice(0, 10);
         $("#activeRunsDetail").DataTable().destroy();
@@ -330,6 +493,84 @@ export default {
       }
     };
 
+    const closePhotosModal = () => (isModalPhotos.value = false);
+    // Results
+    const showResults = (id) => Inertia.get(`/run/detail/${id}`);
+    const closeDeleteModal = () => (isModalDelete.value = false);
+    const editRun = () => {
+      Inertia.get(`/part/${id}`);
+    };
+    const showReOpen = (id) => {
+      isModalReOpen.value = true;
+    };
+    const reopenRun = async () => {
+      try {
+        const res = await axios.put(`/run/reopenRun/${id}`);
+        const { ok, message, value } = res.data;
+        if (ok) {
+          isModalReOpen.value = false;
+          makeToast(message);
+          runDetail.value.status = 0;
+        } else {
+          makeToast(message, "error");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const deleteRun = async () => {
+      try {
+        const res = await axios.delete(`/run/deleteRun/${id}`);
+        const { ok, message, value } = res.data;
+        if (ok) {
+          isModalDelete.value = false;
+          makeToast(message);
+          Inertia.get("/run");
+        } else {
+          makeToast(message, "error");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const closeRun = async () => {
+      try {
+        const res = await axios.put(`/run/closeRun/${id}`);
+        const { ok, message, value } = res.data;
+        if (ok) {
+          isModalClose.value = false;
+          makeToast(message);
+          runDetail.value.status = 1;
+        } else {
+          makeToast(message, "error");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    const showPhotos = (id) => {
+      //findRun(id);
+      isModalPhotos.value = true;
+    };
+    const closeModalEmail = () => {
+      modalEmail.value = false;
+    };
+    const reportRun = () => {
+      window.location.href = `/run/download/${id}`;
+    };
+    const reportAndPhotosRun = () => {
+      window.location.href = `/run/downloadPlus/${id}`;
+    };
+    const openModalEmail = (id) => {
+      modalEmail.value = true;
+    };
+    const showDelete = () => {
+      isModalDelete.value = true;
+    };
+    const showClose = (id) => {
+      isModalClose.value = true;
+    };
     const calculateHours = (
       status,
       created_date,
@@ -361,7 +602,7 @@ export default {
     };
 
     const goBack = () => {
-      Inertia.replace("/run");
+      Inertia.get("/run");
     };
     const generateDataTableDetail = () => {
       nextTick(() => {
@@ -391,7 +632,7 @@ export default {
               name: "description",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>" + row.description  + "</td>";
+                return "<td>" + row.description + "</td>";
               },
             },
             {
@@ -405,25 +646,40 @@ export default {
               name: "part.chromate.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>" + row.chromate.name + " - " + row.primaryPer + " % " + "</td>";
+                return (
+                  "<td>" +
+                  row.chromate.name +
+                  " - " +
+                  row.primaryPer +
+                  " % " +
+                  "</td>"
+                );
               },
             },
             {
               name: "part.top_coat.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>" + row.top_coat.name + " - " + row.topCoatPer + " % " + "</td>";
+                return (
+                  "<td>" +
+                  row.top_coat.name +
+                  " - " +
+                  row.topCoatPer +
+                  " % " +
+                  "</td>"
+                );
               },
             },
             {
               name: "part.coat.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>" + row.coat.name + " - " + row.coatPer + " % " + "</td>";
+                return (
+                  "<td>" + row.coat.name + " - " + row.coatPer + " % " + "</td>"
+                );
               },
             },
-            
-          ]
+          ],
         });
       });
     };
@@ -435,6 +691,30 @@ export default {
       runDetail,
       startDate,
       goBack,
+      editRun,
+      reportRun,
+      openModalEmail,
+      closeModalEmail,
+      reportAndPhotosRun,
+      modalEmail,
+      emailSend,
+      id,
+      isModalDelete,
+      isModalClose,
+      closeDeleteModal,
+      deleteRun,
+      closeRun,
+      reopenRun,
+      showReOpen,
+      isModalReOpen,
+      closeReOpenModal: () => (isModalReOpen.value = false),
+      closePhotosModal,
+      showPhotos,
+      isModalPhotos,
+      editRun,
+      showDelete,
+      showClose,
+      closeCloseModal: () => (isModalClose.value = false),
     };
   },
 };
