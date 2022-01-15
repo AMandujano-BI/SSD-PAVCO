@@ -58,9 +58,9 @@ const styleInactive = "text-gray-500";
     >
       <div v-if="item.icon == 'Maintenance'" class="flex-none pr-3 pl-14">
         <svg
-          width="20"
+          width="25"
           height="20"
-          viewBox="0 0 20 20"
+          viewBox="0 0 25 20"
           xmlns="http://www.w3.org/2000/svg"
         >
           <g fill="#123E81" fill-rule="nonzero">
@@ -93,7 +93,7 @@ const styleInactive = "text-gray-500";
         dark:hover:bg-gray-700 dark:hover:bg-opacity-50
       "
       :active="route().current(itemRoute)"
-      :class="[isSubmenuList ? 'p-3 text-sm' : 'py-2']"
+      :class="[isSubmenuList ? 'py-2 px-1 text-sm' : 'py-2']"
       @click="menuClick"
     >
       <div v-if="item.icon == 'run'" class="flex-none pr-3 pl-14">
@@ -114,9 +114,9 @@ const styleInactive = "text-gray-500";
       </div>
       <div v-else-if="item.icon == 'Maintenance'" class="flex-none pr-3 pl-14">
         <svg
-          width="20"
+          width="25"
           height="20"
-          viewBox="0 0 20 20"
+          viewBox="0 0 25 20"
           xmlns="http://www.w3.org/2000/svg"
         >
           <g fill="#123E81" fill-rule="nonzero">
@@ -131,9 +131,9 @@ const styleInactive = "text-gray-500";
       </div>
       <div v-else-if="item.icon == 'Reports'" class="flex-none pr-3 pl-14">
         <svg
-          width="24"
-          height="22"
-          viewBox="0 0 24 22"
+          width="25"
+          height="20"
+          viewBox="0 0 25 20"
           xmlns="http://www.w3.org/2000/svg"
         >
           <g
@@ -150,9 +150,9 @@ const styleInactive = "text-gray-500";
       </div>
       <div v-else-if="item.icon == 'Company'" class="flex-none pr-3 pl-14">
         <svg
-          width="15"
+          width="25"
           height="20"
-          viewBox="0 0 15 20"
+          viewBox="0 0 25 20"
           xmlns="http://www.w3.org/2000/svg"
         >
           <g fill="#123E81" fill-rule="nonzero">
@@ -167,9 +167,9 @@ const styleInactive = "text-gray-500";
       </div>
       <div v-else-if="item.icon == 'Users'" class="flex-none pr-3 pl-14">
         <svg
-          width="16"
-          height="17"
-          viewBox="0 0 16 17"
+          width="25"
+          height="20"
+          viewBox="0 0 25 20"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -181,9 +181,9 @@ const styleInactive = "text-gray-500";
       </div>
       <div v-else-if="item.icon == 'Chemical'" class="flex-none pr-3 pl-14">
         <svg
-          width="14"
+          width="25"
           height="20"
-          viewBox="0 0 14 20"
+          viewBox="0 0 25 20"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
