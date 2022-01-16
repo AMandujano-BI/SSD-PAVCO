@@ -8,15 +8,17 @@
         bg-white
         mt-4
         mb-3
-        p-3
+        md:pl-[60px]
+        pl-[10px]
+        py-[32px]
         flex flex-col
         lg:flex-row
         w-full
         items-center
       "
     >
-      <div class="flex items-center p-4 flex-1 w-full">
-        <label class="pr-3 font-bold w-[110px]">Customer</label>
+      <div class="flex items-center  flex-1 w-full">
+        <label class="pr-3 font-semibold text-[16px] w-[110px] text-[#3b4559] text-right">Customer</label>
         <div class="w-full">
           <multi-select
             :options="customers"
@@ -30,8 +32,8 @@
         </div>
       </div>
 
-      <div class="flex items-center flex-1 p-4 w-full">
-        <label class="pr-3 font-bold w-[110px]">Date Range</label>
+      <div class="flex items-center flex-1 py-4 md:py-0  w-full">
+        <label class="pr-3 font-semibold text-[16px] text-[#3b4559]  w-[110px] text-right">Date Range</label>
         <div>
           <input
             type="date"
@@ -39,18 +41,11 @@
             class="w-full"
             :class="{ 'border-red-400': v$.start_date.$error }"
           />
-          <p
-            v-for="error of v$.start_date.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
         </div>
       </div>
 
-      <div class="flex items-center flex-1 p-4 w-full">
-        <label class="pr-3 font-bold w-[110px]">To</label>
+      <div class="flex items-center flex-1  py-4 md:py-0 w-full">
+        <label class="pr-3 font-semibold text-[16px] text-[#3b4559] w-[110px] text-right">To</label>
         <div>
           <input
             type="date"
@@ -69,9 +64,9 @@
       </div>
     </div>
 
-    <div class="bg-white mt-4 mb-3 px-4 w-full h-170">
+    <div class="bg-white mt-4 mb-3 py-[32px]       md:pl-[60px] pl-[10px] w-full">
       <div class="flex">
-        <label class="pr-3 font-bold w-[110px]">Plate Type</label>
+        <label class="pr-3 font-semibold text-[16px] text-[#3b4559] w-[110px] text-right">Plate Type</label>
         <multi-select
           :options="plateTypes"
           class="w-full"
@@ -83,21 +78,21 @@
       </div>
     </div>
 
-    <div class="bg-white mt-4 mb-3 p-3 h-338">
+    <div class="bg-white mt-4 mb-3      md:pl-[60px] pl-[10px] py-[32px] h-338">
       <div class="flex w-full flex-col lg:flex-row gap-2">
         <div class="w-full"></div>
         <div class="flex gap-2 justify-center lg:justify-start">
           <div>
-            <div class="w-[80px] lg:w-[130px] font-bold text-center">Conc%</div>
+            <div class="w-[80px] lg:w-[130px] font-semibold text-[16px] text-[#3b4559] text-center">Conc%</div>
           </div>
           <div>
-            <div class="w-[80px] lg:w-[130px] font-bold text-center">Temp</div>
+            <div class="w-[80px] lg:w-[130px] font-semibold text-[16px] text-[#3b4559] text-center">Temp</div>
           </div>
           <div>
-            <div class="w-[80px] lg:w-[130px] font-bold text-center">pH</div>
+            <div class="w-[80px] lg:w-[130px] font-semibold text-[16px] text-[#3b4559] text-center">pH</div>
           </div>
           <div>
-            <div class="w-[80px] lg:w-[130px] font-bold text-center">
+            <div class="w-[80px] lg:w-[130px] font-semibold text-[16px] text-[#3b4559] text-center">
               Diptime
             </div>
           </div>
@@ -136,8 +131,8 @@
       </div>
 
       <div>
-        <div class="flex w-full flex-col lg:flex-row gap-2 items-center px-4 mb-4">
-          <label class="pr-3 font-bold w-[110px]">Chromate</label>
+        <div class="flex w-full flex-col lg:flex-row gap-2 items-center mb-4">
+          <label class="pr-3 font-semibold text-[16px] text-[#3b4559] w-[110px] text-right">Chromate</label>
           <div class="w-full">
             <multi-select
               :options="chromates"
@@ -258,8 +253,8 @@
       </div>
 
       <div>
-        <div class="flex w-full flex-col lg:flex-row gap-2 items-center px-4 mb-4">
-          <label class="pr-3 font-bold w-[145px]">Topcoat </label>
+        <div class="flex w-full flex-col lg:flex-row gap-2 items-center  mb-4">
+          <label class="pr-3 font-semibold text-[16px] text-[#3b4559] flex-1 w-[145px] text-right">Topcoat </label>
           <multi-select
             :options="topCoats"
             class="w-full"
@@ -350,8 +345,8 @@
       </div>
 
       <div>
-        <div class="flex w-full flex-col lg:flex-row gap-2 items-center px-4">
-          <label class="pr-3 font-bold w-[85px] break-words"
+        <div class="flex w-full flex-col lg:flex-row gap-2 items-center ">
+          <label class="pr-3 font-semibold text-[16px] text-[#3b4559] w-[85px] break-words text-right"
             >Secondary Topcoat</label
           >
           <div class="w-full">
@@ -501,7 +496,7 @@ export default {
   setup() {
     const { form, v$, submitForm, loading } = useFormReport({
       customer: 0,
-      customerName: "All companies",
+      customerName: "All Customers",
       chromateName: "All",
       top_coatName: "All",
       coatName: "All",

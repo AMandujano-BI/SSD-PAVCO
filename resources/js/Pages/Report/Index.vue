@@ -25,7 +25,7 @@ export default {
   },
   setup(props) {
     const {customers} = props
-    customers.unshift( { "value": 0, "label": "All companies" } )
+    customers.unshift( { "value": 0, "label": "All Customers" } )
 
     
     

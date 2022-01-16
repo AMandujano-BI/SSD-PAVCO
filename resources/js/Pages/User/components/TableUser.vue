@@ -1,6 +1,6 @@
 <template>
 
-  <div class="container p-9">
+  <div class="container p-2">
     <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
       <div class="flex gap-8 items-center flex-1 w-full">
         <button @click="openModalForm"><icon-plus /></button>
@@ -178,7 +178,7 @@ export default {
         });
     });
     const generateDataTable = (type = 0) => {
-      $("#tableUsers").DataTable().destroy();
+      $("#tableUsers").DataTable().clear().destroy();
       nextTick(() => {
         $("#tableUsers").DataTable({
           ordering: true,

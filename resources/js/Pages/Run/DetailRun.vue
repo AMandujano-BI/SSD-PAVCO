@@ -1,7 +1,7 @@
 <template>
   <app-layout title="Detail Run">
     <div class="container mx-auto pt-14">
-      <div class="container p-9">
+      <div class="container p-2">
         <div class="flex items-center md:justify-center">
           <div
             class="
@@ -192,7 +192,7 @@
             </div>
 
             <icon-close v-if="runDetail.status == 0" /> 
-             <span :class="{ 'text-gray-200': runDetail.status == 1 }">
+             <span :class="{ 'text-gray-400': runDetail.status == 1 }">
               Close
             </span>
           </button>
@@ -201,14 +201,14 @@
               flex
               gap-2
               items-center
-              bg-[#0ABC8A]
+              
               cursor-pointer
               text-white
               py-4
               justify-center
             "
             @click="showReOpen"
-            :class="{ 'bg-[#F0F0F0]': runDetail.status == 0 }"
+            :class="{ 'bg-[#F0F0F0]': runDetail.status == 0,'bg-[#0ABC8A]': runDetail.status == 1}"
             :disabled="runDetail.status == 0"
           >
             <div v-if="runDetail.status == 0">
@@ -240,7 +240,7 @@
               </svg>
             </div>
             <icon-re-open v-if="runDetail.status == 1" />
-            <span :class="{ 'text-gray-200': runDetail.status == 0 }">
+            <span :class="{ 'text-gray-400': runDetail.status == 0 }">
               Re-Open
             </span>
           </button>
@@ -486,7 +486,7 @@ export default {
         const res = await axios.get(`/run/${id}`);
         runDetail.value = res.data;
         startDate.value = runDetail.value.start_date.slice(0, 10);
-        $("#activeRunsDetail").DataTable().destroy();
+        $("#activeRunsDetail").DataTable().clear().destroy();
         await generateDataTableDetail();
       } catch (e) {
         console.log(e);

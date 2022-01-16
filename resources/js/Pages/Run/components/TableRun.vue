@@ -5,7 +5,7 @@
     }}
     Runs
   </h1>
-  <div class="container p-9">
+  <div class="container p-2">
     <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
       <div class="flex gap-8 items-center flex-1 w-full">
         <button @click="openModalButton"><icon-plus /></button>
@@ -392,7 +392,8 @@ export default {
     };
     const gettingData = async (status = 3) => {
       try {
-        $("#activeRuns").DataTable().destroy();
+        // $("#activueRuns").DataTable().empty()
+        $("#activeRuns").DataTable().clear().destroy();
         await generateDataTable(status);
       } catch (e) {
         console.log(e);

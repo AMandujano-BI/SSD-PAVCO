@@ -9,7 +9,6 @@
           :modules="modules"
           :slides-per-view="1"
           :space-between="50"
-          navigation
           :pagination="{ clickable: true }"
         >
           <swiper-slide v-for="photo in runDetail" :key="photo.id">
@@ -18,18 +17,21 @@
                 <img
                   :src="photo.image"
                   :alt="photo.name"
-                  class="object-contain h-full w-full"
+                  class="object-contain  h-full w-full"
                 />
               </div>
               <div>
                 <ul class="flex flex-row justify-between px-3 pt-12">
-                  <li><strong>Name: </strong>{{ photo.name }}</li>
-                  <li>
-                    <strong>Date added: </strong
+                  <li class="text-[#7e7f82]">
+                    <strong class="text-[#1e385e]">Name: </strong
+                    >{{ photo.name }}
+                  </li>
+                  <li class="text-[#7e7f82]">
+                    <strong class="text-[#1e385e]">Date added: </strong
                     >{{ photo.created_at.slice(0, 10) }}
                   </li>
-                  <li>
-                    <strong>Hours: </strong
+                  <li class="text-[#7e7f82]">
+                    <strong class="text-[#1e385e]">Hours: </strong
                     >{{
                       calculateHours(
                         photo.isEdit,
@@ -41,8 +43,10 @@
                   </li>
                 </ul>
               </div>
-              <div class="px-3">
-                <strong>Description: </strong>{{ photo.description }}
+
+              <div class="px-3 mt-1 md:mt-5 text-[#7e7f82]">
+                <strong class="text-[#1e385e]">Description: </strong
+                >{{ photo.description }}
               </div>
             </div>
           </swiper-slide>

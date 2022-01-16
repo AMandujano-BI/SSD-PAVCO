@@ -8,7 +8,7 @@
       />
     </div>
   </modal>
- <div class="container p-9">
+ <div class="container p-2">
  <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
      <div class="flex gap-8 items-center flex-1 w-full">
     <button @click="openModal"><icon-plus /></button>
@@ -205,7 +205,7 @@ export default {
         });
     });
     const generateDataTable = (type) => {
-      $("#tableCompanies").DataTable().destroy();
+      $("#tableCompanies").DataTable().clear().destroy();
       nextTick(() => {
         $("#tableCompanies").DataTable({
           ordering: true,

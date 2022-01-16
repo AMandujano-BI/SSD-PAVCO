@@ -4,6 +4,7 @@
         <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
           List of Chemicals
         </h1>
+          <div class="container p-2">
         <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
           <div class="flex gap-8 items-center flex-1 w-full">
             <button @click="openModal"><icon-plus /></button>
@@ -194,6 +195,7 @@
             </div>
           </template>
         </confirmation-modal>
+          </div>
       </div>
   </app-layout>
 </template>
@@ -256,7 +258,7 @@ export default {
         // const res = await axios.get(`/chemical/getChemicals/${type}`);
         // chemicalList.value = res.data;
 
-        $("#chemicalTable").DataTable().destroy();
+        $("#chemicalTable").DataTable().clear().destroy();
         generateDataTable(type);
       } catch (error) {
         console.log(error);

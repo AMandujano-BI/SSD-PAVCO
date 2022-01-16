@@ -189,7 +189,7 @@ export default {
         });
     });
     const generateDataTable = () => {
-      $("#partsTable").DataTable().destroy();
+      $("#partsTable").DataTable().clear().destroy();
       nextTick(() => {
         $("#partsTable").DataTable({
           // scrollY: 300,

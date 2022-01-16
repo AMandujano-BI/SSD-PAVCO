@@ -49,8 +49,12 @@ option:nth-child(odd) {
 .arrow_icon{
   display: inline;
 }
+input{
+  border-color: #979797;
+}
 input[type="number"] {
   -moz-appearance: textfield;
+  border-color: #979797;
 }
 input[type="number"]:hover,
 input[type="number"]:focus {

@@ -58,7 +58,7 @@ export default {
         const res = await axios.get(`/run/${id}`);
         runDetail.value = res.data;
         runDetail.value.start_date = runDetail.value.start_date.slice(0, 10);
-        $("#activeRunsDetail").DataTable().destroy();
+        $("#activeRunsDetail").DataTable().clear().destroy();
         await generateDataTableDetail();
       } catch (e) {
         console.log(e);
