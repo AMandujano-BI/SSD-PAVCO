@@ -1,33 +1,8 @@
 <template>
   <Head title="Log in" />
-  <div class="h-[10vh] md:min-h[15vh] flex items-center justify-center">
-    <div
-      class="
-        bg-[#0271c5]
-        h-full
-        flex
-        items-center
-        justify-center
-        w-full
-        flex-1
-        md:w-[235px] md:flex-none
-      "
-    >
-      <pavco-icon />
-    </div>
-    <h1
-      class="
-        text-center text-[#3b4559] text-[20px]
-        font-semibold
-        flex-1
-        hidden
-        md:block
-      "
-    >
-      Salt Spray Database
-    </h1>
-  </div>
 
+  <!-- NAVBAR -->
+  <navbar />
   <div class="flex w-full">
     <div class="md:w-[235px] hidden md:flex flex-col img-leftbar"></div>
 
@@ -193,8 +168,8 @@
               </button>
             </div>
           </div>
-          <div class=" mt-4 flex justify-between">
-            <label class="flex items-center ">
+          <div class="mt-4 flex justify-between">
+            <label class="flex items-center">
               <jet-checkbox
                 name="remember"
                 v-model:checked="form.remember"
@@ -212,8 +187,6 @@
               Forgot your password?
             </Link>
           </div>
-
-          
         </form>
       </div>
     </div>
@@ -230,8 +203,8 @@ import JetCheckbox from "@/Jetstream/Checkbox.vue";
 import JetLabel from "@/Jetstream/Label.vue";
 import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import pavcoIconVue from "../../assets/Icons/PavcoIcon/pavcoIcon.vue";
 import IconFooterLeftBar from "../../assets/Icons/IconFooterLeftBar/pattern.png";
+import NavbarPavcoVue from "../../Jetstream/NavbarPavco.vue";
 export default defineComponent({
   components: {
     Head,
@@ -243,7 +216,7 @@ export default defineComponent({
     JetLabel,
     JetValidationErrors,
     Link,
-    pavcoIcon: pavcoIconVue,
+    Navbar: NavbarPavcoVue,
   },
 
   props: {

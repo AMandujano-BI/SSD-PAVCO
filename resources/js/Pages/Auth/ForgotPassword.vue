@@ -1,13 +1,23 @@
 <template>
   <Head title="Forgot Password" />
-
-  <jet-authentication-card>
-    <template #logo>
-      <div class="bg-primary p-5 rounded">
-        <pavco-icon />
-      </div>
-    </template>
-
+  <navbar/>
+<div class="flex w-full">
+    <div class="md:w-[235px] hidden md:flex flex-col img-leftbar"></div>
+       <div
+      class="
+        bg-[#f8fafc]
+        flex-1
+        w-full
+        min-h-[90vh]
+        md:min-h[85vh]
+        flex
+        justify-center
+      "
+    >
+ <div class="max-w-[450px] p-5 w-full mt-[70px]">
+        <h1 class="text-center text-[#434343] text-[30px] pb-6 font-semibold">
+          Reset Password
+        </h1>
     <div class="mb-4 text-sm text-gray-600">
       Forgot your password? No problem. Just let us know your email address and
       we will email you a password reset link that will allow you to choose a
@@ -74,7 +84,9 @@
         </div>
       </div>
     </form>
-  </jet-authentication-card>
+  </div>
+  </div>
+  </div>
 </template>
 
 <script>
@@ -86,7 +98,7 @@ import JetButton from "@/Jetstream/Button.vue";
 import JetInput from "@/Jetstream/Input.vue";
 import JetLabel from "@/Jetstream/Label.vue";
 import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
-import pavcoIconVue from "../../assets/Icons/PavcoIcon/pavcoIcon.vue";
+import NavbarPavcoVue from "../../Jetstream/NavbarPavco.vue";
 export default defineComponent({
   components: {
     Head,
@@ -96,7 +108,7 @@ export default defineComponent({
     JetInput,
     JetLabel,
     JetValidationErrors,
-    pavcoIcon: pavcoIconVue,
+     Navbar:NavbarPavcoVue,
   },
 
   props: {
