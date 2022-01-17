@@ -97,8 +97,9 @@ class RunController extends Controller
         return $runGet;
         // return datatables()->of($runGet)->toJson();
     }
-    public function runDetail($id){
-        $run= $this->_run->getRun($id);
+    public function runDetail($id)
+    {
+        $run = $this->_run->getRun($id);
         return Inertia::render(
             'Run/DetailRun',
             [
@@ -106,7 +107,6 @@ class RunController extends Controller
 
             ]
         );
-
     }
     public function viewerPhotos($id)
     {
@@ -183,6 +183,7 @@ class RunController extends Controller
         // $hourdiff = (strtotime($current) - strtotime($createdDate)) / 3600;
         // $hourRounded = bcdiv($hourdiff, '1', 0);
         // $totalHours = intval($hourRounded, 10);
+        // dd($run->status);
 
         if ($run->status == 1) {
             if ($run->isEdit) {
@@ -210,10 +211,10 @@ class RunController extends Controller
         // $hours = intval($hourdiff, 10);
 
         $status = '';
-        if ($run->status == '1') {
+        if ($run->status == 0) {
             $status = 'Active';
         } else {
-            if ($run->status == '0') {
+            if ($run->status == 1) {
                 $status = 'Completed';
             }
         }
@@ -471,12 +472,10 @@ class RunController extends Controller
 
 
         $status = '';
-        if ($run->status == '1') {
+        if ($run->status == 0) {
             $status = 'Active';
-        } else {
-            if ($run->status == '0') {
-                $status = 'Completed';
-            }
+        } else if ($run->status == 1) {
+            $status = 'Completed';
         }
         $description = $run->description;
         $content = '';
