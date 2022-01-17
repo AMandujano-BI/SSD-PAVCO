@@ -1,10 +1,7 @@
 <template>
   <app-layout title="Viewer Photos">
     <div class="container mx-auto pt-5">
-      <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
-        Photo Viewer
-      </h1>
-      <div class="mt-5" v-if="runDetail[0] && !isLoading">
+      <div class="mt-7" v-if="runDetail[0] && !isLoading">
         <swiper
           :modules="modules"
           :slides-per-view="1"

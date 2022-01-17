@@ -3,22 +3,39 @@
     The Report Wizard allows you to create a report based on selected criteria.
   </p>
   <form @submit.prevent="submitForm">
+    <!-- FIRST -->
     <div
       class="
         bg-white
         mt-4
         mb-3
         md:pl-[60px]
-        pl-[10px]
+        pr-8
         py-[32px]
-        flex flex-col
-        lg:flex-row
+        pl-4
         w-full
+        grid grid-cols-1
+        gap-2
+        md:grid-cols-2
+        lg:grid-cols-3
         items-center
       "
     >
-      <div class="flex items-center  flex-1 w-full">
-        <label class="pr-3 font-semibold text-[16px] w-[110px] text-[#3b4559] text-right">Customer</label>
+      <div class="flex flex-col md:flex-row items-center flex-1 w-full">
+        <label
+          class="
+            pr-3
+            font-semibold
+            text-[16px]
+            w-[110px]
+            text-[#3b4559] 
+            md:text-right
+            text-left
+            mb-2 
+            md:mb-0
+          "
+          >Customer</label
+        >
         <div class="w-full">
           <multi-select
             :options="customers"
@@ -32,9 +49,22 @@
         </div>
       </div>
 
-      <div class="flex items-center flex-1 py-4 md:py-0  w-full">
-        <label class="pr-3 font-semibold text-[16px] text-[#3b4559]  w-[110px] text-right">Date Range</label>
-        <div>
+    <div class="flex flex-col md:flex-row items-center  flex-1 w-full">
+        <label
+          class="
+            pr-3
+            font-semibold
+            text-[16px] text-[#3b4559]
+            w-[110px]
+            text-left
+            md:text-right
+
+            md:mb-0
+            mb-2
+          "
+          >Date Range</label
+        >
+        <div class="w-full">
           <input
             type="date"
             v-model="form.start_date"
@@ -44,9 +74,18 @@
         </div>
       </div>
 
-      <div class="flex items-center flex-1  py-4 md:py-0 w-full">
-        <label class="pr-3 font-semibold text-[16px] text-[#3b4559] w-[110px] text-right">To</label>
-        <div>
+    <div class="flex flex-col md:flex-row items-center  flex-1 w-full">
+        <label
+          class="
+            pr-3
+            font-semibold
+            text-[16px] text-[#3b4559]
+            w-[110px]
+            text-right
+          "
+          >To</label
+        >
+        <div class="w-full">
           <input
             type="date"
             class="w-full"
@@ -64,35 +103,99 @@
       </div>
     </div>
 
-    <div class="bg-white mt-4 mb-3 py-[32px]       md:pl-[60px] pl-[10px] w-full">
-      <div class="flex">
-        <label class="pr-3 font-semibold text-[16px] text-[#3b4559] w-[110px] text-right">Plate Type</label>
-        <multi-select
-          :options="plateTypes"
-          class="w-full"
-          v-model="form.plate_type"
-          :searchable="true"
-          @select="changeSelectPlateType"
-          placeholder="Select Plate Type"
-        />
+    <!-- SECOND  -->
+    <div
+      class="
+        bg-white
+        mt-4
+        mb-3
+        py-[32px]
+          pr-8
+          pl-4
+        grid
+        grid-cols-1
+        md:grid-cols-3
+        gap-2
+        md:pl-[60px]
+        w-full
+      "
+    >
+      <div class="flex flex-col md:flex-row md:items-center flex-1 w-full">
+        <label
+          class="
+            pr-3
+            font-semibold
+            text-[16px] text-[#3b4559]
+            w-[110px]
+            md:text-right
+            text-left
+            mb-2
+          "
+          >Plate Type</label
+        >
+        <div class="w-full">
+          <multi-select
+            :options="plateTypes"
+            class="w-[300px]"
+            v-model="form.plate_type"
+            :searchable="true"
+            @select="changeSelectPlateType"
+            placeholder="Select Plate Type"
+          />
+        </div>
       </div>
     </div>
 
-    <div class="bg-white mt-4 mb-3      md:pl-[60px] pl-[10px] py-[32px] h-338">
+    <!-- THIRD  -->
+    <div class="bg-white mt-4 mb-3 md:pl-[60px]  py-[32px] pl-4  pr-8">
       <div class="flex w-full flex-col lg:flex-row gap-2">
         <div class="w-full"></div>
         <div class="flex gap-2 justify-center lg:justify-start">
           <div>
-            <div class="w-[80px] lg:w-[130px] font-semibold text-[16px] text-[#3b4559] text-center">Conc%</div>
+            <div
+              class="
+                w-[80px]
+                lg:w-[130px]
+                font-semibold
+                text-[16px] text-[#3b4559] text-center
+              "
+            >
+              Conc%
+            </div>
           </div>
           <div>
-            <div class="w-[80px] lg:w-[130px] font-semibold text-[16px] text-[#3b4559] text-center">Temp</div>
+            <div
+              class="
+                w-[80px]
+                lg:w-[130px]
+                font-semibold
+                text-[16px] text-[#3b4559] text-center
+              "
+            >
+              Temp
+            </div>
           </div>
           <div>
-            <div class="w-[80px] lg:w-[130px] font-semibold text-[16px] text-[#3b4559] text-center">pH</div>
+            <div
+              class="
+                w-[80px]
+                lg:w-[130px]
+                font-semibold
+                text-[16px] text-[#3b4559] text-center
+              "
+            >
+              pH
+            </div>
           </div>
           <div>
-            <div class="w-[80px] lg:w-[130px] font-semibold text-[16px] text-[#3b4559] text-center">
+            <div
+              class="
+                w-[80px]
+                lg:w-[130px]
+                font-semibold
+                text-[16px] text-[#3b4559] text-center
+              "
+            >
               Diptime
             </div>
           </div>
@@ -132,7 +235,16 @@
 
       <div>
         <div class="flex w-full flex-col lg:flex-row gap-2 items-center mb-4">
-          <label class="pr-3 font-semibold text-[16px] text-[#3b4559] w-[110px] text-right">Chromate</label>
+          <label
+            class="
+              pr-3
+              font-semibold
+              text-[16px] text-[#3b4559]
+              w-[110px]
+              text-right
+            "
+            >Chromate</label
+          >
           <div class="w-full">
             <multi-select
               :options="chromates"
@@ -253,8 +365,18 @@
       </div>
 
       <div>
-        <div class="flex w-full flex-col lg:flex-row gap-2 items-center  mb-4">
-          <label class="pr-3 font-semibold text-[16px] text-[#3b4559] flex-1 w-[145px] text-right">Topcoat </label>
+        <div class="flex w-full flex-col lg:flex-row gap-2 items-center mb-4">
+          <label
+            class="
+              pr-3
+              font-semibold
+              text-[16px] text-[#3b4559]
+              flex-1
+              w-[145px]
+              text-right
+            "
+            >Topcoat
+          </label>
           <multi-select
             :options="topCoats"
             class="w-full"
@@ -345,8 +467,16 @@
       </div>
 
       <div>
-        <div class="flex w-full flex-col lg:flex-row gap-2 items-center ">
-          <label class="pr-3 font-semibold text-[16px] text-[#3b4559] w-[85px] break-words text-right"
+        <div class="flex w-full flex-col lg:flex-row gap-2 items-center">
+          <label
+            class="
+              pr-3
+              font-semibold
+              text-[16px] text-[#3b4559]
+              w-[85px]
+              break-words
+              text-right
+            "
             >Secondary Topcoat</label
           >
           <div class="w-full">
