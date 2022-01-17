@@ -205,6 +205,7 @@ class User extends Authenticatable
             $user->status = 0;
             $user->username= $uuid;
             $user->email= $uuid;
+            $user->company_id = null;
 
             $user->save();
             DB::commit();
