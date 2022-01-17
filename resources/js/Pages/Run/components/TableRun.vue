@@ -464,14 +464,14 @@ export default {
               },
             },
             {
-              name: "Method",
+              name: "method.name",
               searchable: false,
               render: function (data, type, row, meta) {
                 return "<td>" + row.method.name + "</td>";
               },
             },
             {
-              name: "Status",
+              name: "status",
               searchable: false,
               render: function (data, type, row, meta) {
                 let status;
@@ -484,12 +484,10 @@ export default {
               },
             },
             {
-              name: "Hours",
+              name: "hours",
               searchable: false,
               render: function (data, type, row, meta) {
-                return (
-                  '<td class="text-center">' +
-                  calculateHours(
+                const hours = calculateHours(
                     row.id,
                     row.status,
                     row.start_date,
@@ -497,9 +495,8 @@ export default {
                     row.last_edit,
                     row.hours,
                     row.closed_date
-                  ) +
-                  "</td>"
-                );
+                  )
+                return `<td class="text-center">${hours}</td>`
               },
             },
             {
