@@ -754,11 +754,7 @@
     <div class="ml-2 mr-8 mt-4 mb-3 p-3">
       <div class="flex w-full flex-col lg:flex-row gap-2">
         <div class="w-full"></div>
-        <div class="flex gap-2">
-          <div>
-            <!-- <button class="bg-primary rounded w-60 py-2.5 px-1.8 text-white hover:bg-primary-600">Run Summary Report</button> -->
-          </div>
-          <div>
+        <div class="flex gap-2 justify-end">
             <button
               v-if="!loading"
               class="
@@ -790,7 +786,6 @@
                 className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
               ></div>
             </button>
-          </div>
         </div>
       </div>
     </div>

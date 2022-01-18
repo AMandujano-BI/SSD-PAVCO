@@ -330,6 +330,23 @@
             E-mail
           </div>
         </div>
+            <input
+          type="text"
+          class="
+            py-[14px]
+            text-sm
+            w-full
+            pl-10
+            rounded-sm
+            border-[#a2a2a2]
+            placeholder-[#a2a2a2]
+            text-[#333]
+            mt-5
+          "
+          id="filterRunPartInputBot"
+          placeholder="Search Runs..."
+          autocomplete="off"
+        />
 
         <table id="activeRunsDetail" class="display" style="width: 100%">
           <thead>
@@ -604,6 +621,14 @@ export default {
     const goBack = () => {
       Inertia.get("/run");
     };
+       $(document).ready(function () {
+      $("#filterRunPartInputBot")
+        .off()
+        .keyup(function () {
+          $("#activeRunsDetail").DataTable().search(this.value).draw();
+        });
+ 
+    });
     const generateDataTableDetail = () => {
       nextTick(() => {
         $("#activeRunsDetail").DataTable({
