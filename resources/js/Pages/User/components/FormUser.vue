@@ -34,6 +34,7 @@
           v-model="form.rols"
           :searchable="true"
           mode="tags"
+          :disabled="$page.props.user.id == form.id"
           :close-on-select="true"
           placeholder="Select a Rol"
         />
