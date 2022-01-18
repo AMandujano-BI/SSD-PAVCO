@@ -128,7 +128,7 @@
         </div>
       </div>
       <div class="flex justify-around md:justify-end items-center flex-1">
-        <div class="flex items-center justify-center px-3 flex-1 md:flex-none">
+        <div class="flex items-center justify-center pl-8 md:pl-2 flex-1 md:flex-none">
           <div  class="pl-12"  :class="{ hidden: route().current().split('.')[0] == 'run' }">
 
                <pavco-icon/>
