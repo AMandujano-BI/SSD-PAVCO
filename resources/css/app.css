@@ -21,6 +21,7 @@ body {
   box-shadow: none !important;
 }
 
+
 .multiselect-option:nth-child(odd){
   background:#ebf2fd ;
 

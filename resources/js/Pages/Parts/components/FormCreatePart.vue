@@ -1,8 +1,8 @@
 <template>
-  <h1 class="text-center font-bold text-2xl">New Part</h1>
+  <h1 class="text-center font-bold text-2xl text-[#3b4559]">New Part</h1>
   <form @submit.prevent="submitForm">
     <div>
-      <label for="">Plate Type</label>
+      <label class=" text-[#3b4559] font-semibold">Plate Type</label>
       <div class="flex w-full justify-between gap-2">
         <div class="w-full">
           <multi-select
@@ -23,7 +23,7 @@
         </div>
         <div>
           <input type="text" class="w-[60px]" v-model="form.plateThick"   :class="{ 'border-red-500': v$.plateThick.$error }"/>
-          <span class="w-1/2">mil</span>
+          <span class="text-center block pt-1 text-[#3b4559]">mil</span>
           <p
             v-for="error of v$.plateThick.$errors"
             :key="error.$uid"
@@ -35,7 +35,7 @@
       </div>
     </div>
     <div>
-      <label for="">Chromate</label>
+      <label class=" text-[#3b4559] font-semibold">Chromate</label>
       <div class="flex w-full flex-col md:flex-row gap-2">
         <div class="w-full">
           <multi-select
@@ -58,7 +58,7 @@
             <input type="text" class="w-[60px]" v-model="form.primaryPer"
                  :class="{ 'border-red-500': v$.primaryPer.$error }"
              />
-            <span>%</span>
+            <span class="text-center block pt-1 text-[#3b4559]">%</span>
             <p
               v-for="error of v$.primaryPer.$errors"
               :key="error.$uid"
@@ -72,7 +72,7 @@
             <input type="text" class="w-[60px]" v-model="form.primaryTemp" 
                  :class="{ 'border-red-500': v$.primaryTemp.$error }"
             />
-            <span>°F</span>
+            <span class="text-center block pt-1 text-[#3b4559]">°F</span>
             <p
               v-for="error of v$.primaryTemp.$errors"
               :key="error.$uid"
@@ -85,7 +85,7 @@
             <input type="text" class="w-[60px]" v-model="form.primaryPH" 
                  :class="{ 'border-red-500': v$.primaryPH.$error }"
             />
-            <span>pH</span>
+            <span class="text-center block pt-1 text-[#3b4559]">pH</span>
             <p
               v-for="error of v$.primaryPH.$errors"
               :key="error.$uid"
@@ -98,7 +98,7 @@
             <input type="text" class="w-[60px]" v-model="form.primaryDiptime" 
                  :class="{ 'border-red-500': v$.primaryDiptime.$error }"
             />
-            <span>sec</span>
+            <span class="text-center block pt-1 text-[#3b4559]">sec</span>
             <p
               v-for="error of v$.primaryDiptime.$errors"
               :key="error.$uid"
@@ -111,7 +111,7 @@
       </div>
     </div>
     <div>
-      <label for="">TopCoat</label>
+      <label class=" text-[#3b4559] font-semibold">TopCoat</label>
       <div class="flex w-full flex-col md:flex-row  gap-2">
         <div class="w-full">
           <multi-select
@@ -130,12 +130,12 @@
           </p>
         </div>
         <div class="flex flex-col">
-          <div class="flex">
+          <div class="flex gap-2">
             <div>
               <input type="text" class="w-[60px]" v-model="form.topCoatPer" 
                  :class="{ 'border-red-500': v$.topCoatPer.$error }"
               />
-              <span>%</span>
+              <span class="text-center block pt-1 text-[#3b4559]">%</span>
               <p
                 v-for="error of v$.topCoatPer.$errors"
                 :key="error.$uid"
@@ -149,7 +149,7 @@
               <input type="text" class="w-[60px]" v-model="form.topCoatTemp" 
                  :class="{ 'border-red-500': v$.topCoatTemp.$error }"
               />
-              <span>°F</span>
+              <span class="text-center block pt-1 text-[#3b4559]">°F</span>
               <p
                 v-for="error of v$.topCoatTemp.$errors"
                 :key="error.$uid"
@@ -162,7 +162,7 @@
               <input type="text" class="w-[60px]" v-model="form.topCoatPH" 
                  :class="{ 'border-red-500': v$.topCoatPH.$error }"
               />
-              <span>pH</span>
+              <span class="text-center block pt-1 text-[#3b4559]">pH</span>
               <p
                 v-for="error of v$.topCoatPH.$errors"
                 :key="error.$uid"
@@ -178,7 +178,7 @@
                 v-model="form.topCoatDiptime"
                  :class="{ 'border-red-500': v$.topCoatDiptime.$error }"
               />
-              <span>sec</span>
+              <span class="text-center block pt-1 text-[#3b4559]">sec</span>
               <p
                 v-for="error of v$.topCoatDiptime.$errors"
                 :key="error.$uid"
@@ -192,7 +192,7 @@
       </div>
     </div>
     <div>
-      <label for="">Secondary Topcoat</label>
+      <label class=" text-[#3b4559] font-semibold">Secondary Topcoat</label>
       <div class="flex w-full flex-col md:flex-row  gap-2">
         <div class="w-full">
           <multi-select
@@ -210,12 +210,12 @@
             {{ error.$message }}
           </p>
         </div>
-        <div class="flex">
+        <div class="flex gap-2">
           <div>
             <input type="text" class="w-[60px]" v-model="form.coatPer" 
                  :class="{ 'border-red-500': v$.coatPer.$error }"
             />
-            <span>%</span>
+            <span class="text-center block pt-1 text-[#3b4559]">%</span>
             <p
               v-for="error of v$.coatPer.$errors"
               :key="error.$uid"
@@ -229,7 +229,7 @@
             <input type="text" class="w-[60px]" v-model="form.coatTemp" 
                  :class="{ 'border-red-500': v$.coatTemp.$error }"
             />
-            <span>°F</span>
+            <span class="text-center block pt-1 text-[#3b4559]">°F</span>
             <p
               v-for="error of v$.coatTemp.$errors"
               :key="error.$uid"
@@ -242,7 +242,7 @@
             <input type="text" class="w-[60px]" v-model="form.coatPH" 
                  :class="{ 'border-red-500': v$.coatPH.$error }"
             />
-            <span>pH</span>
+            <span class="text-center block pt-1 text-[#3b4559]">pH</span>
             <p
               v-for="error of v$.coatPH.$errors"
               :key="error.$uid"
@@ -255,7 +255,7 @@
             <input type="text" class="w-[60px]" v-model="form.coatDiptime" 
                  :class="{ 'border-red-500': v$.coatDiptime.$error }"
             />
-            <span>sec</span>
+            <span class="text-center block pt-1 text-[#3b4559]">sec</span>
             <p
               v-for="error of v$.coatDiptime.$errors"
               :key="error.$uid"
@@ -268,7 +268,7 @@
       </div>
     </div>
     <div>
-      <label for="">Description</label>
+      <label class=" text-[#3b4559] font-semibold">Description</label>
       <textarea
         cols="30"
         rows="5"

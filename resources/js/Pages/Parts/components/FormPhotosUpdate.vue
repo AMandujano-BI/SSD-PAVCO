@@ -2,7 +2,7 @@
 <template>
   <div class="p-5">
     <form @submit.prevent="saveImage">
-      <h1 class="text-2xl text-center font-bold">Update Photo</h1>
+      <h1 class="text-2xl text-center font-bold text-[#3b4559]">Update Photo</h1>
       <input
         type="file"
         class="hidden"
@@ -21,7 +21,7 @@
         class="w-full h-64 my-5 object-cover"
       />
       <div>
-        <label>Name</label>
+        <label class=" text-[#3b4559] font-semibold">Name</label>
         <input
           type="text"
           class="w-full"
@@ -38,7 +38,7 @@
       </div>
 
       <div>
-        <label class="w-full pb-2 block">Report?</label>
+        <label class="w-full pb-2 block font-semibold text-[#3b4559]">Report?</label>
         <input type="radio" value="1" v-model="form.report" id="yes" />
         <label for="yes">Yes </label>
         <input type="radio" value="0" v-model="form.report" id="no" /><label
@@ -48,7 +48,7 @@
         >
       </div>
       <div>
-        <label>Description </label>
+        <label class=" text-[#3b4559] font-semibold">Description </label>
         <textarea
           v-model="form.description"
           cols="30"
@@ -64,7 +64,7 @@
         </p>
       </div>
       <div>
-        <label>Hours</label>
+        <label class=" text-[#3b4559] font-semibold">Hours</label>
         <input
           type="number"
           class="w-full"

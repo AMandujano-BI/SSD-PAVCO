@@ -95,10 +95,10 @@
 
         <modal :show="show">
           <form @submit.prevent="submit" class="container mx-auto p-5">
-            <p class="text-xl font-bold text-center">{{ modalTitle }}</p>
+            <p class="text-xl font-bold text-center text-[#3b4559]">{{ modalTitle }}</p>
             <div>
               <div>
-                <label for="">Name</label>
+                <label class="text-[#3b4559] font-semibold">Name</label>
                 <input
                   type="text"
                   v-model="form.name"
@@ -114,7 +114,7 @@
                 </p>
               </div>
               <div>
-                <label for="">Type</label>
+                <label class="text-[#3b4559] font-semibold">Type</label>
                 <multi-select
                   :options="typesArray"
                   class="w-full"

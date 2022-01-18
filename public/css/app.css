@@ -841,6 +841,8 @@ video {
 	z-index: 30;
 }.col-span-6{
 	grid-column: span 6 / span 6;
+}.col-span-2{
+	grid-column: span 2 / span 2;
 }.mx-auto{
 	margin-left: auto;
 	margin-right: auto;
@@ -911,6 +913,8 @@ video {
 	margin-right: 1rem;
 }.mb-2{
 	margin-bottom: 0.5rem;
+}.mt-7{
+	margin-top: 1.75rem;
 }.mb-3{
 	margin-bottom: 0.75rem;
 }.mr-8{
@@ -1013,24 +1017,14 @@ video {
 	width: 50px;
 }.w-\[60px\]{
 	width: 60px;
-}.w-1\/2{
-	width: 50%;
 }.w-\[95px\]{
 	width: 95px;
-}.w-\[110px\]{
-	width: 110px;
 }.w-\[300px\]{
 	width: 300px;
-}.w-\[80px\]{
-	width: 80px;
-}.w-\[30px\]{
-	width: 30px;
-}.w-\[40px\]{
-	width: 40px;
-}.w-\[145px\]{
-	width: 145px;
-}.w-\[85px\]{
-	width: 85px;
+}.w-\[350px\]{
+	width: 350px;
+}.w-\[120px\]{
+	width: 120px;
 }.min-w-0{
 	min-width: 0px;
 }.min-w-\[400\]{
@@ -1045,6 +1039,8 @@ video {
 	max-width: 72rem;
 }.max-w-\[450px\]{
 	max-width: 450px;
+}.max-w-\[150px\]{
+	max-width: 150px;
 }.flex-1{
 	flex: 1 1 0%;
 }.flex-none{
@@ -1128,6 +1124,10 @@ video {
 	gap: 0.5rem;
 }.gap-5{
 	gap: 1.25rem;
+}.gap-24{
+	gap: 6rem;
+}.gap-10{
+	gap: 2.5rem;
 }.space-x-8 > :not([hidden]) ~ :not([hidden]){
 	--tw-space-x-reverse: 0;
 	margin-right: calc(2rem * var(--tw-space-x-reverse));
@@ -1144,6 +1144,8 @@ video {
 	overflow: auto;
 }.overflow-hidden{
 	overflow: hidden;
+}.overflow-x-auto{
+	overflow-x: auto;
 }.overflow-y-auto{
 	overflow-y: auto;
 }.overflow-y-hidden{
@@ -1152,8 +1154,6 @@ video {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}.break-words{
-	overflow-wrap: break-word;
 }.break-all{
 	word-break: break-all;
 }.rounded-md{
@@ -1485,8 +1485,12 @@ video {
 	padding-bottom: 0.5rem;
 }.pb-8{
 	padding-bottom: 2rem;
-}.pl-\[10px\]{
-	padding-left: 10px;
+}.pr-8{
+	padding-right: 2rem;
+}.pl-4{
+	padding-left: 1rem;
+}.pb-10{
+	padding-bottom: 2.5rem;
 }.pt-3{
 	padding-top: 0.75rem;
 }.text-left{
@@ -1529,6 +1533,8 @@ video {
 	font-weight: 600;
 }.font-bold{
 	font-weight: 700;
+}.font-normal{
+	font-weight: 400;
 }.font-light{
 	font-weight: 300;
 }.uppercase{
@@ -1990,7 +1996,9 @@ table.dataTable>tbody>tr{
   flex-direction: column;
 }
 
-  } */.focus-within\:text-gray-400:focus-within{
+  } */.swiper {
+    width: 500px;
+  }.focus-within\:text-gray-400:focus-within{
 	--tw-text-opacity: 1;
 	color: rgba(156, 163, 175, var(--tw-text-opacity));
 }.focus\:z-10:focus{
@@ -2245,6 +2253,8 @@ table.dataTable>tbody>tr{
 		margin-top: 0px;
 	}.md\:mt-5{
 		margin-top: 1.25rem;
+	}.md\:mb-0{
+		margin-bottom: 0px;
 	}.md\:block{
 		display: block;
 	}.md\:inline{
@@ -2257,6 +2267,14 @@ table.dataTable>tbody>tr{
 		display: none;
 	}.md\:w-\[235px\]{
 		width: 235px;
+	}.md\:w-full{
+		width: 100%;
+	}.md\:w-min{
+		width: -webkit-min-content;
+		width: -moz-min-content;
+		width: min-content;
+	}.md\:max-w-\[110px\]{
+		max-width: 110px;
 	}.md\:flex-none{
 		flex: none;
 	}.md\:grid-cols-3{
@@ -2265,6 +2283,8 @@ table.dataTable>tbody>tr{
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}.md\:flex-row{
 		flex-direction: row;
+	}.md\:items-center{
+		align-items: center;
 	}.md\:justify-end{
 		justify-content: flex-end;
 	}.md\:justify-center{
@@ -2282,13 +2302,14 @@ table.dataTable>tbody>tr{
 	}.md\:bg-white{
 		--tw-bg-opacity: 1;
 		background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-	}.md\:py-0{
-		padding-top: 0px;
-		padding-bottom: 0px;
 	}.md\:pl-20{
 		padding-left: 5rem;
 	}.md\:pl-\[60px\]{
 		padding-left: 60px;
+	}.md\:pl-0{
+		padding-left: 0px;
+	}.md\:text-right{
+		text-align: right;
 	}.md\:text-gray-500{
 		--tw-text-opacity: 1;
 		color: rgba(107, 114, 128, var(--tw-text-opacity));
@@ -2300,30 +2321,30 @@ table.dataTable>tbody>tr{
 		left: 0px;
 	}.lg\:col-span-4{
 		grid-column: span 4 / span 4;
+	}.lg\:col-span-1{
+		grid-column: span 1 / span 1;
 	}.lg\:ml-0{
 		margin-left: 0px;
+	}.lg\:mt-0{
+		margin-top: 0px;
 	}.lg\:flex{
 		display: flex;
 	}.lg\:hidden{
 		display: none;
 	}.lg\:w-auto{
 		width: auto;
-	}.lg\:w-\[130px\]{
-		width: 130px;
 	}.lg\:w-\[60px\]{
 		width: 60px;
 	}.lg\:grid-cols-4{
 		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}.lg\:grid-cols-3{
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}.lg\:flex-row{
 		flex-direction: row;
 	}.lg\:items-center{
 		align-items: center;
 	}.lg\:items-stretch{
 		align-items: stretch;
-	}.lg\:justify-start{
-		justify-content: flex-start;
-	}.lg\:justify-end{
-		justify-content: flex-end;
 	}.lg\:justify-center{
 		justify-content: center;
 	}.lg\:gap-2{
@@ -2331,6 +2352,13 @@ table.dataTable>tbody>tr{
 	}.lg\:px-8{
 		padding-left: 2rem;
 		padding-right: 2rem;
+	}.lg\:px-0{
+		padding-left: 0px;
+		padding-right: 0px;
+	}.lg\:pb-4{
+		padding-bottom: 1rem;
+	}.lg\:pb-0{
+		padding-bottom: 0px;
 	}
 }@media (min-width: 1280px){.xl\:block{
 		display: block;

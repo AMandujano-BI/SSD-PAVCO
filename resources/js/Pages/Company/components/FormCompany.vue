@@ -1,12 +1,12 @@
 <template>
-  <h1 class="text-center font-bold text-2xl">
+  <h1 class="text-center font-bold text-2xl text-[#3b4559]">
     {{ form.id == 0 ? "New Company" : "Update Company" }}
   </h1>
   <form @submit.prevent="submitForm">
     <div class="shadow-lg rounded-md p-3">
-      <p class="font-bold">General Properties</p>
+      <p class="font-bold text-[#3b4559]">General Properties</p>
       <div>
-        <label for="">Name</label>
+        <label class="text-[#3b4559] font-semibold">Name</label>
         <input
           type="text"
           class="w-full"
@@ -23,23 +23,23 @@
         </p>
       </div>
       <div>
-        <label class="w-full pb-2 block">Type</label>
+        <label class="w-full pb-2 block text-[#3b4559] font-semibold">Type</label>
         <input
           type="radio"
           value="1"
           v-model="form.customer"
           id="yes"
         />
-        <label for="yes"> Customer </label>
+        <label for="yes" class="text-[#3b4559]"> Customer </label>
         <input
           type="radio"
           value="0"
           v-model="form.customer"
           id="no"
-        /><label for="no"> Distributor</label>
+        /><label for="no" class="text-[#3b4559]"> Distributor</label>
       </div>
       <div>
-        <label for="">Distributor</label>
+        <label class="text-[#3b4559] font-semibold">Distributor</label>
         <multi-select
           :options="distributors"
           class="w-full"
@@ -58,10 +58,10 @@
       </div>
     </div>
     <div class="shadow-lg rounded-md p-3">
-      <p class="font-bold">Company Details</p>
+      <p class="font-bold text-[#3b4559]">Company Details</p>
 
       <div>
-        <label for="">Address</label>
+        <label class="text-[#3b4559] font-semibold">Address</label>
         <input
           type="text"
           class="w-full"
@@ -70,7 +70,7 @@
         />
       </div>
       <div>
-        <label for="">City</label>
+        <label class="text-[#3b4559] font-semibold">City</label>
         <input
           type="text"
           class="w-full"
@@ -79,7 +79,7 @@
         />
       </div>
       <div>
-        <label for="">State</label>
+        <label class="text-[#3b4559] font-semibold">State</label>
         <input
           type="text"
           class="w-full"
@@ -88,7 +88,7 @@
         />
       </div>
       <div>
-        <label for="">Zip</label>
+        <label class="text-[#3b4559] font-semibold">Zip</label>
         <input
           type="text"
           class="w-full"
@@ -105,7 +105,7 @@
       </div>
 
       <div>
-        <label for="">Country</label>
+        <label class="text-[#3b4559] font-semibold">Country</label>
         <multi-select
           :options="countries"
           class="w-full"
@@ -122,7 +122,7 @@
         </p>
       </div>
       <div>
-        <label for="">Phone</label>
+        <label class="text-[#3b4559] font-semibold">Phone</label>
         <input
           type="text"
           class="w-full"
@@ -131,7 +131,7 @@
         />
       </div>
       <div>
-        <label for="">Fax</label>
+        <label class="text-[#3b4559] font-semibold">Fax</label>
         <input
           type="text"
           class="w-full"

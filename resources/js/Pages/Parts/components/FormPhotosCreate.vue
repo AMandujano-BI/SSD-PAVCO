@@ -1,7 +1,7 @@
 <template>
   <div class="p-5">
     <form @submit.prevent="saveImage">
-      <h1 class="text-2xl text-center font-bold">Take a Picture</h1>
+      <h1 class="text-2xl text-center font-bold text-[#3b4559]">Take a Picture</h1>
       <div
         class="
           bg-primary
@@ -41,7 +41,7 @@
       />
       <div
         v-if="!url"
-        class="w-full h-64 flex items-center justify-center"
+        class="w-full h-64 flex items-center justify-center text-[#3b4559]"
         :class="{ 'text-red-500 font-bold transition ease-linear text-lg  delay-75 duration-75': v$.image.$error }"
       >
         Select an Image
@@ -54,7 +54,7 @@
         class="w-full h-64 my-5 object-cover"
       />
       <div>
-        <label>Name</label>
+        <label class=" text-[#3b4559] font-semibold">Name</label>
         <input
           type="text"
           class="w-full"
@@ -70,7 +70,7 @@
         </p>
       </div>
       <div>
-        <label for="">Date Added</label>
+        <label class=" text-[#3b4559] font-semibold">Date Added</label>
         <input
           type="date"
           class="w-full"
@@ -86,7 +86,7 @@
         </p>
       </div>
       <div>
-        <label class="w-full pb-2 block">Report?</label>
+        <label class="w-full pb-2 block font-semibold text-[#3b4559]">Report?</label>
         <input type="radio" value="1" v-model="form.report" id="yes" />
         <label for="yes"> Yes </label>
         <input type="radio" value="0" v-model="form.report" id="no" /><label
@@ -96,7 +96,7 @@
         >
       </div>
       <div>
-        <label>Description </label>
+        <label class=" text-[#3b4559] font-semibold">Description </label>
         <textarea
           v-model="form.description"
           cols="30"

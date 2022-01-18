@@ -1,12 +1,12 @@
 <template>
-  <h1 class="text-center font-bold text-2xl">Reset Password</h1>
+  <h1 class="text-center font-bold text-2xl text-[#3b4559]">Reset Password</h1>
   <form @submit.prevent="submitForm">
     <div class="shadow rounded-md py-5 mb-3 px-2">
-      <p class="font-bold text-2xl">Username</p>
-      <p class="font-bold">{{ username }}</p>
+      <p class="font-bold text-2xl text-[#3b4559]">Username</p>
+      <p class="font-bol text-[#3b4559]d">{{ username }}</p>
     </div>
     <div>
-      <label for="">Password</label>
+      <label class="text-[#3b4559] font-semibold">Password</label>
       <input
         type="password"
         class="w-full"
@@ -24,7 +24,7 @@
       </p>
     </div>
     <div>
-      <label for="">Confirm Password</label>
+      <label class="text-[#3b4559] font-semibold">Confirm Password</label>
       <input
         type="password"
         class="w-full"

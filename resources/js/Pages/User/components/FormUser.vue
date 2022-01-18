@@ -1,12 +1,11 @@
 <template>
-  <h1 class="text-center font-bold text-2xl">
+  <h1 class="text-center font-bold text-2xl text-[#3b4559]">
     {{ form.id == 0 ? "New User" : "Update User" }}
   </h1>
   <form @submit.prevent="submitForm">
     <div class="shadow-lg rounded-md p-3">
-      <p class="font-bold">User Details</p>
       <div v-if="form.id ==0">
-        <label for="">UserName</label>
+        <label class="text-[#3b4559] font-semibold">UserName</label>
         <input
           type="text"
           class="w-full my-2"
@@ -23,12 +22,12 @@
         </p>
       </div>
       <div v-if="form.id !=0" class="shadow rounded-md mb-5 p-2">
-        <label for="" class="font-bold text-2xl">UserName</label>
-        <p class="font-bold">{{form.username}}</p>
+        <label for="" class="font-bold text-2xl text-[#3b4559]">UserName</label>
+        <p class="font-bold text-[#3b4559]">{{form.username}}</p>
 
       </div>
       <div>
-        <label for="" class="pb-2">Rol</label>
+        <label class="text-[#3b4559] font-semibold">Rol</label>
         <multi-select
           :options="rols"
           class="w-full my-2"
@@ -47,7 +46,7 @@
         </p>
       </div>
       <div>
-        <label for="" >FirstName</label>
+        <label class="text-[#3b4559] font-semibold" >FirstName</label>
         <input
           type="text"
           class="w-full my-2"
@@ -64,7 +63,7 @@
         </p>
       </div>
       <div>
-        <label for="">LastName</label>
+        <label class="text-[#3b4559] font-semibold">LastName</label>
         <input
           type="text"
           class="w-full my-2"
@@ -73,7 +72,7 @@
         />
       </div>
       <div>
-        <label for="">Email Address</label>
+        <label class="text-[#3b4559] font-semibold">Email Address</label>
         <input
           type="text"
           class="w-full my-2"
@@ -90,7 +89,7 @@
         </p>
       </div>
       <div >
-        <label class="mb-2">Company</label>
+        <label class="text-[#3b4559] font-semibold">Company</label>
         <multi-select
           :options="companies"
           class="w-full my-2"
@@ -107,7 +106,7 @@
         </p>
       </div>
       <div v-if="form.id == 0">
-          <label for="">Password</label>
+          <label class="text-[#3b4559] font-semibold">Password</label>
           <input
             type="password"
             class="w-full my-2"
@@ -124,7 +123,7 @@
             {{ error.$message }}
           </p>
         <div>
-          <label for="">Confirm Password</label>
+          <label class="text-[#3b4559] font-semibold">Confirm Password</label>
           <input
             type="password"
             class="w-full my-2"

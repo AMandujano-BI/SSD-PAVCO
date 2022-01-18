@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="submitForm">
-    <h1 class="font-bold text-2xl text-center p-5">EMAIL RUN RESULTS</h1>
-    <p class="pb-4">
+    <h1 class="font-bold text-2xl text-center p-5 text-[#3b4559]">EMAIL RUN RESULTS</h1>
+    <p class="pb-4 text-[#3b4559]">
       Please enter a valid email address below. The email address that you enter
       below will receive an email from
       <strong><a href="mailto:vayala@pavco.com">vayala@pavco.com</a></strong
@@ -23,13 +23,13 @@
     </p>
 
     <button
-      class="bg-primary p-5 rounded-md text-center text-white mt-5 w-full"
+      class="bg-primary p-5 rounded-md text-center text-white mt-5 w-full hover:bg-primary-600"
       v-if="!loading"
     >
       Send Email
     </button>
     <button
-      class="bg-primary p-5 rounded-md text-center text-white mt-5 w-full"
+      class="bg-primary p-5 rounded-md text-center text-white mt-5 w-full "
       v-if="loading"
     >
       <div
