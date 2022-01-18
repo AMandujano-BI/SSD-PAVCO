@@ -183,7 +183,7 @@ export default {
         $("#tableUsers").DataTable({
           ordering: true,
           bLengthChange: false,
-          pageLength: 5,
+          pageLength: 10,
           stateSave: true,
           serverSide:true,
           rowReorder: {

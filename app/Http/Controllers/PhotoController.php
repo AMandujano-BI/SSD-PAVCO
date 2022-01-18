@@ -56,6 +56,11 @@ class PhotoController extends Controller
     {
         //
     }
+    public function getPhotosByRun($id){
+        $photos = $this->_photo->getPhotosByRun($id);
+        return $photos;
+
+    }
     public function getAllUrlSignature(Request $request)
     {
         $urls = array();

@@ -39,6 +39,11 @@ class Photo extends Model
         $image =  Storage::temporaryUrl($value, now()->addMinutes(30));
         return $image;
     }
+    public static function getPhotosByRun($run_id){
+        $photos = (new static)::where('run_id',$run_id)->get();
+        return $photos;
+
+    }
     public static function createPhoto($request)
     {
 
@@ -55,6 +60,7 @@ class Photo extends Model
             $run_id = $request->input('run');
             $report = $request->input('report');
 
+            // return $file;
             //Save image in AWS
             $initialHours = 0;
             //Save Photo in database
@@ -68,7 +74,6 @@ class Photo extends Model
             ]);
             $photo->save();
             $file_name = 'images/run' . $run_id.'/'.$filename;
-            // return $file;
             // dd($file);
 
             // dd($file_name);
