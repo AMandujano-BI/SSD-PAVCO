@@ -24,7 +24,7 @@
         </p>
       </div>
       <div class="w-full">
-        <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2"
+        <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2 border-[#979797]"
           >Start Date</label
         >
         <input type="datetime-local" class="w-full" v-model="form.start_date" @change="startDateListener" />
@@ -55,7 +55,7 @@
         <label class="text-[#3b4559] font-bold text-lg pl-10 pb-2">Hours</label>
         <input
           type="number"
-          class="w-full"
+          class="w-full border-[#979797]"
           v-model="form.hours"
           :class="{ 'border-red-500': v$.hours.$error }"
           @change="hoursListener"

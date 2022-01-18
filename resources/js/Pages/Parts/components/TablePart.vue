@@ -192,7 +192,6 @@ export default {
       $("#partsTable").DataTable().clear().destroy();
       nextTick(() => {
         $("#partsTable").DataTable({
-          // scrollY: 300,
           ordering: true,
           bLengthChange: false,
           pageLength: 10,

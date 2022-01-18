@@ -70,7 +70,7 @@
           <tr>
             <th data-priority="2">StartDate</th>
             <th data-priority="1">Run #</th>
-            <th data-priority="1">Customer</th>
+            <th data-priority="1" class="max-w-[150px]">Customer</th>
             <th>Method</th>
             <th data-priority="2">Status</th>
             <th>Hrs</th>

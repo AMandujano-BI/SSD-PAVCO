@@ -1,5 +1,5 @@
 <template>
-  <p class="text-center">
+  <p class="text-center text-[#3b4559]">
     The Report Wizard allows you to create a report based on selected criteria.
   </p>
   <form @submit.prevent="submitForm">
@@ -14,25 +14,36 @@
         py-[32px]
         pl-4
         w-full
-        grid grid-cols-1
+        grid grid-cols-2
         gap-2
         md:grid-cols-2
         lg:grid-cols-3
         items-center
       "
     >
-      <div class="flex flex-col md:flex-row items-center flex-1 w-full">
+      <div
+        class="
+          flex flex-col
+          md:flex-row
+          items-center
+          flex-1
+          w-full
+          col-span-2
+          lg:col-span-1
+        "
+      >
         <label
           class="
             pr-3
             font-semibold
             text-[16px]
-            w-[110px]
-            text-[#3b4559] 
+            md:max-w-[110px]
+            text-[#3b4559]
             md:text-right
             text-left
-            mb-2 
+            mb-2
             md:mb-0
+            w-full
           "
           >Customer</label
         >
@@ -48,47 +59,71 @@
           />
         </div>
       </div>
-
-    <div class="flex flex-col md:flex-row items-center  flex-1 w-full">
-        <label
+      <div>
+        <div
           class="
-            pr-3
-            font-semibold
-            text-[16px] text-[#3b4559]
-            w-[110px]
-            text-left
-            md:text-right
-
-            md:mb-0
-            mb-2
+            flex flex-col
+            md:flex-row
+            items-center
+            flex-1
+            w-full
+            mt-4
+            lg:mt-0
           "
-          >Date Range</label
         >
-        <div class="w-full">
-          <input
-            type="date"
-            v-model="form.start_date"
-            class="w-full"
-            :class="{ 'border-red-400': v$.start_date.$error }"
-          />
+          <label
+            class="
+              pr-3
+              font-semibold
+              text-[16px] text-[#3b4559]
+              md:mb-0
+              mb-2
+              md:text-right
+              text-left
+              md:max-w-[110px]
+              w-full
+            "
+            >Date Range</label
+          >
+          <div class="w-full">
+            <input
+              type="date"
+              v-model="form.start_date"
+              class="w-full border-[#979797]"
+              :class="{ 'border-red-400': v$.start_date.$error }"
+            />
+          </div>
         </div>
       </div>
 
-    <div class="flex flex-col md:flex-row items-center  flex-1 w-full">
+      <div
+        class="
+          flex flex-col
+          md:flex-row
+          items-center
+          flex-1
+          w-full
+          mt-4
+          lg:mt-0
+        "
+      >
         <label
           class="
             pr-3
             font-semibold
             text-[16px] text-[#3b4559]
-            w-[110px]
-            text-right
+            md:text-right md:mb-0
+            mb-2
+            text-left
+            md:max-w-[110px]
+            w-full
           "
           >To</label
         >
         <div class="w-full">
           <input
             type="date"
-            class="w-full"
+            class="w-full border-[#979797]"
             v-model="form.endDate"
             :class="{ 'border-red-400': v$.endDate.$error }"
           />
@@ -110,11 +145,10 @@
         mt-4
         mb-3
         py-[32px]
-          pr-8
-          pl-4
-        grid
-        grid-cols-1
-        md:grid-cols-3
+        pr-8
+        pl-4
+        grid grid-cols-1
+        lg:grid-cols-3
         gap-2
         md:pl-[60px]
         w-full
@@ -125,11 +159,14 @@
           class="
             pr-3
             font-semibold
-            text-[16px] text-[#3b4559]
-            w-[110px]
+            text-[16px]
+            md:max-w-[110px]
+            text-[#3b4559]
             md:text-right
             text-left
             mb-2
+            md:mb-0
+            w-full
           "
           >Plate Type</label
         >
@@ -147,101 +184,21 @@
     </div>
 
     <!-- THIRD  -->
-    <div class="bg-white mt-4 mb-3 md:pl-[60px]  py-[32px] pl-4  pr-8">
-      <div class="flex w-full flex-col lg:flex-row gap-2">
-        <div class="w-full"></div>
-        <div class="flex gap-2 justify-center lg:justify-start">
-          <div>
-            <div
-              class="
-                w-[80px]
-                lg:w-[130px]
-                font-semibold
-                text-[16px] text-[#3b4559] text-center
-              "
-            >
-              Conc%
-            </div>
-          </div>
-          <div>
-            <div
-              class="
-                w-[80px]
-                lg:w-[130px]
-                font-semibold
-                text-[16px] text-[#3b4559] text-center
-              "
-            >
-              Temp
-            </div>
-          </div>
-          <div>
-            <div
-              class="
-                w-[80px]
-                lg:w-[130px]
-                font-semibold
-                text-[16px] text-[#3b4559] text-center
-              "
-            >
-              pH
-            </div>
-          </div>
-          <div>
-            <div
-              class="
-                w-[80px]
-                lg:w-[130px]
-                font-semibold
-                text-[16px] text-[#3b4559] text-center
-              "
-            >
-              Diptime
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="flex w-full flex-col lg:flex-row gap-2 lg:justify-end">
-          <div class="flex gap-2 justify-center lg:justify-start">
-            <div>
-              <div class="w-[30px] lg:w-[60px] text-center">&gt;</div>
-            </div>
-            <div>
-              <div class="w-[30px] lg:w-[60px] text-center">&lt;</div>
-            </div>
-            <div>
-              <div class="w-[30px] lg:w-[60px] text-center">&gt;</div>
-            </div>
-            <div>
-              <div class="w-[30px] lg:w-[60px] text-center">&lt;</div>
-            </div>
-            <div>
-              <div class="w-[30px] lg:w-[60px] text-center">&gt;</div>
-            </div>
-            <div>
-              <div class="w-[30px] lg:w-[60px] text-center">&lt;</div>
-            </div>
-            <div>
-              <div class="w-[30px] lg:w-[60px] text-center">&gt;</div>
-            </div>
-            <div>
-              <div class="w-[30px] lg:w-[60px] text-center">&lt;</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <div class="bg-white mt-4 mb-3 md:pl-[60px] py-[32px] pl-4 pr-8">
       <div>
         <div class="flex w-full flex-col lg:flex-row gap-2 items-center mb-4">
           <label
             class="
               pr-3
               font-semibold
-              text-[16px] text-[#3b4559]
-              w-[110px]
-              text-right
+              text-[16px]
+              md:max-w-[110px]
+              text-[#3b4559]
+              md:text-right
+              text-left
+              mb-2
+              md:mb-0
+              w-full
             "
             >Chromate</label
           >
@@ -255,125 +212,196 @@
               placeholder="Select Chromate"
             />
           </div>
-          <div class="flex gap-1 lg:gap-2">
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.primaryPer_more_than.$error }"
-                v-model="form.primaryPer_more_than"
-              />
-              <p
-                v-for="error of v$.primaryPer_more_than.$error"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
+          <!-- INPUTS -->
+          <div
+            class="
+              flex
+              lg:gap-2
+              pl-10
+              md:pl-0
+              overflow-x-auto
+              px-2
+              lg:px-0
+              md:w-full
+              w-[350px]
+              gap-24
+              pb-10
+              justify-between
+              items-center
+            "
+          >
+            <div class="w-full md:w-min">
+              <p class="text-center font-semibold text-[#3b4559]">Conc %</p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div class="w-full text-center font-bold pb-2 text-[#3b4559]">
+                    >
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.primaryPer_more_than.$error,
+                    }"
+                    v-model="form.primaryPer_more_than"
+                  />
+                  <p
+                    v-for="error of v$.primaryPer_more_than.$error"
+                    :key="error.$uid"
+                    class="text-red-400"
+                  >
+                    {{ error.$message }}
+                  </p>
+                </div>
+
+                <div>
+                  <div class="w-full text-center font-bold pb-2 text-[#3b4559]">
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.primaryPer_less_than.$error,
+                    }"
+                    v-model="form.primaryPer_less_than"
+                  />
+                  <p
+                    v-for="error of v$.primaryPer_less_than.$error"
+                    :key="error.$uid"
+                    class="text-red-400"
+                  >
+                    {{ error.$message }}
+                  </p>
+                </div>
+              </div>
             </div>
+
             <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.primaryPer_less_than.$error }"
-                v-model="form.primaryPer_less_than"
-              />
-              <p
-                v-for="error of v$.primaryPer_less_than.$error"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
+              <p class="text-center font-semibold text-[#3b4559]">Temp</p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div class="w-full text-center font-bold pb-2">></div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    v-model="form.primaryTemp_more_than"
+                    :class="{
+                      'border-red-400': v$.primaryTemp_more_than.$error,
+                    }"
+                  />
+                  <p
+                    v-for="error of v$.primaryTemp_more_than.$error"
+                    :key="error.$uid"
+                    class="text-red-400"
+                  >
+                    {{ error.$message }}
+                  </p>
+                </div>
+                <div>
+                  <div class="w-full text-center font-bold pb-2">
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.primaryTemp_less_than.$error,
+                    }"
+                    v-model="form.primaryTemp_less_than"
+                  />
+                  <p
+                    v-for="error of v$.primaryTemp_less_than.$error"
+                    :key="error.$uid"
+                    class="text-red-400"
+                  >
+                    {{ error.$message }}
+                  </p>
+                </div>
+              </div>
             </div>
+
             <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                v-model="form.primaryTemp_more_than"
-                :class="{ 'border-red-400': v$.primaryTemp_more_than.$error }"
-              />
-              <p
-                v-for="error of v$.primaryTemp_more_than.$error"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
+              <p class="text-center font-semibold text-[#3b4559]">pH</p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div class="w-full text-center font-bold pb-2">></div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{ 'border-red-400': v$.primaryPH_more_than.$error }"
+                    v-model="form.primaryPH_more_than"
+                  />
+                </div>
+                <div>
+                  <div class="w-full text-center font-bold pb-2">
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{ 'border-red-400': v$.primaryPH_less_than.$error }"
+                    v-model="form.primaryPH_less_than"
+                  />
+                </div>
+              </div>
             </div>
+
             <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.primaryTemp_less_than.$error }"
-                v-model="form.primaryTemp_less_than"
-              />
-              <p
-                v-for="error of v$.primaryTemp_less_than.$error"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.primaryPH_more_than.$error }"
-                v-model="form.primaryPH_more_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.primaryPH_less_than.$error }"
-                v-model="form.primaryPH_less_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{
-                  'border-red-400': v$.primaryDiptime_more_than.$error,
-                }"
-                v-model="form.primaryDiptime_more_than"
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{
-                  'border-red-400': v$.primaryDiptime_less_than.$error,
-                }"
-                v-model="form.primaryDiptime_less_than"
-              />
+              <p class="text-center font-semibold text-[#3b4559]">Diptime</p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div class="w-full text-center font-bold pb-2">></div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.primaryDiptime_more_than.$error,
+                    }"
+                    v-model="form.primaryDiptime_more_than"
+                  />
+                </div>
+                <div>
+                  <div class="w-full text-center font-bold pb-2">
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="text"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.primaryDiptime_less_than.$error,
+                    }"
+                    v-model="form.primaryDiptime_less_than"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div>
-        <div class="flex w-full flex-col lg:flex-row gap-2 items-center mb-4">
+        <div class="flex w-full flex-col lg:flex-row gap-2 items-center mb-4 lg:pb-4 ">
           <label
             class="
               pr-3
               font-semibold
-              text-[16px] text-[#3b4559]
-              flex-1
-              w-[145px]
-              text-right
+              text-[16px]
+              md:max-w-[110px]
+              text-[#3b4559]
+              md:text-right
+              text-left
+              mb-2
+              md:mb-0
+              w-full
             "
             >Topcoat
           </label>
@@ -385,82 +413,170 @@
             :searchable="true"
             placeholder="Select TopCoat"
           />
-          <div class="flex gap-2">
+          <!-- INPUTS -->
+          <div
+            class="
+              flex
+              lg:gap-2
+              pl-10
+              md:pl-0
+              overflow-x-auto
+              px-2
+              lg:px-0
+              md:w-full
+              w-[350px]
+              gap-24
+              pb-10
+              lg:pb-0
+              justify-between
+              items-center
+            "
+          >
+            <div class="w-full md:w-min">
+              <p class="text-center lg:hidden font-semibold text-[#3b4559]">
+                Conc %
+              </p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div
+                    class="
+                      w-full
+                      text-center
+                      font-bold
+                      pb-2
+                      lg:hidden
+                      text-[#3b4559]
+                    "
+                  >
+                    >
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.topCoatPer_more_than.$error,
+                    }"
+                    v-model="form.topCoatPer_more_than"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="
+                      w-full
+                      text-center
+                      font-bold
+                      pb-2
+                      lg:hidden
+                      text-[#3b4559]
+                    "
+                  >
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.topCoatPer_less_than.$error,
+                    }"
+                    v-model="form.topCoatPer_less_than"
+                  />
+                </div>
+              </div>
+            </div>
+
             <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.topCoatPer_more_than.$error }"
-                v-model="form.topCoatPer_more_than"
-              />
+              <p class="text-center font-semibold text-[#3b4559]    lg:hidden">Temp</p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div class="w-full text-center font-bold pb-2    lg:hidden">></div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.topCoatTemp_more_than.$error,
+                    }"
+                    v-model="form.topCoatTemp_more_than"
+                  />
+                </div>
+                <div>
+                  <div class="w-full text-center font-bold pb-2    lg:hidden">
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.topCoatTemp_less_than.$error,
+                    }"
+                    v-model="form.topCoatTemp_less_than"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p class="text-center font-semibold text-[#3b4559]     lg:hidden">pH</p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div class="w-full text-center font-bold pb-2    lg:hidden">></div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{ 'border-red-400': v$.topCoatPH_more_than.$error }"
+                    v-model="form.topCoatPH_more_than"
+                  />
+                </div>
+                <div>
+                  <div class="w-full text-center    lg:hidden font-bold pb-2 ">
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{ 'border-red-400': v$.topCoatPH_less_than.$error }"
+                    v-model="form.topCoatPH_less_than"
+                  />
+                </div>
+              </div>
             </div>
             <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.topCoatPer_less_than.$error }"
-                v-model="form.topCoatPer_less_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.topCoatTemp_more_than.$error }"
-                v-model="form.topCoatTemp_more_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.topCoatTemp_less_than.$error }"
-                v-model="form.topCoatTemp_less_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.topCoatPH_more_than.$error }"
-                v-model="form.topCoatPH_more_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.topCoatPH_less_than.$error }"
-                v-model="form.topCoatPH_less_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{
-                  'border-red-400': v$.topCoatDiptime_more_than.$error,
-                }"
-                v-model="form.topCoatDiptime_more_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{
-                  'border-red-400': v$.topCoatDiptime_less_than.$error,
-                }"
-                v-model="form.topCoatDiptime_less_than"
-              />
+              <p class="text-center font-semibold text-[#3b4559]  lg:hidden">Diptime</p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div class="w-full text-center font-bold pb-2 text-[#3b4559]    lg:hidden">
+                    >
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.topCoatDiptime_more_than.$error,
+                    }"
+                    v-model="form.topCoatDiptime_more_than"
+                  />
+                </div>
+                <div>
+                  <div class="w-full text-center font-bold pb-2 text-[#3b4559]    lg:hidden">
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.topCoatDiptime_less_than.$error,
+                    }"
+                    v-model="form.topCoatDiptime_less_than"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -472,10 +588,14 @@
             class="
               pr-3
               font-semibold
-              text-[16px] text-[#3b4559]
-              w-[85px]
-              break-words
-              text-right
+              text-[16px]
+              md:max-w-[110px]
+              text-[#3b4559]
+              md:text-right
+              text-left
+              mb-2
+              md:mb-0
+              w-full
             "
             >Secondary Topcoat</label
           >
@@ -489,78 +609,142 @@
               placeholder="Select Secondary Topcoat"
             />
           </div>
-          <div class="flex gap-2">
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.coatPer_more_than.$error }"
-                v-model="form.coatPer_more_than"
-              />
+          <!-- INPUTS -->
+
+          <div
+            class="
+              flex
+              lg:gap-2
+              pl-10
+              md:pl-0
+              overflow-x-auto
+              px-2
+              lg:px-0
+              md:w-full
+              w-[350px]
+              gap-24
+              pb-10
+              lg:pb-0
+              justify-between
+              items-center
+            "
+          >
+            <div class="w-full md:w-min">
+              <p class="text-center font-semibold text-[#3b4559] lg:hidden">Conc %</p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div class="w-full text-center font-bold pb-2 text-[#3b4559] lg:hidden">
+                    >
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{ 'border-red-400': v$.coatPer_more_than.$error }"
+                    v-model="form.coatPer_more_than"
+                  />
+                </div>
+                <div>
+                  <div class="w-full text-center font-bold pb-2 text-[#3b4559] lg:hidden">
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{ 'border-red-400': v$.coatPer_less_than.$error }"
+                    v-model="form.coatPer_less_than"
+                  />
+                </div>
+              </div>
             </div>
+
             <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.coatPer_less_than.$error }"
-                v-model="form.coatPer_less_than"
-              />
+              <p class="text-center font-semibold text-[#3b4559] lg:hidden">Temp</p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div class="w-full text-center font-bold pb-2 lg:hidden">></div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{ 'border-red-400': v$.coatTemp_more_than.$error }"
+                    v-model="form.coatTemp_more_than"
+                  />
+                </div>
+                <div>
+                  <div class="w-full text-center font-bold pb-2 lg:hidden">
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{ 'border-red-400': v$.coatTemp_less_than.$error }"
+                    v-model="form.coatTemp_less_than"
+                  />
+                </div>
+              </div>
             </div>
+
             <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.coatTemp_more_than.$error }"
-                v-model="form.coatTemp_more_than"
-              />
+              <p class="text-center font-semibold text-[#3b4559] lg:hidden">pH</p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div class="w-full text-center font-bold pb-2 lg:hidden">></div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{ 'border-red-400': v$.coatPH_more_than.$error }"
+                    v-model="form.coatPH_more_than"
+                  />
+                </div>
+                <div>
+                  <div class="w-full text-center font-bold pb-2 lg:hidden">
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{ 'border-red-400': v$.coatPH_less_than.$error }"
+                    v-model="form.coatPH_less_than"
+                  />
+                </div>
+              </div>
             </div>
+
             <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.coatTemp_less_than.$error }"
-                v-model="form.coatTemp_less_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.coatPH_more_than.$error }"
-                v-model="form.coatPH_more_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.coatPH_less_than.$error }"
-                v-model="form.coatPH_less_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.coatDiptime_more_than.$error }"
-                v-model="form.coatDiptime_more_than"
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                class="w-[40px] lg:w-[60px] text-sm"
-                placeholder="0"
-                :class="{ 'border-red-400': v$.coatDiptime_less_than.$error }"
-                v-model="form.coatDiptime_less_than"
-              />
+              <p class="text-center font-semibold text-[#3b4559] lg:hidden">Diptime</p>
+              <div class="flex gap-10 lg:gap-2">
+                <div>
+                  <div class="w-full text-center font-bold pb-2 lg:hidden">></div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.coatDiptime_more_than.$error,
+                    }"
+                    v-model="form.coatDiptime_more_than"
+                  />
+                </div>
+                <div>
+                  <div class="w-full text-center font-bold pb-2 text-[#3b4559] lg:hidden">
+                    {{ "<" }}
+                  </div>
+                  <input
+                    type="number"
+                    class="w-[120px] lg:w-[60px] text-sm"
+                    placeholder="0"
+                    :class="{
+                      'border-red-400': v$.coatDiptime_less_than.$error,
+                    }"
+                    v-model="form.coatDiptime_less_than"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -617,11 +801,18 @@
 import Multiselect from "@vueform/multiselect";
 import useFormReport from "../composables/useFormReport";
 import { ref } from "vue";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/vue";
 
 export default {
   props: ["customers", "topCoats", "chromates", "plateTypes", "secondaryCoats"],
   components: {
     multiSelect: Multiselect,
+    swiper: Swiper,
+    swiperSlide: SwiperSlide,
   },
   setup() {
     const { form, v$, submitForm, loading } = useFormReport({
