@@ -285,7 +285,8 @@ export default {
       } else {
         res = await axios.post("/chemical", form._value);
       }
-      const { ok, message, value } = res.data;
+      const { ok, message } = res.data;
+      await v$.value.$reset()
       if (ok === true) {
         makeToast(message);
         if (selected._value !== "0") {
