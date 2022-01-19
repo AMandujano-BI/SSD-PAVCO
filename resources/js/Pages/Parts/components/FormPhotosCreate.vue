@@ -33,12 +33,12 @@
       </div>
       <input
         type="file"
-        class="hidden"
         accept="image/*"
         multiple
         id="image"
         @change="fileChange"
       />
+        <!-- class="hidden" -->
       <div
         v-if="!url"
         class="w-full h-64 flex items-center justify-center text-[#3b4559]"
@@ -240,6 +240,7 @@ export default {
 
 
         const { ok, message, value } = res.data;
+        console.log(res.data)
         loading.value = false;
         if (ok) {
           makeToast(message);

@@ -50,7 +50,6 @@ class Photo extends Model
         DB::beginTransaction();
         try {
 
-            return $request;
             //Prepare Data
             $file = $request->file('image');
             $filename = $file->getClientOriginalName();
@@ -59,6 +58,8 @@ class Photo extends Model
             $description = $request->input('description');
             $run_id = $request->input('run');
             $report = $request->input('report');
+            
+            return $file;
 
            
             $photo = (new static)::create([
