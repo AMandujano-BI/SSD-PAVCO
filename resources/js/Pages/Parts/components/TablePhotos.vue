@@ -77,28 +77,25 @@
           <td class="text-center">
             <!-- <button @click="showPhotos"> -->
             <button @click="showPhotos(photo.id)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+              <div class="w-[25px] h-[25px] flex justify-center items-center bg-[#084E93]"
+               
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-              <!-- <svg
-                width="25"
-                height="25"
-                viewBox="0 0 25 25"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M0 0h25v25H0z" fill="#084E93" fill-rule="evenodd" />
-              </svg> -->
+                <svg
+                  width="16"
+                  height="12"
+                  viewBox="0 0 16 12"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g fill="#FFF" fill-rule="nonzero">
+                    <path
+                      d="M14.626 0H.488A.488.488 0 0 0 0 .488v11.024c0 .27.218.488.488.488h14.138c.27 0 .488-.218.488-.488V.488A.488.488 0 0 0 14.626 0zm-.487.976v9.31l-3.904-4.151a.488.488 0 0 0-.71 0l-1.667 1.77L5.623 4.96a.488.488 0 0 0-.778 0l-3.87 5.12V.976H14.14zm-.645 10.048H1.484l3.751-4.962 2.194 2.893a.488.488 0 0 0 .744.04L9.88 7.18l3.614 3.843z"
+                    />
+                    <path
+                      d="M10.1 5.058c.884 0 1.604-.72 1.604-1.604 0-.885-.72-1.604-1.605-1.604-.884 0-1.604.72-1.604 1.604 0 .884.72 1.604 1.604 1.604zm0-2.232a.629.629 0 1 1-.002 1.258.629.629 0 0 1 .001-1.258z"
+                    />
+                  </g>
+                </svg>
+              </div>
             </button>
           </td>
           <td class="text-center">

@@ -39,7 +39,7 @@ class RolsMiddlware
             }
         } catch (\Throwable $th) {
             // dd($th);
-            abort(403, 'You are not allowed to access this page ee');
+            abort(403, 'You are not allowed to access this page ');
         }
     }
 
