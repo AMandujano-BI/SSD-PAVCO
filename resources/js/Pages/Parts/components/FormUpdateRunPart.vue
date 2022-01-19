@@ -306,6 +306,8 @@ export default {
           } else {
             if ( startDateChanged ) {
               form.start_date_edit = startUTCDate;
+            } else {
+              form.start_date_edit = startUTCDate;
             }
           }
         }
@@ -313,6 +315,7 @@ export default {
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return;
         let res;
+        
         res = await axios.put(`/run/${form.id}`, form);
         const { ok, value, message } = res.data;
         run.isEdit = value.isEdit;
