@@ -58,9 +58,6 @@ class Photo extends Model
             $description = $request->input('description');
             $run_id = $request->input('run');
             $report = $request->input('report');
-            
-            return $file;
-
            
             $photo = (new static)::create([
                 'name' => $name,

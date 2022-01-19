@@ -34,6 +34,7 @@
       <input
         type="file"
         accept="image/*"
+        class="hidden"
         multiple
         id="image"
         @change="fileChange"
