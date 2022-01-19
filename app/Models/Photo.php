@@ -50,23 +50,20 @@ class Photo extends Model
         DB::beginTransaction();
         try {
 
+            return $request;
             //Prepare Data
             $file = $request->file('image');
             $filename = $file->getClientOriginalName();
             $run_id = $request->input('run');
             $name = $request->input('name');
-            $hours = $request->input('hours');
             $description = $request->input('description');
             $run_id = $request->input('run');
             $report = $request->input('report');
 
-            // return $file;
-            //Save image in AWS
-            $initialHours = 0;
-            //Save Photo in database
+           
             $photo = (new static)::create([
                 'name' => $name,
-                'hours' => $initialHours,
+                'hours' => 0,
                 'image' => 'images/run' . $run_id . '/' . $filename,
                 'description' => $description,
                 'report' => $report,
@@ -74,11 +71,11 @@ class Photo extends Model
             ]);
             $photo->save();
             $file_name = 'images/run' . $run_id.'/'.$filename;
-            // dd($file);
-
-            // dd($file_name);
-            // $image = $file->storeAs('images/run' . $run_id, $filename, 's3');
+   
             Storage::put($file_name,file_get_contents($file), 's3');
+
+
+
 
             DB::commit();
             return [
