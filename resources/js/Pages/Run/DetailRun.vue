@@ -183,7 +183,7 @@
                 <g fill="none" fill-rule="evenodd">
                   <path fill="#F0F0F0" d="M0 0h40v40H0z" />
                   <path
-                    stroke="#FFF"
+                    stroke="#9CA3AF"
                     stroke-linecap="round"
                     d="m11.2 11.2 17.806 17.806M29.006 11.2 11.2 29.006"
                   />
@@ -221,7 +221,7 @@
                 <g fill="none" fill-rule="evenodd">
                   <path fill="#F0F0F0" d="M0 0h40v40H0z" />
                   <rect
-                    stroke="#FFF"
+                    stroke="#9CA3AF"
                     x="10.1"
                     y="10.1"
                     width="13.4"
@@ -229,7 +229,7 @@
                     rx="1"
                   />
                   <rect
-                    stroke="#FFF"
+                    stroke="#9CA3AF"
                     x="18.1"
                     y="18.1"
                     width="13.4"
@@ -344,7 +344,7 @@
             mt-5
           "
           id="filterRunPartInputBot"
-          placeholder="Search Runs..."
+          placeholder="Search Parts..."
           autocomplete="off"
         />
 

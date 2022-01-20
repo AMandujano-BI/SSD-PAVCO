@@ -1,8 +1,6 @@
 <template>
   <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
-    {{
-      filterOption == 3 ? "All" : filterOption == 0 ? "Active" : "Complete"
-    }}
+    {{ filterOption == 3 ? "All" : filterOption == 0 ? "Active" : "Complete" }}
     Runs
   </h1>
   <div class="container p-2">
@@ -273,7 +271,7 @@ export default {
     };
     const closePhotosModal = () => (isModalPhotos.value = false);
     // Results
-    const showResults = (id) => ( Inertia.get(`/run/detail/${id}`));
+    const showResults = (id) => Inertia.get(`/run/detail/${id}`);
     // Close run
     const closeResultsModal = () => {
       isModalResults.value = false;
@@ -488,15 +486,15 @@ export default {
               searchable: false,
               render: function (data, type, row, meta) {
                 const hours = calculateHours(
-                    row.id,
-                    row.status,
-                    row.start_date,
-                    row.isEdit,
-                    row.last_edit,
-                    row.hours,
-                    row.closed_date
-                  )
-                return `<td class="text-center">${hours}</td>`
+                  row.id,
+                  row.status,
+                  row.start_date,
+                  row.isEdit,
+                  row.last_edit,
+                  row.hours,
+                  row.closed_date
+                );
+                return `<td class="text-center">${hours}</td>`;
               },
             },
             {
@@ -548,11 +546,14 @@ export default {
               searchable: false,
               render: function (data, type, row, meta) {
                 if (row.status === 1) {
-                  return (
-                    '<button class="showclose" itemId=' +
-                    row.id +
-                    ' disabled>  <svg width="25" height="25" class="grayscale" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path fill="#17C4B2" d="M0 0h25v25H0z"/><path stroke="#FFF" stroke-linecap="round" d="m7 7 11.129 11.129M18.129 7 6.999 18.129"/></g></svg>  </button>'
-                  );
+                  return `<button class="showclose" itemId='${row.id}' disabled> 
+                   <svg width="25" height="25" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="none" fill-rule="evenodd">
+                        <path fill="#F0F0F0" d="M0 0h40v40H0z"/>
+                        <path stroke="#9CA3AF" stroke-linecap="round" d="m11.2 11.2 17.806 17.806M29.006 11.2 11.2 29.006"/>
+                    </g>
+                </svg>
+                  </button>`;
                 } else {
                   return (
                     '<button class="showclose" itemId=' +
@@ -568,9 +569,13 @@ export default {
               render: function (data, type, row, meta) {
                 if (row.status === 0) {
                   return (
-                    '<button class="showreopen" itemId=' +
-                    row.id +
-                    ' disabled>  <svg width="25" height="25" class="grayscale" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path fill="#0ABC8A" d="M0 0h25v25H0z"/><rect stroke="#FFF" x="6.5" y="6.5" width="8" height="8" rx="1"/><rect stroke="#FFF" x="11.5" y="11.5" width="8" height="8" rx="1"/></g></svg> </button>'
+                    `<button class="showreopen" itemId='${row.id}' disabled>  <svg width="25" height="25" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#F0F0F0" d="M0 0h40v40H0z"/>
+        <rect stroke="#9CA3AF" x="10.1" y="10.1" width="13.4" height="13.4" rx="1"/>
+        <rect stroke="#9CA3AF" x="18.1" y="18.1" width="13.4" height="13.4" rx="1"/>
+    </g>
+</svg> </button>`
                   );
                 } else {
                   return (
