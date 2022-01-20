@@ -232,7 +232,6 @@ export default {
         formData.append("name", form.name);
         formData.append("hours", form.hours);
         formData.append("report", form.report);
-        console.log(form.image)
         const res = await axios.post(`/photo`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -241,7 +240,6 @@ export default {
 
 
         const { ok, message, value } = res.data;
-        console.log(res.data)
         loading.value = false;
         if (ok) {
           makeToast(message);

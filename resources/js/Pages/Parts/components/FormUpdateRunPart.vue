@@ -129,11 +129,9 @@ export default {
 
 
     const startDateListener = () => {
-      console.log('StartDate changed');
       startDateChanged = true;
     }
     const hoursListener = () => {
-      console.log('Hours changed');
       hoursChanged = true;
     }
 
@@ -293,13 +291,11 @@ export default {
 
       try {
         if ( startDateChanged && hoursChanged ) {
-          console.log('Different hour');
           form.hasDiferentHours = true;
           form.last_edit = dateFormated;
           form.start_date_edit = startUTCDate;
         } else {
           if ( hoursChanged ) {
-            console.log('Different hour');
             form.hasDiferentHours = true;
             form.last_edit = dateFormated;
             form.start_date_edit = startUTCDate;

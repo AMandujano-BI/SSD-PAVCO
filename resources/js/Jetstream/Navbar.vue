@@ -129,14 +129,14 @@
       </div>
       <div class="flex justify-around md:justify-end items-center flex-1">
         <div class="flex items-center justify-center pl-8 md:pl-2 flex-1 md:flex-none">
-          <div  class="pl-12"  :class="{ hidden: route().current().split('.')[0] == 'run' }">
+          <div  class="pl-12"  :class="{ hidden: route().current().split('.')[0] == 'run' && route().current().split('.')[1] == 'index' }">
 
                <pavco-icon/>
           </div>
           
           <div
             class="relative text-gray-600 focus-within:text-gray-400"
-            :class="{ hidden: route().current().split('.')[0] != 'run' }"
+            :class="{ hidden: route().current().split('.')[0] != 'run' ||  route().current().split('.')[1] != 'index'}"
           >
             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
               <button
