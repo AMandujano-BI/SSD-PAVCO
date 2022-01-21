@@ -174,8 +174,7 @@ export default {
     });
 
     const gettinDataParts = async () => {
-      // const res = await axios.get(`/part/getPartsByRun/${run.id}`);
-      // partsTable.value = res.data;
+      $("#partsTable1").DataTable().clear().destroy();
       generateDataTable();
     };
 

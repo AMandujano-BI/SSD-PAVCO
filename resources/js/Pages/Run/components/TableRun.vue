@@ -568,15 +568,13 @@ export default {
               searchable: false,
               render: function (data, type, row, meta) {
                 if (row.status === 0) {
-                  return (
-                    `<button class="showreopen" itemId='${row.id}' disabled>  <svg width="25" height="25" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-    <g fill="none" fill-rule="evenodd">
-        <path fill="#F0F0F0" d="M0 0h40v40H0z"/>
-        <rect stroke="#9CA3AF" x="10.1" y="10.1" width="13.4" height="13.4" rx="1"/>
-        <rect stroke="#9CA3AF" x="18.1" y="18.1" width="13.4" height="13.4" rx="1"/>
-    </g>
-</svg> </button>`
-                  );
+                  return `<button class="showreopen" itemId='${row.id}' disabled>  <svg width="25" height="25" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                          <g fill="none" fill-rule="evenodd">
+                              <path fill="#F0F0F0" d="M0 0h40v40H0z"/>
+                              <rect stroke="#9CA3AF" x="10.1" y="10.1" width="13.4" height="13.4" rx="1"/>
+                              <rect stroke="#9CA3AF" x="18.1" y="18.1" width="13.4" height="13.4" rx="1"/>
+                          </g>
+                      </svg> </button>`;
                 } else {
                   return (
                     '<button class="showreopen" itemId=' +
