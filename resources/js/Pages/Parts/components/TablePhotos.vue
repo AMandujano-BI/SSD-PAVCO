@@ -45,7 +45,7 @@
     </div>
   </div>
   <div class="rounded-lg bg-white p-5 mt-2">
-    <table id="photosTable" class="display" style="width: 100%">
+    <table id="photosTable" class="display responsive" style="width: 100%">
       <thead>
         <tr>
           <th>Name</th>
@@ -76,9 +76,16 @@
           <td class="text-center">{{ photo.report == 1 ? "Yes" : "No" }}</td>
           <td class="text-center">
             <!-- <button @click="showPhotos"> -->
-            <button @click="showPhotos(photo.id)">
-              <div class="w-[25px] h-[25px] flex justify-center items-center bg-[#084E93]"
-               
+            <button :itemId="photo.id" class="showPhotos" @click="showPhotos(photo.id)">
+              <div
+                class="
+                  w-[25px]
+                  h-[25px]
+                  flex
+                  justify-center
+                  items-center
+                  bg-[#084E93]
+                "
               >
                 <svg
                   width="16"
@@ -99,12 +106,17 @@
             </button>
           </td>
           <td class="text-center">
-            <button @click="openModalEditClick(photo.id)">
+            <button 
+            :itemId="photo.id"
+            class="clickEdit" 
+            @click="openModalEditClick(photo.id)">
+
               <icon-edit />
             </button>
           </td>
           <td class="text-center">
-            <button @click="openModalDeleteClick(photo.id)">
+            <button :itemId="photo.id" class="clickDelete" @click="openModalDeleteClick(photo.id)">
+              
               <icon-delete />
             </button>
           </td>
@@ -169,8 +181,6 @@
 </template>
 
 <script>
-const $ = require("jquery");
-import dt from "datatables.net";
 import { nextTick } from "vue";
 import PhotosRun2 from "../../Run/components/PhotosRun2.vue";
 import { ref } from "vue";
@@ -181,6 +191,10 @@ import axios from "axios";
 import useHelper from "@/composables/useHelper";
 import FormPhotosUpdateVue from "./FormPhotosUpdate.vue";
 import IconEdit from "@/assets/Icons/iconEdit.vue";
+const $ = require("jquery");
+var dt = require("datatables.net");
+import "datatables.net-responsive-dt";
+import "datatables.net-rowreorder-dt";
 import IconDelete from "@/assets/Icons/iconDelete.vue";
 import IconPlus from "@/assets/Icons/iconPlus.vue";
 export default {
@@ -196,8 +210,13 @@ export default {
     confirmationModal: ConfirmationModal,
   },
   setup(props) {
+    const gettData = async () => {
+      const res = await axios.get("/photo/getPhotosByRun/2");
+      photosTable.value = res.data;
+      generateDataTable()
+    };
     const { photos, run } = props;
-    const photosTable = ref(photos);
+    const photosTable = ref([]);
     const run_id = ref(run.id);
     const currentPhoto = ref([]);
     const isModalPhotos = ref(false);
@@ -218,10 +237,16 @@ export default {
     const generateDataTable = () => {
       nextTick(() => {
         $("#photosTable").DataTable({
-          scrollY: 300,
           ordering: true,
           bLengthChange: false,
           pageLength: 5,
+          responsive: true,
+           columnDefs: [
+            {
+              defaultContent: "-",
+              targets: "_all",
+            },
+          ],
           language: {
             paginate: {
               next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
@@ -229,11 +254,24 @@ export default {
             },
             info: "Showing results _START_ to _END_ from _TOTAL_",
           },
+           drawCallback: function () {
+            $("#photosTable").on("click", "[class*=showPhotos]", function (e) {
+              showPhotos(e.currentTarget.attributes[0].value);
+            });
+             $("#photosTable").on("click", "[class*=clickEdit]", function (e) {
+              const id = e.currentTarget.attributes[0].value
+              openModalEditClick(id)
+            });
+             $("#photosTable").on("click", "[class*=clickDelete]", function (e) {
+             const id = e.currentTarget.attributes[0].value
+             openModalDeleteClick(id)
+            });
+           }
         });
       });
     };
     const showPhotos = (id) => {
-      const pic = photos.find((pic) => pic.id === id);
+      const pic = photosTable.value.find((pic) => pic.id == id);
       currentPhoto.value.push(pic);
       idPhoto.value = id;
       isModalPhotos.value = true;
@@ -264,6 +302,7 @@ export default {
     };
     const openModalEditClick = (id) => {
       idPhoto.value = id;
+      console.log(id)
       photoItem.value = photosTable.value.find((item) => item.id == id);
       openModalEdit.value = true;
     };
@@ -279,7 +318,8 @@ export default {
       }
     };
 
-    generateDataTable();
+
+    gettData();
     return {
       generateDataTable,
       isModalPhotos,
@@ -290,6 +330,7 @@ export default {
       openModalPhotosForm,
       closeModalPhotosCreate,
       run_id,
+      dt,
       showModalDelete,
       closeModalDelete,
       openModalDelete,
