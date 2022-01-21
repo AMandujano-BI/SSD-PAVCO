@@ -63,9 +63,61 @@ class Run extends Model
 
 
 
+    private static function checkIfAdministrator()
+    {
+        $user = auth()->user();
+        $userWithRol  = User::where('id', $user->id)->with(['rols'])->first();
+        $rols = $userWithRol->rols;
+        foreach ($rols as $key) {
+            if ($key->name == "Master Administrator" || $key->name == "Administrator") {
+                return true;
+            }
+            return false;
+        }
+    }
     public static function getAllRun($status)
     {
         $user = auth()->user();
+        $isAdministrator = (new static)::checkIfAdministrator();
+
+        if ($isAdministrator) {
+            if ($status == 3) {
+                $run = (new static)::with([
+                    'notes',
+                    'photos',
+                    'parts',
+                    'method',
+                    'parts.chromate',
+                    'parts.coat',
+                    'parts.plateType',
+                    'parts.topCoat',
+                    'company',
+                ])
+                    ->where('status', '!=', 2)
+                    ->get();
+                return $run;
+            } else {
+
+                $run = (new static)::with([
+                    'notes',
+                    'photos',
+                    'parts',
+                    'method',
+                    'parts.chromate',
+                    'parts.coat',
+                    'parts.plateType',
+                    'parts.topCoat',
+                    'company',
+                ])
+                    ->where('status', '!=', 2)
+                    ->where('status', $status)
+                    ->get();
+                return $run;
+            }
+        }
+
+
+
         if ($status == 3) {
             $run = (new static)::with([
                 'notes',
@@ -106,6 +158,25 @@ class Run extends Model
     public static function getRun($id)
     {
         $user = auth()->user();
+        $isAdministrator = (new static)::checkIfAdministrator();
+
+        if ($isAdministrator) {
+            $run = (new static)::with([
+                'notes',
+                'photos',
+                'parts',
+                'method',
+                'parts.chromate',
+                'parts.coat',
+                'parts.plateType',
+                'parts.topCoat',
+                'company',
+            ])
+                ->where('status', '!=', 2)
+                ->find($id);
+            return $run;
+        }
+
         $run = (new static)::with([
             'notes',
             'photos',
@@ -118,7 +189,7 @@ class Run extends Model
             'company',
         ])
             ->where('status', '!=', 2)
-            ->where('user_id',$user->id)
+            ->where('user_id', $user->id)
             ->find($id);
         return $run;
     }
@@ -129,14 +200,14 @@ class Run extends Model
         try {
             $user = auth()->user();
             // $date = Carbon::parse($request->start_date)->format('Y-m-d H:i');
-            
+
             // $startDate = Carbon::parse()->setTimezone('UTC');
             // dd($startDate);
             $start_date = $request->start_date;
             $description = $request->description;
             $plate_types_id = $request->plate_types_id;
             $primaryCoatId = $request->primaryCoatId;
-            $company_id= $request->company_id;
+            $company_id = $request->company_id;
             $coatId = $request->coatId;
             $topCoatId = $request->topCoatId;
             $plate_methods_id = $request->plate_methods_id;
@@ -206,7 +277,7 @@ class Run extends Model
             return [
                 'ok' => false,
                 'message' => $e->getMessage(),
-                'value'=>0
+                'value' => 0
             ];
             // return $e->getMessage();
         }
@@ -289,7 +360,7 @@ class Run extends Model
         try {
             $run = (new static)::find($id);
             $run->status = 2;
-            $run->company_id= null;
+            $run->company_id = null;
             $run->save();
             DB::commit();
             return [
@@ -362,7 +433,8 @@ class Run extends Model
     {
         return $this->hasMany(Part::class);
     }
-    public  function company(){
+    public  function company()
+    {
         return $this->belongsTo(Company::class);
     }
 }
