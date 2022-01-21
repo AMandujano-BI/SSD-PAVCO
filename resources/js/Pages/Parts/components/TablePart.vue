@@ -38,14 +38,14 @@
           placeholder-[#a2a2a2]
           text-[#333]
         "
-        id="filterPartInputBot"
+        id="filterPartInputBot1"
         placeholder="Search Part..."
         autocomplete="off"
       />
     </div>
   </div>
   <div class="rounded-lg bg-white p-5 mt-2">
-    <table id="partsTable" class="display" style="width: 100%">
+    <table id="partsTable1" class="display" style="width: 100%">
       <thead>
         <tr>
           <th>Part Description</th>
@@ -58,9 +58,7 @@
           <!-- <th class="no-sort">Notes</th> -->
         </tr>
       </thead>
-      <tbody>
-        
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
   <!-- MODALS -->
@@ -174,24 +172,24 @@ export default {
       plateThick: 0,
       primaryPer: 0,
     });
- 
+
     const gettinDataParts = async () => {
       // const res = await axios.get(`/part/getPartsByRun/${run.id}`);
       // partsTable.value = res.data;
       generateDataTable();
     };
-   
+
     $(document).ready(function () {
-      $("#filterPartInputBot")
+      $("#filterPartInputBot1")
         .off()
         .keyup(function () {
-          $("#partsTable").DataTable().search(this.value).draw();
+          $("#partsTable1").DataTable().search(this.value).draw();
         });
     });
     const generateDataTable = () => {
-      $("#partsTable").DataTable().clear().destroy();
+      $("#partsTable1").DataTable().clear().destroy();
       nextTick(() => {
-        $("#partsTable").DataTable({
+        $("#partsTable1").DataTable({
           ordering: true,
           bLengthChange: false,
           pageLength: 10,
@@ -240,57 +238,68 @@ export default {
               name: "part.chromate.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return  "<td>"  + row.chromate.name +
-                          " / " +
-                          row.primaryPer +
-                          " / " +
-                          row.primaryTemp +
-                          " / " +
-                          row.primaryPH +
-                          " / " +
-                          row.primaryDiptime + 
-                        "</td>";
+                return (
+                  "<td>" +
+                  row.chromate.name +
+                  " / " +
+                  row.primaryPer +
+                  " / " +
+                  row.primaryTemp +
+                  " / " +
+                  row.primaryPH +
+                  " / " +
+                  row.primaryDiptime +
+                  "</td>"
+                );
               },
             },
             {
               name: "part.top_coat.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return  "<td>"  +row.top_coat.name +
-                          " / " +
-                          row.topCoatPer +
-                          " / " +
-                          row.topCoatTemp +
-                          " / " +
-                          row.topCoatPH +
-                          " / " +
-                          row.topCoatDiptime + 
-                        "</td>";
+                return (
+                  "<td>" +
+                  row.top_coat.name +
+                  " / " +
+                  row.topCoatPer +
+                  " / " +
+                  row.topCoatTemp +
+                  " / " +
+                  row.topCoatPH +
+                  " / " +
+                  row.topCoatDiptime +
+                  "</td>"
+                );
               },
             },
             {
               name: "part.coat.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return  "<td>"  +  row.coat.name +
-                          " / " +
-                          row.coatPer +
-                          " / " +
-                          row.coatTemp +
-                          " / " +
-                          row.coatPH +
-                          " / " +
-                          row.coatDiptime + 
-                        "</td>";
+                return (
+                  "<td>" +
+                  row.coat.name +
+                  " / " +
+                  row.coatPer +
+                  " / " +
+                  row.coatTemp +
+                  " / " +
+                  row.coatPH +
+                  " / " +
+                  row.coatDiptime +
+                  "</td>"
+                );
               },
             },
             {
               name: "editPart",
               searchable: false,
               render: function (data, type, row, meta) {
-                return  '<button class="editpart" itemId=' +
+                return (
+                  '<button class="editpart" itemId=' +
                   row.id +
-                  '>  <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">    <g fill="none" fill-rule="evenodd">        <path fill="#227D9E" d="M0 0h25v25H0z"/>        <g fill="#FFF" fill-rule="nonzero" stroke="#FFF" stroke-width=".5">            <path d="M18.218 13.773a.353.353 0 0 0-.357.35v3.103a1.06 1.06 0 0 1-1.07 1.048H6.783c-.59 0-1.069-.47-1.07-1.048V8.117c.001-.579.48-1.048 1.07-1.049H9.95a.353.353 0 0 0 .357-.35c0-.192-.16-.349-.357-.349H6.783C5.8 6.37 5.001 7.152 5 8.117v9.109c.001.965.799 1.746 1.783 1.748h10.008c.985-.002 1.783-.783 1.784-1.748v-3.104c0-.193-.16-.35-.357-.35z"/>            <path d="M18.434 5.47a1.628 1.628 0 0 0-2.27 0L9.8 11.706a.348.348 0 0 0-.091.154l-.837 2.96a.345.345 0 0 0 .091.34.362.362 0 0 0 .348.09l3.02-.82a.358.358 0 0 0 .158-.09l6.363-6.235a1.552 1.552 0 0 0 0-2.225l-.418-.41zm-7.857 6.463 5.208-5.104 1.68 1.646-5.208 5.104-1.68-1.646zm-.335.66 1.342 1.315-1.856.504.514-1.82zm8.106-4.983-.379.371-1.68-1.646.38-.37a.905.905 0 0 1 1.26 0l.419.41a.863.863 0 0 1 0 1.235z"/>        </g>    </g></svg>  </button>';
+                  '>  <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">    <g fill="none" fill-rule="evenodd">        <path fill="#227D9E" d="M0 0h25v25H0z"/>        <g fill="#FFF" fill-rule="nonzero" stroke="#FFF" stroke-width=".5">            <path d="M18.218 13.773a.353.353 0 0 0-.357.35v3.103a1.06 1.06 0 0 1-1.07 1.048H6.783c-.59 0-1.069-.47-1.07-1.048V8.117c.001-.579.48-1.048 1.07-1.049H9.95a.353.353 0 0 0 .357-.35c0-.192-.16-.349-.357-.349H6.783C5.8 6.37 5.001 7.152 5 8.117v9.109c.001.965.799 1.746 1.783 1.748h10.008c.985-.002 1.783-.783 1.784-1.748v-3.104c0-.193-.16-.35-.357-.35z"/>            <path d="M18.434 5.47a1.628 1.628 0 0 0-2.27 0L9.8 11.706a.348.348 0 0 0-.091.154l-.837 2.96a.345.345 0 0 0 .091.34.362.362 0 0 0 .348.09l3.02-.82a.358.358 0 0 0 .158-.09l6.363-6.235a1.552 1.552 0 0 0 0-2.225l-.418-.41zm-7.857 6.463 5.208-5.104 1.68 1.646-5.208 5.104-1.68-1.646zm-.335.66 1.342 1.315-1.856.504.514-1.82zm8.106-4.983-.379.371-1.68-1.646.38-.37a.905.905 0 0 1 1.26 0l.419.41a.863.863 0 0 1 0 1.235z"/>        </g>    </g></svg>  </button>'
+                );
               },
             },
             {
@@ -306,14 +315,15 @@ export default {
             },
           ],
           drawCallback: function () {
-            $("#partsTable").on("click","[class*=editpart]", function (e) { 
+            $("#partsTable1").on("click", "[class*=editpart]", function (e) {
               const part = partsTable.value.find((part) => {
-                return part.id ===  Number(e.currentTarget.attributes[1].value)
+                return part.id === Number(e.currentTarget.attributes[1].value);
               });
-              editPart(part); 
+              editPart(part);
             });
-            $("#partsTable").on("click","[class*=showdelete]", function (e) { openModalDelete(e.currentTarget.attributes[1].value); });
-            
+            $("#partsTable1").on("click", "[class*=showdelete]", function (e) {
+              openModalDelete(e.currentTarget.attributes[1].value);
+            });
           },
           // paging: false,
         });
