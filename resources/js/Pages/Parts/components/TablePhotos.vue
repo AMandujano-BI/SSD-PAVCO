@@ -210,15 +210,11 @@ export default {
     confirmationModal: ConfirmationModal,
   },
   setup(props) {
-    const gettData = async () => {
-      const res = await axios.get("/photo/getPhotosByRun/2");
-      photosTable.value = res.data;
-      generateDataTable()
-    };
+    
     const { photos, run } = props;
     const photosTable = ref([]);
     const run_id = ref(run.id);
-    const currentPhoto = ref([]);
+    const currentPhoto = ref(null);
     const isModalPhotos = ref(false);
     const idPhoto = ref(0);
     const openModalDelete = ref(false);
@@ -227,6 +223,13 @@ export default {
     const openModalPhotosCreate = ref(false);
     const photoItem = ref(null);
     const { makeToast } = useHelper();
+
+    const gettData = async () => {
+      const res = await axios.get(`/photo/getPhotosByRun/${run_id.value}`);
+      photosTable.value = res.data;
+      generateDataTable()
+    };
+
     $(document).ready(function () {
       $("#filterPhotosInputBot")
         .off()
@@ -272,7 +275,7 @@ export default {
     };
     const showPhotos = (id) => {
       const pic = photosTable.value.find((pic) => pic.id == id);
-      currentPhoto.value.push(pic);
+      currentPhoto.value = pic;
       idPhoto.value = id;
       isModalPhotos.value = true;
     };

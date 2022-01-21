@@ -5,37 +5,35 @@
     
       <p class="text-xl font-bold text-center">Pavco SSD Photo Viewer</p>
 
-      <div class="mt-5" v-if="currentPhotos[0]">
+      <div class="mt-5">
         <swiper
           :modules="modules"
           :slides-per-view="1"
           :space-between="50"
           :pagination="{ clickable: true }"
         >
-          <swiper-slide v-for="photo in currentPhotos" :key="photo.id">
+          <swiper-slide >
             <div>
               <img
-                :src="photo.image"
-                :alt="photo.name"
+                :src="currentPhotos.image"
+                :alt="currentPhotos.name"
                 class="object-cover object-left-top h-[400px] max-h-[400px] w-full"
               />
               <div>
                 <ul class="flex flex-row justify-between px-3 pt-3">
-                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Name: </strong>{{ photo.name }}</li>
-                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Date added: </strong>{{ photo.created_at.slice(0,10) }}</li>
-                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Hours: </strong>{{ calculateHours(photo.isEdit, photo.last_edit, photo.created_at, photo.hours) }}</li>
+                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Name: </strong>{{ currentPhotos.name }}</li>
+                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Date added: </strong>{{ currentPhotos.created_at.slice(0,10) }}</li>
+                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Hours: </strong>{{ calculateHours(currentPhotos.isEdit, currentPhotos.last_edit, currentPhotos.created_at, currentPhotos.hours) }}</li>
                 </ul>
               </div>
               <div class="px-3 mt-1 md:mt-5 text-[#7e7f82]">
-                <strong class="text-[#1e385e]">Description: </strong>{{ photo.description }}
+                <strong class="text-[#1e385e]">Description: </strong>{{ currentPhotos.description }}
               </div>
             </div>
           </swiper-slide>
         </swiper>
       </div>
-      <div v-else>
-        <p class="text-center my-20">There is no images</p>
-      </div>
+     
     </div>
     </modal>
 </template>
