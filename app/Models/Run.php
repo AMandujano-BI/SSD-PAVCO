@@ -61,11 +61,54 @@ class Run extends Model
         }
     }
 
-
-
+  
+    
     public static function getAllRun($status)
     {
         $user = auth()->user();
+        $userWithRol  = User::where('id', $user->id)->with(['rols'])->first();
+        $rols = $userWithRol->rols;
+        foreach($rols as $key){
+            if($key->name =="Master Administrator" || $key->name =="Administrator"){
+                if ($status == 3) {
+                    $run = (new static)::with([
+                        'notes',
+                        'photos',
+                        'parts',
+                        'method',
+                        'parts.chromate',
+                        'parts.coat',
+                        'parts.plateType',
+                        'parts.topCoat',
+                        'company',
+                    ])
+                        ->where('status', '!=', 2)
+                        ->get();
+                    return $run;
+                } else {
+        
+                    $run = (new static)::with([
+                        'notes',
+                        'photos',
+                        'parts',
+                        'method',
+                        'parts.chromate',
+                        'parts.coat',
+                        'parts.plateType',
+                        'parts.topCoat',
+                        'company',
+                    ])
+                        ->where('status', '!=', 2)
+                        ->where('status', $status)
+                        ->get();
+                    return $run;
+                }
+
+            }
+        }
+       
+
+
         if ($status == 3) {
             $run = (new static)::with([
                 'notes',
