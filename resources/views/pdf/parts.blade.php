@@ -155,13 +155,11 @@
                 <span class='subheader__label'>Customer: <span class='subheader__value'>{{$customerName}}</span></span>
                 <span class='subheader'>StartDate: <span class='subheader__value'>{{$start_date}}</span></span>
                 <span class='subheader'>EndDate: <span class='subheader__value'>{{$endDate}} </span></span>
-            </div>
-            <div class='subheader__content' style="padding-top: 10px;">
-                <span class='subheader__label'>Plate: <span class='subheader__value'>{{$plate_typeName}}</span></span>
                 <span class='subheader'>Chromate: <span class='subheader__value'>{{$chromateName}} </span></span>
             </div>
             <div class='subheader__content' style="padding-top: 10px;">
-                <span class='subheader__label'>TopCoat: <span class='subheader__value'>{{$top_coatName}} </span></span>
+                <span class='subheader__label'>Plate: <span class='subheader__value'>{{$plate_typeName}}</span></span>
+                <span class='subheader'>TopCoat: <span class='subheader__value'>{{$top_coatName}} </span></span>
                 <span class='subheader'>Coat: <span class='subheader__value'>{{$coatName }}</span></span>
             </div>
         </div>
