@@ -197,21 +197,6 @@ class ReportController extends Controller
                 ->when($top_coat, function ($query, $top_coat) {
                     return $query->where('topCoatId', $top_coat);
                 })
-                //Coat
-                ->whereBetween('parts.coatPer', [$coatPer_less_than, $coatPer_more_than])
-                ->whereBetween('parts.coatTemp', [$coatTemp_less_than, $coatTemp_more_than])
-                ->whereBetween('parts.coatPH', [$coatPH_less_than, $coatPH_more_than])
-                ->whereBetween('parts.coatDiptime', [$coatDiptime_less_than, $coatDiptime_more_than])
-                //TopCoat
-                ->whereBetween('parts.topCoatPer', [$topCoatPer_less_than, $topCoatPer_more_than])
-                ->whereBetween('parts.topCoatTemp', [$topCoatTemp_less_than, $topCoatTemp_more_than])
-                ->whereBetween('parts.topCoatPH', [$topCoatPH_less_than, $topCoatPH_more_than])
-                ->whereBetween('parts.topCoatDiptime', [$topCoatDiptime_less_than, $topCoatDiptime_more_than])
-                //Chromate
-                ->whereBetween('parts.primaryPer', [$primaryPer_less_than, $primaryPer_more_than])
-                ->whereBetween('parts.primaryTemp', [$primaryTemp_less_than, $primaryTemp_more_than])
-                ->whereBetween('parts.primaryPH', [$primaryPH_less_than, $primaryPH_more_than])
-                ->whereBetween('parts.primaryDiptime', [$primaryDiptime_less_than, $primaryDiptime_more_than])
                 ->select(
                     'parts.id',
                     'parts.description',
@@ -240,21 +225,6 @@ class ReportController extends Controller
                 ->when($top_coat, function ($query, $top_coat) {
                     return $query->where('topCoatId', $top_coat);
                 })
-                //Coat
-                ->whereBetween('parts.coatPer', [$coatPer_less_than, $coatPer_more_than])
-                ->whereBetween('parts.coatTemp', [$coatTemp_less_than, $coatTemp_more_than])
-                ->whereBetween('parts.coatPH', [$coatPH_less_than, $coatPH_more_than])
-                ->whereBetween('parts.coatDiptime', [$coatDiptime_less_than, $coatDiptime_more_than])
-                //TopCoat
-                ->whereBetween('parts.topCoatPer', [$topCoatPer_less_than, $topCoatPer_more_than])
-                ->whereBetween('parts.topCoatTemp', [$topCoatTemp_less_than, $topCoatTemp_more_than])
-                ->whereBetween('parts.topCoatPH', [$topCoatPH_less_than, $topCoatPH_more_than])
-                ->whereBetween('parts.topCoatDiptime', [$topCoatDiptime_less_than, $topCoatDiptime_more_than])
-                //Chromate
-                ->whereBetween('parts.primaryPer', [$primaryPer_less_than, $primaryPer_more_than])
-                ->whereBetween('parts.primaryTemp', [$primaryTemp_less_than, $primaryTemp_more_than])
-                ->whereBetween('parts.primaryPH', [$primaryPH_less_than, $primaryPH_more_than])
-                ->whereBetween('parts.primaryDiptime', [$primaryDiptime_less_than, $primaryDiptime_more_than])
                 ->select(
                     'parts.id',
                     'parts.description',

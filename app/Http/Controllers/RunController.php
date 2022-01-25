@@ -388,12 +388,10 @@ class RunController extends Controller
                     <span class='subheader'>StartDate: <span class='subheader__value'>$start_date</span></span>
                     <span class='subheader'>Customer: <span class='subheader__value'>$customer</span></span>
                     <span class='subheader'>Status: <span class='subheader__value'>$status</span></span>
+                    <span class='subheader'>Hours: <span class='subheader__value'>$hours</span></span>
                 </div>
                 <div class='top-separation'>
                     <div class='subheader__content'>Description: <span class='subheader__value'>$description</span></div>
-                </div>
-                <div class='top-separation'>
-                    <div class='subheader__content'>Hours: <span class='subheader__value'>$hours</span></div>
                 </div>
             </div>
             <div class='body'>
@@ -656,12 +654,10 @@ class RunController extends Controller
                         <span class='subheader'>StartDate: <span class='subheader__value'>$start_date</span></span>
                         <span class='subheader'>Customer: <span class='subheader__value'>$customer</span></span>
                         <span class='subheader'>Status: <span class='subheader__value'>$status</span></span>
+                        <span class='subheader'>Hours: <span class='subheader__value'>$hours</span></span>
                     </div>
                     <div class='top-separation'>
                         <div class='subheader__content'>Description: <span class='subheader__value'>$description</span></div>
-                    </div>
-                    <div class='top-separation'>
-                        <div class='subheader__content'>Hours: <span class='subheader__value'>$hours</span></div>
                     </div>
                 </div>
                 <div class='body'>
