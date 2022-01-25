@@ -17,7 +17,7 @@ class CreateRunsTable extends Migration
             $table->id();
             $table->bigInteger('number');
             $table->dateTime('start_date');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->boolean('status')->default(0);
             $table->dateTime('dateCompleted')->nullable();
 

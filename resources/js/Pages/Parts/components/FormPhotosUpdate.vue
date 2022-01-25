@@ -52,16 +52,8 @@
         <textarea
           v-model="form.description"
           cols="30"
-          :class="{ 'border-red-500': v$.description.$error }"
           class="w-full"
         ></textarea>
-        <p
-          v-for="error of v$.description.$errors"
-          :key="error.$uid"
-          class="text-red-400"
-        >
-          {{ error.$message }}
-        </p>
       </div>
       <div>
         <label class=" text-[#3b4559] font-semibold">Hours</label>
@@ -177,10 +169,8 @@ export default {
       name: photoItem.name,
       report: photoItem.report,
       isEdit: photoItem.isEdit,
-      // start_date: new Date().toISOString().slice(0, 10),
       hours: hours,
       image: photoItem.image,
-
       hasDiferentHours: false,
       last_edit: photoItem.last_edit,
     });
@@ -189,7 +179,6 @@ export default {
     const image = ref(photoItem.image);
     const { makeToast } = useHelper();
     const rules = {
-      description: { required },
       hours: { required, minValue: minValue(0) },
       name: { required },
     };
@@ -266,6 +255,7 @@ export default {
             last_edit: currentDate,
             isEdit: form.isEdit,
           };
+          // emit("generateDataTable");
           emit("closeModal");
         } else {
           loading.value = false;

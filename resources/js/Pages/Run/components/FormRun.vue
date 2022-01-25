@@ -59,17 +59,8 @@
         cols="30"
         rows="5"
         class="w-full"
-        :class="{ 'border-red-500': v$.description.$error }"
         v-model="form.description"
       ></textarea>
-      <!-- <div v-if="v$.form.description.$error" class="text-red-400">Name field has an error.</div> -->
-      <p
-        v-for="error of v$.description.$errors"
-        :key="error.$uid"
-        class="text-red-400"
-      >
-        {{ error.$message }}
-      </p>
     </div>
     <div>
       <label class="text-[#3b4559] font-semibold">Plate Type</label>
@@ -95,6 +86,7 @@
           <input
             type="number"
             class="w-[60px]"
+            step=".01"
             v-model="form.plateThick"
             :class="{ 'border-red-500': v$.plateThick.$error }"
           />

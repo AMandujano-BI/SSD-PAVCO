@@ -18,7 +18,7 @@ class CreatePhotosTable extends Migration
             $table->string('name',50);
             $table->integer('hours');
             $table->text('image');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('report',1);
             $table->foreignId('run_id')->constrained();
             $table->timestamps();

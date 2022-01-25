@@ -76,7 +76,11 @@
           <td class="text-center">{{ photo.report == 1 ? "Yes" : "No" }}</td>
           <td class="text-center">
             <!-- <button @click="showPhotos"> -->
-            <button :itemId="photo.id" class="showPhotos" @click="showPhotos(photo.id)">
+            <button
+              :itemId="photo.id"
+              class="showPhotos"
+              @click="showPhotos(photo.id)"
+            >
               <div
                 class="
                   w-[25px]
@@ -106,17 +110,20 @@
             </button>
           </td>
           <td class="text-center">
-            <button 
-            :itemId="photo.id"
-            class="clickEdit" 
-            @click="openModalEditClick(photo.id)">
-
+            <button
+              :itemId="photo.id"
+              class="clickEdit"
+              @click="openModalEditClick(photo.id)"
+            >
               <icon-edit />
             </button>
           </td>
           <td class="text-center">
-            <button :itemId="photo.id" class="clickDelete" @click="openModalDeleteClick(photo.id)">
-              
+            <button
+              :itemId="photo.id"
+              class="clickDelete"
+              @click="openModalDeleteClick(photo.id)"
+            >
               <icon-delete />
             </button>
           </td>
@@ -210,7 +217,6 @@ export default {
     confirmationModal: ConfirmationModal,
   },
   setup(props) {
-    
     const { photos, run } = props;
     const photosTable = ref([]);
     const run_id = ref(run.id);
@@ -227,7 +233,7 @@ export default {
     const gettData = async () => {
       const res = await axios.get(`/photo/getPhotosByRun/${run_id.value}`);
       photosTable.value = res.data;
-      generateDataTable()
+      generateDataTable();
     };
 
     $(document).ready(function () {
@@ -238,13 +244,14 @@ export default {
         });
     });
     const generateDataTable = () => {
+      $("#photosTable").DataTable().clear().destroy();
       nextTick(() => {
         $("#photosTable").DataTable({
           ordering: true,
           bLengthChange: false,
           pageLength: 5,
           responsive: true,
-           columnDefs: [
+          columnDefs: [
             {
               defaultContent: "-",
               targets: "_all",
@@ -257,19 +264,19 @@ export default {
             },
             info: "Showing results _START_ to _END_ from _TOTAL_",
           },
-           drawCallback: function () {
+          drawCallback: function () {
             $("#photosTable").on("click", "[class*=showPhotos]", function (e) {
               showPhotos(e.currentTarget.attributes[0].value);
             });
-             $("#photosTable").on("click", "[class*=clickEdit]", function (e) {
-              const id = e.currentTarget.attributes[0].value
-              openModalEditClick(id)
+            $("#photosTable").on("click", "[class*=clickEdit]", function (e) {
+              const id = e.currentTarget.attributes[0].value;
+              openModalEditClick(id);
             });
-             $("#photosTable").on("click", "[class*=clickDelete]", function (e) {
-             const id = e.currentTarget.attributes[0].value
-             openModalDeleteClick(id)
+            $("#photosTable").on("click", "[class*=clickDelete]", function (e) {
+              const id = e.currentTarget.attributes[0].value;
+              openModalDeleteClick(id);
             });
-           }
+          },
         });
       });
     };
@@ -299,13 +306,14 @@ export default {
         photosTable.value = photosTable.value.filter(
           (item) => item.id !== value
         );
+        generateDataTable()
       } else {
         makeToast(message, "error");
       }
     };
     const openModalEditClick = (id) => {
       idPhoto.value = id;
-      console.log(id)
+      console.log(id);
       photoItem.value = photosTable.value.find((item) => item.id == id);
       openModalEdit.value = true;
     };
@@ -320,7 +328,6 @@ export default {
         return hoursDiff | 0;
       }
     };
-
 
     gettData();
     return {

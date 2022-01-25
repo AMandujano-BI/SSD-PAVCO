@@ -53,9 +53,6 @@ const useFormRun = () => {
     });
 
     const rules = {
-        description: {
-            required,
-        },
         start_date: {
             required,
         },

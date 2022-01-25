@@ -101,16 +101,8 @@
         <textarea
           v-model="form.description"
           cols="30"
-          :class="{ 'border-red-500': v$.description.$error }"
           class="w-full"
         ></textarea>
-        <p
-          v-for="error of v$.description.$errors"
-          :key="error.$uid"
-          class="text-red-400"
-        >
-          {{ error.$message }}
-        </p>
       </div>
       <div
         v-if="!loading"
@@ -198,7 +190,6 @@ export default {
     const image = ref(null);
     const { makeToast } = useHelper();
     const rules = {
-      description: { required },
       hours: { required },
       name: { required },
       image: { required },
@@ -244,6 +235,7 @@ export default {
         if (ok) {
           makeToast(message);
           photos.value.push(value);
+          emit("generateDataTable");
           emit("closeModal");
         } else {
           makeToast(message, "error");
