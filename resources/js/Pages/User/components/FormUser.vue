@@ -51,7 +51,7 @@
         <input
           type="text"
           class="w-full my-2"
-          autocomplete="off"
+          autocomplete="nope"
           v-model="form.name"
           :class="{ 'border-red-500': v$.name.$error }"
         />
@@ -68,7 +68,7 @@
         <input
           type="text"
           class="w-full my-2"
-          autocomplete="off"
+          autocomplete="nope"
           v-model="form.lastname"
         />
       </div>
@@ -77,7 +77,7 @@
         <input
           type="text"
           class="w-full my-2"
-          autocomplete="off"
+          autocomplete="nope"
           v-model="form.email"
           :class="{ 'border-red-500': v$.email.$error }"
         />

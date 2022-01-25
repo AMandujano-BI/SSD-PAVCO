@@ -10,7 +10,7 @@
         <input
           type="text"
           class="w-full"
-          autocomplete="off"
+          autocomplete="nope"
           v-model="form.name"
           :class="{ 'border-red-500': v$.name.$error }"
         />
@@ -65,7 +65,7 @@
         <input
           type="text"
           class="w-full"
-          autocomplete="off"
+          autocomplete="nope"
           v-model="form.address"
         />
       </div>
@@ -74,7 +74,7 @@
         <input
           type="text"
           class="w-full"
-          autocomplete="off"
+          autocomplete="nope"
           v-model="form.city"
         />
       </div>
@@ -83,7 +83,7 @@
         <input
           type="text"
           class="w-full"
-          autocomplete="off"
+          autocomplete="nope"
           v-model="form.state"
         />
       </div>
@@ -92,7 +92,7 @@
         <input
           type="text"
           class="w-full"
-          autocomplete="off"
+          autocomplete="nope"
           v-model="form.zip"
         />
          <p
@@ -111,6 +111,7 @@
           class="w-full"
           v-model="form.country_id"
           :searchable="true"
+          autocomplete="nope"
           placeholder="Select Country"
         />
         <p
@@ -126,7 +127,7 @@
         <input
           type="text"
           class="w-full"
-          autocomplete="off"
+          autocomplete="nope"
           v-model="form.phone"
         />
       </div>
