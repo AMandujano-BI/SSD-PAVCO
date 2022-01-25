@@ -214,24 +214,7 @@ class ReportController extends Controller
                 ->whereBetween('parts.primaryDiptime', [$primaryDiptime_less_than, $primaryDiptime_more_than])
                 ->select(
                     'parts.id',
-                    // 'parts.plateThick',
                     'parts.description',
-                    // 'parts.topCoatPer',
-                    // 'parts.topCoatTemp',
-                    // 'parts.topCoatPH',
-                    // 'parts.topCoatDiptime',
-                    // 'parts.primaryPer',
-                    // 'parts.primaryTemp',
-                    // 'parts.primaryPH',
-                    // 'parts.primaryDiptime',
-                    // 'parts.coatPer',
-                    // 'parts.coatTemp',
-                    // 'parts.coatPH',
-                    // 'parts.coatDiptime',
-                    // 'parts.plate_types_id',
-                    // 'parts.primaryCoatId',
-                    // 'parts.coatId',
-                    // 'parts.topCoatId',
                     'parts.run_id',
                     'parts.created_at',
                     'companies.name as company'
@@ -274,24 +257,7 @@ class ReportController extends Controller
                 ->whereBetween('parts.primaryDiptime', [$primaryDiptime_less_than, $primaryDiptime_more_than])
                 ->select(
                     'parts.id',
-                    // 'parts.plateThick',
                     'parts.description',
-                    // 'parts.topCoatPer',
-                    // 'parts.topCoatTemp',
-                    // 'parts.topCoatPH',
-                    // 'parts.topCoatDiptime',
-                    // 'parts.primaryPer',
-                    // 'parts.primaryTemp',
-                    // 'parts.primaryPH',
-                    // 'parts.primaryDiptime',
-                    // 'parts.coatPer',
-                    // 'parts.coatTemp',
-                    // 'parts.coatPH',
-                    // 'parts.coatDiptime',
-                    // 'parts.plate_types_id',
-                    // 'parts.primaryCoatId',
-                    // 'parts.coatId',
-                    // 'parts.topCoatId',
                     'parts.run_id',
                     'parts.created_at',
                     'companies.name as company',
@@ -301,7 +267,7 @@ class ReportController extends Controller
         }
 
         $pdf = PDF::loadView('pdf.parts', compact(['start_date', 'customerName', 'endDate', 'plate_typeName', 'chromateName', 'top_coatName', 'coatName', 'parts']));
-        $pdf->setPaper('a4', 'portrait');
+        $pdf->setPaper('a4', 'landscape');
         return $pdf->output();
     }
 }

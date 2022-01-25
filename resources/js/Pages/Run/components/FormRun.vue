@@ -90,7 +90,7 @@
             v-model="form.plateThick"
             :class="{ 'border-red-500': v$.plateThick.$error }"
           />
-          <span class="text-center block pt-1 text-[#3b4559]">mil</span>
+          <span class="text-center block pt-1 text-[#3b4559]">mils</span>
           <p
             v-for="error of v$.plateThick.$errors"
             :key="error.$uid"

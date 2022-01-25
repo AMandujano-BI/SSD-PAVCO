@@ -422,7 +422,7 @@ class RunController extends Controller
             </div>
         </div>
         ";
-        $pdf->loadHTML($html);
+        $pdf->loadHTML($html)->setPaper('a4', 'landscape');
 
         return $pdf->download('run_report_' . $run->id . '.pdf');
     }
@@ -693,7 +693,8 @@ class RunController extends Controller
                 </div>
             </div>
         ";
-        $pdf->loadHTML($html);
+        $pdf->loadHTML($html)->setPaper('a4', 'landscape');
+        $pdf->setPaper('landscape');
 
         return $pdf->download('run_report_' . $run->id . '.pdf');
     }
