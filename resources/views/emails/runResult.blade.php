@@ -525,8 +525,37 @@
           <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
         </td>
       </tr>
+      @if (count($run->photos) > 0)
+      <tr>
+        <div class="u-row-container" style="padding: 0px;background-color: transparent">
+          <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 900px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
+            <div style="border-collapse: collapse;display: table;width: 100%;background-color: transparent;">
+              <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:900px;"><tr style="background-color: transparent;"><![endif]-->
+
+              <!--[if (mso)|(IE)]><td align="center" width="900" style="background-color: #f8fafc;width: 900px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
+              <div class="u-col u-col-100" style="max-width: 320px;min-width: 900px;display: table-cell;vertical-align: top;">
+                <div style="background-color: #f8fafc;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                  <!--[if (!mso)&(!IE)]><!-->
+                  <div style="padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+
+                    <h1 style="margin: 10px 0px; color:#34689C;text-align: center;">Images</h1>
+                    <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                        @foreach ($run->photos as $photo)
+                        <img style="width: 330px;height: 330px;" src="{{$photo->image}}">
+                        @endforeach
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tr>
+      @endif
+
     </tbody>
   </table>
+
   <!--[if mso]></div><![endif]-->
   <!--[if IE]></div><![endif]-->
 </body>
