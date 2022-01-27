@@ -191,8 +191,8 @@
               </svg>
             </div>
 
-            <icon-close v-if="runDetail.status == 0" /> 
-             <span :class="{ 'text-gray-400': runDetail.status == 1 }">
+            <icon-close v-if="runDetail.status == 0" />
+            <span :class="{ 'text-gray-400': runDetail.status == 1 }">
               Close
             </span>
           </button>
@@ -201,14 +201,16 @@
               flex
               gap-2
               items-center
-              
               cursor-pointer
               text-white
               py-4
               justify-center
             "
             @click="showReOpen"
-            :class="{ 'bg-[#F0F0F0]': runDetail.status == 0,'bg-[#0ABC8A]': runDetail.status == 1}"
+            :class="{
+              'bg-[#F0F0F0]': runDetail.status == 0,
+              'bg-[#0ABC8A]': runDetail.status == 1,
+            }"
             :disabled="runDetail.status == 0"
           >
             <div v-if="runDetail.status == 0">
@@ -330,7 +332,7 @@
             E-mail
           </div>
         </div>
-            <input
+        <input
           type="text"
           class="
             py-[14px]
@@ -621,13 +623,12 @@ export default {
     const goBack = () => {
       Inertia.get("/run");
     };
-       $(document).ready(function () {
+    $(document).ready(function () {
       $("#filterRunPartInputBot")
         .off()
         .keyup(function () {
           $("#activeRunsDetail").DataTable().search(this.value).draw();
         });
- 
     });
     const generateDataTableDetail = () => {
       nextTick(() => {
