@@ -448,6 +448,11 @@
                                   </thead>
                                   <tbody>
                                     @foreach ($run->parts as $part)
+                                    @if (
+                                    $part->topCoatPer != null || $part->topCoatTemp != null || $part->topCoatPH != null || $part->topCoatDiptime != null ||
+                                    $part->primaryPer != null || $part->primaryTemp != null || $part->primaryPH != null || $part->primaryDiptime != null ||
+                                    $part->coatPer != null || $part->coatTemp != null || $part->coatPH != null || $part->coatDiptime != null
+                                    )
                                     <tr style=" border-top: 1px solid #979797;padding:5px;">
                                       <td data-label="Part Description">{{$part->description}}</td>
                                       <td data-label="Plate Type">{{$part->plateType->name}}</td>
@@ -455,6 +460,7 @@
                                       <td data-label="Coat">{{$part->coat->name}} - {{$part->coatPer}} %</td>
                                       <td data-label="Account">{{$part->topCoat->name}} - {{$part->topCoatPer}} %</td>
                                     </tr>
+                                    @endif
                                     @endforeach
                                   </tbody>
 
@@ -540,9 +546,9 @@
 
                     <h1 style="margin: 10px 0px; color:#34689C;text-align: center;">Images</h1>
                     <div class="u-row-container" style="padding: 0px;background-color: transparent">
-                        @foreach ($run->photos as $photo)
-                        <img style="width: 330px;height: 330px;" src="{{$photo->image}}">
-                        @endforeach
+                      @foreach ($run->photos as $photo)
+                      <img style="width: 330px;height: 330px;" src="{{$photo->image}}">
+                      @endforeach
                     </div>
                   </div>
                 </div>

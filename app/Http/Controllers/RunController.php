@@ -241,9 +241,14 @@ class RunController extends Controller
             $coatTemp = $part->coatTemp . '°';
             $coatPH = $part->coatPH . 'pH';
             $coatDiptime = $part->coatDiptime . 'sec';
+            if (
+                $part->topCoatPer != null || $part->topCoatTemp != null || $part->topCoatPH != null || $part->topCoatDiptime != null  ||
+                $part->primaryPer != null || $part->primaryTemp != null || $part->primaryPH != null || $part->primaryDiptime != null  ||
+                $part->coatPer != null || $part->coatTemp != null || $part->coatPH != null || $part->coatDiptime != null
+            ) {
 
-            $content .=
-                "<tr>
+                $content .=
+                    "<tr>
                 <td>$part->description</td>
                 <td>$plate_type</td>
                 // 
@@ -270,6 +275,7 @@ class RunController extends Controller
                 </td>
             </tr>
             ";
+            }
         }
 
         $pdf = resolve('dompdf.wrapper');
@@ -396,7 +402,7 @@ class RunController extends Controller
             </div>
             <div class='body'>
                 <div class='table__container'>
-                    <table cellspacing='10' >
+                    <table cellspacing='10' style='width:100%;' >
                         <thead>
                             <tr>
                                 <th>Desc</th>
@@ -483,8 +489,14 @@ class RunController extends Controller
             $coat = $part->coat->name;
             $topCoat = $part->topCoat->name;
             $chromate = $part->chromate->name;
-            $content .=
-                "<tr>
+            if (
+                $part->topCoatPer != null || $part->topCoatTemp != null || $part->topCoatPH != null || $part->topCoatDiptime != null  ||
+                $part->primaryPer != null || $part->primaryTemp != null || $part->primaryPH != null || $part->primaryDiptime != null  ||
+                $part->coatPer != null || $part->coatTemp != null || $part->coatPH != null || $part->coatDiptime != null
+            ) {
+
+                $content .=
+                    "<tr>
                 <td>$part->description</td>
                 <td>$plate_type</td>
                 
@@ -512,6 +524,7 @@ class RunController extends Controller
           
             </tr>
             ";
+            }
         }
 
         $photos = $run->photos;

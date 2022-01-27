@@ -176,11 +176,17 @@
                     <tbody>
 
                         @foreach ($parts as $part)
+                        @if (
+                                    $part->topCoatPer != null || $part->topCoatTemp != null || $part->topCoatPH != null || $part->topCoatDiptime != null ||
+                                    $part->primaryPer != null || $part->primaryTemp != null || $part->primaryPH != null || $part->primaryDiptime != null ||
+                                    $part->coatPer != null || $part->coatTemp != null || $part->coatPH != null || $part->coatDiptime != null
+                                    )
                         <tr style="text-align: center;">
                             <td style="text-align: center;">{{$part->run_id}}</td>
                             <td style="text-align: center;">{{$part->company}}</td>
                             <td style="text-align: center;">{{$part->description}}</td>
                         </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>

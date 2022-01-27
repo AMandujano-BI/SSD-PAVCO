@@ -37,18 +37,18 @@ const useFormRun = () => {
         plate_types_id: 0,
         plateThick: 0,
         //------Details
-        topCoatPer: 0,
-        topCoatTemp: 0,
-        topCoatPH: 0,
-        topCoatDiptime: 0,
-        primaryPer: 0,
-        primaryTemp: 0,
-        primaryPH: 0,
-        primaryDiptime: 0,
-        coatPer: 0,
-        coatTemp: 0,
-        coatPH: 0,
-        coatDiptime: 0,
+        // topCoatPer: 0,
+        // topCoatTemp: 0,
+        // topCoatPH: 0,
+        // topCoatDiptime: 0,
+        // primaryPer: 0,
+        // primaryTemp: 0,
+        // primaryPH: 0,
+        // primaryDiptime: 0,
+        // coatPer: 0,
+        // coatTemp: 0,
+        // coatPH: 0,
+        // coatDiptime: 0,
         numberParts: 0,
     });
 
@@ -97,19 +97,20 @@ const useFormRun = () => {
             minValue: minValue(1)
         },
         start_date: { required, },
-        topCoatPer: { required, },
-        topCoatTemp: { required, },
-        topCoatPH: { required, },
-        topCoatDiptime: { required, },
-        primaryPer: { required, },
-        primaryTemp: { required, },
-        primaryPH: { required, },
-        primaryDiptime: { required, },
         plateThick: { required },
-        coatPH: { required },
-        coatPer: { required },
-        coatTemp: { required },
-        coatDiptime: { required }
+        // Details
+        // topCoatPer: { required, },
+        // topCoatTemp: { required, },
+        // topCoatPH: { required, },
+        // topCoatDiptime: { required, },
+        // primaryPer: { required, },
+        // primaryTemp: { required, },
+        // primaryPH: { required, },
+        // primaryDiptime: { required, },
+        // coatPH: { required },
+        // coatPer: { required },
+        // coatTemp: { required },
+        // coatDiptime: { required }
 
     };
     const v$ = useVuelidate(rules, form);

@@ -126,16 +126,9 @@
               type="text"
               class="w-[60px]"
               v-model="form.primaryPer"
-              :class="{ 'border-red-500': v$.primaryPer.$error }"
             />
             <span  class="text-center block pt-1 text-[#3b4559]">%</span>
-            <p
-              v-for="error of v$.primaryPer.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+   
           </div>
 
           <div>
@@ -143,48 +136,27 @@
               type="text"
               class="w-[60px]"
               v-model="form.primaryTemp"
-              :class="{ 'border-red-500': v$.primaryTemp.$error }"
             />
             <span  class="text-center block pt-1 text-[#3b4559]">°F</span>
-            <p
-              v-for="error of v$.primaryTemp.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+    
           </div>
           <div>
             <input
               type="text"
               class="w-[60px]"
               v-model="form.primaryPH"
-              :class="{ 'border-red-500': v$.primaryPH.$error }"
             />
             <span class="text-center block pt-1 text-[#3b4559]">pH</span>
-            <p
-              v-for="error of v$.primaryPH.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+      
           </div>
           <div>
             <input
               type="text"
               class="w-[60px]"
               v-model="form.primaryDiptime"
-              :class="{ 'border-red-500': v$.primaryDiptime.$error }"
             />
             <span  class="text-center block pt-1 text-[#3b4559]">sec</span>
-            <p
-              v-for="error of v$.primaryDiptime.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+ 
           </div>
         </div>
       </div>
@@ -214,16 +186,9 @@
               type="text"
               class="w-[60px]"
               v-model="form.topCoatPer"
-              :class="{ 'border-red-500': v$.topCoatPer.$error }"
             />
             <span  class="text-center block pt-1 text-[#3b4559]">%</span>
-            <p
-              v-for="error of v$.topCoatPer.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+     
           </div>
 
           <div>
@@ -231,48 +196,27 @@
               type="text"
               class="w-[60px]"
               v-model="form.topCoatTemp"
-              :class="{ 'border-red-500': v$.topCoatTemp.$error }"
             />
             <span class="text-center block pt-1 text-[#3b4559]">°F</span>
-            <p
-              v-for="error of v$.topCoatTemp.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+    
           </div>
           <div>
             <input
               type="text"
               class="w-[60px]"
               v-model="form.topCoatPH"
-              :class="{ 'border-red-500': v$.topCoatPH.$error }"
             />
             <span  class="text-center block pt-1 text-[#3b4559]">pH</span>
-            <p
-              v-for="error of v$.topCoatPH.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+    
           </div>
           <div>
             <input
               type="text"
               class="w-[60px]"
-              :class="{ 'border-red-500': v$.topCoatDiptime.$error }"
               v-model="form.topCoatDiptime"
             />
             <span  class="text-center block pt-1 text-[#3b4559]">sec</span>
-            <p
-              v-for="error of v$.topCoatDiptime.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+      
           </div>
         </div>
       </div>
@@ -302,16 +246,9 @@
               type="text"
               class="w-[60px]"
               v-model="form.coatPer"
-              :class="{ 'border-red-500': v$.coatPer.$error }"
             />
             <span class="text-center block pt-1 text-[#3b4559]">%</span>
-            <p
-              v-for="error of v$.coatPer.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+      
           </div>
 
           <div>
@@ -319,50 +256,28 @@
               type="text"
               class="w-[60px]"
               v-model="form.coatTemp"
-              :class="{ 'border-red-500': v$.coatTemp.$error }"
             />
             <span class="text-center block pt-1 text-[#3b4559]">°F</span>
 
-            <p
-              v-for="error of v$.coatTemp.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+       
           </div>
           <div>
             <input
               type="text"
               class="w-[60px]"
               v-model="form.coatPH"
-              :class="{ 'border-red-500': v$.coatPH.$error }"
             />
             <span class="text-center block pt-1 text-[#3b4559]">pH</span>
-            <p
-              v-for="error of v$.coatPH.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
           <div>
             <input
               type="text"
               class="w-[60px]"
               v-model="form.coatDiptime"
-              :class="{ 'border-red-500': v$.coatDiptime.$error }"
             />
             <span class="text-center block pt-1 text-[#3b4559]">sec</span>
 
-            <p
-              v-for="error of v$.coatDiptime.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+       
           </div>
         </div>
       </div>

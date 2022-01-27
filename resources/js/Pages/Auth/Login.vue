@@ -73,6 +73,7 @@
                 class="pl-16 w-full border-[#e1e1e1] py-4"
                 v-model="form.username"
                 placeholder="Username"
+                autocomplete="nope"
                 required
                 autofocus
               />
