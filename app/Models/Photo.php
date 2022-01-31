@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\PhotoController;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -59,16 +60,24 @@ class Photo extends Model
             $run_id = $request->input('run');
             $report = $request->input('report');
            
+            $file_name = 'images/run' . $run_id.'/'.$filename;
+            $photoEqualFileName = (new static)::where('image',$file_name)->first();
+            if($photoEqualFileName){
+                return [
+                    'ok' => false,
+                    'message' => 'Photo already exists',
+                    'value' => 0
+                ];  
+            }
             $photo = (new static)::create([
                 'name' => $name,
                 'hours' => 0,
-                'image' => 'images/run' . $run_id . '/' . $filename,
+                'image' =>$file_name, 
                 'description' => $description,
                 'report' => $report,
                 'run_id' => $run_id,
             ]);
             $photo->save();
-            $file_name = 'images/run' . $run_id.'/'.$filename;
    
             Storage::put($file_name,file_get_contents($file), 's3');
 
