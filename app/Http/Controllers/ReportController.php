@@ -184,6 +184,8 @@ class ReportController extends Controller
             $parts = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
+                ->join('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
+                ->join('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
                 ->whereBetween('parts.created_at', [$start_date, $endDate])
                 ->when($plate_type, function ($query, $plate_type) {
                     return $query->where('plate_types_id', $plate_type);
@@ -218,7 +220,9 @@ class ReportController extends Controller
                     'parts.primaryCoatId',
                     'parts.coatId',
                     'parts.topCoatId',
-                    'companies.name as company'
+                    'companies.name as company',
+                    'chromate.name as chromate',
+                    'topcoat.name as topcoat'
 
                 )
                 ->get();
@@ -227,6 +231,8 @@ class ReportController extends Controller
             $parts = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
+                ->join('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
+                ->join('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
                 ->whereBetween('parts.created_at', [$start_date, $endDate])
                 ->where('runs.company_id', $company_id)
                 ->when($plate_type, function ($query, $plate_type) {
@@ -263,7 +269,9 @@ class ReportController extends Controller
                     'parts.coatId',
                     'parts.topCoatId',
                     'companies.name as company',
-                    'parts.run_id'
+                    'parts.run_id',
+                    'chromate.name as chromate',
+                    'topcoat.name as topcoat'
                 )
                 ->get();
         }

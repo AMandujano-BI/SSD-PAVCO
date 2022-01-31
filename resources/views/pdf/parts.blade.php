@@ -171,6 +171,8 @@
                             <th style="text-align: center;">Run #</th>
                             <th style="text-align: center;">Customer</th>
                             <th style="text-align: center;">Description</th>
+                            <th style="text-align: center;">Chromate</th>
+                            <th style="text-align: center;">Topcoat</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -185,6 +187,8 @@
                             <td style="text-align: center;">{{$part->run_id}}</td>
                             <td style="text-align: center;">{{$part->company}}</td>
                             <td style="text-align: center;">{{$part->description}}</td>
+                            <td style="text-align: center;">{{$part->chromate}}</td>
+                            <td style="text-align: center;">{{$part->topcoat}}</td>
                         </tr>
                         @endif
                         @endforeach
