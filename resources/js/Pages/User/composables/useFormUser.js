@@ -30,14 +30,24 @@ const useFormuser = (formProps) => {
         },
     }))
     const onChangeRol =(type)=>{
-        getCompanies(type)
+        getCompanies(type,true)
     }
 
-    const getCompanies = async(type =1) =>{
-        const res = await axios.get(`/company/getCompaniesDropdown/${type}`)
-        form.company_id =0
-        console.log(res.data)
-        companies.value = res.data
+    const getCompanies = async(type =1,change=false) =>{
+        if(form.company_id !=0 || form.company_id !=null){
+            if(form.rols.length >0 && change ==false){
+                const res = await axios.get(`/company/getCompaniesDropdown/${form.rols[0]}`)
+                companies.value = res.data
+            }else{
+                const res = await axios.get(`/company/getCompaniesDropdown/${type}`)
+                form.company_id =0
+                companies.value = res.data
+            }
+        }else{
+            const res = await axios.get(`/company/getCompaniesDropdown/${type}`)
+            form.company_id =0
+            companies.value = res.data
+        }
 
     }
     const v$ = useVuelidate(rules, form);

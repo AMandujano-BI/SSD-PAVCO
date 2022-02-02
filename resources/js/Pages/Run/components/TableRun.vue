@@ -1,4 +1,6 @@
 <template>
+
+
   <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
     {{ filterOption == 3 ? "All" : filterOption == 0 ? "Active" : "Complete" }}
     Runs
@@ -6,7 +8,9 @@
   <div class="container p-2">
     <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
       <div class="flex gap-8 items-center flex-1 w-full">
+        <div v-if="$page.props.auth.rols[0] ==1 || $page.props.auth.rols[0] ==2 ">
         <button @click="openModalButton"><icon-plus /></button>
+        </div>
         <select
           class="w-full p-3 rounded-sm border-[#a2a2a2] text-[#a2a2a2] flex-1"
           @change="changeFilter"
@@ -184,6 +188,7 @@
         </div>
       </template>
     </confirmation-modal>
+    
   </div>
 </template>
 

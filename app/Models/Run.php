@@ -75,12 +75,25 @@ class Run extends Model
             return false;
         }
     }
+    private static function checkIfDistributor()
+    {
+        $user = auth()->user();
+        $userWithRol  = User::where('id', $user->id)->with(['rols'])->first();
+        $rols = $userWithRol->rols;
+        foreach ($rols as $key) {
+            if ($key->name == "Distributor") {
+                return true;
+            }
+            return false;
+        }
+    }
     public static function getAllRun($status)
     {
         $user = auth()->user();
         $isAdministrator = (new static)::checkIfAdministrator();
-
+        $isDistributor= (new static)::checkIfDistributor();
         if ($isAdministrator) {
+            //Si es de tipo administrador no se  hara el filtrado de runs, sino se mostratará todos los runs
             if ($status == 3) {
                 $run = (new static)::with([
                     'notes',
@@ -114,6 +127,48 @@ class Run extends Model
                     ->get();
                 return $run;
             }
+        }else if($isDistributor) {
+            //Si es de tipo distribuidor,se obtiene todas las compañias asociadas a ese distribuidor
+            $user = auth()->user();
+            $customers = Company::where('company_id',$user->company_id)->get(['id']);
+            if ($status == 3) {
+                $run = (new static)::with([
+                    'notes',
+                    'photos',
+                    'parts',
+                    'method',
+                    'parts.chromate',
+                    'parts.coat',
+                    'parts.plateType',
+                    'parts.topCoat',
+                    'company',
+                ])
+                    ->where('status', '!=', 2)
+                    ->whereIn('company_id',$customers)
+                    ->get();
+                return $run;
+            } else {
+    
+                $run = (new static)::with([
+                    'notes',
+                    'photos',
+                    'parts',
+                    'method',
+                    'parts.chromate',
+                    'parts.coat',
+                    'parts.plateType',
+                    'parts.topCoat',
+                    'company',
+                ])
+                    ->where('status', '!=', 2)
+                    ->where('status', $status)
+                    ->whereIn('company_id',$customers)
+                    ->get();
+                return $run;
+            }
+
+
+
         }
 
 
@@ -131,7 +186,8 @@ class Run extends Model
                 'company',
             ])
                 ->where('status', '!=', 2)
-                ->where('user_id', $user->id)
+                // ->where('user_id', $user->id)
+                ->where('company_id', $user->company_id)
                 ->get();
             return $run;
         } else {
@@ -149,7 +205,7 @@ class Run extends Model
             ])
                 ->where('status', '!=', 2)
                 ->where('status', $status)
-                ->where('user_id', $user->id)
+                ->where('company_id', $user->company_id)
                 ->get();
             return $run;
         }
@@ -189,7 +245,7 @@ class Run extends Model
             'company',
         ])
             ->where('status', '!=', 2)
-            ->where('user_id', $user->id)
+            ->where('company_id', $user->company_id)
             ->find($id);
         return $run;
     }
