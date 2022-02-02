@@ -252,6 +252,20 @@ class Company extends Model
         }
         return $companies;
     }
+    public static function getCompaniesDropdown($type)
+    {
+        if ($type == 3) {
+            //Distributor
+            $companies = (new static)::with(['country', 'children'])->where('status', '!=', 0)->where('distributor',1)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
+        }else if($type ==4) {
+            //Customer
+            $companies = (new static)::with(['country', 'children'])->where('status', '!=', 0)->where('distributor', 0)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
+        }else{
+            //All
+            $companies = (new static)::with(['country', 'children'])->where('status', '!=', 0)->orderBy('name', 'asc')->get(['id AS value', 'name AS label']);
+        }
+        return $companies;
+    }
 
     // RELATIONS
     public function country()

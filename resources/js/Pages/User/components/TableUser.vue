@@ -89,7 +89,6 @@
     <modal :show="openModal">
       <div class="p-5">
         <form-user
-          :companies="companies"
           :rols="rols"
           @closeModal="closeModalForm"
           @generateTable="generateDataTable"

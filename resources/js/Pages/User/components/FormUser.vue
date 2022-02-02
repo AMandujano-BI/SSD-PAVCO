@@ -34,6 +34,7 @@
           v-model="form.rols"
           :searchable="true"
           :disabled="$page.props.user.id == form.id"
+          @input="onChangeRol"
           :close-on-select="true"
           placeholder="Select a Rol"
         />
@@ -177,10 +178,10 @@ export default {
   components: {
     multiSelect: Multiselect,
   },
-  props: ["companies", "rols"],
+  props: ["rols"],
   setup(props, { emit }) {
     const store = useStore();
-    const { form, submitForm, v$ } = useFormUser(store.state.users.form);
+    const { form, submitForm, v$,onChangeRol,companies } = useFormUser(store.state.users.form);
     const closeModal = () => {
       emit("closeModal");
     };
@@ -190,6 +191,8 @@ export default {
       submitForm,
       v$,
       closeModal,
+      onChangeRol,
+      companies,
     };
   },
 };

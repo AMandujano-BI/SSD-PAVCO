@@ -1,4 +1,4 @@
-import { reactive, computed, getCurrentInstance } from "vue";
+import { reactive, computed, getCurrentInstance, ref } from "vue";
 import { required, helpers, sameAs, email, minLength } from "@vuelidate/validators";
 import useHelper from "@/composables/useHelper";
 import useVuelidate from "@vuelidate/core";
@@ -9,6 +9,7 @@ const isDiferentZero = (value) => {
 const useFormuser = (formProps) => {
     const form = reactive(formProps);
     const store = useStore()
+    const companies = ref([])
     const { emit } = getCurrentInstance();
     const { makeToast } = useHelper();
     const rules = computed(() => ({
@@ -28,6 +29,17 @@ const useFormuser = (formProps) => {
             required,
         },
     }))
+    const onChangeRol =(type)=>{
+        getCompanies(type)
+    }
+
+    const getCompanies = async(type =1) =>{
+        const res = await axios.get(`/company/getCompaniesDropdown/${type}`)
+        form.company_id =0
+        console.log(res.data)
+        companies.value = res.data
+
+    }
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {
         const isFormCorrect = await v$.value.$validate();
@@ -53,10 +65,14 @@ const useFormuser = (formProps) => {
         }
     }
 
+    getCompanies()
+
     return {
         form,
         submitForm,
-        v$
+        v$,
+        onChangeRol,
+        companies
     }
 }
 
