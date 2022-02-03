@@ -68,7 +68,7 @@
         class="display nowrap responsive"
         style="width: 100%; height: 100%"
       >
-        <thead>
+        <thead  v-if="$page.props.auth.rols[0].id ==1">
           <tr>
             <th data-priority="2">StartDate</th>
             <th data-priority="1">Run #</th>
@@ -82,6 +82,20 @@
             <th class="no-sort">Delete</th>
             <th class="no-sort">Close</th>
             <th class="no-sort">Re-Open</th>
+            <th class="no-sort">Reports</th>
+            <th class="no-sort">Email</th>
+          </tr>
+        </thead>
+          <thead  v-if="$page.props.auth.rols[0].id !=1"> 
+          <tr>
+            <th data-priority="2">StartDate</th>
+            <th data-priority="1">Run #</th>
+            <th data-priority="1" class="max-w-[150px]">Customer</th>
+            <th>Method</th>
+            <th data-priority="2">Status</th>
+            <th>Hrs</th>
+            <th class="no-sort">Photos</th>
+            <th class="no-sort">Results</th>
             <th class="no-sort">Reports</th>
             <th class="no-sort">Email</th>
           </tr>
@@ -215,7 +229,6 @@ var dt = require("datatables.net");
 import "datatables.net-responsive-dt";
 import "datatables.net-rowreorder-dt";
 import IconPlusVue from "@/assets/Icons/iconPlus.vue";
-
 export default {
   emits: ["openModalButton"],
   components: {
@@ -250,6 +263,7 @@ export default {
     const emailSend = ref("");
     const idGlobal = ref(0);
     const filterOption = ref(3);
+    const rolConditional = ref(Inertia.page.props.auth.rols[0].id)
     const modalEmail = ref(false);
     const onSwiper = (swiper) => {};
     const onSlideChange = () => {};
@@ -405,46 +419,7 @@ export default {
     const changeFilter = async () => {
       gettingData(filterOption.value);
     };
-    const generateDataTable = (status) => {
-      const self = this;
-      nextTick(() => {
-        $("#activeRuns").DataTable({
-          ordering: true,
-          bLengthChange: false,
-          pageLength: 10,
-          processing: true,
-          serverSide: true,
-          stateSave: true,
-          columnDefs: [
-            {
-              defaultContent: "-",
-              targets: "_all",
-            },
-          ],
-
-          responsive: true,
-          language: {
-            paginate: {
-              next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
-              previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
-            },
-            info: "Showing results _START_ to _END_ from _TOTAL_",
-          },
-          ajax: {
-            url: `/run/getAllRuns/${status}`,
-          },
-          // language:{
-          //   // processing:"<h1 style='background:#333;color:#fff;height:800px;'>Loading..</h1>"
-          // },
-          stateSaveCallback: function (settings, data) {
-            const state = settings.aoData;
-            let arr = [];
-            state.forEach((element) => {
-              arr.push(element._aData);
-            });
-            runs.value = arr;
-          },
-          columns: [
+    const col =  [ 
             {
               name: "start_date",
               searchable: true,
@@ -613,7 +588,153 @@ export default {
                 );
               },
             },
+    ]
+  const col2 =  [ 
+            {
+              name: "start_date",
+              searchable: true,
+              render: function (data, type, row, meta) {
+                return "<td>" + row.start_date.slice(0, 10) + "</td>";
+              },
+            },
+            {
+              name: "id",
+              searchable: true,
+              render: function (data, type, row, meta) {
+                return "<td>" + row.id + "</td>";
+              },
+            },
+            {
+              name: "company.name",
+              searchable: true,
+              render: function (data, type, row, meta) {
+                return "<td>" + row.company.name + "</td>";
+              },
+            },
+            {
+              name: "method.name",
+              searchable: false,
+              render: function (data, type, row, meta) {
+                return "<td>" + row.method.name + "</td>";
+              },
+            },
+            {
+              name: "status",
+              searchable: false,
+              render: function (data, type, row, meta) {
+                let status;
+                if (row.status === 1) {
+                  status = "<span>Complete</span>";
+                } else {
+                  status = "<span>Active</span>";
+                }
+                return status;
+              },
+            },
+            {
+              name: "hours",
+              searchable: false,
+              render: function (data, type, row, meta) {
+                const hours = calculateHours(
+                  row.id,
+                  row.status,
+                  row.start_date,
+                  row.isEdit,
+                  row.last_edit,
+                  row.hours,
+                  row.closed_date
+                );
+                return `<td class="text-center">${hours}</td>`;
+              },
+            },
+            {
+              name: "PhotoAction",
+              searchable: false,
+              render: function (data, type, row, meta) {
+                return (
+                  '<button class="showphotos"  itemId=' +
+                  row.id +
+                  '>  <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path fill="#75DDDD" d="M0 0h25v25H0z"/><g fill="#FFF" fill-rule="nonzero"><path d="M20.48 12.166c-.148-.21-3.679-5.138-8.187-5.138-4.51 0-8.04 4.928-8.188 5.138-.14.199-.14.469 0 .668.148.21 3.679 5.138 8.188 5.138 4.508 0 8.039-4.928 8.187-5.138a.582.582 0 0 0 0-.668zm-8.187 4.674c-3.322 0-6.198-3.271-7.05-4.34.85-1.07 3.721-4.34 7.05-4.34 3.32 0 6.197 3.27 7.049 4.34-.85 1.07-3.721 4.34-7.05 4.34z"/><path d="M12.293 9.104c-1.81 0-3.281 1.523-3.281 3.396s1.472 3.396 3.28 3.396c1.81 0 3.281-1.523 3.281-3.396s-1.472-3.396-3.28-3.396zm0 5.66c-1.206 0-2.187-1.015-2.187-2.264 0-1.249.98-2.264 2.187-2.264 1.206 0 2.187 1.015 2.187 2.264 0 1.249-.981 2.264-2.187 2.264z"/></g></g></svg>  </button>'
+                );
+              },
+            },
+            {
+              name: "ResultAction",
+              searchable: false,
+              render: function (data, type, row, meta) {
+                return (
+                  '<button class="showresults" itemId=' +
+                  row.id +
+                  '>  <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path fill="#508991" d="M0 0h25v25H0z"/><g fill="#FFF" fill-rule="nonzero"><path d="M12.586 9.915a.564.564 0 0 0-.797 0l-1.851 1.852-.727-.728a.563.563 0 0 0-.796.796L9.54 12.96a.565.565 0 0 0 .795.001l2.25-2.25a.563.563 0 0 0 0-.796zM12.586 14.415a.564.564 0 0 0-.797 0l-1.851 1.852-.727-.727a.563.563 0 0 0-.796.796L9.54 17.46a.56.56 0 0 0 .796 0l2.25-2.25a.563.563 0 0 0 0-.796zM16.688 10.875h-2.25a.563.563 0 0 0 0 1.125h2.25a.563.563 0 0 0 0-1.125zM16.688 15.375h-2.25a.563.563 0 0 0 0 1.125h2.25a.563.563 0 0 0 0-1.125z"/><path d="M18.375 5.25h-2.25v-.563a.563.563 0 0 0-.563-.562h-1.22A1.692 1.692 0 0 0 12.75 3c-.733 0-1.359.47-1.592 1.125h-1.22a.563.563 0 0 0-.563.563v.562h-2.25C6.505 5.25 6 5.755 6 6.375v13.5C6 20.495 6.505 21 7.125 21h11.25c.62 0 1.125-.505 1.125-1.125v-13.5c0-.62-.505-1.125-1.125-1.125zm-7.875 0h1.125c.31 0 .563-.252.563-.563a.563.563 0 0 1 1.124 0c0 .311.252.563.563.563H15v1.125h-4.5V5.25zm7.875 14.625H7.125v-13.5h2.25v.563c0 .31.252.562.563.562h5.624c.311 0 .563-.252.563-.563v-.562h2.25v13.5z"/>        </g></g></svg>  </button>'
+                );
+              },
+            },
+   
+            {
+              name: "reportAction",
+              searchable: false,
+              render: function (data, type, row, meta) {
+                return (
+                  '<button class="reportrun" itemId=' +
+                  row.id +
+                  '>  <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" > <g fill="none" fill-rule="evenodd"><path fill="#024CC5" d="M0 0h25v25H0z" /> <g fill="#FFF" fill-rule="nonzero"> <path d="M11.586 9.915a.564.564 0 0 0-.797 0l-1.851 1.852-.727-.728a.563.563 0 0 0-.796.796L8.54 12.96a.565.565 0 0 0 .795.001l2.25-2.25a.563.563 0 0 0 0-.796zM11.586 14.415a.564.564 0 0 0-.797 0l-1.851 1.852-.727-.727a.563.563 0 0 0-.796.796L8.54 17.46a.56.56 0 0 0 .796 0l2.25-2.25a.563.563 0 0 0 0-.796zM15.688 10.875h-2.25a.563.563 0 0 0 0 1.125h2.25a.563.563 0 0 0 0-1.125zM15.688 15.375h-2.25a.563.563 0 0 0 0 1.125h2.25a.563.563 0 0 0 0-1.125z" /> <path d="M17.375 5.25h-2.25v-.563a.563.563 0 0 0-.563-.562h-1.22A1.692 1.692 0 0 0 11.75 3c-.733 0-1.359.47-1.592 1.125h-1.22a.563.563 0 0 0-.563.563v.562h-2.25C5.505 5.25 5 5.755 5 6.375v13.5C5 20.495 5.505 21 6.125 21h11.25c.62 0 1.125-.505 1.125-1.125v-13.5c0-.62-.505-1.125-1.125-1.125zm-7.875 0h1.125c.31 0 .563-.252.563-.563a.563.563 0 0 1 1.124 0c0 .311.252.563.563.563H14v1.125H9.5V5.25zm7.875 14.625H6.125v-13.5h2.25v.563c0 .31.252.562.563.562h5.624c.311 0 .563-.252.563-.563v-.562h2.25v13.5z"/></g></g></svg> </button> <button class="reportandphotosrun" itemId=' +
+                  row.id +
+                  '> <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"> <g fill="none" fill-rule="evenodd"> <path fill="#1E385E" d="M0 0h25v25H0z"/> <g fill="#FFF" fill-rule="nonzero"> <path d="M14.584 12.249a3.253 3.253 0 0 0-3.249 3.25 3.253 3.253 0 0 0 3.25 3.249 3.253 3.253 0 0 0 3.249-3.25 3.253 3.253 0 0 0-3.25-3.249zm0 5.308a2.061 2.061 0 0 1-1.814-3.03l1.393 1.393a.596.596 0 0 0 .421.174h1.97a2.062 2.062 0 0 1-1.97 1.463zm.247-2.654-1.219-1.219a2.062 2.062 0 0 1 2.942 1.219h-1.723z"/> <path d="M18.09 4.77h-1.712a1.414 1.414 0 0 0-1.31-.885h-.925c-.23-.52-.75-.885-1.355-.885-.604 0-1.125.364-1.355.885h-.925c-.592 0-1.1.366-1.309.884H7.486C6.666 4.77 6 5.436 6 6.255v13.26C6 20.333 6.667 21 7.486 21H18.09c.819 0 1.486-.666 1.486-1.486V6.255c0-.82-.667-1.486-1.486-1.486zm-7.803.527c0-.122.1-.221.221-.221h1.396a.595.595 0 0 0 .595-.596.29.29 0 0 1 .578 0c0 .329.267.596.596.596h1.395c.122 0 .221.099.221.22v1.022c0 .122-.1.22-.221.22h-4.56a.221.221 0 0 1-.22-.22V5.297zm7.804 14.512H7.486a.295.295 0 0 1-.295-.295V6.255c0-.163.132-.295.295-.295h1.61v.358c0 .778.634 1.412 1.412 1.412h4.56c.779 0 1.412-.634 1.412-1.412V5.96h1.61c.163 0 .296.132.296.295v13.26a.295.295 0 0 1-.295.294z"/> <path d="M8.365 9.901h4.423a.595.595 0 0 0 0-1.19H8.365a.595.595 0 0 0 0 1.19zM8.365 11.67h2.654a.595.595 0 0 0 0-1.19H8.365a.595.595 0 0 0 0 1.19zM11.614 12.844a.595.595 0 0 0-.595-.595H8.365a.595.595 0 0 0 0 1.19h2.654a.595.595 0 0 0 .595-.595z"/> </g> </g> </svg> </button>'
+                );
+              },
+            },
+            {
+              name: "emailAction",
+              searchable: false,
+              render: function (data, type, row, meta) {
+                return (
+                  '<button class="runemail" itemId=' +
+                  row.id +
+                  '>  <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"> <g fill="none" fill-rule="evenodd"> <path fill="#50BEFF" d="M0 0h25v25H0z"/> <path d="M19.5 7h-13C5.673 7 5 7.673 5 8.5v9c0 .827.673 1.5 1.5 1.5h13c.827 0 1.5-.673 1.5-1.5v-9c0-.827-.673-1.5-1.5-1.5zm0 1c.068 0 .133.014.192.039L13 13.839l-6.692-5.8A.498.498 0 0 1 6.5 8h13zm0 10h-13a.5.5 0 0 1-.5-.5V9.095l6.672 5.783a.5.5 0 0 0 .656 0L20 9.095V17.5a.5.5 0 0 1-.5.5z" fill="#FFF" fill-rule="nonzero"/> </g></svg> </button>'
+                );
+              },
+            },
+    ]
+    const generateDataTable = (status) => {
+      const self = this;
+      nextTick(() => {
+        $("#activeRuns").DataTable({
+          ordering: true,
+          bLengthChange: false,
+          pageLength: 10,
+          processing: true,
+          serverSide: true,
+          stateSave: true,
+          columnDefs: [
+            {
+              defaultContent: "-",
+              targets: "_all",
+            },
           ],
+
+          responsive: true,
+          language: {
+            paginate: {
+              next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
+              previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
+            },
+            info: "Showing results _START_ to _END_ from _TOTAL_",
+          },
+          ajax: {
+            url: `/run/getAllRuns/${status}`,
+          },
+          // language:{
+          //   // processing:"<h1 style='background:#333;color:#fff;height:800px;'>Loading..</h1>"
+          // },
+          stateSaveCallback: function (settings, data) {
+            const state = settings.aoData;
+            let arr = [];
+            state.forEach((element) => {
+              arr.push(element._aData);
+            });
+            runs.value = arr;
+          },
+          columns: rolConditional.value==1?col:col2,
           drawCallback: function () {
             $("#activeRuns").on("click", "[class*=showphotos]", function (e) {
               showPhotos(e.currentTarget.attributes[1].value);

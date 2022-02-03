@@ -215,6 +215,7 @@ class Run extends Model
     {
         $user = auth()->user();
         $isAdministrator = (new static)::checkIfAdministrator();
+        $isDistributor = (new static)::checkIfDistributor();
 
         if ($isAdministrator) {
             $run = (new static)::with([
@@ -231,6 +232,24 @@ class Run extends Model
                 ->where('status', '!=', 2)
                 ->find($id);
             return $run;
+        }else if($isDistributor){
+            $customers = Company::where('company_id',$user->company_id)->get(['id']);
+            $run = (new static)::with([
+                'notes',
+                'photos',
+                'parts',
+                'method',
+                'parts.chromate',
+                'parts.coat',
+                'parts.plateType',
+                'parts.topCoat',
+                'company',
+            ])
+                ->where('status', '!=', 2)
+                // ->where('company_id', $user->company_id)
+                ->whereIn('company_id',$customers)
+                ->find($id);
+            return $run; 
         }
 
         $run = (new static)::with([
