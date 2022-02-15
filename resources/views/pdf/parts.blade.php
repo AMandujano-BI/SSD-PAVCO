@@ -14,16 +14,14 @@
             margin: 0px;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
-
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Open Sans', sans-serif;
+            font-family: Helvetica;
             background-color: #f8fafc;
         }
 
-        body__first {
+        .body__first {
             margin: 0;
             /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif */
         }
@@ -52,7 +50,7 @@
         .title {
             margin: 50px 69px 41px 300px;
             font-size: 20px;
-            font-weight: 600;
+            font-weight: bold;
             color: #3b4559;
             position: absolute;
         }
@@ -74,7 +72,7 @@
             /* height: 22px; */
             margin: 35px 70px 64px 54px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             color: #34689c;
         }
 
@@ -83,14 +81,14 @@
             margin-left: 54px;
             margin-right: 70px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             color: #34689c;
         }
 
         .subheader__label {
             margin-right: 70px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             color: #34689c;
         }
 
@@ -114,7 +112,7 @@
         th {
             color: #3b4559;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             height: 72px;
             border: none;
         }
@@ -133,7 +131,7 @@
         .notes__label {
             color: #34689c;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             margin-left: 34px;
             margin-right: 34px;
         }
@@ -145,7 +143,7 @@
     <div class='body__first'>
         <div class='content'>
             <span class='rectangle'>
-                <img src='https://pavco1.sfo3.digitaloceanspaces.com/assets/assets/pavco.png' class='PavcoWhite'>
+                <img src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png' class='PavcoWhite'>
                 <!-- srcset='pavco@2x.png 2x, pavco@3x.png 3x' -->
             </span>
             <span class='title'>Salt Spray Report Results</span>

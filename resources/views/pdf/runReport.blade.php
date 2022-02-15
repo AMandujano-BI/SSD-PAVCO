@@ -11,7 +11,7 @@
 <body>
     <style>
  
-        @page{margin: 0px;} body__first{margin: 0;font-family: 'opensans'}
+        @page{margin: 0px;} .body__first{margin: 0;font-family: Helvetica}
         
         .rectangle {
             width: 130px;
@@ -34,7 +34,7 @@
         .title {
             margin: 50px 69px 41px 300px;
             font-size: 20px;
-            font-weight: 600;
+            font-weight: bold;
             color: #3b4559;
             position: absolute;
         }
@@ -53,7 +53,7 @@
             /* height: 22px; */
             margin: 35px 70px 64px 54px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             color: #34689c;
         }
         .subheader__content{
@@ -61,13 +61,13 @@
             margin-left: 54px;
             margin-right: 70px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             color: #34689c;
         }
         .subheader__label {
             margin-right: 70px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             color: #34689c;
         }
         .subheader__value{
@@ -89,7 +89,7 @@
         th{
             color: #3b4559;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             height: 72px;
             border: none;
         }
@@ -106,7 +106,7 @@
         .notes__label{
             color: #34689c;   
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             margin-left: 34px;
             margin-right: 34px;
         }
@@ -114,7 +114,7 @@
     <div class='body__first'>
         <div class='content'>
             <span class='rectangle'>
-                <img src='https://pavco1.sfo3.digitaloceanspaces.com/assets/assets/pavco.png'  class='PavcoWhite'>
+                <img src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png'  class='PavcoWhite'>
                 <!-- srcset='pavco@2x.png 2x, pavco@3x.png 3x' -->
             </span>
             <span class='title'>Salt Spray Report Results</span>

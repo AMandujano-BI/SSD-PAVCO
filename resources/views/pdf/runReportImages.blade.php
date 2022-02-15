@@ -10,7 +10,7 @@
 
 <body>
     <style>
-        @page{margin: 0px;} body__first{margin: 0;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif}
+        @page{margin: 0px;} .body__first{margin: 0;font-family: Helvetica}
         .rectangle {
             width: 130px;
             position:absolute;
@@ -32,7 +32,7 @@
         .title {
             margin: 50px 69px 41px 300px;
             font-size: 20px;
-            font-weight: 600;
+            font-weight: bold;
             color: #3b4559;
             position: absolute;
         }
@@ -51,7 +51,7 @@
             /* height: 22px; */
             margin: 35px 70px 64px 54px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             color: #34689c;
         }
         .subheader__content{
@@ -65,7 +65,7 @@
         .subheader__label {
             margin-right: 70px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             color: #34689c;
         }
         .subheader__value{
@@ -87,7 +87,7 @@
         th{
             color: #3b4559;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             height: 72px;
             border: none;
         }
@@ -104,7 +104,7 @@
         .notes__label{
             color: #34689c;   
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             margin-left: 34px;
             margin-right: 34px;
         }
@@ -116,7 +116,7 @@
 <div class='body__first'>
     <div class='content'>
         <span class='rectangle'>
-            <img src='https://pavco1.sfo3.digitaloceanspaces.com/assets/assets/pavco.png'  class='PavcoWhite'>
+            <img src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png'  class='PavcoWhite'>
             <!-- srcset='pavco@2x.png 2x, pavco@3x.png 3x' -->
         </span>
         <span class='title'>Salt Spray Report Results</span>
@@ -130,7 +130,7 @@
             <span class='subheader'>Hours: <span class='subheader__value'>{{$hours}}</span></span>
         </div>
         <div class='top-separation'>
-            <div class='subheader__content'>Description: <span class='subheader__value'>{{$description}}</span></div>
+            <div class='subheader__content'><span style="font-weight: bold;">Description:</span> <span class='subheader__value'>{{$description}}</span></div>
         </div>
     </div>
     <div class='body'>
@@ -188,12 +188,12 @@
         <div class='top-separation'>
             <div class='notes__label'>Notes: <span class='subheader__value'>Pavco is not an independent testing laboratory. These results are for your information only and should be verified by an independent testing laboratory. </span></div>
         </div>
-        <div class='image'>
+        <div class='image' >
             @foreach ($photos as $photo)
                 <div style="page-break-inside: avoid;">
                     <p>Image - {{$photo->name}}</p>
                     <hr>
-                    <img src='{{$photo->image}}' alt='{{$photo->name}}' style='width: auto; max-height: 500px; margin-top: 4.7em' >
+                    <img src='{{$photo->image}}' alt='{{$photo->name}}' style='width: auto; max-height: 260px; margin-top: 2.3em' >
                     <br>
                     <br>
                 </div>
