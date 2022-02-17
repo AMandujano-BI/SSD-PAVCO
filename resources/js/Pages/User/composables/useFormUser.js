@@ -4,7 +4,7 @@ import useHelper from "@/composables/useHelper";
 import useVuelidate from "@vuelidate/core";
 import { useStore } from "vuex";
 const isDiferentZero = (value) => {
-    return value != 0;
+    return value != 0 && value !=null;
 };
 const useFormuser = (formProps) => {
     const form = reactive(formProps);

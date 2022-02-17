@@ -8,7 +8,7 @@ import useHelper from "@/composables/useHelper";
 import { useStore } from "vuex";
 
 const isDiferentZero = (value) => {
-    return value != 0;
+    return value != 0 && value !=null;
 };
 
 const validationCustomer = (param) => helpers.withParams(

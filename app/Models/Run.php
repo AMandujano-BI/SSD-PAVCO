@@ -91,7 +91,7 @@ class Run extends Model
     {
         $user = auth()->user();
         $isAdministrator = (new static)::checkIfAdministrator();
-        $isDistributor= (new static)::checkIfDistributor();
+        $isDistributor = (new static)::checkIfDistributor();
         if ($isAdministrator) {
             //Si es de tipo administrador no se  hara el filtrado de runs, sino se mostratará todos los runs
             if ($status == 3) {
@@ -127,10 +127,10 @@ class Run extends Model
                     ->get();
                 return $run;
             }
-        }else if($isDistributor) {
+        } else if ($isDistributor) {
             //Si es de tipo distribuidor,se obtiene todas las compañias asociadas a ese distribuidor
             $user = auth()->user();
-            $customers = Company::where('company_id',$user->company_id)->get(['id']);
+            $customers = Company::where('company_id', $user->company_id)->get(['id']);
             if ($status == 3) {
                 $run = (new static)::with([
                     'notes',
@@ -144,11 +144,11 @@ class Run extends Model
                     'company',
                 ])
                     ->where('status', '!=', 2)
-                    ->whereIn('company_id',$customers)
+                    ->whereIn('company_id', $customers)
                     ->get();
                 return $run;
             } else {
-    
+
                 $run = (new static)::with([
                     'notes',
                     'photos',
@@ -162,13 +162,10 @@ class Run extends Model
                 ])
                     ->where('status', '!=', 2)
                     ->where('status', $status)
-                    ->whereIn('company_id',$customers)
+                    ->whereIn('company_id', $customers)
                     ->get();
                 return $run;
             }
-
-
-
         }
 
 
@@ -232,8 +229,8 @@ class Run extends Model
                 ->where('status', '!=', 2)
                 ->find($id);
             return $run;
-        }else if($isDistributor){
-            $customers = Company::where('company_id',$user->company_id)->get(['id']);
+        } else if ($isDistributor) {
+            $customers = Company::where('company_id', $user->company_id)->get(['id']);
             $run = (new static)::with([
                 'notes',
                 'photos',
@@ -247,9 +244,9 @@ class Run extends Model
             ])
                 ->where('status', '!=', 2)
                 // ->where('company_id', $user->company_id)
-                ->whereIn('company_id',$customers)
+                ->whereIn('company_id', $customers)
                 ->find($id);
-            return $run; 
+            return $run;
         }
 
         $run = (new static)::with([
@@ -277,16 +274,13 @@ class Run extends Model
             // $date = Carbon::parse($request->start_date)->format('Y-m-d H:i');
 
             // $startDate = Carbon::parse()->setTimezone('UTC');
-            // dd($startDate);
+            // dd($request->parts);
+            $countParts =1;
             $start_date = $request->start_date;
             $description = $request->description;
-            $plate_types_id = $request->plate_types_id;
-            $primaryCoatId = $request->primaryCoatId;
-            $company_id = $request->company_id;
-            $coatId = $request->coatId;
-            $topCoatId = $request->topCoatId;
             $plate_methods_id = $request->plate_methods_id;
-            $numberParts = $request->numberParts;
+            $company_id = $request->company_id;
+
 
             $run = (new static)::create([
                 'start_date' => $start_date,
@@ -302,44 +296,56 @@ class Run extends Model
             ]);
             $run->save();
 
+            $parts =  $request->parts;
+            // dd($parts[1]);
 
-            $plateThick = $request->plateThick;
-            $topCoatPer = $request->topCoatPer;
-            $topCoatTemp = $request->topCoatTemp;
-            $topCoatPH = $request->topCoatPH;
-            $topCoatDiptime = $request->topCoatDiptime;
-            $primaryPer = $request->primaryPer;
-            $primaryTemp = $request->primaryTemp;
-            $primaryPH = $request->primaryPH;
-            $primaryDiptime = $request->primaryDiptime;
-            $coatPer = $request->coatPer;
-            $coatTemp = $request->coatTemp;
-            $coatPH = $request->coatPH;
-            $coatDiptime = $request->coatDiptime;
+            for ($j = 0; $j < count($request->parts); $j++) {
+                $typePlateThick = $request->parts[$j]['typePlateThick'] ??null; 
+                $plateThick = $request->parts[$j]['plateThick'] ??null;
+                $topCoatPer = $request->parts[$j]['topCoatPer'] ??null;
+                $topCoatTemp = $request->parts[$j]['topCoatTemp'] ?? null;
+                $topCoatPH = $request->parts[$j]['topCoatPH'] ?? null;
+                $topCoatDiptime = $request->parts[$j]['topCoatDiptime'] ?? null;
+                $primaryPer = $request->parts[$j]['primaryPer'] ?? null;
+                $primaryTemp = $request->parts[$j]['primaryTemp'] ?? null;
+                $primaryPH = $request->parts[$j]['primaryPH'] ?? null;
+                $primaryDiptime = $request->parts[$j]['primaryDiptime'] ?? null;
+                $coatPer = $request->parts[$j]['coatPer'] ?? null;
+                $coatTemp = $request->parts[$j]['coatTemp'] ?? null;
+                $coatPH = $request->parts[$j]['coatPH'] ?? null;
+                $coatDiptime = $request->parts[$j]['coatDiptime'] ?? null;
+                $numberParts = $request->parts[$j]['numberParts'];
+                $primaryCoatId = $request->parts[$j]['primaryCoatId'];
+                $coatId = $request->parts[$j]['coatId'];
+                $topCoatId = $request->parts[$j]['topCoatId'];
+                $plate_types_id = $request->parts[$j]['plate_types_id'];
 
-            for ($i = 0; $i < $numberParts; $i++) {
-                $parts = Part::create([
-                    'plateThick' => $plateThick,
-                    'description' => 'is a description',
-                    'plate_types_id' => $plate_types_id,
-                    'primaryCoatId' => $primaryCoatId,
-                    'coatId' => $coatId,
-                    'topCoatId' => $topCoatId,
-                    'topCoatPer' => $topCoatPer,
-                    'topCoatTemp' => $topCoatTemp,
-                    'topCoatPH' => $topCoatPH,
-                    'topCoatDiptime' => $topCoatDiptime,
-                    'primaryPer' => $primaryPer,
-                    'primaryTemp' => $primaryTemp,
-                    'primaryPH' => $primaryPH,
-                    'primaryDiptime' => $primaryDiptime,
-                    'coatPer' => $coatPer,
-                    'coatTemp' => $coatTemp,
-                    'coatPH' => $coatPH,
-                    'coatDiptime' => $coatDiptime,
-                    'run_id' => $run->id,
-                ]);
-                $parts->save();
+                for ($i = 0; $i < $numberParts; $i++) {
+                    $parts = Part::create([
+                        'plateThick' => $plateThick,
+                        'typePlateThick' => $typePlateThick,
+                        'description' => 'Part number '.$countParts,
+                        'plate_types_id' => $plate_types_id,
+                        'primaryCoatId' => $primaryCoatId,
+                        'coatId' => $coatId,
+                        'topCoatId' => $topCoatId,
+                        'topCoatPer' => $topCoatPer,
+                        'topCoatTemp' => $topCoatTemp,
+                        'topCoatPH' => $topCoatPH,
+                        'topCoatDiptime' => $topCoatDiptime,
+                        'primaryPer' => $primaryPer,
+                        'primaryTemp' => $primaryTemp,
+                        'primaryPH' => $primaryPH,
+                        'primaryDiptime' => $primaryDiptime,
+                        'coatPer' => $coatPer,
+                        'coatTemp' => $coatTemp,
+                        'coatPH' => $coatPH,
+                        'coatDiptime' => $coatDiptime,
+                        'run_id' => $run->id,
+                    ]);
+                    $countParts++;
+                    $parts->save();
+                }
             }
             DB::commit();
             return [

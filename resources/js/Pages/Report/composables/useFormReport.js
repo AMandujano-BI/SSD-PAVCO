@@ -5,7 +5,7 @@ import useHelper from "@/composables/useHelper";
 import axios from "axios";
 
 const isDiferentZero = (value) => {
-    return value != 0;
+    return value != 0 && value !=null;
 };
 
 const useFormReport = (formProps) => {

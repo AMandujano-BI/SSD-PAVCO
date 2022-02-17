@@ -20,10 +20,36 @@
             {{ error.$message }}
           </p>
         </div>
+        <div class="w-[180px]">
+          <multi-select
+            :options="[
+              {
+                value: 1,
+                label: 'micra',
+              },
+              {
+                value: 2,
+                label: 'mils',
+              },
+            ]"
+            class="w-full"
+            v-model="form.typePlateThick"
+            :searchable="true"
+            placeholder="Select Type "
+          />
+          <p
+            v-for="error of v$.typePlateThick.$errors"
+            :key="error.$uid"
+            class="text-red-400"
+          >
+            {{ error.$message }}
+          </p>
+        </div>
         <div>
           <input
-            type="text"
-            class="w-[60px]"
+            step=".01"
+            type="number"
+            class="w-[80px]"
             v-model="form.plateThick"
             :class="{ 'border-red-500': v$.plateThick.$error }"
           />
@@ -39,7 +65,7 @@
       </div>
     </div>
     <div>
-      <label class=" text-[#3b4559] font-semibold">Chromate</label>
+      <label class="text-[#3b4559] font-semibold">Chromate</label>
       <div class="flex w-full flex-col md:flex-row gap-2">
         <div class="w-full">
           <multi-select
@@ -60,46 +86,46 @@
         <div class="flex gap-2">
           <div>
             <input
-              type="text"
+              type="number"
+              step=".01"
               class="w-[60px]"
               v-model="form.primaryPer"
             />
             <span class="text-center block pt-1 text-[#3b4559]">%</span>
-     
           </div>
 
           <div>
             <input
-              type="text"
+              type="number"
+              step=".01"
               class="w-[60px]"
               v-model="form.primaryTemp"
             />
             <span class="text-center block pt-1 text-[#3b4559]">°F</span>
-     
           </div>
           <div>
             <input
-              type="text"
+              type="number"
+              step=".01"
               class="w-[60px]"
               v-model="form.primaryPH"
             />
             <span class="text-center block pt-1 text-[#3b4559]">pH</span>
-     
           </div>
           <div>
             <input
-              type="text"
+              type="number"
+              step=".01"
               class="w-[60px]"
               v-model="form.primaryDiptime"
             />
             <span class="text-center block pt-1 text-[#3b4559]">sec</span>
-     
           </div>
         </div>
       </div>
     </div>
     <div>
-      <label class=" text-[#3b4559] font-semibold">TopCoat</label>
+      <label class="text-[#3b4559] font-semibold">TopCoat</label>
       <div class="flex w-full flex-col md:flex-row justify-around gap-2">
         <div class="w-full">
           <multi-select
@@ -121,47 +147,47 @@
           <div class="flex gap-2">
             <div>
               <input
-                type="text"
+                type="number"
+                step=".01"
                 class="w-[60px]"
                 v-model="form.topCoatPer"
               />
               <span class="text-center block pt-1 text-[#3b4559]">%</span>
-       
             </div>
 
             <div>
               <input
-                type="text"
+                type="number"
+                step=".01"
                 class="w-[60px]"
                 v-model="form.topCoatTemp"
               />
               <span class="text-center block pt-1 text-[#3b4559]">°F</span>
-       
             </div>
             <div>
               <input
-                type="text"
+                type="number"
+                step=".01"
                 class="w-[60px]"
                 v-model="form.topCoatPH"
               />
               <span class="text-center block pt-1 text-[#3b4559]">pH</span>
-           
             </div>
             <div>
               <input
-                type="text"
+                type="number"
+                step=".01"
                 class="w-[60px]"
                 v-model="form.topCoatDiptime"
               />
-              <span>sec</span>
-        
+              <span class="text-center block pt-1 text-[#3b4559]">sec</span>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div>
-      <label class=" text-[#3b4559] font-semibold">Secondary Topcoat</label>
+      <label class="text-[#3b4559] font-semibold">Secondary Topcoat</label>
       <div class="flex w-full flex-col md:flex-row justify-around gap-2">
         <div class="w-full">
           <multi-select
@@ -182,78 +208,107 @@
         <div class="flex gap-2">
           <div>
             <input
-              type="text"
+              type="number"
+              step=".01"
               class="w-[60px]"
               v-model="form.coatPer"
             />
             <span class="text-center block pt-1 text-[#3b4559]">%</span>
-      
           </div>
 
           <div>
             <input
-              type="text"
+              type="number"
+              step=".01"
               class="w-[60px]"
               v-model="form.coatTemp"
             />
             <span class="text-center block pt-1 text-[#3b4559]">°F</span>
-      
           </div>
           <div>
             <input
-              type="text"
+              type="number"
+              step=".01"
               class="w-[60px]"
               v-model="form.coatPH"
             />
             <span class="text-center block pt-1 text-[#3b4559]">pH</span>
-       
           </div>
           <div>
             <input
-              type="text"
+              type="number"
+              step=".01"
               class="w-[60px]"
               v-model="form.coatDiptime"
             />
 
             <span class="text-center block pt-1 text-[#3b4559]">sec</span>
-       
           </div>
         </div>
       </div>
     </div>
     <div>
-      <label class=" text-[#3b4559] font-semibold">Description</label>
+      <label class="text-[#3b4559] font-semibold">Description</label>
       <textarea
         cols="30"
         rows="5"
         class="w-full"
         v-model="form.description"
       ></textarea>
-  
     </div>
 
     <div class="flex flex-col md:flex-row justify-around w-full gap-4">
       <button
         type="button"
         @click="closeModalForm"
-        class="bg-red-600 hover:bg-red-800 rounded w-full py-5 text-white px-3 mt-2"
-      >
-        Cancel
-      </button>
-      <button
         class="
-          bg-primary
+          bg-red-600
+          hover:bg-red-800
           rounded
           w-full
           py-5
           text-white
           px-3
           mt-2
-          hover:bg-primary-600
         "
       >
-        Save
+        Cancel
       </button>
+      <div v-if="!loading" class="w-full">
+        <button
+          class="
+            bg-primary
+            rounded
+            w-full
+            py-5
+            text-white
+            px-3
+            mt-2
+            hover:bg-primary-600
+          "
+        >
+          Save
+        </button>
+      </div>
+      <div v-if="loading" class="w-full">
+        <button
+          class="
+            bg-primary
+            rounded
+            w-full
+            py-5
+            text-white
+            px-3
+            mt-2
+            hover:bg-primary-600
+          "
+          disabled
+        >
+          <div
+            className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
+          ></div>
+        </button>
+      </div>
     </div>
   </form>
 </template>
@@ -266,10 +321,10 @@ import { computed, reactive, ref } from "vue";
 import useHelper from "@/composables/useHelper";
 import Multiselect from "@vueform/multiselect";
 const isDiferentZero = (value) => {
-  return value != 0;
+  return value != 0 && value != null;
 };
 export default {
-  emits: ["closeModal", "generateDataTable","gettinDataParts"],
+  emits: ["closeModal", "generateDataTable", "gettinDataParts"],
   props: [
     "plateMethods",
     "topCoats",
@@ -286,6 +341,7 @@ export default {
     const { partUpdate, partsTable } = props;
     const { makeToast } = useHelper();
     const parts = ref(partsTable);
+    const loading = ref(false);
     const form = reactive({
       id: partUpdate.id,
       description: partUpdate.description,
@@ -308,6 +364,7 @@ export default {
       coatTemp: partUpdate.coatTemp,
       coatPH: partUpdate.coatPH,
       coatDiptime: partUpdate.coatDiptime,
+      typePlateThick: partUpdate.typePlateThick,
     });
     const rules = {
       description: {
@@ -325,6 +382,12 @@ export default {
           isDiferentZero
         ),
       },
+      typePlateThick: {
+        isDiferentZero: helpers.withMessage(
+          "You must select an option",
+          isDiferentZero
+        ),
+      },
       topCoatId: {
         isDiferentZero: helpers.withMessage(
           "You must select an option",
@@ -337,7 +400,7 @@ export default {
           isDiferentZero
         ),
       },
-      plateThick: { required, },
+      plateThick: { required },
     };
     const v$ = useVuelidate(rules, form);
     const closeModalForm = () => {
@@ -349,17 +412,19 @@ export default {
         const id = form.id;
         if (!isFormCorrect) return;
         let res;
-
+        loading.value = true;
         res = await axios.put(`/part/${id}`, form);
+        loading.value = false;
         const { ok, message } = res.data;
         if (ok) {
           makeToast(message);
-          emit('gettinDataParts')
+          emit("gettinDataParts");
           emit("closeModal");
         } else {
           makeToast("An error has occurred", "error");
         }
       } catch (e) {
+        loading.value = false;
         makeToast(e, "error");
         console.log(e);
       }
@@ -369,6 +434,7 @@ export default {
       form,
       closeModalForm,
       submitForm,
+      loading,
     };
   },
   watch: {
