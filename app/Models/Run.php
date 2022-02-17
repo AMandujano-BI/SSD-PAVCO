@@ -300,7 +300,7 @@ class Run extends Model
             // dd($parts[1]);
 
             for ($j = 0; $j < count($request->parts); $j++) {
-              
+                $typePlateThick = $request->parts[$j]['typePlateThick'] ??null; 
                 $plateThick = $request->parts[$j]['plateThick'] ??null;
                 $topCoatPer = $request->parts[$j]['topCoatPer'] ??null;
                 $topCoatTemp = $request->parts[$j]['topCoatTemp'] ?? null;
@@ -323,6 +323,7 @@ class Run extends Model
                 for ($i = 0; $i < $numberParts; $i++) {
                     $parts = Part::create([
                         'plateThick' => $plateThick,
+                        'typePlateThick' => $typePlateThick,
                         'description' => 'Part number '.$countParts,
                         'plate_types_id' => $plate_types_id,
                         'primaryCoatId' => $primaryCoatId,

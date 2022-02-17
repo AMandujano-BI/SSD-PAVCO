@@ -11,6 +11,7 @@ class Part extends Model
     use HasFactory;
     protected $fillable = [
         'plateThick',
+        'typePlateThick',
         'description',
         'plate_types_id',
         'primaryCoatId',
@@ -48,6 +49,7 @@ class Part extends Model
         DB::beginTransaction();
         try {
             $plateThick = $request->plateThick;
+            $typePlateThick = $request->typePlateThick;
             $plate_types_id = $request->plate_types_id;
             $primaryCoatId = $request->primaryCoatId;
             $coatId = $request->coatId;
@@ -69,6 +71,7 @@ class Part extends Model
 
             $partCreate = (new static)::create([
                 'plateThick' => $plateThick,
+                'typePlateThick' => $typePlateThick,
                 'coatId' => $coatId,
                 'topCoatId' => $topCoatId,
                 'primaryCoatId' => $primaryCoatId,
@@ -136,6 +139,7 @@ class Part extends Model
             $part->coatPH = $request->coatPH;
             $part->coatDiptime = $request->coatDiptime;
             $part->plateThick= $request->plateThick;
+            $part->typePlateThick= $request->typePlateThick;
             $part->save();
             $run = Run::find($request->run_id);
             if ($run == null) {

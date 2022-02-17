@@ -1333,6 +1333,9 @@ video {
 }.bg-\[\#084E93\]{
 	--tw-bg-opacity: 1;
 	background-color: rgba(8, 78, 147, var(--tw-bg-opacity));
+}.bg-green-200{
+	--tw-bg-opacity: 1;
+	background-color: rgba(167, 243, 208, var(--tw-bg-opacity));
 }.bg-opacity-25{
 	--tw-bg-opacity: 0.25;
 }.bg-gradient-to-tr{

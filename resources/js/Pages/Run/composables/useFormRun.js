@@ -6,7 +6,7 @@ import axios from "axios";
 import { ref, reactive } from "vue";
 import { Inertia } from '@inertiajs/inertia'
 const isDiferentZero = (value) => {
-    return value != 0;
+    return value != 0 && value !=null;
 };
 const useFormRun = () => {
     const loading = ref(false)
@@ -109,6 +109,12 @@ const useFormRun = () => {
                 },
                 plateThick: {
                     required,
+                },
+                typePlateThick: {
+                    isDiferentZero: helpers.withMessage(
+                        "You must select an option",
+                        isDiferentZero
+                    ),
                 },
                 primaryCoatId: {
                     isDiferentZero: helpers.withMessage(

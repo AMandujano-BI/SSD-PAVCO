@@ -114,7 +114,7 @@ import { ref, reactive } from "vue";
 import useHelper from "@/composables/useHelper";
 import Multiselect from "@vueform/multiselect";
 const isDiferentZero = (value) => {
-  return value != 0;
+   return value != 0 && value !=null;
 };
 export default {
   props: ["plateMethods", "run", "customers"],

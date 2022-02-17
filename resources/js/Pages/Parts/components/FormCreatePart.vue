@@ -2,7 +2,7 @@
   <h1 class="text-center font-bold text-2xl text-[#3b4559]">New Part</h1>
   <form @submit.prevent="submitForm">
     <div>
-      <label class=" text-[#3b4559] font-semibold">Plate Type</label>
+      <label class="text-[#3b4559] font-semibold">Plate Type</label>
       <div class="flex w-full justify-between gap-2">
         <div class="w-full">
           <multi-select
@@ -21,9 +21,39 @@
             {{ error.$message }}
           </p>
         </div>
+        <div class="w-[180px]">
+          <multi-select
+            :options="[
+              {
+                value: 1,
+                label: 'micra',
+              },
+              {
+                value: 2,
+                label: 'mils',
+              },
+            ]"
+            class="w-full"
+            v-model="form.typePlateThick"
+            :searchable="true"
+            placeholder="Select Type "
+          />
+          <p
+            v-for="error of v$.typePlateThick.$errors"
+            :key="error.$uid"
+            class="text-red-400"
+          >
+            {{ error.$message }}
+          </p>
+        </div>
         <div>
-          <input type="text" class="w-[60px]" v-model="form.plateThick"   :class="{ 'border-red-500': v$.plateThick.$error }"/>
-          <span class="text-center block pt-1 text-[#3b4559]">mil</span>
+          <input
+            type="number"
+            step=".01"
+            class="w-[80px]"
+            v-model="form.plateThick"
+            :class="{ 'border-red-500': v$.plateThick.$error }"
+          />
           <p
             v-for="error of v$.plateThick.$errors"
             :key="error.$uid"
@@ -35,7 +65,7 @@
       </div>
     </div>
     <div>
-      <label class=" text-[#3b4559] font-semibold">Chromate</label>
+      <label class="text-[#3b4559] font-semibold">Chromate</label>
       <div class="flex w-full flex-col md:flex-row gap-2">
         <div class="w-full">
           <multi-select
@@ -55,64 +85,48 @@
         </div>
         <div class="flex gap-2">
           <div>
-            <input type="text" class="w-[60px]" v-model="form.primaryPer"
-                 :class="{ 'border-red-500': v$.primaryPer.$error }"
-             />
+            <input
+              type="number"
+              step=".01"
+              class="w-[60px]"
+              v-model="form.primaryPer"
+            />
             <span class="text-center block pt-1 text-[#3b4559]">%</span>
-            <p
-              v-for="error of v$.primaryPer.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
 
           <div>
-            <input type="text" class="w-[60px]" v-model="form.primaryTemp" 
-                 :class="{ 'border-red-500': v$.primaryTemp.$error }"
+            <input
+              type="number"
+              step=".01"
+              class="w-[60px]"
+              v-model="form.primaryTemp"
             />
             <span class="text-center block pt-1 text-[#3b4559]">°F</span>
-            <p
-              v-for="error of v$.primaryTemp.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
           <div>
-            <input type="text" class="w-[60px]" v-model="form.primaryPH" 
-                 :class="{ 'border-red-500': v$.primaryPH.$error }"
+            <input
+              type="number"
+              step=".01"
+              class="w-[60px]"
+              v-model="form.primaryPH"
             />
             <span class="text-center block pt-1 text-[#3b4559]">pH</span>
-            <p
-              v-for="error of v$.primaryPH.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
           <div>
-            <input type="text" class="w-[60px]" v-model="form.primaryDiptime" 
-                 :class="{ 'border-red-500': v$.primaryDiptime.$error }"
+            <input
+              type="number"
+              step=".01"
+              class="w-[60px]"
+              v-model="form.primaryDiptime"
             />
             <span class="text-center block pt-1 text-[#3b4559]">sec</span>
-            <p
-              v-for="error of v$.primaryDiptime.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
         </div>
       </div>
     </div>
     <div>
-      <label class=" text-[#3b4559] font-semibold">TopCoat</label>
-      <div class="flex w-full flex-col md:flex-row  gap-2">
+      <label class="text-[#3b4559] font-semibold">TopCoat</label>
+      <div class="flex w-full flex-col md:flex-row gap-2">
         <div class="w-full">
           <multi-select
             :options="topCoats"
@@ -132,68 +146,49 @@
         <div class="flex flex-col">
           <div class="flex gap-2">
             <div>
-              <input type="text" class="w-[60px]" v-model="form.topCoatPer" 
-                 :class="{ 'border-red-500': v$.topCoatPer.$error }"
+              <input
+                type="number"
+                step=".01"
+                class="w-[60px]"
+                v-model="form.topCoatPer"
               />
               <span class="text-center block pt-1 text-[#3b4559]">%</span>
-              <p
-                v-for="error of v$.topCoatPer.$errors"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
             </div>
 
             <div>
-              <input type="text" class="w-[60px]" v-model="form.topCoatTemp" 
-                 :class="{ 'border-red-500': v$.topCoatTemp.$error }"
+              <input
+                type="number"
+                step=".01"
+                class="w-[60px]"
+                v-model="form.topCoatTemp"
               />
               <span class="text-center block pt-1 text-[#3b4559]">°F</span>
-              <p
-                v-for="error of v$.topCoatTemp.$errors"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
-            </div>
-            <div>
-              <input type="text" class="w-[60px]" v-model="form.topCoatPH" 
-                 :class="{ 'border-red-500': v$.topCoatPH.$error }"
-              />
-              <span class="text-center block pt-1 text-[#3b4559]">pH</span>
-              <p
-                v-for="error of v$.topCoatPH.$errors"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
             </div>
             <div>
               <input
-                type="text"
+                type="number"
+                step=".01"
+                class="w-[60px]"
+                v-model="form.topCoatPH"
+              />
+              <span class="text-center block pt-1 text-[#3b4559]">pH</span>
+            </div>
+            <div>
+              <input
+                type="number"
+                step=".01"
                 class="w-[60px]"
                 v-model="form.topCoatDiptime"
-                 :class="{ 'border-red-500': v$.topCoatDiptime.$error }"
               />
               <span class="text-center block pt-1 text-[#3b4559]">sec</span>
-              <p
-                v-for="error of v$.topCoatDiptime.$errors"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div>
-      <label class=" text-[#3b4559] font-semibold">Secondary Topcoat</label>
-      <div class="flex w-full flex-col md:flex-row  gap-2">
+      <label class="text-[#3b4559] font-semibold">Secondary Topcoat</label>
+      <div class="flex w-full flex-col md:flex-row gap-2">
         <div class="w-full">
           <multi-select
             :options="secondaryCoats"
@@ -212,91 +207,107 @@
         </div>
         <div class="flex gap-2">
           <div>
-            <input type="text" class="w-[60px]" v-model="form.coatPer" 
-                 :class="{ 'border-red-500': v$.coatPer.$error }"
+            <input
+              type="number"
+              step=".01"
+              class="w-[60px]"
+              v-model="form.coatPer"
             />
             <span class="text-center block pt-1 text-[#3b4559]">%</span>
-            <p
-              v-for="error of v$.coatPer.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
 
           <div>
-            <input type="text" class="w-[60px]" v-model="form.coatTemp" 
-                 :class="{ 'border-red-500': v$.coatTemp.$error }"
+            <input
+              type="number"
+              step=".01"
+              class="w-[60px]"
+              v-model="form.coatTemp"
             />
             <span class="text-center block pt-1 text-[#3b4559]">°F</span>
-            <p
-              v-for="error of v$.coatTemp.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
           <div>
-            <input type="text" class="w-[60px]" v-model="form.coatPH" 
-                 :class="{ 'border-red-500': v$.coatPH.$error }"
+            <input
+              type="number"
+              step=".01"
+              class="w-[60px]"
+              v-model="form.coatPH"
             />
             <span class="text-center block pt-1 text-[#3b4559]">pH</span>
-            <p
-              v-for="error of v$.coatPH.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
           <div>
-            <input type="text" class="w-[60px]" v-model="form.coatDiptime" 
-                 :class="{ 'border-red-500': v$.coatDiptime.$error }"
+            <input
+              type="number"
+              step=".01"
+              class="w-[60px]"
+              v-model="form.coatDiptime"
             />
             <span class="text-center block pt-1 text-[#3b4559]">sec</span>
-            <p
-              v-for="error of v$.coatDiptime.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
         </div>
       </div>
     </div>
     <div>
-      <label class=" text-[#3b4559] font-semibold">Description</label>
+      <label class="text-[#3b4559] font-semibold">Description</label>
       <textarea
         cols="30"
         rows="5"
         class="w-full"
         v-model="form.description"
-        :class="{ 'border-red-500': v$.description.$error }"
       ></textarea>
-      <!-- <div v-if="v$.form.description.$error" class="text-red-400">Name field has an error.</div> -->
-      <p
-        v-for="error of v$.description.$errors"
-        :key="error.$uid"
-        class="text-red-400"
-      >
-        {{ error.$message }}
-      </p>
     </div>
 
     <div class="flex flex-col md:flex-row justify-around w-full gap-4">
       <button
         type="button"
         @click="closeModal"
-        class="bg-red-600 hover:bg-red-800 rounded w-full py-5 text-white px-3 mt-2"
+        class="
+          bg-red-600
+          hover:bg-red-800
+          rounded
+          w-full
+          py-5
+          text-white
+          px-3
+          mt-2
+        "
       >
         Cancel
       </button>
-      <button class="bg-primary rounded w-full py-5 text-white px-3 mt-2 hover:bg-primary-600">
-        Save
-      </button>
+      <div v-if="!loading" class="w-full">
+        <button
+          class="
+            bg-primary
+            rounded
+            w-full
+            py-5
+            text-white
+            px-3
+            mt-2
+            hover:bg-primary-600
+          "
+        >
+          Save
+        </button>
+      </div>
+      <div v-if="loading" class="w-full">
+        <button
+          class="
+            bg-primary
+            rounded
+            w-full
+            py-5
+            text-white
+            px-3
+            mt-2
+            hover:bg-primary-600
+          "
+          disabled
+        >
+          <div
+            className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
+          ></div>
+        </button>
+      </div>
     </div>
   </form>
 </template>
@@ -309,10 +320,10 @@ import axios from "axios";
 import { ref, reactive } from "vue";
 import Multiselect from "@vueform/multiselect";
 const isDiferentZero = (value) => {
-  return value != 0;
+  return value != 0 && value != null;
 };
 export default {
-  emits: ["closeModalNewPart", "generateDataTable","gettinDataParts"],
+  emits: ["closeModalNewPart", "generateDataTable", "gettinDataParts"],
   components: {
     multiSelect: Multiselect,
   },
@@ -331,33 +342,32 @@ export default {
     const { makeToast } = useHelper();
     const { run_id, partsTable } = props;
     const parts = ref(partsTable);
-    const form = ref({
+    const loading = ref(false);
+    const form = reactive({
       id: 0,
       description: "",
       run_id: run_id,
       plateThick: 0,
+      typePlateThick: 0,
       coatId: 0,
       primaryCoatId: 0,
       topCoatId: 0,
       plate_types_id: 0,
-      topCoatPer: 0,
-      topCoatPer: 0,
-      topCoatTemp: 0,
-      topCoatPH: 0,
-      topCoatDiptime: 0,
-      primaryPer: 0,
-      primaryTemp: 0,
-      primaryPH: 0,
-      primaryDiptime: 0,
-      coatPer: 0,
-      coatTemp: 0,
-      coatPH: 0,
-      coatDiptime: 0,
+      topCoatPer: "",
+      topCoatPer: "",
+      topCoatTemp: "",
+      topCoatPH: "",
+      topCoatDiptime: "",
+      primaryPer: "",
+      primaryTemp: "",
+      primaryPH: "",
+      primaryDiptime: "",
+      coatPer: "",
+      coatTemp: "",
+      coatPH: "",
+      coatDiptime: "",
     });
     const rules = {
-      description: {
-        required,
-      },
       plate_types_id: {
         isDiferentZero: helpers.withMessage(
           "You must select an option",
@@ -365,6 +375,12 @@ export default {
         ),
       },
       primaryCoatId: {
+        isDiferentZero: helpers.withMessage(
+          "You must select an option",
+          isDiferentZero
+        ),
+      },
+      typePlateThick: {
         isDiferentZero: helpers.withMessage(
           "You must select an option",
           isDiferentZero
@@ -382,43 +398,7 @@ export default {
           isDiferentZero
         ),
       },
-      topCoatPer: {
-        required,
-      },
-      topCoatTemp: {
-        required,
-      },
-      topCoatPH: {
-        required,
-      },
-      topCoatDiptime: {
-        required,
-      },
-      primaryPer: {
-        required,
-      },
-      primaryTemp: {
-        required,
-      },
-      primaryPH: {
-        required,
-      },
-      primaryDiptime: {
-        required,
-      },
       plateThick: {
-        required,
-      },
-      coatPH: {
-        required,
-      },
-      coatPer: {
-        required,
-      },
-      coatTemp: {
-        required,
-      },
-      coatDiptime: {
         required,
       },
     };
@@ -432,19 +412,19 @@ export default {
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return;
         let res;
-
-        res = await axios.post(`/part`, form.value);
-        const { ok,  message } = res.data;
+        loading.value = true;
+        res = await axios.post(`/part`, form);
+        loading.value = false;
+        const { ok, message } = res.data;
         if (ok) {
           makeToast(message);
-          // parts.value = [...parts.value,value]
-          // parts.value.push(value);
-          emit("gettinDataParts")
+          emit("gettinDataParts");
           emit("closeModalNewPart");
         } else {
           makeToast("An error has occurred", "error");
         }
       } catch (e) {
+        loading.value = false;
         makeToast(e, "error");
       }
     };
@@ -454,6 +434,7 @@ export default {
       closeModal,
       v$,
       submitForm,
+      loading,
     };
   },
   watch: {

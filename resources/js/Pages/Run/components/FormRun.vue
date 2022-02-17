@@ -73,7 +73,14 @@
     >
       <h1 class="text-center py-5 font-bold text-2xl flex">
         <span class="flex-1 text-[#3b4559]"> Section {{ index + 1 }} </span>
-        <button v-if="index !=0" type="button" @click="deleteSection(index)" class="font-bold px-1 rounded-md">X</button>
+        <button
+          v-if="index != 0"
+          type="button"
+          @click="deleteSection(index)"
+          class="font-bold px-1 rounded-md"
+        >
+          X
+        </button>
       </h1>
       <div>
         <label class="text-[#3b4559] font-semibold">Plate Type</label>
@@ -100,11 +107,11 @@
             <multi-select
               :options="[
                 {
-                  value: 'micra',
+                  value: 1,
                   label: 'micra',
                 },
                 {
-                  value: 'mils',
+                  value: 2,
                   label: 'mils',
                 },
               ]"
@@ -113,6 +120,14 @@
               :searchable="true"
               placeholder="Select Type "
             />
+            <p
+              v-for="error of v$.parts.$each.$response?.$errors[index]
+                .typePlateThick"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
           </div>
           <div>
             <input
@@ -156,16 +171,31 @@
           </div>
           <div class="flex gap-2">
             <div>
-              <input type="text" class="w-[60px]" v-model="part.primaryPer" />
+              <input
+                step=".01"
+                type="number"
+                class="w-[60px]"
+                v-model="part.primaryPer"
+              />
               <span class="text-center block pt-1 text-[#3b4559]">%</span>
             </div>
 
             <div>
-              <input type="text" class="w-[60px]" v-model="part.primaryTemp" />
+              <input
+                step=".01"
+                type="number"
+                class="w-[60px]"
+                v-model="part.primaryTemp"
+              />
               <span class="text-center block pt-1 text-[#3b4559]">°F</span>
             </div>
             <div>
-              <input type="text" class="w-[60px]" v-model="part.primaryPH" />
+              <input
+                step=".01"
+                type="number"
+                class="w-[60px]"
+                v-model="part.primaryPH"
+              />
               <span class="text-center block pt-1 text-[#3b4559]">pH</span>
             </div>
             <div>
@@ -292,7 +322,7 @@
     <button
       type="button"
       @click="addForm"
-      class="bg-primary-500 p-5 rounded-sm  text-white  hover:bg-primary-600"
+      class="bg-primary-500 p-5 rounded-sm text-white hover:bg-primary-600"
     >
       Add Section
     </button>
@@ -370,7 +400,8 @@ export default {
     multiSelect: Multiselect,
   },
   setup(props, { emit }) {
-    const { form, v$, submitForm, loading, options,  addForm,deleteSection } = useFormRun();
+    const { form, v$, submitForm, loading, options, addForm, deleteSection } =
+      useFormRun();
     const closeModal = () => emit("closeModal");
     return {
       v$,
