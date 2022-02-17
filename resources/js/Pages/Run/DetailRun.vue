@@ -476,12 +476,18 @@
               <th>Chromate</th>
               <th>Topcoat</th>
               <th>Secondary Topcoat</th>
+              <th>White Salt</th>
+              <th>Red Rust</th>
 
               <!-- <th class="no-sort">Notes</th> -->
             </tr>
           </thead>
           <tbody></tbody>
         </table>
+
+        <div>
+          <button class="btn" @click="updateWsRs">Guardar cambios</button>
+        </div>
         <modal :show="isModalPhotos" @close="closePhotosModal">
           <div class="container mx-auto p-5 relative bg-[#ebf2fd]">
             <button @click="closePhotosModal" class="absolute right-5">
@@ -609,6 +615,7 @@ export default {
   props: ["run"],
   setup() {
     const id = Inertia.page.url.split("/")[3];
+    let parts = ref([]);
     const { makeToast } = useHelper();
     const runDetail = ref({});
     const startDate = ref("");
@@ -618,11 +625,30 @@ export default {
     const isModalClose = ref(false);
     const isModalReOpen = ref(false);
     const isModalPhotos = ref(false);
+
+
+    const generateForm = async () => {
+      const res = await axios.get(`/part/getPartsByRun/${runDetail.value.id}`);
+      res.data.data.forEach(element => {
+        parts.value.push(
+          {
+            id: element.id,
+            ws: false,
+            rs: false
+          }
+        )
+      });
+      console.log(parts);
+    }
+
     const gettingData = async () => {
       try {
         const res = await axios.get(`/run/${id}`);
         runDetail.value = res.data;
         startDate.value = runDetail.value.start_date.slice(0, 10);
+
+        generateForm();
+
         $("#activeRunsDetail").DataTable().clear().destroy();
         await generateDataTableDetail();
       } catch (e) {
@@ -754,6 +780,7 @@ export default {
           ordering: true,
           bLengthChange: false,
           pageLength: 10,
+          stateSave: true,
           columnDefs: [
             {
               defaultContent: "-",
@@ -770,6 +797,14 @@ export default {
           },
           ajax: {
             url: `/part/getPartsByRun/${runDetail.value.id}`,
+          },
+          stateSaveCallback: function (settings, data) {
+            const state = settings.aoData;
+            let arr = [];
+            state.forEach((element) => {
+              arr.push(element._aData);
+            });
+            console.log(arr);
           },
           columns: [
             {
@@ -823,11 +858,80 @@ export default {
                 );
               },
             },
+            {
+              name: "whitesalt",
+              searchable: false,
+              render: function (data, type, row, meta) {
+                // Si tiene horas, se renderiza horas
+                // Si no tiene horas, se colocará input value = false
+                
+                // if( row.hoursWs > 0 ) {
+                //   '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
+                // } else {
+                //   '<td>'+row.hoursWs+'</td>'
+                // }
+
+                return (
+                  '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
+                );
+              },
+            },
+            {
+              name: "redrust",
+              searchable: false,
+              render: function (data, type, row, meta) {
+                return (
+                  '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>'
+                );
+              },
+            },
           ],
+          drawCallback: function () {
+            $("#activeRunsDetail").on("click", "[class*=whitesChk]", function (e) {
+              console.log(e.currentTarget.attributes[3].value);
+              console.log(e.currentTarget.attributes[1].value);
+              whiteSalt(e.currentTarget.attributes[3].value);
+            });
+            $("#activeRunsDetail").on("click", "[class*=redrChk]", function (e) {
+              console.log(e.currentTarget.attributes[3].value);
+              console.log(e.currentTarget.attributes[1].value);
+              redRust(e.currentTarget.attributes[3].value);
+            });
+          }
         });
       });
     };
+    
+    const whiteSalt = (id) => {
+      const idWs = Number(id);
+      const wsPos = parts.value.findIndex( el => el.id === idWs);
+      parts.value[wsPos].ws = true;
+      console.log(parts);
+    }
+
+    const redRust = (id) => {
+      const idRs = Number(id);
+      console.log(idRs)
+      const rsPos = parts.value.findIndex( el => el.id === idRs);
+      console.log(rsPos);
+      console.log(parts.value[rsPos]);
+      parts.value[rsPos].rs = true;
+      console.log(parts);
+    }
+
+    const updateWsRs = () =>{
+      const partsUpdated = {
+        runId: runDetail.value.id,
+        parts: [
+          ...parts.value
+        ]
+      };
+
+      console.log(partsUpdated);
+    }
+
     gettingData();
+
     return {
       generateDataTableDetail,
       gettingData,
@@ -858,6 +962,8 @@ export default {
       editRun,
       showDelete,
       showClose,
+      generateForm,
+      updateWsRs,
       closeCloseModal: () => (isModalClose.value = false),
     };
   },
