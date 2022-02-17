@@ -24,14 +24,14 @@ class MailController extends Controller
 
     public function store(Request $request)
     {
-        // dd(url(''));
         try {
 
             $id = $request->id;
-            $email =$request->emailSend;
             $run = $this->_run->getRun($id);
             $run->start_date = Carbon::parse($run->start_date)->format('Y/m/d');
-            Mail::to($email)->send(new RunResult($run));
+            for($i =0;$i<count($request->emailSend);$i++){
+                Mail::to($request->emailSend[$i])->send(new RunResult($run));
+            }
             return   [
                 'ok' => true,
                 'message' => 'Email sent successfully',
