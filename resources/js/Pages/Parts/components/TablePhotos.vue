@@ -244,7 +244,8 @@ export default {
         });
     });
     const generateDataTable = () => {
-      $("#photosTable").DataTable().clear().destroy();
+      // $("#photosTable").DataTable().clear().destroy();
+      $("#photosTable").DataTable().destroy()
       nextTick(() => {
         $("#photosTable").DataTable({
           ordering: true,
@@ -313,7 +314,6 @@ export default {
     };
     const openModalEditClick = (id) => {
       idPhoto.value = id;
-      console.log(id);
       photoItem.value = photosTable.value.find((item) => item.id == id);
       openModalEdit.value = true;
     };

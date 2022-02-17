@@ -217,7 +217,6 @@ export default {
         loading.value = true;
         // Prepare Data
         const formData = new FormData();
-        console.log(form.image.size)
         if(form.image.size >10485760){
           loading.value = false;
           makeToast('The maximum size is 10 MB', "error");
