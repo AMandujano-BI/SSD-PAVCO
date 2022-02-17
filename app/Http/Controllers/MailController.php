@@ -12,13 +12,11 @@ use Illuminate\Support\Facades\Mail;
 class MailController extends Controller
 {
 
-    private $_parts;
     private $_run;
 
-    public function __construct(Part $part, Run $run)
+    public function __construct(Run $run)
     {
 
-        $this->_parts = $part;
         $this->_run = $run;
     }
 
