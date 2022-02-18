@@ -83,9 +83,10 @@ class RunResult extends Mailable
         $photos = $this->_run->photos;
         $allParts = $this->_run->parts;
         $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description']));
+        $pdf->setPaper('a4', 'landscape');
         return $this->view('emails.runResult')
             ->with(['run' => $this->_run])
-            ->attachData($pdf->output(), 'test.pdf', [
+            ->attachData($pdf->output(), 'run_report_' . $this->_run->id . '.pdf', [
                 'mime' => 'application/pdf',
             ])
             ->subject('Pavco Salt Spray Database - Run Results for Run #' . $this->_run->id);
