@@ -2,9 +2,9 @@
   <h1 class="text-center font-bold text-2xl text-[#3b4559]">
     {{ form.id == 0 ? "New User" : "Update User" }}
   </h1>
-  <form @submit.prevent="submitForm">
+  <form @submit.prevent="submitForm" autocomplete="nope">
     <div class="shadow-lg rounded-md p-3">
-      <div v-if="form.id ==0">
+      <div v-if="form.id == 0">
         <label class="text-[#3b4559] font-semibold">UserName</label>
         <input
           type="text"
@@ -21,10 +21,9 @@
           {{ error.$message }}
         </p>
       </div>
-      <div v-if="form.id !=0" class="shadow rounded-md mb-5 p-2">
+      <div v-if="form.id != 0" class="shadow rounded-md mb-5 p-2">
         <label for="" class="font-bold text-2xl text-[#3b4559]">UserName</label>
-        <p class="font-bold text-[#3b4559]">{{form.username}}</p>
-
+        <p class="font-bold text-[#3b4559]">{{ form.username }}</p>
       </div>
       <div>
         <label class="text-[#3b4559] font-semibold">Rol</label>
@@ -47,7 +46,7 @@
         </p>
       </div>
       <div>
-        <label class="text-[#3b4559] font-semibold" >FirstName</label>
+        <label class="text-[#3b4559] font-semibold">FirstName</label>
         <input
           type="text"
           class="w-full my-2"
@@ -89,9 +88,12 @@
           {{ error.$message }}
         </p>
       </div>
+      <!-- <div v-if="typeRol !==1 && typeRol !==2"> -->
       <div >
         <label class="text-[#3b4559] font-semibold">Company</label>
         <multi-select
+          autocomplete="nope"
+          :disabled="typeRol ===1 || typeRol ===2"
           :options="companies"
           class="w-full my-2"
           v-model="form.company_id"
@@ -107,28 +109,28 @@
         </p>
       </div>
       <div v-if="form.id == 0">
-          <label class="text-[#3b4559] font-semibold">Password</label>
-          <input
-            type="password"
-            class="w-full my-2"
-            autocomplete="off"
-            v-model="form.password"
-            :class="{ 'border-red-500': v$.password.$error }"
-          />
-          <!-- :class="{ 'border-red-500': v$.name.$error }" -->
-          <p
-            v-for="error of v$.password.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
+        <label class="text-[#3b4559] font-semibold">Password</label>
+        <input
+          type="password"
+          class="w-full my-2"
+          autocomplete="nope"
+          v-model="form.password"
+          :class="{ 'border-red-500': v$.password.$error }"
+        />
+        <!-- :class="{ 'border-red-500': v$.name.$error }" -->
+        <p
+          v-for="error of v$.password.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
         <div>
           <label class="text-[#3b4559] font-semibold">Confirm Password</label>
           <input
             type="password"
             class="w-full my-2"
-            autocomplete="off"
+            autocomplete="nope"
             v-model="form.confirm_password"
             :class="{ 'border-red-500': v$.confirm_password.$error }"
           />
@@ -174,14 +176,16 @@ import useFormUser from "../composables/useFormUser";
 import Multiselect from "@vueform/multiselect";
 import { useStore } from "vuex";
 export default {
-  emits: ["closeModal","generateTable"],
+  emits: ["closeModal", "generateTable"],
   components: {
     multiSelect: Multiselect,
   },
   props: ["rols"],
   setup(props, { emit }) {
     const store = useStore();
-    const { form, submitForm, v$,onChangeRol,companies } = useFormUser(store.state.users.form);
+    const { form, submitForm, v$, onChangeRol, companies,typeRol } = useFormUser(
+      store.state.users.form
+    );
     const closeModal = () => {
       emit("closeModal");
     };
@@ -193,6 +197,7 @@ export default {
       closeModal,
       onChangeRol,
       companies,
+      typeRol
     };
   },
 };

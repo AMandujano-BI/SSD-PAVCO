@@ -100,6 +100,9 @@ class User extends Authenticatable
             $password = $request->password;
             $company_id = $request->company_id;
             $rols = $request->rols;
+            if($company_id ==0){
+                $company_id =null;
+            }
 
             $userFind = (new static)::where('email', $email)->first();
             if ($userFind != null) {
