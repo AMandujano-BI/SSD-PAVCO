@@ -59,7 +59,13 @@ class RunController extends Controller
 
         return datatables()->of($runs)->toJson();
 
-        // return $runs;
+    }
+    public function getAllRunsByDate($startDate, $status)
+    {
+        $runs = $this->_run->getAllRunByDate($startDate,$status);
+
+        return datatables()->of($runs)->toJson();
+
     }
 
     /**
