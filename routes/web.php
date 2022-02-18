@@ -35,6 +35,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/email/runResult', [MailC
 
 
 Route::middleware(['auth:sanctum', 'verified', 'rols'])->group(function () {
+    Route::middleware(['auth:sanctum', 'verified'])->post('/run/updatePartsWsRs', [RunController::class, 'updatePartsWsRs'])->name('run.updatePartsWsRs');
     Route::middleware(['auth:sanctum', 'verified'])->delete('/run/deleteRun/{id}', [RunController::class, 'deleteRun'])->name('run.deleteRun');
     Route::middleware(['auth:sanctum', 'verified'])->get('/chemical/getChemicals/{type}', [ChemicalController::class, 'getChemicals'])->name('chemical.getChemicals');
     Route::middleware(['auth:sanctum', 'verified'])->get('/company/getCompanies/{type}', [CompanyController::class, 'getCompanies'])->name('company.getCompanies');

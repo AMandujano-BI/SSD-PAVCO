@@ -155,6 +155,12 @@ class RunController extends Controller
         return response()->json($run);
     }
 
+    public function updatePartsWsRs(Request $request)
+    {
+        $partsResponse = $this->_run->updateParts($request);
+        return response()->json($partsResponse);
+    }
+
     public function deleteRun($id)
     {
         $run = $this->_run->deleteRun($id);

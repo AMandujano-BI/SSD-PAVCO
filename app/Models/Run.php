@@ -266,6 +266,72 @@ class Run extends Model
         return $run;
     }
 
+    public static function updateParts($request)
+    {
+        DB::beginTransaction();
+        try {
+            $run = (new static)::with([
+                'notes',
+                'photos',
+                'parts',
+                'method',
+                'parts.chromate',
+                'parts.coat',
+                'parts.plateType',
+                'parts.topCoat',
+                'company',
+            ])
+                ->where('status', '!=', 2)
+                ->find($request->runId);
+
+            $runHours = $request->hours;
+            
+
+            foreach ($run->parts as $runPart ) {                             // se recorren parts del run
+                for ($j = 0; $j < count($request->parts); $j++) {            // Se recorre el Request
+                    if ( $runPart->id == $request->parts[$j]['id']) {        // se comparan los ids
+                        $part = Part::find($runPart->id);
+                        
+                        if( $request->parts[$j]['rs'] == true && $runPart->isRs == null) {   // primera vez checkeado
+                            $part->isRs = true;
+                            $part->hoursRs = $runHours;
+                        } else {
+                            $part->hoursRs = $request->parts[$j]['hoursRs'];
+                        }
+                        // dd($request->parts[$j]['ws'], $runPart->isWs, $request->parts[$j]['hoursWs']);
+                        if(  $request->parts[$j]['ws'] == true && $runPart->isWs == null) { // primera vez checkeado
+                            $part->isWs = true;
+                            $part->hoursWs = $runHours;
+                        } else {
+                            $part->hoursWs = $request->parts[$j]['hoursWs'];
+                        }
+
+                        $part->save();
+                    }
+                    
+                }
+            }
+            
+            // $run->save();
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Run was updated successfully',
+                'value' => $run,
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+
+   
+
+        // return $run;
+    }
+
     public static function createRun($request)
     {
         DB::beginTransaction();

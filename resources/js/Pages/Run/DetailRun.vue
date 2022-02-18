@@ -471,14 +471,13 @@
         <table id="activeRunsDetail" class="display" style="width: 100%">
           <thead>
             <tr>
-              <th>Part description</th>
+              <th data-priority="1">Part description</th>
               <th>Plate Type</th>
               <th>Chromate</th>
               <th>Topcoat</th>
               <th>Secondary Topcoat</th>
-              <th>White Salt</th>
-              <th>Red Rust</th>
-
+              <th data-priority="2">White Salt</th>
+              <th data-priority="2">Red Rust</th>
               <!-- <th class="no-sort">Notes</th> -->
             </tr>
           </thead>
@@ -625,20 +624,27 @@ export default {
     const isModalClose = ref(false);
     const isModalReOpen = ref(false);
     const isModalPhotos = ref(false);
+    let globalHours = 0;
 
 
     const generateForm = async () => {
+      parts.value = [];
       const res = await axios.get(`/part/getPartsByRun/${runDetail.value.id}`);
+      
       res.data.data.forEach(element => {
         parts.value.push(
           {
             id: element.id,
-            ws: false,
-            rs: false
+            ws: (element.isRs === null) ? false: element.isWs,
+            rs: (element.isRs === null) ? false: element.isRs,
+            hoursWs: element.hoursWs,
+            hoursRs: element.hoursRs
           }
         )
       });
-      console.log(parts);
+      
+
+      
     }
 
     const gettingData = async () => {
@@ -745,21 +751,25 @@ export default {
       if (status === 1) {
         //cerrado
         if (edit) {
-          return hours;
+          globalHours = hours;
+          return globalHours;
         } else {
           const closeNonEdit =
             Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5;
-          return closeNonEdit | 0; // trunca los decimales y se queda con el entero
+          globalHours = closeNonEdit | 0; // trunca los decimales y se queda con el entero
+          return globalHours; 
         }
       } else {
         if (edit) {
           const activeEdit = Math.abs(new Date() - new Date(lastDate)) / 36e5;
           const hoursEdited = activeEdit | 0; // trunca los decimales y se queda con el entero
-          return hours + hoursEdited;
+          globalHours = hours + hoursEdited;
+          return globalHours;
         } else {
           const activeNonEdit =
             Math.abs(new Date() - new Date(created_date)) / 36e5;
-          return activeNonEdit | 0; // trunca los decimales y se queda con el entero
+          globalHours = activeNonEdit | 0; // trunca los decimales y se queda con el entero
+          return globalHours;
         }
       }
     };
@@ -864,15 +874,21 @@ export default {
               render: function (data, type, row, meta) {
                 // Si tiene horas, se renderiza horas
                 // Si no tiene horas, se colocará input value = false
-                
-                // if( row.hoursWs > 0 ) {
-                //   '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
-                // } else {
-                //   '<td>'+row.hoursWs+'</td>'
-                // }
+                let whiteSaltInput;
+                if( row.isWs !== null) {
+                  if (row.isWs) {
+                    whiteSaltInput = '<input type="number" id="hws'+row.id+'" class="whitesInp" itemId=' + row.id + ' value='+ row.hoursWs +' style="width: 80px">';
+                  } else {
+                    whiteSaltInput = '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
+                  }
+                } else {
+                  whiteSaltInput = '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
+                }
 
                 return (
-                  '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
+                  whiteSaltInput
+                  // '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
+                  // '<input type="number" id="hws'+row.id+'" class="whitesInp" itemId=' + row.id + ' style="width: 80px">'
                 );
               },
             },
@@ -880,22 +896,41 @@ export default {
               name: "redrust",
               searchable: false,
               render: function (data, type, row, meta) {
+                let redRustInput;
+                if( row.isRs !== null) {
+                  if (row.isRs) {
+                    redRustInput = '<input type="number" id="hrss'+row.id+'" class="redrInp" itemId=' + row.id + ' value='+ row.hoursRs +' style="width: 80px">';
+                  } else {
+                    redRustInput = '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>';
+                  }
+                } else {
+                  redRustInput = '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>'
+                }
+
                 return (
-                  '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>'
+                  redRustInput
+                  // '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>'
+                  // '<input type="number" id="hrss'+row.id+'" class="redrInp" itemId=' + row.id + ' style="width: 80px">'
                 );
               },
             },
           ],
           drawCallback: function () {
             $("#activeRunsDetail").on("click", "[class*=whitesChk]", function (e) {
-              console.log(e.currentTarget.attributes[3].value);
-              console.log(e.currentTarget.attributes[1].value);
               whiteSalt(e.currentTarget.attributes[3].value);
             });
             $("#activeRunsDetail").on("click", "[class*=redrChk]", function (e) {
-              console.log(e.currentTarget.attributes[3].value);
-              console.log(e.currentTarget.attributes[1].value);
               redRust(e.currentTarget.attributes[3].value);
+            });
+            $("#activeRunsDetail").on("keyup", "[class*=whitesInp]", function (e) {
+              const idHws = e.currentTarget.attributes[1].value; // 1 es id de html
+              const hws = $(`#${idHws}`).val();
+              getHoursWs(hws, e.currentTarget.attributes[3].value); // 3 es id de Part
+            });
+            $("#activeRunsDetail").on("keyup", "[class*=redrInp]", function (e) {
+              const idHrss = e.currentTarget.attributes[1].value; // 1 es id de html
+              const hrss = $(`#${idHrss}`).val();
+              getHoursRs(hrss, e.currentTarget.attributes[3].value); // 3 es id de Part
             });
           }
         });
@@ -906,28 +941,59 @@ export default {
       const idWs = Number(id);
       const wsPos = parts.value.findIndex( el => el.id === idWs);
       parts.value[wsPos].ws = true;
-      console.log(parts);
     }
 
     const redRust = (id) => {
       const idRs = Number(id);
-      console.log(idRs)
       const rsPos = parts.value.findIndex( el => el.id === idRs);
-      console.log(rsPos);
-      console.log(parts.value[rsPos]);
       parts.value[rsPos].rs = true;
+    }
+
+    const getHoursWs = (hours, id) => {
+      const hoursWs = Number(hours);
+      const idHWs = Number(id);
+      const hwsPos = parts.value.findIndex( el => el.id === idHWs);
+      parts.value[hwsPos].hoursWs = hoursWs;
+      console.log(parts);
+    }
+    
+    const getHoursRs = (hours, id) => {
+      const hoursRs = Number(hours);
+      const idHrss = Number(id);
+      const hrssPos = parts.value.findIndex( el => el.id === idHrss);
+      parts.value[hrssPos].hoursRs = hoursRs;
       console.log(parts);
     }
 
-    const updateWsRs = () =>{
+    const updateWsRs = async() =>{
       const partsUpdated = {
         runId: runDetail.value.id,
-        parts: [
+        hours: globalHours,
+        parts: {
           ...parts.value
-        ]
+        }
       };
 
       console.log(partsUpdated);
+
+     
+       const res = await axios.post(`/run/updatePartsWsRs`, partsUpdated);
+            const { ok, value, message } = res.data;
+            // loading.value = false;
+            console.log(ok, value, message);
+            if (ok) {
+              
+              generateForm();
+              $("#activeRunsDetail").DataTable().clear().destroy();
+              await generateDataTableDetail();
+                makeToast(message);
+                // window.location.href = `/part/${value.id}`;
+                // Inertia.get(`/part/${value.id}`)
+            } else {
+              makeToast("An error has occurred", "error");
+            }
+
+      // aquí se llama a la API
     }
 
     gettingData();
