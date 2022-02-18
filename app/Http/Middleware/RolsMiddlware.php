@@ -54,6 +54,7 @@ class RolsMiddlware
                 'chemical',
                 'report',
                 'user',
+                'dailyHours',
               
 
             ],

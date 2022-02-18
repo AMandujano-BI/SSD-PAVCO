@@ -36,7 +36,8 @@ export default [
           href: '/chemical',
           icon: 'Chemical',
           itemRoute: 'chemical.index'
-        }
+        },
+
       ]
     },
     {
@@ -47,6 +48,12 @@ export default [
       itemRoute: 'report.index',
       updateMark: true
     },
+    {
+      label: 'Daily Hours',
+      href: '/daily-hours',
+      icon: 'DailyHours',
+      itemRoute: 'dailyHours.index'
+    }
   ],
 
 ]

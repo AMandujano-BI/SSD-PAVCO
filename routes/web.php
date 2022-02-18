@@ -5,6 +5,7 @@ use App\Http\Controllers\RunController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ChemicalController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DailyHoursController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ReportController;
@@ -63,4 +64,5 @@ Route::middleware(['auth:sanctum', 'verified', 'rols'])->group(function () {
     Route::middleware(['auth:sanctum', 'verified'])->resource('run', RunController::class);
     Route::middleware(['auth:sanctum', 'verified'])->resource('report', ReportController::class);
     Route::middleware(['auth:sanctum', 'verified'])->resource('user', UserController::class);
+    Route::middleware(['auth:sanctum', 'verified'])->resource('dailyHours', DailyHoursController::class);
 });
