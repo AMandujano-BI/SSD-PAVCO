@@ -3,13 +3,18 @@ import { required, helpers, sameAs, email, minLength } from "@vuelidate/validato
 import useHelper from "@/composables/useHelper";
 import useVuelidate from "@vuelidate/core";
 import { useStore } from "vuex";
-const isDiferentZero = (value) => {
+const isDiferentZero =  (param,param2) => (value) => {
+    console.log({param})
+    if(param.value ===1 || param.value ===2){
+        return true
+    }
     return value != 0 && value !=null;
 };
 const useFormuser = (formProps) => {
     const form = reactive(formProps);
     const store = useStore()
     const companies = ref([])
+    const typeRol = ref(0)
     const { emit } = getCurrentInstance();
     const { makeToast } = useHelper();
     const rules = computed(() => ({
@@ -22,7 +27,7 @@ const useFormuser = (formProps) => {
             required,
             isDiferentZero: helpers.withMessage(
                 "You must select an option",
-                isDiferentZero
+                isDiferentZero(typeRol)
             ),
         },
         rols: {
@@ -30,6 +35,7 @@ const useFormuser = (formProps) => {
         },
     }))
     const onChangeRol =(type)=>{
+        typeRol.value = type
         getCompanies(type,true)
     }
 
@@ -82,7 +88,8 @@ const useFormuser = (formProps) => {
         submitForm,
         v$,
         onChangeRol,
-        companies
+        companies,
+        typeRol
     }
 }
 

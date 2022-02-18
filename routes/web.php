@@ -5,6 +5,7 @@ use App\Http\Controllers\RunController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ChemicalController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DailyHoursController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ReportController;
@@ -44,6 +45,7 @@ Route::middleware(['auth:sanctum', 'verified', 'rols'])->group(function () {
     Route::middleware(['auth:sanctum', 'verified'])->get('/run/download/{id}', [RunController::class, 'downloadPdf'])->name('run.downloadPdf');
     Route::middleware(['auth:sanctum', 'verified'])->get('/run/downloadPlus/{id}', [RunController::class, 'downloadPlus'])->name('run.downloadPlus');
     Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRuns/{status}', [RunController::class, 'getAllRuns'])->name('run.getAllRuns');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRunsByDate/{startDate}/{status}', [RunController::class, 'getAllRunsByDate'])->name('run.getAllRunsByDate');
     Route::middleware(['auth:sanctum', 'verified'])->get('/run/detail/{id}', [RunController::class, 'runDetail'])->name('run.runDetail');//Se puso de nombre company para que no aparezca el search en el navbar
     Route::middleware(['auth:sanctum', 'verified'])->get('/run/viewerPhotos/{id}', [RunController::class, 'viewerPhotos'])->name('run.viewerPhotos');
     Route::middleware(['auth:sanctum', 'verified'])->post('/note/add', [NoteController::class, 'store'])->name('note.add');
@@ -64,4 +66,5 @@ Route::middleware(['auth:sanctum', 'verified', 'rols'])->group(function () {
     Route::middleware(['auth:sanctum', 'verified'])->resource('run', RunController::class);
     Route::middleware(['auth:sanctum', 'verified'])->resource('report', ReportController::class);
     Route::middleware(['auth:sanctum', 'verified'])->resource('user', UserController::class);
+    Route::middleware(['auth:sanctum', 'verified'])->resource('dailyHours', DailyHoursController::class);
 });

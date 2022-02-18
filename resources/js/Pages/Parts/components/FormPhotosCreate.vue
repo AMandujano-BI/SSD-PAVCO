@@ -1,7 +1,9 @@
 <template>
   <div class="p-5">
     <form @submit.prevent="saveImage">
-      <h1 class="text-2xl text-center font-bold text-[#3b4559]">Take a Picture</h1>
+      <h1 class="text-2xl text-center font-bold text-[#3b4559]">
+        Take a Picture
+      </h1>
       <div
         class="
           bg-primary
@@ -39,14 +41,16 @@
         id="image"
         @change="fileChange"
       />
-        <!-- class="hidden" -->
+      <!-- class="hidden" -->
       <div
         v-if="!url"
         class="w-full h-64 flex items-center justify-center text-[#3b4559]"
-        :class="{ 'text-red-500 font-bold transition ease-linear text-lg  delay-75 duration-75': v$.image.$error }"
+        :class="{
+          'text-red-500 font-bold transition ease-linear text-lg  delay-75 duration-75':
+            v$.image.$error,
+        }"
       >
         Select an Image
-      
       </div>
       <img
         v-if="url"
@@ -55,7 +59,7 @@
         class="w-full h-64 my-5 object-cover"
       />
       <div>
-        <label class=" text-[#3b4559] font-semibold">Name</label>
+        <label class="text-[#3b4559] font-semibold">Name</label>
         <input
           type="text"
           class="w-full"
@@ -71,7 +75,7 @@
         </p>
       </div>
       <div>
-        <label class=" text-[#3b4559] font-semibold">Date Added</label>
+        <label class="text-[#3b4559] font-semibold">Date Added</label>
         <input
           type="date"
           class="w-full"
@@ -87,7 +91,9 @@
         </p>
       </div>
       <div>
-        <label class="w-full pb-2 block font-semibold text-[#3b4559]">Report?</label>
+        <label class="w-full pb-2 block font-semibold text-[#3b4559]"
+          >Report?</label
+        >
         <input type="radio" value="1" v-model="form.report" id="yes" />
         <label for="yes"> Yes </label>
         <input type="radio" value="0" v-model="form.report" id="no" /><label
@@ -97,7 +103,7 @@
         >
       </div>
       <div>
-        <label class=" text-[#3b4559] font-semibold">Description </label>
+        <label class="text-[#3b4559] font-semibold">Description </label>
         <textarea
           v-model="form.description"
           cols="30"
@@ -176,27 +182,25 @@ export default {
   setup(props, { emit }) {
     const { run_id, photosTable } = props;
     const photos = ref(photosTable);
+    const { makeToast, getCurrentDate } = useHelper();
     const form = reactive({
       description: "",
       name: "",
       report: 1,
       // hours: "",
       // start_date: new Date().toISOString().slice(0, 10),
-      hours: new Date().toISOString().slice(0, 10),
+      hours: getCurrentDate(),
       image: null,
     });
     const loading = ref(false);
     const url = ref(null);
     const image = ref(null);
-    const { makeToast } = useHelper();
     const rules = {
       hours: { required },
       name: { required },
       image: { required },
     };
     const v$ = useVuelidate(rules, form);
-
-
 
     const fileChange = (e) => {
       const file = e.target.files[0];
@@ -205,8 +209,6 @@ export default {
       url.value = URL.createObjectURL(file);
     };
 
-
-    
     const selectImage = () => {
       document.getElementById("image").click();
     };
@@ -217,10 +219,10 @@ export default {
         loading.value = true;
         // Prepare Data
         const formData = new FormData();
-        if(form.image.size >10485760){
+        if (form.image.size > 10485760) {
           loading.value = false;
-          makeToast('The maximum size is 10 MB', "error");
-          return
+          makeToast("The maximum size is 10 MB", "error");
+          return;
         }
         formData.append("image", form.image);
         formData.append("run", run_id);
@@ -233,7 +235,6 @@ export default {
             "Content-Type": "multipart/form-data",
           },
         });
-
 
         const { ok, message, value } = res.data;
         loading.value = false;

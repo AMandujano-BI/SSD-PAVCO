@@ -59,7 +59,13 @@ class RunController extends Controller
 
         return datatables()->of($runs)->toJson();
 
-        // return $runs;
+    }
+    public function getAllRunsByDate($startDate, $status)
+    {
+        $runs = $this->_run->getAllRunByDate($startDate,$status);
+
+        return datatables()->of($runs)->toJson();
+
     }
 
     /**
@@ -186,11 +192,6 @@ class RunController extends Controller
         $closedDate = $closed_date->format('Y-m-d H:i:s');
         $hours = 0;
 
-        // $hourdiff = (strtotime($current) - strtotime($createdDate)) / 3600;
-        // $hourRounded = bcdiv($hourdiff, '1', 0);
-        // $totalHours = intval($hourRounded, 10);
-        // dd($run->status);
-
         if ($run->status == 1) {
             if ($run->isEdit) {
                 $hours = $run->hours;
@@ -211,10 +212,6 @@ class RunController extends Controller
             }
         }
 
-
-
-        // $hourdiff = round((strtotime($endDate) - strtotime($firstDate))/3600, 1);
-        // $hours = intval($hourdiff, 10);
 
         $status = '';
         if ($run->status == 0) {
@@ -291,7 +288,7 @@ class RunController extends Controller
         $allParts = $run->parts;
         $photos = $run->photos;
 
-        
+
         $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description']));
         $pdf->setPaper('a4', 'landscape');
         return $pdf->download('run_report_' . $run->id . '.pdf');
