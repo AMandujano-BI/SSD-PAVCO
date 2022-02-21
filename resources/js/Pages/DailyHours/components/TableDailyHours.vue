@@ -1,18 +1,25 @@
 <template>
   <input
     type="date"
-    class="w-full"
+    class="w-full mb-5"
     @change="changeDateFilter"
     v-model="startDate"
   />
+  <button
+    class="bg-primary-500 p-5 text-white rounded-md"
+    @click="openModalChange"
+  >
+    Change
+  </button>
   <div class="rounded-lg bg-white p-5">
     <table
       id="activeRuns"
       class="display nowrap responsive"
       style="width: 100%; height: 100%"
     >
-      <thead v-if="$page.props.auth.rols[0].id == 1">
+      <thead>
         <tr>
+          <th class="no-sort"></th>
           <th data-priority="2">StartDate</th>
           <th data-priority="1">Run #</th>
           <th data-priority="1" class="max-w-[150px]">Customer</th>
@@ -21,33 +28,39 @@
           <th>Hrs</th>
         </tr>
       </thead>
-      <thead v-if="$page.props.auth.rols[0].id != 1">
-        <tr>
-          <th data-priority="2">StartDate</th>
-          <th data-priority="1">Run #</th>
-          <th data-priority="1" class="max-w-[150px]">Customer</th>
-          <th>Method</th>
-          <th data-priority="2">Status</th>
-          <th>Hrs</th>
-        </tr>
-      </thead>
+
       <tbody></tbody>
     </table>
   </div>
+  <!-- MODALS -->
+
+  <modal :show="openModal" @close="closeModalChange">
+    <div class="p-5">
+     <form-daily-hours/>
+    </div>
+
+  </modal>
 </template>
 
 <script>
 const $ = require("jquery");
 var dt = require("datatables.net");
 import { ref, nextTick } from "vue";
-import { Inertia } from "@inertiajs/inertia";
 import "datatables.net-responsive-dt";
 import "datatables.net-rowreorder-dt";
 import useHelper from "@/composables/useHelper";
+import ModalVue from "@/Jetstream/Modal.vue";
+import FormDailyHoursVue from './FormDailyHours.vue';
 export default {
+  components: {
+    modal: ModalVue,
+    FormDailyHours:FormDailyHoursVue
+  },
   setup() {
-    const { makeToast,getCurrentDate } = useHelper();
+    // Declare variables
+    const { getCurrentDate } = useHelper();
     const startDate = ref(getCurrentDate());
+    const openModal = ref(false);
     let runs = ref([]);
 
     const changeDateFilter = (e) => {
@@ -56,8 +69,6 @@ export default {
     };
     const gettingData = async (status = 3) => {
       try {
-        // $("#activueRuns").DataTable().empty()
-
         $("#activeRuns").DataTable().clear().destroy();
         await generateDataTable(status);
       } catch (e) {
@@ -94,10 +105,11 @@ export default {
         }
       }
     };
+    const openModalChange = () => {
+      openModal.value = true;
+    };
     const generateDataTable = (status) => {
       const self = this;
-      console.log(status);
-      console.log(Inertia.page.props.csrf_token);
       nextTick(() => {
         $("#activeRuns").DataTable({
           ordering: true,
@@ -113,8 +125,11 @@ export default {
             },
           ],
           responsive: true,
-          select: true,
-          rowId: 'id',
+          select: {
+            style: "os",
+            selector: "td:first-child",
+          },
+          rowId: "id",
           language: {
             paginate: {
               next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
@@ -138,6 +153,13 @@ export default {
             runs.value = arr;
           },
           columns: [
+            {
+              name: "select",
+              searchable: true,
+              render: function (data, type, row, meta) {
+                return "<td> <input type='checkbox' /> </td>";
+              },
+            },
             {
               name: "start_date",
               searchable: true,
@@ -219,6 +241,9 @@ export default {
     return {
       changeDateFilter,
       startDate,
+      openModal,
+      openModalChange,
+      closeModalChange: () => (openModal.value = false),
     };
   },
 };
