@@ -485,7 +485,15 @@
         </table>
 
         <div>
-          <button class="btn" @click="updateWsRs">Guardar cambios</button>
+          <button class="
+                      bg-primary
+                        rounded
+                        py-5
+                      text-white
+                        px-3
+                        mt-2
+                      hover:bg-primary-600" 
+                  @click="updateWsRs">Guardar cambios</button>
         </div>
         <modal :show="isModalPhotos" @close="closePhotosModal">
           <div class="container mx-auto p-5 relative bg-[#ebf2fd]">
@@ -814,7 +822,6 @@ export default {
             state.forEach((element) => {
               arr.push(element._aData);
             });
-            console.log(arr);
           },
           columns: [
             {
@@ -899,7 +906,7 @@ export default {
                 let redRustInput;
                 if( row.isRs !== null) {
                   if (row.isRs) {
-                    redRustInput = '<input type="number" id="hrss'+row.id+'" class="redrInp" itemId=' + row.id + ' value='+ row.hoursRs +' style="width: 80px">';
+                    redRustInput = '<input type="number" id="hrss'+row.id+'" class="redrInp" itemId=' + row.id + ' value='+ row.hoursRs +' style="width: 80px;">';
                   } else {
                     redRustInput = '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>';
                   }
@@ -954,7 +961,6 @@ export default {
       const idHWs = Number(id);
       const hwsPos = parts.value.findIndex( el => el.id === idHWs);
       parts.value[hwsPos].hoursWs = hoursWs;
-      console.log(parts);
     }
     
     const getHoursRs = (hours, id) => {
@@ -962,7 +968,6 @@ export default {
       const idHrss = Number(id);
       const hrssPos = parts.value.findIndex( el => el.id === idHrss);
       parts.value[hrssPos].hoursRs = hoursRs;
-      console.log(parts);
     }
 
     const updateWsRs = async() =>{
@@ -974,13 +979,10 @@ export default {
         }
       };
 
-      console.log(partsUpdated);
-
      
        const res = await axios.post(`/run/updatePartsWsRs`, partsUpdated);
             const { ok, value, message } = res.data;
             // loading.value = false;
-            console.log(ok, value, message);
             if (ok) {
               
               generateForm();
@@ -1037,4 +1039,16 @@ export default {
 </script>
 
 <style>
+.whitesInp {
+  border: none;
+}
+.whitesInp:focus {
+  border: 1px solid gray;
+}
+.redrInp {
+  border: none;
+}
+.redrInp:focus {
+  border: 1px solid gray;
+}
 </style>
