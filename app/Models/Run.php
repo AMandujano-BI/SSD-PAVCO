@@ -366,6 +366,34 @@ class Run extends Model
         // return $run;
     }
 
+    public static function updateHours($request) 
+    {
+        DB::beginTransaction();
+        try {
+            foreach ($request->runs as $runRequest) {
+                $run = (new static)::find($runRequest->id);
+                $run->hours = $runRequest->hours;
+                
+                $run->last_edit = Carbon::now('UTC');
+                $run->isEdit = true;
+                $run->save();
+            }
+
+            DB::commit();
+            return [
+                'ok' => true,
+                'message' => 'Hours was updated successfully',
+                'value' => $run,
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
     public static function createRun($request)
     {
         DB::beginTransaction();

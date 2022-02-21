@@ -220,9 +220,15 @@ class ReportController extends Controller
                     'parts.primaryCoatId',
                     'parts.coatId',
                     'parts.topCoatId',
+                    'parts.isWs',
+                    'parts.isRs',
+                    'parts.hoursWs',
+                    'parts.hoursRs',
                     'companies.name as company',
                     'chromate.name as chromate',
-                    'topcoat.name as topcoat'
+                    'topcoat.name as topcoat',
+                    'runs.hours',
+                    'runs.status'
 
                 )
                 ->get();

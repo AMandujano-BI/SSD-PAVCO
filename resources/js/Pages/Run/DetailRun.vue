@@ -688,6 +688,9 @@ export default {
           isModalReOpen.value = false;
           makeToast(message);
           runDetail.value.status = 0;
+          generateForm();
+          $("#activeRunsDetail").DataTable().clear().destroy();
+          await generateDataTableDetail();
         } else {
           makeToast(message, "error");
         }
@@ -718,6 +721,10 @@ export default {
           isModalClose.value = false;
           makeToast(message);
           runDetail.value.status = 1;
+          generateForm();
+          $("#activeRunsDetail").DataTable().clear().destroy();
+          await generateDataTableDetail();
+
         } else {
           makeToast(message, "error");
         }
@@ -879,23 +886,26 @@ export default {
               name: "whitesalt",
               searchable: false,
               render: function (data, type, row, meta) {
-                // Si tiene horas, se renderiza horas
-                // Si no tiene horas, se colocará input value = false
+                
+                
                 let whiteSaltInput;
-                if( row.isWs !== null) {
-                  if (row.isWs) {
-                    whiteSaltInput = '<input type="number" id="hws'+row.id+'" class="whitesInp" itemId=' + row.id + ' value='+ row.hoursWs +' style="width: 80px">';
+
+                if(runDetail.value.status === 1) { // está cerrado
+                  if( row.isWs !== null && row.isWs) {
+                    whiteSaltInput = `${row.hoursWs} hrs`
                   } else {
+                    whiteSaltInput = `Removed at ${runDetail.value.hours} hrs`
+                  }
+                } else {  // está abierto
+                  if( row.isWs !== null && row.isWs) { // Si tiene horas, se renderiza horas
+                      whiteSaltInput = '<input type="number" id="hws'+row.id+'" class="whitesInp" itemId=' + row.id + ' value='+ row.hoursWs +' style="width: 80px"> hrs';
+                  } else { // Si no tiene horas, se colocará input value = false
                     whiteSaltInput = '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
                   }
-                } else {
-                  whiteSaltInput = '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
                 }
 
                 return (
                   whiteSaltInput
-                  // '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
-                  // '<input type="number" id="hws'+row.id+'" class="whitesInp" itemId=' + row.id + ' style="width: 80px">'
                 );
               },
             },
@@ -904,20 +914,22 @@ export default {
               searchable: false,
               render: function (data, type, row, meta) {
                 let redRustInput;
-                if( row.isRs !== null) {
-                  if (row.isRs) {
-                    redRustInput = '<input type="number" id="hrss'+row.id+'" class="redrInp" itemId=' + row.id + ' value='+ row.hoursRs +' style="width: 80px;">';
+                if(runDetail.value.status === 1) { // está cerrado
+                  if( row.isRs !== null && row.isRs) {
+                    redRustInput = `${row.hoursRs} hrs`
                   } else {
-                    redRustInput = '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>';
+                    redRustInput = `Removed at ${runDetail.value.hours} hrs`
                   }
-                } else {
-                  redRustInput = '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>'
+                } else {  // está abierto
+                  if( row.isRs !== null && row.isRs) {
+                      redRustInput = '<input type="number" id="hrss'+row.id+'" class="redrInp" itemId=' + row.id + ' value='+ row.hoursRs +' style="width: 80px;"> hrs';
+                  } else {
+                    redRustInput = '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>'
+                  }
                 }
-
+                  
                 return (
                   redRustInput
-                  // '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>'
-                  // '<input type="number" id="hrss'+row.id+'" class="redrInp" itemId=' + row.id + ' style="width: 80px">'
                 );
               },
             },
@@ -1041,12 +1053,14 @@ export default {
 <style>
 .whitesInp {
   border: none;
+  text-align: right !important; 
 }
 .whitesInp:focus {
   border: 1px solid gray;
 }
 .redrInp {
   border: none;
+  text-align: right !important; 
 }
 .redrInp:focus {
   border: 1px solid gray;

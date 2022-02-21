@@ -171,6 +171,8 @@
                             <th style="text-align: center;">Description</th>
                             <th style="text-align: center;">Chromate</th>
                             <th style="text-align: center;">Topcoat</th>
+                            <th style="text-align: center;">White Salt</th>
+                            <th style="text-align: center;">Red Rust</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -187,6 +189,28 @@
                             <td style="text-align: center;">{{$part->description}}</td>
                             <td style="text-align: center;">{{$part->chromate}}</td>
                             <td style="text-align: center;">{{$part->topcoat}}</td>
+                            <td style="text-align: center;">
+                                @if ( $part->isWs != null)  
+                                    {{$part->hoursWs}}
+                                @else
+                                    @if ($part->status == 1)
+                                        Removet at {{$part->hours}}
+                                    @else
+                                        Active
+                                    @endif
+                                @endif
+                            </td>
+                            <td style="text-align: center;">
+                                @if ( $part->isRs != null)  
+                                    {{$part->hoursRs}}
+                                @else
+                                    @if ($part->status == 1)
+                                        Removet at {{$part->hours}}
+                                    @else
+                                        Active
+                                    @endif
+                                @endif
+                            </td>
                         </tr>
                         @endif
                         @endforeach
