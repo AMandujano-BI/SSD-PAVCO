@@ -12,4 +12,10 @@ class DailyHoursController extends Controller
     {
         return Inertia::render('DailyHours/Index');
     }
+
+    public function store(Request $request)
+    {
+        //
+        return $request;
+    }
 }

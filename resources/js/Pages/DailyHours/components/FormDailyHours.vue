@@ -9,11 +9,7 @@
       placeholder="Change Hours"
       v-model="form.hours"
     />
-    <p
-      v-for="error of v$.hours.$errors"
-      :key="error.$uid"
-      class="text-red-400"
-    >
+    <p v-for="error of v$.hours.$errors" :key="error.$uid" class="text-red-400">
       {{ error.$message }}
     </p>
     <div v-if="!loading" class="w-full">
@@ -58,11 +54,17 @@
 import { reactive, ref } from "vue";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+import axios from "axios";
 export default {
-  setup() {
+  props: ["arrayId"],
+  emits: ["closeModal"],
+  setup(props, { emit }) {
+    const { arrayId } = props;
+    console.log(arrayId);
     const loading = ref(false);
     const form = reactive({
       hours: "",
+      arrayId: arrayId
     });
     const rules = {
       hours: { required },
@@ -73,6 +75,9 @@ export default {
       if (!isFormCorrect) return;
       try {
         console.log(form);
+        const res = await axios.post("/dailyHours", form);
+        console.log(res);
+        emit("closeModal");
       } catch (e) {}
     };
 
@@ -80,7 +85,7 @@ export default {
       loading,
       submitForm,
       form,
-      v$
+      v$,
     };
   },
 };

@@ -36,9 +36,8 @@
 
   <modal :show="openModal" @close="closeModalChange">
     <div class="p-5">
-     <form-daily-hours/>
+      <form-daily-hours :arrayId="arrayId" @closeModal="closeModalChange" />
     </div>
-
   </modal>
 </template>
 
@@ -48,19 +47,22 @@ var dt = require("datatables.net");
 import { ref, nextTick } from "vue";
 import "datatables.net-responsive-dt";
 import "datatables.net-rowreorder-dt";
+import "datatables.net-select-dt";
 import useHelper from "@/composables/useHelper";
 import ModalVue from "@/Jetstream/Modal.vue";
-import FormDailyHoursVue from './FormDailyHours.vue';
+import FormDailyHoursVue from "./FormDailyHours.vue";
 export default {
   components: {
     modal: ModalVue,
-    FormDailyHours:FormDailyHoursVue
+    FormDailyHours: FormDailyHoursVue,
   },
   setup() {
     // Declare variables
     const { getCurrentDate } = useHelper();
     const startDate = ref(getCurrentDate());
     const openModal = ref(false);
+    const arrayId = ref([]);
+    let table;
     let runs = ref([]);
 
     const changeDateFilter = (e) => {
@@ -107,11 +109,15 @@ export default {
     };
     const openModalChange = () => {
       openModal.value = true;
+      const data = table.rows(".selected").data();
+      arrayId.value =[]
+      data.map((item) =>  arrayId.value.push(item.id));
     };
+
     const generateDataTable = (status) => {
       const self = this;
       nextTick(() => {
-        $("#activeRuns").DataTable({
+        table = $("#activeRuns").DataTable({
           ordering: true,
           bLengthChange: false,
           pageLength: 10,
@@ -124,6 +130,7 @@ export default {
               targets: "_all",
             },
           ],
+          order: [[1, "asc"]],
           responsive: true,
           select: {
             style: "os",
@@ -145,7 +152,6 @@ export default {
           // },
           stateSaveCallback: function (settings, data) {
             const state = settings.aoData;
-            console.log(state);
             let arr = [];
             state.forEach((element) => {
               arr.push(element._aData);
@@ -157,7 +163,8 @@ export default {
               name: "select",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td> <input type='checkbox' /> </td>";
+                // return "<td> <input type='checkbox' /> </td>";
+                return "<td></td>";
               },
             },
             {
@@ -244,6 +251,7 @@ export default {
       openModal,
       openModalChange,
       closeModalChange: () => (openModal.value = false),
+      arrayId
     };
   },
 };
