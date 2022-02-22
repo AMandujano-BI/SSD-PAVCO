@@ -6,10 +6,10 @@
     v-model="startDate"
   />
   <button
-    class="bg-primary-500 p-5 text-white rounded-md"
+    class="bg-primary-500 p-4 text-white rounded-md"
     @click="openModalChange"
   >
-    Change
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="white" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm.06 17v-2.01H12c-1.28 0-2.56-.49-3.54-1.46a5.006 5.006 0 0 1-.64-6.29l1.1 1.1c-.71 1.33-.53 3.01.59 4.13c.7.7 1.62 1.03 2.54 1.01v-2.14l2.83 2.83L12.06 19zm4.11-4.24l-1.1-1.1c.71-1.33.53-3.01-.59-4.13A3.482 3.482 0 0 0 12 8.5h-.06v2.15L9.11 7.83L11.94 5v2.02c1.3-.02 2.61.45 3.6 1.45c1.7 1.7 1.91 4.35.63 6.29z"/></svg>
   </button>
   <div class="rounded-lg bg-white p-5">
     <table
@@ -19,7 +19,14 @@
     >
       <thead>
         <tr>
-          <th class="no-sort"></th>
+          <th>
+            <input
+              type="checkbox"
+              name="main_checkbox"
+              @change="toggleAll"
+              v-model="selectedCheckbox"
+            />
+          </th>
           <th data-priority="2">StartDate</th>
           <th data-priority="1">Run #</th>
           <th data-priority="1" class="max-w-[150px]">Customer</th>
@@ -29,7 +36,29 @@
         </tr>
       </thead>
 
-      <tbody></tbody>
+      <tbody>
+        <tr v-for="item in dataDailyHours" :key="item.id">
+          <td></td>
+          <td>{{ item.start_date.slice(0,10) }}</td>
+          <td>{{ item.id }}</td>
+          <td>{{ item.company.name }}</td>
+          <td>{{ item.method.name }}</td>
+          <td>{{ item.status === 1 ? "Complete" : "Active" }}</td>
+          <td>
+            {{
+              calculateHours(
+                item.id,
+                item.status,
+                item.start_date,
+                item.isEdit,
+                item.last_edit,
+                item.hours,
+                item.closed_date
+              )
+            }}
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
   <!-- MODALS -->
@@ -51,6 +80,7 @@ import "datatables.net-select-dt";
 import useHelper from "@/composables/useHelper";
 import ModalVue from "@/Jetstream/Modal.vue";
 import FormDailyHoursVue from "./FormDailyHours.vue";
+import axios from "axios";
 export default {
   components: {
     modal: ModalVue,
@@ -60,18 +90,27 @@ export default {
     // Declare variables
     const { getCurrentDate } = useHelper();
     const startDate = ref(getCurrentDate());
+    const dataDailyHours = ref([]);
+    const { makeToast } = useHelper();
     const openModal = ref(false);
+    const selectedCheckbox = ref(false);
     const arrayId = ref([]);
+    const selected = ref([]);
     let table;
     let runs = ref([]);
 
     const changeDateFilter = (e) => {
       startDate.value = e.target.value;
+      selectedCheckbox.value =false
       gettingData();
     };
     const gettingData = async (status = 3) => {
       try {
         $("#activeRuns").DataTable().clear().destroy();
+        const res = await axios.get(
+          `/run/getAllRunsByDate/'${startDate.value}'/${status}`
+        );
+        dataDailyHours.value = res.data;
         await generateDataTable(status);
       } catch (e) {
         console.log(e);
@@ -108,10 +147,24 @@ export default {
       }
     };
     const openModalChange = () => {
-      openModal.value = true;
       const data = table.rows(".selected").data();
-      arrayId.value =[]
-      data.map((item) =>  arrayId.value.push(item.id));
+      arrayId.value = [];
+      data.map((item) => arrayId.value.push(item[2]));
+      if (arrayId.value.length > 0) {
+        openModal.value = true;
+      } else {
+        makeToast("You must select a run", "error");
+      }
+    };
+    const toggleAll = () => {
+      if (selectedCheckbox.value) {
+        table.rows().select();
+        const data = table.rows(".selected").data();
+        arrayId.value = [];
+        data.map((item) => arrayId.value.push(item[2]));
+      } else {
+        table.rows().deselect();
+      }
     };
 
     const generateDataTable = (status) => {
@@ -120,125 +173,27 @@ export default {
         table = $("#activeRuns").DataTable({
           ordering: true,
           bLengthChange: false,
-          pageLength: 10,
-          processing: true,
-          serverSide: true,
+          pageLength: 3,
           stateSave: true,
           columnDefs: [
             {
+              orderable: false,
               defaultContent: "-",
-              targets: "_all",
+              targets: 0,
+              className: "select-checkbox",
             },
           ],
-          order: [[1, "asc"]],
           responsive: true,
           select: {
             style: "os",
             selector: "td:first-child",
           },
-          rowId: "id",
           language: {
             paginate: {
               next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
               previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
             },
-            info: "Showing results _START_ to _END_ from _TOTAL_",
-          },
-          ajax: {
-            url: `/run/getAllRunsByDate/'${startDate.value}'/${status}`,
-          },
-          // language:{
-          //   // processing:"<h1 style='background:#333;color:#fff;height:800px;'>Loading..</h1>"
-          // },
-          stateSaveCallback: function (settings, data) {
-            const state = settings.aoData;
-            let arr = [];
-            state.forEach((element) => {
-              arr.push(element._aData);
-            });
-            runs.value = arr;
-          },
-          columns: [
-            {
-              name: "select",
-              searchable: true,
-              render: function (data, type, row, meta) {
-                // return "<td> <input type='checkbox' /> </td>";
-                return "<td></td>";
-              },
-            },
-            {
-              name: "start_date",
-              searchable: true,
-              render: function (data, type, row, meta) {
-                return "<td>" + row.start_date.slice(0, 10) + "</td>";
-              },
-            },
-            {
-              name: "id",
-              searchable: true,
-              render: function (data, type, row, meta) {
-                return "<td>" + row.id + "</td>";
-              },
-            },
-            {
-              name: "company.name",
-              searchable: true,
-              render: function (data, type, row, meta) {
-                return "<td>" + row.company.name + "</td>";
-              },
-            },
-            {
-              name: "method.name",
-              searchable: false,
-              render: function (data, type, row, meta) {
-                return "<td>" + row.method.name + "</td>";
-              },
-            },
-            {
-              name: "status",
-              searchable: false,
-              render: function (data, type, row, meta) {
-                let status;
-                if (row.status === 1) {
-                  status = "<span>Complete</span>";
-                } else {
-                  status = "<span>Active</span>";
-                }
-                return status;
-              },
-            },
-            {
-              name: "hours",
-              searchable: false,
-              render: function (data, type, row, meta) {
-                const hours = calculateHours(
-                  row.id,
-                  row.status,
-                  row.start_date,
-                  row.isEdit,
-                  row.last_edit,
-                  row.hours,
-                  row.closed_date
-                );
-                return `<td class="text-center">${hours}</td>`;
-              },
-            },
-          ],
-          drawCallback: function () {
-            $("#activeRuns").on("click", "[class*=showphotos]", function (e) {
-              showPhotos(e.currentTarget.attributes[1].value);
-            });
-            $("#activeRuns").on(
-              "click",
-              "[class*=reportandphotosrun]",
-              function (e) {
-                reportAndPhotosRun(e.currentTarget.attributes[1].value);
-              }
-            );
-            $("#activeRuns").on("click", "[class*=runemail]", function (e) {
-              openModalEmail(e.currentTarget.attributes[1].value);
-            });
+            info: "Showing results _START_ to _END_ from _TOTAL_ ",
           },
         });
       });
@@ -251,7 +206,11 @@ export default {
       openModal,
       openModalChange,
       closeModalChange: () => (openModal.value = false),
-      arrayId
+      arrayId,
+      toggleAll,
+      selectedCheckbox,
+      dataDailyHours,
+      calculateHours,
     };
   },
 };

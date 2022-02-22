@@ -12,6 +12,7 @@
         <!-- Table -->
         <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.4/css/select.dataTables.min.css">
         
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
