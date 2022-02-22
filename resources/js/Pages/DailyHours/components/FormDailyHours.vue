@@ -60,7 +60,6 @@ export default {
   emits: ["closeModal"],
   setup(props, { emit }) {
     const { arrayId } = props;
-    console.log(arrayId);
     const loading = ref(false);
     const form = reactive({
       hours: "",
@@ -74,9 +73,7 @@ export default {
       const isFormCorrect = await v$.value.$validate();
       if (!isFormCorrect) return;
       try {
-        console.log(form);
         const res = await axios.post("/dailyHours", form);
-        console.log(res);
         emit("closeModal");
       } catch (e) {}
     };

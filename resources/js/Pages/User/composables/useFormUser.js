@@ -4,7 +4,6 @@ import useHelper from "@/composables/useHelper";
 import useVuelidate from "@vuelidate/core";
 import { useStore } from "vuex";
 const isDiferentZero =  (param,param2) => (value) => {
-    console.log({param})
     if(param.value ===1 || param.value ===2){
         return true
     }
@@ -77,7 +76,7 @@ const useFormuser = (formProps) => {
             emit('closeModal')
             emit('generateTable')
         } else {
-            makeToast(message, 'error')
+            makeToast("An error has occurred on the server", 'error')
         }
     }
 
