@@ -71,24 +71,6 @@
           v-model="form.lastname"
         />
       </div>
-      <div>
-        <label class="text-[#3b4559] font-semibold">Email Address</label>
-        <input
-          type="text"
-          class="w-full my-2"
-          autocomplete="nope"
-          v-model="form.email"
-          :class="{ 'border-red-500': v$.email.$error }"
-        />
-        <p
-          v-for="error of v$.email.$errors"
-          :key="error.$uid"
-          class="text-red-400"
-        >
-          {{ error.$message }}
-        </p>
-      </div>
-      <!-- <div v-if="typeRol !==1 && typeRol !==2"> -->
       <div >
         <label class="text-[#3b4559] font-semibold">Company</label>
         <multi-select
@@ -108,6 +90,25 @@
           {{ error.$message }}
         </p>
       </div>
+      <div>
+        <label class="text-[#3b4559] font-semibold">Email Address</label>
+        <input
+          type="text"
+          class="w-full my-2"
+          autocomplete="nope"
+          v-model="form.email"
+          :class="{ 'border-red-500': v$.email.$error }"
+        />
+        <p
+          v-for="error of v$.email.$errors"
+          :key="error.$uid"
+          class="text-red-400"
+        >
+          {{ error.$message }}
+        </p>
+      </div>
+      <!-- <div v-if="typeRol !==1 && typeRol !==2"> -->
+      
       <div v-if="form.id == 0">
         <label class="text-[#3b4559] font-semibold">Password</label>
         <input

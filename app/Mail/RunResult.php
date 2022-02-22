@@ -68,7 +68,7 @@ class RunResult extends Mailable
             }
         }
 
-
+        $run_status_img = $this->_run->status;
         $status = '';
         if ($this->_run->status == 0) {
             $status = 'Active';
@@ -82,7 +82,7 @@ class RunResult extends Mailable
         $plate_type = '';
         $photos = $this->_run->photos;
         $allParts = $this->_run->parts;
-        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description']));
+        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img']));
         $pdf->setPaper('a4', 'landscape');
         return $this->view('emails.runResult')
             ->with(['run' => $this->_run])
