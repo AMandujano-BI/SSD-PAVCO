@@ -12,6 +12,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -88,7 +89,7 @@ class User extends Authenticatable
         return $users;
     }
 
-   
+
     public static function createUser($request)
     {
         DB::beginTransaction();
@@ -100,8 +101,8 @@ class User extends Authenticatable
             $password = $request->password;
             $company_id = $request->company_id;
             $rols = $request->rols;
-            if($company_id ==0){
-                $company_id =null;
+            if ($company_id == 0) {
+                $company_id = null;
             }
 
             $userFind = (new static)::where('email', $email)->first();
@@ -172,7 +173,12 @@ class User extends Authenticatable
             $userUpdate->name = $request->name;
             $userUpdate->lastname = $request->lastname;
             $userUpdate->email = $request->email;
-            $userUpdate->company_id = $request->company_id;
+            if ($request->company_id == 0) {
+                $userUpdate->company_id = null;
+            } else {
+
+                $userUpdate->company_id = $request->company_id;
+            }
             $userUpdate->save();
             $userUpdate->rols()->sync($request->rols);
             $user = (new static)::with(['company', 'rols'])->where('username', $request->username)->first();
@@ -193,7 +199,7 @@ class User extends Authenticatable
     }
     public static function deleteUser($id)
     {
-        $uuid =Str::uuid();
+        $uuid = Str::uuid();
         DB::beginTransaction();
         try {
             $user = (new static)::find($id);
@@ -206,8 +212,8 @@ class User extends Authenticatable
                 ];
             }
             $user->status = 0;
-            $user->username= $uuid;
-            $user->email= $uuid;
+            $user->username = $uuid;
+            $user->email = $uuid;
             $user->company_id = null;
 
             $user->save();
