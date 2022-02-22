@@ -106,7 +106,6 @@ export default {
     };
     const gettingData = async (status = 3) => {
       try {
-        $("#activeRuns").DataTable().clear().destroy();
         const res = await axios.get(
           `/run/getAllRunsByDate/'${startDate.value}'/${status}`
         );
@@ -169,12 +168,13 @@ export default {
 
     const generateDataTable = (status) => {
       const self = this;
+        $("#activeRuns").DataTable().clear().destroy();
       nextTick(() => {
+
         table = $("#activeRuns").DataTable({
           ordering: true,
           bLengthChange: false,
-          pageLength: 3,
-          stateSave: true,
+          pageLength: 10,
           columnDefs: [
             {
               orderable: false,

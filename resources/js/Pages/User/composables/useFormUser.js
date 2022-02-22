@@ -4,7 +4,6 @@ import useHelper from "@/composables/useHelper";
 import useVuelidate from "@vuelidate/core";
 import { useStore } from "vuex";
 const isDiferentZero =  (param,param2) => (value) => {
-    console.log({param})
     if(param.value ===1 || param.value ===2){
         return true
     }
