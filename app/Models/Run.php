@@ -370,9 +370,9 @@ class Run extends Model
     {
         DB::beginTransaction();
         try {
-            foreach ($request->runs as $runRequest) {
-                $run = (new static)::find($runRequest->id);
-                $run->hours = $runRequest->hours;
+            foreach ($request->arrayId as $runId) {
+                $run = (new static)::find($runId);
+                $run->hours = $request->hours;
                 
                 $run->last_edit = Carbon::now('UTC');
                 $run->isEdit = true;

@@ -191,10 +191,10 @@
                             <td style="text-align: center;">{{$part->topcoat}}</td>
                             <td style="text-align: center;">
                                 @if ( $part->isWs != null)  
-                                    {{$part->hoursWs}}
+                                    {{$part->hoursWs}} hrs
                                 @else
                                     @if ($part->status == 1)
-                                        Removet at {{$part->hours}}
+                                        Removet at {{$part->hours}} hrs
                                     @else
                                         Active
                                     @endif
@@ -202,10 +202,10 @@
                             </td>
                             <td style="text-align: center;">
                                 @if ( $part->isRs != null)  
-                                    {{$part->hoursRs}}
+                                    {{$part->hoursRs}} hrs
                                 @else
                                     @if ($part->status == 1)
-                                        Removet at {{$part->hours}}
+                                        Removet at {{$part->hours}} hrs
                                     @else
                                         Active
                                     @endif

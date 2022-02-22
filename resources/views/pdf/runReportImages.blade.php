@@ -143,6 +143,8 @@
                         <th>Chromate</th>
                         <th>Topcoat</th>
                         <th>Secondary Topcoat</th>
+                        <th>White Salt</th>
+                        <th>Red Rust</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -175,6 +177,28 @@
                             {{$part->coatTemp}}° /
                             {{$part->coatPH}}pH /
                             {{$part->coatDiptime}}sec
+                        </td>
+                        <td style="text-align: center;">
+                            @if ( $part->isWs != null)  
+                                {{$part->hoursWs}} hrs
+                            @else
+                                @if ($run_status_img == 1)
+                                    Removet at {{$hours}} hrs
+                                @else
+                                    Active
+                                @endif
+                            @endif
+                        </td>
+                        <td style="text-align: center;">
+                            @if ( $part->isRs != null)  
+                                {{$part->hoursRs}} hrs
+                            @else
+                                @if ($run_status_img == 1)
+                                    Removet at {{$hours}} hrs
+                                @else
+                                    Active
+                                @endif
+                            @endif
                         </td>
                     </tr>
                     @endif

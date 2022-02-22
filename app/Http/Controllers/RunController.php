@@ -214,6 +214,7 @@ class RunController extends Controller
 
 
         $status = '';
+        $run_status = $run->status;
         if ($run->status == 0) {
             $status = 'Active';
         } else {
@@ -227,7 +228,7 @@ class RunController extends Controller
 
         $allParts = $run->parts;
 
-        $pdf = PDF::loadView('pdf.runReport', compact(['allParts', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description']));
+        $pdf = PDF::loadView('pdf.runReport', compact(['allParts', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status']));
         $pdf->setPaper('a4', 'landscape');
         return $pdf->download('run_report_' . $run->id . '.pdf');
     }
@@ -275,7 +276,7 @@ class RunController extends Controller
             }
         }
 
-
+        $run_status_img = $run->status;
         $status = '';
         if ($run->status == 0) {
             $status = 'Active';
@@ -289,7 +290,7 @@ class RunController extends Controller
         $photos = $run->photos;
 
 
-        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description']));
+        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img']));
         $pdf->setPaper('a4', 'landscape');
         return $pdf->download('run_report_' . $run->id . '.pdf');
     }

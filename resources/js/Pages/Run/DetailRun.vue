@@ -720,6 +720,7 @@ export default {
         if (ok) {
           isModalClose.value = false;
           makeToast(message);
+          calculateHours();
           runDetail.value.status = 1;
           generateForm();
           $("#activeRunsDetail").DataTable().clear().destroy();
@@ -898,7 +899,7 @@ export default {
                   }
                 } else {  // está abierto
                   if( row.isWs !== null && row.isWs) { // Si tiene horas, se renderiza horas
-                      whiteSaltInput = '<input type="number" id="hws'+row.id+'" class="whitesInp" itemId=' + row.id + ' value='+ row.hoursWs +' style="width: 80px"> hrs';
+                      whiteSaltInput = '<input type="number" id="hws'+row.id+'" class="whitesInp" itemId=' + row.id + ' value='+ row.hoursWs +' style="width: 60px"> hrs';
                   } else { // Si no tiene horas, se colocará input value = false
                     whiteSaltInput = '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
                   }
@@ -922,7 +923,7 @@ export default {
                   }
                 } else {  // está abierto
                   if( row.isRs !== null && row.isRs) {
-                      redRustInput = '<input type="number" id="hrss'+row.id+'" class="redrInp" itemId=' + row.id + ' value='+ row.hoursRs +' style="width: 80px;"> hrs';
+                      redRustInput = '<input type="number" id="hrss'+row.id+'" class="redrInp" itemId=' + row.id + ' value='+ row.hoursRs +' style="width: 60px;"> hrs';
                   } else {
                     redRustInput = '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>'
                   }
