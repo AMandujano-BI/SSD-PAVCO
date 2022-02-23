@@ -269,7 +269,7 @@ export default {
       }
     };
     const typesArray = ref([
-      { value: 3, label: "Plating" },
+      { value: 3, label: "Plate Type" },
       { value: 2, label: "Chromate" },
       { value: 1, label: "TopCoat" },
       { value: 4, label: "Secondary TopCoat" },
@@ -418,7 +418,7 @@ export default {
               searchable: false,
               render: function (data, type, row, meta) {
                 if (row.type === 3) {
-                  return "<span>Plating</span>";
+                  return "<span>Plate Type</span>";
                 }
                 if (row.type === 2) {
                   return "<span>Chromate</span>";

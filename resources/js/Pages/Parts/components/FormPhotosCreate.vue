@@ -131,7 +131,6 @@
           Cancel
         </button>
         <button
-          @click="saveImage"
           class="
             bg-primary
             w-full

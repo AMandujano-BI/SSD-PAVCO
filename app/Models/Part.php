@@ -41,7 +41,7 @@ class Part extends Model
             'chromate',
             'coat',
             'plateType',
-        ])->where('run_id', $id)->get();
+        ])->where('run_id', $id)->orderBy('id','asc')->get();
         return $parts;
     }
     public static function createPart($request)

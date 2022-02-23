@@ -109,7 +109,7 @@
             lg:grid-cols-4
             py-5
           "
-          v-if="$page.props.auth.rols[0].id ==1"
+          v-if="$page.props.auth.rols[0].id == 1"
         >
           <div
             class="
@@ -335,7 +335,7 @@
           </div>
         </div>
 
-   <!-- BUTTONS FOR ADMIN,CUSTOMER,DISTRIBUTOR-->
+        <!-- BUTTONS FOR ADMIN,CUSTOMER,DISTRIBUTOR-->
         <div
           class="
             grid grid-cols-2
@@ -345,7 +345,7 @@
             lg:grid-cols-4
             py-5
           "
-          v-if="$page.props.auth.rols[0].id !=1"
+          v-if="$page.props.auth.rols[0].id != 1"
         >
           <div
             class="
@@ -471,7 +471,7 @@
         <table id="activeRunsDetail" class="display" style="width: 100%">
           <thead>
             <tr>
-              <th data-priority="1">Part description</th>
+              <th class="no-sort" data-priority="1">Part description</th>
               <th>Plate Type</th>
               <th>Chromate</th>
               <th>Topcoat</th>
@@ -492,15 +492,31 @@
                         px-3
                         mt-2" 
                   @click="updateWsRs"
+                  v-if="!loading"
                   :class="{
                     'bg-[#F0F0F0]': runDetail.status == 1,
                     'bg-primary': runDetail.status == 0,
                   }"
+                  :disabled="runDetail.status == 1"
                   > <span
                       :class="{ 'text-gray-400': runDetail.status == 1 }"
                     >
-                      Guardar cambios
+                      Save Changes
                     </span> 
+            </button>
+            <button class="
+                      bg-primary
+                        rounded
+                        py-5
+                      text-white
+                        px-3
+                        mt-2" 
+                    v-if="loading"
+                    disabled
+                  > 
+                    <div
+                      className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
+                    ></div>
             </button>
         </div>
         <modal :show="isModalPhotos" @close="closePhotosModal">
@@ -641,27 +657,22 @@ export default {
     const isModalReOpen = ref(false);
     const isModalPhotos = ref(false);
     let globalHours = 0;
-
+    const loading = ref(false);
 
     const generateForm = async () => {
       parts.value = [];
       const res = await axios.get(`/part/getPartsByRun/${runDetail.value.id}`);
-      
-      res.data.data.forEach(element => {
-        parts.value.push(
-          {
-            id: element.id,
-            ws: (element.isRs === null) ? false: element.isWs,
-            rs: (element.isRs === null) ? false: element.isRs,
-            hoursWs: element.hoursWs,
-            hoursRs: element.hoursRs
-          }
-        )
-      });
-      
 
-      
-    }
+      res.data.data.forEach((element) => {
+        parts.value.push({
+          id: element.id,
+          ws: element.isRs === null ? false : element.isWs,
+          rs: element.isRs === null ? false : element.isRs,
+          hoursWs: element.hoursWs,
+          hoursRs: element.hoursRs,
+        });
+      });
+    };
 
     const gettingData = async () => {
       try {
@@ -733,7 +744,6 @@ export default {
           generateForm();
           $("#activeRunsDetail").DataTable().clear().destroy();
           await generateDataTableDetail();
-
         } else {
           makeToast(message, "error");
         }
@@ -781,7 +791,7 @@ export default {
           const closeNonEdit =
             Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5;
           globalHours = closeNonEdit | 0; // trunca los decimales y se queda con el entero
-          return globalHours; 
+          return globalHours;
         }
       } else {
         if (edit) {
@@ -815,6 +825,7 @@ export default {
           bLengthChange: false,
           pageLength: 10,
           stateSave: true,
+          order: [[1, "desc"]],
           columnDefs: [
             {
               defaultContent: "-",
@@ -895,27 +906,39 @@ export default {
               name: "whitesalt",
               searchable: false,
               render: function (data, type, row, meta) {
-                
-                
                 let whiteSaltInput;
 
-                if(runDetail.value.status === 1) { // está cerrado
-                  if( row.isWs !== null && row.isWs) {
-                    whiteSaltInput = `${row.hoursWs} hrs`
+                if (runDetail.value.status === 1) {
+                  // está cerrado
+                  if (row.isWs !== null && row.isWs) {
+                    whiteSaltInput = `${row.hoursWs} hrs`;
                   } else {
-                    whiteSaltInput = `Removed at ${runDetail.value.hours} hrs`
+                    whiteSaltInput = `Removed at ${runDetail.value.hours} hrs`;
                   }
-                } else {  // está abierto
-                  if( row.isWs !== null && row.isWs) { // Si tiene horas, se renderiza horas
-                      whiteSaltInput = '<input type="number" id="hws'+row.id+'" class="whitesInp" itemId=' + row.id + ' value='+ row.hoursWs +' style="width: 60px"> hrs';
-                  } else { // Si no tiene horas, se colocará input value = false
-                    whiteSaltInput = '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
+                } else {
+                  // está abierto
+                  if (row.isWs !== null && row.isWs) {
+                    // Si tiene horas, se renderiza horas
+                    whiteSaltInput =
+                      '<input type="number" id="hws' +
+                      row.id +
+                      '" class="whitesInp" itemId=' +
+                      row.id +
+                      " value=" +
+                      row.hoursWs +
+                      ' style="width: 60px"> hrs';
+                  } else {
+                    // Si no tiene horas, se colocará input value = false
+                    whiteSaltInput =
+                      '<input type="checkbox" id="ws' + 
+                      row.id + 
+                      '" class="whitesChk" itemId=' +
+                      row.id +
+                      ' value="false">';
                   }
                 }
 
-                return (
-                  whiteSaltInput
-                );
+                return whiteSaltInput;
               },
             },
             {
@@ -923,105 +946,137 @@ export default {
               searchable: false,
               render: function (data, type, row, meta) {
                 let redRustInput;
-                if(runDetail.value.status === 1) { // está cerrado
-                  if( row.isRs !== null && row.isRs) {
-                    redRustInput = `${row.hoursRs} hrs`
+                if (runDetail.value.status === 1) {
+                  // está cerrado
+                  if (row.isRs !== null && row.isRs) {
+                    redRustInput = `${row.hoursRs} hrs`;
                   } else {
-                    redRustInput = `Removed at ${runDetail.value.hours} hrs`
+                    redRustInput = `Removed at ${runDetail.value.hours} hrs`;
                   }
-                } else {  // está abierto
-                  if( row.isRs !== null && row.isRs) {
-                      redRustInput = '<input type="number" id="hrss'+row.id+'" class="redrInp" itemId=' + row.id + ' value='+ row.hoursRs +' style="width: 60px;"> hrs';
+                } else {
+                  // está abierto
+                  if (row.isRs !== null && row.isRs) {
+                    redRustInput =
+                      '<input type="number" id="hrss' +
+                      row.id +
+                      '" class="redrInp" itemId=' +
+                      row.id +
+                      " value=" +
+                      row.hoursRs +
+                      ' style="width: 60px;"> hrs';
                   } else {
-                    redRustInput = '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>'
+                    redRustInput =
+                      '<input type="checkbox" id="rs'+
+                      row.id +
+                      '" class="redrChk" itemId=' +
+                      row.id +
+                      ' value="false">';
                   }
                 }
-                  
-                return (
-                  redRustInput
-                );
+
+                return redRustInput;
               },
             },
           ],
           drawCallback: function () {
-            $("#activeRunsDetail").on("click", "[class*=whitesChk]", function (e) {
-              whiteSalt(e.currentTarget.attributes[3].value);
-            });
-            $("#activeRunsDetail").on("click", "[class*=redrChk]", function (e) {
-              redRust(e.currentTarget.attributes[3].value);
-            });
-            $("#activeRunsDetail").on("keyup", "[class*=whitesInp]", function (e) {
-              const idHws = e.currentTarget.attributes[1].value; // 1 es id de html
-              const hws = $(`#${idHws}`).val();
-              getHoursWs(hws, e.currentTarget.attributes[3].value); // 3 es id de Part
-            });
-            $("#activeRunsDetail").on("keyup", "[class*=redrInp]", function (e) {
-              const idHrss = e.currentTarget.attributes[1].value; // 1 es id de html
-              const hrss = $(`#${idHrss}`).val();
-              getHoursRs(hrss, e.currentTarget.attributes[3].value); // 3 es id de Part
-            });
-          }
+            $("#activeRunsDetail").on(
+              "click",
+              "[class*=whitesChk]",
+              function (e) {
+                const idWs = e.currentTarget.attributes[1].value;
+                const wsCheck = $(`#${idWs}`).is(":checked");
+                whiteSalt(e.currentTarget.attributes[3].value, wsCheck);
+              }
+            );
+            $("#activeRunsDetail").on(
+              "click",
+              "[class*=redrChk]",
+              function (e) {
+                const idRs = e.currentTarget.attributes[1].value;
+                const rsCheck = $(`#${idRs}`).is(":checked");
+                redRust(e.currentTarget.attributes[3].value, rsCheck);
+              }
+            );
+            $("#activeRunsDetail").on(
+              "keyup",
+              "[class*=whitesInp]",
+              function (e) {
+                const idHws = e.currentTarget.attributes[1].value; // 1 es id de html
+                const hws = $(`#${idHws}`).val();
+                getHoursWs(hws, e.currentTarget.attributes[3].value); // 3 es id de Part
+              }
+            );
+            $("#activeRunsDetail").on(
+              "keyup",
+              "[class*=redrInp]",
+              function (e) {
+                const idHrss = e.currentTarget.attributes[1].value; // 1 es id de html
+                const hrss = $(`#${idHrss}`).val();
+                getHoursRs(hrss, e.currentTarget.attributes[3].value); // 3 es id de Part
+              }
+            );
+          },
         });
       });
     };
-    
-    const whiteSalt = (id) => {
-      const idWs = Number(id);
-      const wsPos = parts.value.findIndex( el => el.id === idWs);
-      parts.value[wsPos].ws = true;
-    }
 
-    const redRust = (id) => {
+    const whiteSalt = (id, wsValue) => {
+      const idWs = Number(id);
+      const wsPos = parts.value.findIndex((el) => el.id === idWs);
+      parts.value[wsPos].ws = wsValue;
+    };
+
+    const redRust = (id, rsValue) => {
       const idRs = Number(id);
-      const rsPos = parts.value.findIndex( el => el.id === idRs);
-      parts.value[rsPos].rs = true;
-    }
+      const rsPos = parts.value.findIndex((el) => el.id === idRs);
+      parts.value[rsPos].rs = rsValue;
+    };
 
     const getHoursWs = (hours, id) => {
       const hoursWs = Number(hours);
       const idHWs = Number(id);
-      const hwsPos = parts.value.findIndex( el => el.id === idHWs);
+      const hwsPos = parts.value.findIndex((el) => el.id === idHWs);
       parts.value[hwsPos].hoursWs = hoursWs;
-    }
-    
+    };
+
     const getHoursRs = (hours, id) => {
       const hoursRs = Number(hours);
       const idHrss = Number(id);
-      const hrssPos = parts.value.findIndex( el => el.id === idHrss);
+      const hrssPos = parts.value.findIndex((el) => el.id === idHrss);
       parts.value[hrssPos].hoursRs = hoursRs;
-    }
+    };
 
     const updateWsRs = async() =>{
       if ( runDetail.value.status === 1 ) {
         return;
       }
+      loading.value = true;
 
       const partsUpdated = {
         runId: runDetail.value.id,
         hours: globalHours,
         parts: {
-          ...parts.value
-        }
+          ...parts.value,
+        },
       };
 
-     
-       const res = await axios.post(`/run/updatePartsWsRs`, partsUpdated);
-            const { ok, value, message } = res.data;
-            // loading.value = false;
-            if (ok) {
-              
-              generateForm();
-              $("#activeRunsDetail").DataTable().clear().destroy();
-              await generateDataTableDetail();
-                makeToast(message);
-                // window.location.href = `/part/${value.id}`;
-                // Inertia.get(`/part/${value.id}`)
-            } else {
-              makeToast("An error has occurred", "error");
-            }
+      const res = await axios.post(`/run/updatePartsWsRs`, partsUpdated);
+      const { ok, value, message } = res.data;
+      
+      if (ok) {
+        generateForm();
+        $("#activeRunsDetail").DataTable().clear().destroy();
+        await generateDataTableDetail();
+        makeToast(message);
+        loading.value = false;
+        // window.location.href = `/part/${value.id}`;
+        // Inertia.get(`/part/${value.id}`)
+      } else {
+        makeToast("An error has occurred", "error");
+      }
 
       // aquí se llama a la API
-    }
+    };
 
     gettingData();
 
@@ -1052,6 +1107,7 @@ export default {
       closePhotosModal,
       showPhotos,
       isModalPhotos,
+      loading,
       editRun,
       showDelete,
       showClose,
@@ -1066,14 +1122,14 @@ export default {
 <style>
 .whitesInp {
   border: none;
-  text-align: right !important; 
+  text-align: right !important;
 }
 .whitesInp:focus {
   border: 1px solid gray;
 }
 .redrInp {
   border: none;
-  text-align: right !important; 
+  text-align: right !important;
 }
 .redrInp:focus {
   border: 1px solid gray;

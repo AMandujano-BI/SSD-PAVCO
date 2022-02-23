@@ -48,7 +48,7 @@
     <table id="partsTable1" class="display" style="width: 100%">
       <thead>
         <tr>
-          <th>Part Description</th>
+          <th class="no-sort">Part Description</th>
           <th>Plate Type</th>
           <th>Chromate</th>
           <th>Topcoat</th>
@@ -199,6 +199,7 @@ export default {
               targets: "_all",
             },
           ],
+          order: [[1, "desc"]],
           responsive: true,
           language: {
             paginate: {
