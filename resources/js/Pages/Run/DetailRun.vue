@@ -486,14 +486,22 @@
 
         <div>
           <button class="
-                      bg-primary
                         rounded
                         py-5
                       text-white
                         px-3
-                        mt-2
-                      hover:bg-primary-600" 
-                  @click="updateWsRs">Guardar cambios</button>
+                        mt-2" 
+                  @click="updateWsRs"
+                  :class="{
+                    'bg-[#F0F0F0]': runDetail.status == 1,
+                    'bg-primary': runDetail.status == 0,
+                  }"
+                  > <span
+                      :class="{ 'text-gray-400': runDetail.status == 1 }"
+                    >
+                      Guardar cambios
+                    </span> 
+            </button>
         </div>
         <modal :show="isModalPhotos" @close="closePhotosModal">
           <div class="container mx-auto p-5 relative bg-[#ebf2fd]">
@@ -984,6 +992,10 @@ export default {
     }
 
     const updateWsRs = async() =>{
+      if ( runDetail.value.status === 1 ) {
+        return;
+      }
+
       const partsUpdated = {
         runId: runDetail.value.id,
         hours: globalHours,
