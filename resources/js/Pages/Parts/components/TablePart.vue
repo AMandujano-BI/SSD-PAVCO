@@ -199,6 +199,7 @@ export default {
               targets: "_all",
             },
           ],
+            order: [[ 1, "desc" ]],
           responsive: true,
           language: {
             paginate: {
