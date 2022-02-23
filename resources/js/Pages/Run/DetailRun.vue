@@ -109,7 +109,7 @@
             lg:grid-cols-4
             py-5
           "
-          v-if="$page.props.auth.rols[0].id ==1"
+          v-if="$page.props.auth.rols[0].id == 1"
         >
           <div
             class="
@@ -335,7 +335,7 @@
           </div>
         </div>
 
-   <!-- BUTTONS FOR ADMIN,CUSTOMER,DISTRIBUTOR-->
+        <!-- BUTTONS FOR ADMIN,CUSTOMER,DISTRIBUTOR-->
         <div
           class="
             grid grid-cols-2
@@ -345,7 +345,7 @@
             lg:grid-cols-4
             py-5
           "
-          v-if="$page.props.auth.rols[0].id !=1"
+          v-if="$page.props.auth.rols[0].id != 1"
         >
           <div
             class="
@@ -471,7 +471,7 @@
         <table id="activeRunsDetail" class="display" style="width: 100%">
           <thead>
             <tr>
-              <th data-priority="1">Part description</th>
+              <th class="no-sort" data-priority="1">Part description</th>
               <th>Plate Type</th>
               <th>Chromate</th>
               <th>Topcoat</th>
@@ -485,15 +485,20 @@
         </table>
 
         <div>
-          <button class="
-                      bg-primary
-                        rounded
-                        py-5
-                      text-white
-                        px-3
-                        mt-2
-                      hover:bg-primary-600" 
-                  @click="updateWsRs">Guardar cambios</button>
+          <button
+            class="
+              bg-primary
+              rounded
+              py-5
+              text-white
+              px-3
+              mt-2
+              hover:bg-primary-600
+            "
+            @click="updateWsRs"
+          >
+            Guardar cambios
+          </button>
         </div>
         <modal :show="isModalPhotos" @close="closePhotosModal">
           <div class="container mx-auto p-5 relative bg-[#ebf2fd]">
@@ -634,26 +639,20 @@ export default {
     const isModalPhotos = ref(false);
     let globalHours = 0;
 
-
     const generateForm = async () => {
       parts.value = [];
       const res = await axios.get(`/part/getPartsByRun/${runDetail.value.id}`);
-      
-      res.data.data.forEach(element => {
-        parts.value.push(
-          {
-            id: element.id,
-            ws: (element.isRs === null) ? false: element.isWs,
-            rs: (element.isRs === null) ? false: element.isRs,
-            hoursWs: element.hoursWs,
-            hoursRs: element.hoursRs
-          }
-        )
-      });
-      
 
-      
-    }
+      res.data.data.forEach((element) => {
+        parts.value.push({
+          id: element.id,
+          ws: element.isRs === null ? false : element.isWs,
+          rs: element.isRs === null ? false : element.isRs,
+          hoursWs: element.hoursWs,
+          hoursRs: element.hoursRs,
+        });
+      });
+    };
 
     const gettingData = async () => {
       try {
@@ -725,7 +724,6 @@ export default {
           generateForm();
           $("#activeRunsDetail").DataTable().clear().destroy();
           await generateDataTableDetail();
-
         } else {
           makeToast(message, "error");
         }
@@ -773,7 +771,7 @@ export default {
           const closeNonEdit =
             Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5;
           globalHours = closeNonEdit | 0; // trunca los decimales y se queda con el entero
-          return globalHours; 
+          return globalHours;
         }
       } else {
         if (edit) {
@@ -807,6 +805,7 @@ export default {
           bLengthChange: false,
           pageLength: 10,
           stateSave: true,
+          order: [[1, "desc"]],
           columnDefs: [
             {
               defaultContent: "-",
@@ -887,27 +886,37 @@ export default {
               name: "whitesalt",
               searchable: false,
               render: function (data, type, row, meta) {
-                
-                
                 let whiteSaltInput;
 
-                if(runDetail.value.status === 1) { // está cerrado
-                  if( row.isWs !== null && row.isWs) {
-                    whiteSaltInput = `${row.hoursWs} hrs`
+                if (runDetail.value.status === 1) {
+                  // está cerrado
+                  if (row.isWs !== null && row.isWs) {
+                    whiteSaltInput = `${row.hoursWs} hrs`;
                   } else {
-                    whiteSaltInput = `Removed at ${runDetail.value.hours} hrs`
+                    whiteSaltInput = `Removed at ${runDetail.value.hours} hrs`;
                   }
-                } else {  // está abierto
-                  if( row.isWs !== null && row.isWs) { // Si tiene horas, se renderiza horas
-                      whiteSaltInput = '<input type="number" id="hws'+row.id+'" class="whitesInp" itemId=' + row.id + ' value='+ row.hoursWs +' style="width: 60px"> hrs';
-                  } else { // Si no tiene horas, se colocará input value = false
-                    whiteSaltInput = '<input type="checkbox" value="false" class="whitesChk" itemId=' + row.id + '>'
+                } else {
+                  // está abierto
+                  if (row.isWs !== null && row.isWs) {
+                    // Si tiene horas, se renderiza horas
+                    whiteSaltInput =
+                      '<input type="number" id="hws' +
+                      row.id +
+                      '" class="whitesInp" itemId=' +
+                      row.id +
+                      " value=" +
+                      row.hoursWs +
+                      ' style="width: 60px"> hrs';
+                  } else {
+                    // Si no tiene horas, se colocará input value = false
+                    whiteSaltInput =
+                      '<input type="checkbox" value="false" class="whitesChk" itemId=' +
+                      row.id +
+                      ">";
                   }
                 }
 
-                return (
-                  whiteSaltInput
-                );
+                return whiteSaltInput;
               },
             },
             {
@@ -915,101 +924,125 @@ export default {
               searchable: false,
               render: function (data, type, row, meta) {
                 let redRustInput;
-                if(runDetail.value.status === 1) { // está cerrado
-                  if( row.isRs !== null && row.isRs) {
-                    redRustInput = `${row.hoursRs} hrs`
+                if (runDetail.value.status === 1) {
+                  // está cerrado
+                  if (row.isRs !== null && row.isRs) {
+                    redRustInput = `${row.hoursRs} hrs`;
                   } else {
-                    redRustInput = `Removed at ${runDetail.value.hours} hrs`
+                    redRustInput = `Removed at ${runDetail.value.hours} hrs`;
                   }
-                } else {  // está abierto
-                  if( row.isRs !== null && row.isRs) {
-                      redRustInput = '<input type="number" id="hrss'+row.id+'" class="redrInp" itemId=' + row.id + ' value='+ row.hoursRs +' style="width: 60px;"> hrs';
+                } else {
+                  // está abierto
+                  if (row.isRs !== null && row.isRs) {
+                    redRustInput =
+                      '<input type="number" id="hrss' +
+                      row.id +
+                      '" class="redrInp" itemId=' +
+                      row.id +
+                      " value=" +
+                      row.hoursRs +
+                      ' style="width: 60px;"> hrs';
                   } else {
-                    redRustInput = '<input type="checkbox" value="false" class="redrChk" itemId=' + row.id + '>'
+                    redRustInput =
+                      '<input type="checkbox" value="false" class="redrChk" itemId=' +
+                      row.id +
+                      ">";
                   }
                 }
-                  
-                return (
-                  redRustInput
-                );
+
+                return redRustInput;
               },
             },
           ],
           drawCallback: function () {
-            $("#activeRunsDetail").on("click", "[class*=whitesChk]", function (e) {
-              whiteSalt(e.currentTarget.attributes[3].value);
-            });
-            $("#activeRunsDetail").on("click", "[class*=redrChk]", function (e) {
-              redRust(e.currentTarget.attributes[3].value);
-            });
-            $("#activeRunsDetail").on("keyup", "[class*=whitesInp]", function (e) {
-              const idHws = e.currentTarget.attributes[1].value; // 1 es id de html
-              const hws = $(`#${idHws}`).val();
-              getHoursWs(hws, e.currentTarget.attributes[3].value); // 3 es id de Part
-            });
-            $("#activeRunsDetail").on("keyup", "[class*=redrInp]", function (e) {
-              const idHrss = e.currentTarget.attributes[1].value; // 1 es id de html
-              const hrss = $(`#${idHrss}`).val();
-              getHoursRs(hrss, e.currentTarget.attributes[3].value); // 3 es id de Part
-            });
-          }
+            $("#activeRunsDetail").on(
+              "click",
+              "[class*=whitesChk]",
+              function (e) {
+                whiteSalt(e.currentTarget.attributes[3].value);
+              }
+            );
+            $("#activeRunsDetail").on(
+              "click",
+              "[class*=redrChk]",
+              function (e) {
+                redRust(e.currentTarget.attributes[3].value);
+              }
+            );
+            $("#activeRunsDetail").on(
+              "keyup",
+              "[class*=whitesInp]",
+              function (e) {
+                const idHws = e.currentTarget.attributes[1].value; // 1 es id de html
+                const hws = $(`#${idHws}`).val();
+                getHoursWs(hws, e.currentTarget.attributes[3].value); // 3 es id de Part
+              }
+            );
+            $("#activeRunsDetail").on(
+              "keyup",
+              "[class*=redrInp]",
+              function (e) {
+                const idHrss = e.currentTarget.attributes[1].value; // 1 es id de html
+                const hrss = $(`#${idHrss}`).val();
+                getHoursRs(hrss, e.currentTarget.attributes[3].value); // 3 es id de Part
+              }
+            );
+          },
         });
       });
     };
-    
+
     const whiteSalt = (id) => {
       const idWs = Number(id);
-      const wsPos = parts.value.findIndex( el => el.id === idWs);
+      const wsPos = parts.value.findIndex((el) => el.id === idWs);
       parts.value[wsPos].ws = true;
-    }
+    };
 
     const redRust = (id) => {
       const idRs = Number(id);
-      const rsPos = parts.value.findIndex( el => el.id === idRs);
+      const rsPos = parts.value.findIndex((el) => el.id === idRs);
       parts.value[rsPos].rs = true;
-    }
+    };
 
     const getHoursWs = (hours, id) => {
       const hoursWs = Number(hours);
       const idHWs = Number(id);
-      const hwsPos = parts.value.findIndex( el => el.id === idHWs);
+      const hwsPos = parts.value.findIndex((el) => el.id === idHWs);
       parts.value[hwsPos].hoursWs = hoursWs;
-    }
-    
+    };
+
     const getHoursRs = (hours, id) => {
       const hoursRs = Number(hours);
       const idHrss = Number(id);
-      const hrssPos = parts.value.findIndex( el => el.id === idHrss);
+      const hrssPos = parts.value.findIndex((el) => el.id === idHrss);
       parts.value[hrssPos].hoursRs = hoursRs;
-    }
+    };
 
-    const updateWsRs = async() =>{
+    const updateWsRs = async () => {
       const partsUpdated = {
         runId: runDetail.value.id,
         hours: globalHours,
         parts: {
-          ...parts.value
-        }
+          ...parts.value,
+        },
       };
 
-     
-       const res = await axios.post(`/run/updatePartsWsRs`, partsUpdated);
-            const { ok, value, message } = res.data;
-            // loading.value = false;
-            if (ok) {
-              
-              generateForm();
-              $("#activeRunsDetail").DataTable().clear().destroy();
-              await generateDataTableDetail();
-                makeToast(message);
-                // window.location.href = `/part/${value.id}`;
-                // Inertia.get(`/part/${value.id}`)
-            } else {
-              makeToast("An error has occurred", "error");
-            }
+      const res = await axios.post(`/run/updatePartsWsRs`, partsUpdated);
+      const { ok, value, message } = res.data;
+      // loading.value = false;
+      if (ok) {
+        generateForm();
+        $("#activeRunsDetail").DataTable().clear().destroy();
+        await generateDataTableDetail();
+        makeToast(message);
+        // window.location.href = `/part/${value.id}`;
+        // Inertia.get(`/part/${value.id}`)
+      } else {
+        makeToast("An error has occurred", "error");
+      }
 
       // aquí se llama a la API
-    }
+    };
 
     gettingData();
 
@@ -1054,14 +1087,14 @@ export default {
 <style>
 .whitesInp {
   border: none;
-  text-align: right !important; 
+  text-align: right !important;
 }
 .whitesInp:focus {
   border: 1px solid gray;
 }
 .redrInp {
   border: none;
-  text-align: right !important; 
+  text-align: right !important;
 }
 .redrInp:focus {
   border: 1px solid gray;

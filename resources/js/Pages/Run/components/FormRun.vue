@@ -84,7 +84,7 @@
       </h1>
       <div>
         <label class="text-[#3b4559] font-semibold">Plate Type</label>
-        <div class="flex w-full justify-between gap-2">
+        <div class="flex flex-col md:flex-row w-full justify-between gap-2">
           <div class="w-full">
             <multi-select
               :options="plateTypes"
@@ -103,33 +103,34 @@
               {{ error.$message }}
             </p>
           </div>
-          <div class="w-[180px]">
-            <multi-select
-              :options="[
-                {
-                  value: 1,
-                  label: 'micra',
-                },
-                {
-                  value: 2,
-                  label: 'mils',
-                },
-              ]"
-              class="w-full"
-              v-model="part.typePlateThick"
-              :searchable="true"
-              placeholder="Select Type "
-            />
-            <p
-              v-for="error of v$.parts.$each.$response?.$errors[index]
-                .typePlateThick"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
-          </div>
-          <div>
+          <div class="w-full flex justify-between gap-2">
+            <div class="w-full  md:w-[210px]">
+              <multi-select
+                :options="[
+                  {
+                    value: 1,
+                    label: 'micra',
+                  },
+                  {
+                    value: 2,
+                    label: 'mils',
+                  },
+                ]"
+                class="w-full"
+                v-model="part.typePlateThick"
+                :searchable="true"
+                placeholder="Select Type "
+              />
+              <p
+                v-for="error of v$.parts.$each.$response?.$errors[index]
+                  .typePlateThick"
+                :key="error.$uid"
+                class="text-red-400"
+              >
+                {{ error.$message }}
+              </p>
+            </div>
+
             <input
               type="number"
               class="w-[80px]"
@@ -322,7 +323,7 @@
     <button
       type="button"
       @click="addForm"
-      class="bg-primary-500 p-5 rounded-sm text-white hover:bg-primary-600"
+      class="bg-primary-500 p-5 rounded-md text-white hover:bg-primary-600"
     >
       Add Section
     </button>
@@ -400,7 +401,8 @@ export default {
     multiSelect: Multiselect,
   },
   setup(props, { emit }) {
-    const { form, v$, submitForm, loading, options, addForm, deleteSection } = useFormRun();
+    const { form, v$, submitForm, loading, options, addForm, deleteSection } =
+      useFormRun();
     const closeModal = () => emit("closeModal");
     return {
       v$,
