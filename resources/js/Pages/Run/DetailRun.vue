@@ -497,7 +497,7 @@
             "
             @click="updateWsRs"
           >
-            Guardar cambios
+          Save Changes
           </button>
         </div>
         <modal :show="isModalPhotos" @close="closePhotosModal">
