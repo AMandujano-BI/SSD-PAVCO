@@ -450,23 +450,70 @@
           </div>
         </div>
 
-        <input
-          type="text"
-          class="
-            py-[14px]
-            text-sm
-            w-full
-            pl-10
-            rounded-sm
-            border-[#a2a2a2]
-            placeholder-[#a2a2a2]
-            text-[#333]
-            mt-5
-          "
-          id="filterRunPartInputBot"
-          placeholder="Search Parts..."
-          autocomplete="off"
-        />
+
+        <div class="flex gap-2 items-center mb-5 flex-col md:flex-row">
+          <!-- <div class="flex gap-2 items-center flex-1"> -->
+            <div>
+              <button class="
+                        rounded
+                        py-4
+                      text-white
+                        px-3
+                        mt-5" 
+                    @click="showSaveWsRs"
+                    v-if="!loading"
+                    :class="{
+                      'bg-[#F0F0F0]': runDetail.status == 1 || !isWsRsChanges,
+                      'bg-primary': runDetail.status == 0,
+                    }"
+                    :disabled="runDetail.status == 1 || !isWsRsChanges"
+                    > <span
+                        :class="{ 'text-gray-400': runDetail.status == 1 || !isWsRsChanges}"
+                      >
+                        Save
+                      </span> 
+              </button>
+              <button class="
+                        bg-primary
+                          rounded
+                          py-4
+                        text-white
+                          px-3
+                          mt-5" 
+                      v-if="loading"
+                      disabled
+                    > 
+                      <div
+                        className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
+                      ></div>
+              </button>
+            </div>
+          <!-- </div> -->
+
+          <!-- <div class="relative flex-1 w-full" > -->
+            <input
+              type="text"
+              class="
+                py-[14px]
+                text-sm
+                w-full
+                pl-10
+                rounded-sm
+                border-[#a2a2a2]
+                placeholder-[#a2a2a2]
+                text-[#333]
+                mt-5
+              "
+              id="filterRunPartInputBot"
+              placeholder="Search Parts..."
+              autocomplete="off"
+            />
+          <!-- </div> -->
+
+
+        </div>
+
+        
 
         <table id="activeRunsDetail" class="display" style="width: 100%">
           <thead>
@@ -485,7 +532,7 @@
         </table>
 
         <div>
-          <button class="
+          <!-- <button class="
                         rounded
                         py-5
                       text-white
@@ -517,7 +564,7 @@
                     <div
                       className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
                     ></div>
-            </button>
+            </button> -->
         </div>
         <modal :show="isModalPhotos" @close="closePhotosModal">
           <div class="container mx-auto p-5 relative bg-[#ebf2fd]">
@@ -601,6 +648,32 @@
             </div>
           </template>
         </confirmation-modal>
+
+        
+        
+        
+        <confirmation-modal :show="isModalSaveWsRs">
+          <template v-slot:title>
+            <h1>Are you sure that you want to apply this changes?</h1>
+          </template>
+          <template v-slot:content>
+            <div class="flex justify-center gap-4 items-center">
+              <button
+                class="bg-red-500 p-4 text-white rounded-md mr-4"
+                @click="closeSaveWsRs"
+              >
+                Cancel
+              </button>
+              <button
+                class="bg-green-500 p-4 text-white rounded-md"
+                @click="updateWsRs"
+              >
+                Acept
+              </button>
+            </div>
+          </template>
+        </confirmation-modal>
+
       </div>
     </div>
   </app-layout>
@@ -656,8 +729,10 @@ export default {
     const isModalClose = ref(false);
     const isModalReOpen = ref(false);
     const isModalPhotos = ref(false);
+    const isModalSaveWsRs = ref(false);
     let globalHours = 0;
     const loading = ref(false);
+    const isWsRsChanges = ref(false);
 
     const generateForm = async () => {
       parts.value = [];
@@ -773,6 +848,15 @@ export default {
     };
     const showClose = (id) => {
       isModalClose.value = true;
+    };
+    const showSaveWsRs = () => {
+      if ( runDetail.value.status === 1 ) {
+        return;
+      }
+      isModalSaveWsRs.value = true;
+    };
+    const closeSaveWsRs = () => {
+      isModalSaveWsRs.value = false;
     };
     const calculateHours = (
       status,
@@ -1021,18 +1105,21 @@ export default {
     };
 
     const whiteSalt = (id, wsValue) => {
+      isWsRsChanges.value = true;
       const idWs = Number(id);
       const wsPos = parts.value.findIndex((el) => el.id === idWs);
       parts.value[wsPos].ws = wsValue;
     };
 
     const redRust = (id, rsValue) => {
+      isWsRsChanges.value = true;
       const idRs = Number(id);
       const rsPos = parts.value.findIndex((el) => el.id === idRs);
       parts.value[rsPos].rs = rsValue;
     };
 
     const getHoursWs = (hours, id) => {
+      isWsRsChanges.value = true;
       const hoursWs = Number(hours);
       const idHWs = Number(id);
       const hwsPos = parts.value.findIndex((el) => el.id === idHWs);
@@ -1040,6 +1127,7 @@ export default {
     };
 
     const getHoursRs = (hours, id) => {
+      isWsRsChanges.value = true;
       const hoursRs = Number(hours);
       const idHrss = Number(id);
       const hrssPos = parts.value.findIndex((el) => el.id === idHrss);
@@ -1050,7 +1138,9 @@ export default {
       if ( runDetail.value.status === 1 ) {
         return;
       }
+      isModalSaveWsRs.value = false;
       loading.value = true;
+      isWsRsChanges.value = false;
 
       const partsUpdated = {
         runId: runDetail.value.id,
@@ -1097,6 +1187,8 @@ export default {
       id,
       isModalDelete,
       isModalClose,
+      isModalSaveWsRs,
+      isWsRsChanges,
       closeDeleteModal,
       deleteRun,
       closeRun,
@@ -1104,6 +1196,8 @@ export default {
       showReOpen,
       isModalReOpen,
       closeReOpenModal: () => (isModalReOpen.value = false),
+      showSaveWsRs,
+      closeSaveWsRs,
       closePhotosModal,
       showPhotos,
       isModalPhotos,
