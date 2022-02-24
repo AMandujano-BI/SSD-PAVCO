@@ -735,9 +735,10 @@ export default {
     const isWsRsChanges = ref(false);
 
     const generateForm = async () => {
-      parts.value = [];
+      
       const res = await axios.get(`/part/getPartsByRun/${runDetail.value.id}`);
-
+      parts.value = [];
+      // console.log(res.data.data);
       res.data.data.forEach((element) => {
         parts.value.push({
           id: element.id,
@@ -747,6 +748,7 @@ export default {
           hoursRs: element.hoursRs,
         });
       });
+      // console.log(parts.value);
     };
 
     const gettingData = async () => {
@@ -780,6 +782,7 @@ export default {
         const { ok, message, value } = res.data;
         if (ok) {
           isModalReOpen.value = false;
+          gettingData();
           makeToast(message);
           runDetail.value.status = 0;
           generateForm();
@@ -813,8 +816,16 @@ export default {
         const { ok, message, value } = res.data;
         if (ok) {
           isModalClose.value = false;
+          gettingData();
           makeToast(message);
-          calculateHours();
+          // calculateHours(
+          //         runDetail.value.status,
+          //         runDetail.value.start_date,
+          //         runDetail.value.isEdit,
+          //         runDetail.value.last_edit,
+          //         runDetail.value.hours,
+          //         runDetail.value.closed_date
+          //       );
           runDetail.value.status = 1;
           generateForm();
           $("#activeRunsDetail").DataTable().clear().destroy();
@@ -866,6 +877,12 @@ export default {
       hours,
       closeDate
     ) => {
+      // console.log({status,
+      // created_date,
+      // edit,
+      // lastDate,
+      // hours,
+      // closeDate});
       if (status === 1) {
         //cerrado
         if (edit) {
@@ -1109,6 +1126,7 @@ export default {
       const idWs = Number(id);
       const wsPos = parts.value.findIndex((el) => el.id === idWs);
       parts.value[wsPos].ws = wsValue;
+      // console.log(parts);
     };
 
     const redRust = (id, rsValue) => {
@@ -1116,6 +1134,7 @@ export default {
       const idRs = Number(id);
       const rsPos = parts.value.findIndex((el) => el.id === idRs);
       parts.value[rsPos].rs = rsValue;
+      // console.log(parts);
     };
 
     const getHoursWs = (hours, id) => {
@@ -1124,6 +1143,7 @@ export default {
       const idHWs = Number(id);
       const hwsPos = parts.value.findIndex((el) => el.id === idHWs);
       parts.value[hwsPos].hoursWs = hoursWs;
+      // console.log({parts, hoursWs, idHWs})
     };
 
     const getHoursRs = (hours, id) => {
@@ -1132,6 +1152,7 @@ export default {
       const idHrss = Number(id);
       const hrssPos = parts.value.findIndex((el) => el.id === idHrss);
       parts.value[hrssPos].hoursRs = hoursRs;
+      // console.log({parts, hoursRs, idHrss})
     };
 
     const updateWsRs = async() =>{
@@ -1142,6 +1163,7 @@ export default {
       loading.value = true;
       isWsRsChanges.value = false;
 
+      // console.log(parts);
       const partsUpdated = {
         runId: runDetail.value.id,
         hours: globalHours,
@@ -1154,9 +1176,10 @@ export default {
       const { ok, value, message } = res.data;
       
       if (ok) {
-        generateForm();
-        $("#activeRunsDetail").DataTable().clear().destroy();
-        await generateDataTableDetail();
+        gettingData()
+        // generateForm();
+        // $("#activeRunsDetail").DataTable().clear().destroy();
+        // await generateDataTableDetail();
         makeToast(message);
         loading.value = false;
         // window.location.href = `/part/${value.id}`;
