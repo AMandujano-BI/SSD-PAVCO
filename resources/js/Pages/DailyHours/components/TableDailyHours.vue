@@ -38,6 +38,7 @@
           <th data-priority="1">
             <input
               type="checkbox"
+              id="main_checkbox"
               name="main_checkbox"
               @change="toggleAll"
               v-model="selectedCheckbox"
@@ -215,15 +216,11 @@ export default {
                     : "";
                 },
                 targets: 0,
-                // className: "select-checkbox",
               },
             ],
             responsive: true,
             select: "multi",
-            // select: {
-            //   style: "os",
-            //   selector: "td:first-child",
-            // },
+        
             language: {
               paginate: {
                 next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
@@ -235,6 +232,14 @@ export default {
           .on("select.dt deselect.dt", function (e, dt, type, indexes) {
             const id = dt.rows(indexes).data()[0][2];
             const data = document.querySelector(`[data-id="${id}"]`);
+            const count = table.rows( { selected: true } ).count();
+            const countAll = table.rows().count();
+            if(count === countAll){
+              document.querySelector('#main_checkbox').checked = true
+            }else{
+
+              document.querySelector('#main_checkbox').checked = false
+            }
             data.checked = true;
           })
           .on(" deselect.dt", function (e, dt, type, indexes) {
