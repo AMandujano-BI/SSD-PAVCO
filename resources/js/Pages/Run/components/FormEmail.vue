@@ -137,4 +137,8 @@ export default {
 </script>
 
 <style>
+.multiselect-tags-search:focus{
+  --tw-ring-shadow:none !important;
+}
+
 </style>

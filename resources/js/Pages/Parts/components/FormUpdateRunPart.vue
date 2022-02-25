@@ -78,15 +78,7 @@
         rows="3"
         class="w-full"
         v-model="form.description"
-        :class="{ 'border-red-500': v$.description.$error }"
       ></textarea>
-      <p
-        v-for="error of v$.description.$errors"
-        :key="error.$uid"
-        class="text-red-400"
-      >
-        {{ error.$message }}
-      </p>
     </div>
     <div class="flex justify-end">
       <button
@@ -220,9 +212,6 @@ export default {
       start_date_edit: null,
     });
     const rules = {
-      description: {
-        required,
-      },
       start_date: {
         required,
       },

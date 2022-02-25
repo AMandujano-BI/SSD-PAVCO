@@ -1,4 +1,6 @@
 <template>
+<div class="p-2">
+
   <input
     type="date"
     class="w-full mb-5"
@@ -9,7 +11,21 @@
     class="bg-primary-500 p-4 text-white rounded-md"
     @click="openModalChange"
   >
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="white" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm.06 17v-2.01H12c-1.28 0-2.56-.49-3.54-1.46a5.006 5.006 0 0 1-.64-6.29l1.1 1.1c-.71 1.33-.53 3.01.59 4.13c.7.7 1.62 1.03 2.54 1.01v-2.14l2.83 2.83L12.06 19zm4.11-4.24l-1.1-1.1c.71-1.33.53-3.01-.59-4.13A3.482 3.482 0 0 0 12 8.5h-.06v2.15L9.11 7.83L11.94 5v2.02c1.3-.02 2.61.45 3.6 1.45c1.7 1.7 1.91 4.35.63 6.29z"/></svg>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      aria-hidden="true"
+      role="img"
+      width="24"
+      height="24"
+      preserveAspectRatio="xMidYMid meet"
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="white"
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm.06 17v-2.01H12c-1.28 0-2.56-.49-3.54-1.46a5.006 5.006 0 0 1-.64-6.29l1.1 1.1c-.71 1.33-.53 3.01.59 4.13c.7.7 1.62 1.03 2.54 1.01v-2.14l2.83 2.83L12.06 19zm4.11-4.24l-1.1-1.1c.71-1.33.53-3.01-.59-4.13A3.482 3.482 0 0 0 12 8.5h-.06v2.15L9.11 7.83L11.94 5v2.02c1.3-.02 2.61.45 3.6 1.45c1.7 1.7 1.91 4.35.63 6.29z"
+      />
+    </svg>
   </button>
   <div class="rounded-lg bg-white p-5">
     <table
@@ -19,9 +35,10 @@
     >
       <thead>
         <tr>
-          <th>
+          <th data-priority="1">
             <input
               type="checkbox"
+              id="main_checkbox"
               name="main_checkbox"
               @change="toggleAll"
               v-model="selectedCheckbox"
@@ -39,7 +56,7 @@
       <tbody>
         <tr v-for="item in dataDailyHours" :key="item.id">
           <td></td>
-          <td>{{ item.start_date.slice(0,10) }}</td>
+          <td>{{ item.start_date.slice(0, 10) }}</td>
           <td>{{ item.id }}</td>
           <td>{{ item.company.name }}</td>
           <td>{{ item.method.name }}</td>
@@ -61,6 +78,9 @@
       </tbody>
     </table>
   </div>
+
+</div>
+
   <!-- MODALS -->
 
   <modal :show="openModal" @close="closeModalChange">
@@ -101,7 +121,7 @@ export default {
 
     const changeDateFilter = (e) => {
       startDate.value = e.target.value;
-      selectedCheckbox.value =false
+      selectedCheckbox.value = false;
       gettingData();
     };
     const gettingData = async (status = 3) => {
@@ -158,44 +178,75 @@ export default {
     const toggleAll = () => {
       if (selectedCheckbox.value) {
         table.rows().select();
+        const dataAll = document.querySelectorAll(`[data-id]`);
+        dataAll.forEach((item) => {
+          item.checked = true
+        });
         const data = table.rows(".selected").data();
         arrayId.value = [];
         data.map((item) => arrayId.value.push(item[2]));
       } else {
         table.rows().deselect();
+
+        const dataAll = document.querySelectorAll(`[data-id]`);
+        dataAll.forEach((item) => {
+          item.checked = false
+        });
       }
     };
 
     const generateDataTable = (status) => {
       const self = this;
-        $("#activeRuns").DataTable().clear().destroy();
+      $("#activeRuns").DataTable().clear().destroy();
       nextTick(() => {
+        table = $("#activeRuns")
+          .DataTable({
+            ordering: true,
+            bLengthChange: false,
+            pageLength: 10,
+            columnDefs: [
+              {
+                orderable: false,
+                defaultContent: "-",
+                render: function (data, type, row) {
+                  return type === "display"
+                    ? `<input class="select-checkbox" data-id="${parseInt(
+                        row[2]
+                      )}" type="checkbox">`
+                    : "";
+                },
+                targets: 0,
+              },
+            ],
+            responsive: true,
+            select: "multi",
+        
+            language: {
+              paginate: {
+                next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
+                previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
+              },
+              info: "Showing results _START_ to _END_ from _TOTAL_ ",
+            },
+          })
+          .on("select.dt deselect.dt", function (e, dt, type, indexes) {
+            const id = dt.rows(indexes).data()[0][2];
+            const data = document.querySelector(`[data-id="${id}"]`);
+            const count = table.rows( { selected: true } ).count();
+            const countAll = table.rows().count();
+            if(count === countAll){
+              document.querySelector('#main_checkbox').checked = true
+            }else{
 
-        table = $("#activeRuns").DataTable({
-          ordering: true,
-          bLengthChange: false,
-          pageLength: 10,
-          columnDefs: [
-            {
-              orderable: false,
-              defaultContent: "-",
-              targets: 0,
-              className: "select-checkbox",
-            },
-          ],
-          responsive: true,
-          select: {
-            style: "os",
-            selector: "td:first-child",
-          },
-          language: {
-            paginate: {
-              next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
-              previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
-            },
-            info: "Showing results _START_ to _END_ from _TOTAL_ ",
-          },
-        });
+              document.querySelector('#main_checkbox').checked = false
+            }
+            data.checked = true;
+          })
+          .on(" deselect.dt", function (e, dt, type, indexes) {
+            const id = dt.rows(indexes).data()[0][2];
+            const data = document.querySelector(`[data-id="${id}"]`);
+            data.checked = false;
+          });
       });
     };
 
@@ -217,4 +268,36 @@ export default {
 </script>
 
 <style>
+table.dataTable.display tbody > tr.odd.selected > .sorting_1,
+table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_1 {
+  background-color: #a6b4cd;
+}
+table.dataTable.display tbody > tr.odd.selected > .sorting_2,
+table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_2 {
+  background-color: #a8b5cf;
+}
+table.dataTable.display tbody > tr.odd.selected > .sorting_3,
+table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_3 {
+  background-color: #a9b7d1;
+}
+table.dataTable.display tbody > tr.even.selected > .sorting_1,
+table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_1 {
+  background-color: #acbad5;
+}
+table.dataTable.display tbody > tr.even.selected > .sorting_2,
+table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_2 {
+  background-color: #aebcd6;
+}
+table.dataTable.display tbody > tr.even.selected > .sorting_3,
+table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_3 {
+  background-color: #afbdd8;
+}
+table.dataTable.display tbody > tr.odd > .selected,
+table.dataTable.order-column.stripe tbody > tr.odd > .selected {
+  background-color: #a6b4cd;
+}
+table.dataTable.display tbody > tr.even > .selected,
+table.dataTable.order-column.stripe tbody > tr.even > .selected {
+  background-color: #acbad5;
+}
 </style>
