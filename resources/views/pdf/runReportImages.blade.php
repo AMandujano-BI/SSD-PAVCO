@@ -79,19 +79,19 @@
             margin: 34px 34px 34px 34px;
 
         }
-        table{
+        .table{
             background-color: white;
             border: none;
             border-collapse: collapse;
         }
-        th{
+        .th{
             color: #3b4559;
             font-size: 16px;
             font-weight: bold;
             height: 72px;
             border: none;
         }
-        td{
+        .td{
             border-top: 1px solid #979797 !important;
             color: #3b4559;
             font-size: 16px;
@@ -107,9 +107,13 @@
             font-weight: bold;
             margin-left: 34px;
             margin-right: 34px;
+            
         }
         .image {
             margin: 34px;
+        }
+        .clear {
+            clear: both;
         }
     </style>
 
@@ -135,16 +139,16 @@
     </div>
     <div class='body'>
         <div class='table__container'>
-            <table cellspacing='10' >
+            <table class="table" cellspacing='10' >
                 <thead>
                     <tr>
-                        <th>Desc</th>
-                        <th>Plate</th>
-                        <th>Chromate</th>
-                        <th>Topcoat</th>
-                        <th>Secondary Topcoat</th>
-                        <th>White Salt</th>
-                        <th>Red Rust</th>
+                        <th class="th">Desc</th>
+                        <th class="th">Plate</th>
+                        <th class="th">Chromate</th>
+                        <th class="th">Topcoat</th>
+                        <th class="th">Secondary Topcoat</th>
+                        <th class="th">White Salt</th>
+                        <th class="th">Red Rust</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -155,30 +159,30 @@
                         $part->coatPer != null || $part->coatTemp != null || $part->coatPH != null || $part->coatDiptime != null
                     )
                     <tr style="text-align: center;">
-                        <td style="text-align: center;">{{$part->description}}</td>
-                        <td style="text-align: center;">{{$part->plateType->name}}</td>
-                        <td style="text-align: center;">
+                        <td class="td" style="text-align: center;">{{$part->description}}</td>
+                        <td class="td" style="text-align: center;">{{$part->plateType->name}}</td>
+                        <td class="td" style="text-align: center;">
                             {{$part->chromate->name}} /
                             {{$part->primaryPer}}% /
                             {{$part->primaryTemp}}° /
                             {{$part->primaryPH}}pH /
                             {{$part->primaryDiptime}}sec
                         </td>
-                        <td style="text-align: center;">
+                        <td class="td" style="text-align: center;">
                             {{$part->topCoat->name}} /
                             {{$part->topCoatPer}}% /
                             {{$part->topCoatTemp}}° /
                             {{$part->topCoatPH}}pH /
                             {{$part->topCoatDiptime}}sec
                         </td>
-                        <td style="text-align: center;">
+                        <td class="td" style="text-align: center;">
                             {{$part->coat->name}} /
                             {{$part->coatPer}}% /
                             {{$part->coatTemp}}° /
                             {{$part->coatPH}}pH /
                             {{$part->coatDiptime}}sec
                         </td>
-                        <td style="text-align: center;">
+                        <td class="td" style="text-align: center;">
                             @if ( $part->isWs != null)  
                                 {{$part->hoursWs}} hrs
                             @else
@@ -189,7 +193,7 @@
                                 @endif
                             @endif
                         </td>
-                        <td style="text-align: center;">
+                        <td class="td" style="text-align: center;">
                             @if ( $part->isRs != null)  
                                 {{$part->hoursRs}} hrs
                             @else
@@ -212,19 +216,54 @@
         <div class='top-separation'>
             <div class='notes__label'>Notes: <span class='subheader__value'>Pavco is not an independent testing laboratory. These results are for your information only and should be verified by an independent testing laboratory. </span></div>
         </div>
-        <div class='image' >
-            @foreach ($photos as $photo)
-                <div style="page-break-inside: avoid;">
-                    <p>Image - {{$photo->name}}</p>
-                    <hr>
-                    <img src='{{$photo->image}}' alt='{{$photo->name}}' style='width: auto; max-height: 260px; margin-top: 2.3em' >
-                    <br>
-                    <br>
-                </div>
-            @endforeach
-        </div>
-        </div>
+        @if ( count($photos) > 0 )
+            <div>
+                <table cellspacing='10'>
+                    
+                    <tbody>
+                        @for($i = 0; $i < count($photos); ++$i)
+                            <tr>
+                                @if (($i+($i*2)) < count($photos))
+                                    
+                                    <td style="text-align: center;"> 
+                                        <p>Image - {{$photos[$i+($i*2)]['name']}}</p>
+                                        <hr style="border-color: #cfcfcf !important">
+                                        <img src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em;' >
+                                    </td>    
+                                @else
+                                    @break
+                                @endif
+                                
+                                @if ( ($i+($i*2)+1) < count($photos) )
+                                    
+                                    <td style="text-align: center;">
+                                        <p>Image - {{$photos[$i+($i*2)+1]['name']}}</p>
+                                        <hr style="border-color: #cfcfcf !important">
+                                        <img src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em;' >
+                                    </td>
+                                @else
+                                    @break
+                                @endif
+                                
+                                @if ( ($i+($i*2)+2) < count($photos) )
+                                    <td style="text-align: center;">
+                                        <p>Image - {{$photos[$i+($i*2)+2]['name']}}</p>
+                                        <hr style="border-color: #cfcfcf !important">
+                                        <img src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em;' >
+                                    </td>
+                                @else
+                                    @break
+                                @endif
+                                
+                            </tr>
+                        @endfor
+                    </tbody>
+                </table>
+            </div>
+        @endif
+           
     </div>
+</div>
 </body>
 
 </html>

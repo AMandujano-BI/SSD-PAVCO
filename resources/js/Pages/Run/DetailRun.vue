@@ -80,6 +80,7 @@
             </span>
             <span>
               {{
+                !isCalculate ?
                 calculateHours(
                   runDetail.status,
                   runDetail.start_date,
@@ -87,7 +88,7 @@
                   runDetail.last_edit,
                   runDetail.hours,
                   runDetail.closed_date
-                )
+                ) : '...'
               }}
             </span>
           </p>
@@ -451,10 +452,10 @@
         </div>
 
 
-        <div class="flex gap-2 items-center mb-5 flex-col md:flex-row">
-          <!-- <div class="flex gap-2 items-center flex-1"> -->
-            <div>
-              <button class="
+
+      <div class="flex gap-2 items-center flex-1 w-full mb-5">
+        <div>
+          <button class="
                         rounded
                         py-4
                       text-white
@@ -486,12 +487,9 @@
                       <div
                         className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
                       ></div>
-              </button>
-            </div>
-          <!-- </div> -->
-
-          <!-- <div class="relative flex-1 w-full" > -->
-            <input
+            </button>
+        </div>
+         <input
               type="text"
               class="
                 py-[14px]
@@ -507,13 +505,8 @@
               id="filterRunPartInputBot"
               placeholder="Search Parts..."
               autocomplete="off"
-            />
-          <!-- </div> -->
-
-
-        </div>
-
-        
+        />
+      </div>
 
         <table id="activeRunsDetail" class="display" style="width: 100%">
           <thead>
@@ -532,39 +525,6 @@
         </table>
 
         <div>
-          <!-- <button class="
-                        rounded
-                        py-5
-                      text-white
-                        px-3
-                        mt-2" 
-                  @click="updateWsRs"
-                  v-if="!loading"
-                  :class="{
-                    'bg-[#F0F0F0]': runDetail.status == 1,
-                    'bg-primary': runDetail.status == 0,
-                  }"
-                  :disabled="runDetail.status == 1"
-                  > <span
-                      :class="{ 'text-gray-400': runDetail.status == 1 }"
-                    >
-                      Save Changes
-                    </span> 
-            </button>
-            <button class="
-                      bg-primary
-                        rounded
-                        py-5
-                      text-white
-                        px-3
-                        mt-2" 
-                    v-if="loading"
-                    disabled
-                  > 
-                    <div
-                      className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
-                    ></div>
-            </button> -->
         </div>
         <modal :show="isModalPhotos" @close="closePhotosModal">
           <div class="container mx-auto p-5 relative bg-[#ebf2fd]">
@@ -733,6 +693,7 @@ export default {
     let globalHours = 0;
     const loading = ref(false);
     const isWsRsChanges = ref(false);
+    const isCalculate = ref(false)
 
     const generateForm = async () => {
       
@@ -756,6 +717,7 @@ export default {
         const res = await axios.get(`/run/${id}`);
         runDetail.value = res.data;
         startDate.value = runDetail.value.start_date.slice(0, 10);
+        isCalculate.value = false;
 
         generateForm();
 
@@ -781,7 +743,9 @@ export default {
         const res = await axios.put(`/run/reopenRun/${id}`);
         const { ok, message, value } = res.data;
         if (ok) {
+          isCalculate.value = true;
           isModalReOpen.value = false;
+          isWsRsChanges.value = false;
           gettingData();
           makeToast(message);
           runDetail.value.status = 0;
@@ -815,17 +779,11 @@ export default {
         const res = await axios.put(`/run/closeRun/${id}`);
         const { ok, message, value } = res.data;
         if (ok) {
+          isCalculate.value = true;
           isModalClose.value = false;
           gettingData();
           makeToast(message);
-          // calculateHours(
-          //         runDetail.value.status,
-          //         runDetail.value.start_date,
-          //         runDetail.value.isEdit,
-          //         runDetail.value.last_edit,
-          //         runDetail.value.hours,
-          //         runDetail.value.closed_date
-          //       );
+
           runDetail.value.status = 1;
           generateForm();
           $("#activeRunsDetail").DataTable().clear().destroy();
@@ -1212,6 +1170,7 @@ export default {
       isModalClose,
       isModalSaveWsRs,
       isWsRsChanges,
+      isCalculate,
       closeDeleteModal,
       deleteRun,
       closeRun,
@@ -1232,7 +1191,7 @@ export default {
       updateWsRs,
       closeCloseModal: () => (isModalClose.value = false),
     };
-  },
+  }
 };
 </script>
 

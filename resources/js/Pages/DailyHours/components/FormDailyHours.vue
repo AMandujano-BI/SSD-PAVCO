@@ -54,6 +54,7 @@
 import { reactive, ref } from "vue";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+import useHelper from "@/composables/useHelper";
 import axios from "axios";
 export default {
   props: ["arrayId"],
@@ -61,6 +62,7 @@ export default {
   setup(props, { emit }) {
     const { arrayId } = props;
     const loading = ref(false);
+    const { makeToast } = useHelper();
     const form = reactive({
       hours: "",
       arrayId: arrayId
@@ -74,7 +76,13 @@ export default {
       if (!isFormCorrect) return;
       try {
         const res = await axios.post("/dailyHours", form);
-        emit("closeModal");
+        const { ok, value, message } = res.data;
+        if (ok) {
+          makeToast(message);
+          emit("closeModal");
+        } else {
+          makeToast(message);
+        }
       } catch (e) {}
     };
 
