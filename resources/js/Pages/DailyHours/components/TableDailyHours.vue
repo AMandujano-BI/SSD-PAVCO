@@ -1,4 +1,6 @@
 <template>
+<div class="p-2">
+
   <input
     type="date"
     class="w-full mb-5"
@@ -75,6 +77,9 @@
       </tbody>
     </table>
   </div>
+
+</div>
+
   <!-- MODALS -->
 
   <modal :show="openModal" @close="closeModalChange">

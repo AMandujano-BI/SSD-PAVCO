@@ -1,7 +1,9 @@
 <template>
     <jet-action-section>
         <template #title>
-            Browser Sessions
+            Browser Sessions User  <span class="font-bold capitalize">
+                 {{$page.props.user.name}}
+                </span>
         </template>
 
         <template #description>
