@@ -20,8 +20,6 @@ class Run extends Model
         'status',
         'dateCompleted',
         'plateThick',
-        'primaryPer',
-        'topCoatPer',
         'plate_methods_id',
         'company_id',
         'user_id',
@@ -416,9 +414,6 @@ class Run extends Model
                 'description' => $description,
                 'company_id' => $company_id,
                 'plateThick' => 0,
-                'primaryPer' => 0,
-                'coatPer' => 0,
-                'topCoatPer' => 0,
                 'plate_methods_id' => $plate_methods_id,
                 'user_id' => $user->id,
             ]);
@@ -430,15 +425,12 @@ class Run extends Model
             for ($j = 0; $j < count($request->parts); $j++) {
                 $typePlateThick = $request->parts[$j]['typePlateThick'] ?? null;
                 $plateThick = $request->parts[$j]['plateThick'] ?? null;
-                $topCoatPer = $request->parts[$j]['topCoatPer'] ?? null;
                 $topCoatTemp = $request->parts[$j]['topCoatTemp'] ?? null;
                 $topCoatPH = $request->parts[$j]['topCoatPH'] ?? null;
                 $topCoatDiptime = $request->parts[$j]['topCoatDiptime'] ?? null;
-                $primaryPer = $request->parts[$j]['primaryPer'] ?? null;
                 $primaryTemp = $request->parts[$j]['primaryTemp'] ?? null;
                 $primaryPH = $request->parts[$j]['primaryPH'] ?? null;
                 $primaryDiptime = $request->parts[$j]['primaryDiptime'] ?? null;
-                $coatPer = $request->parts[$j]['coatPer'] ?? null;
                 $coatTemp = $request->parts[$j]['coatTemp'] ?? null;
                 $coatPH = $request->parts[$j]['coatPH'] ?? null;
                 $coatDiptime = $request->parts[$j]['coatDiptime'] ?? null;
@@ -458,15 +450,12 @@ class Run extends Model
                         'primaryCoatId' => $primaryCoatId,
                         'coatId' => $coatId,
                         'topCoatId' => $topCoatId,
-                        'topCoatPer' => $topCoatPer,
                         'topCoatTemp' => $topCoatTemp,
                         'topCoatPH' => $topCoatPH,
                         'topCoatDiptime' => $topCoatDiptime,
-                        'primaryPer' => $primaryPer,
                         'primaryTemp' => $primaryTemp,
                         'primaryPH' => $primaryPH,
                         'primaryDiptime' => $primaryDiptime,
-                        'coatPer' => $coatPer,
                         'coatTemp' => $coatTemp,
                         'coatPH' => $coatPH,
                         'coatDiptime' => $coatDiptime,

@@ -21,19 +21,12 @@ class CreateRunsTable extends Migration
             $table->boolean('status')->default(0);
             $table->dateTime('dateCompleted')->nullable();
 
-          
 
             //-------------------------------
             $table->string('plateThick', 50)->nullable();
-            $table->string('primaryPer', 50)->nullable();
-            $table->string('coatPer', 50)->nullable();
-            $table->string('topCoatPer', 50)->nullable();
-            //$table->string('plateMethod',50);
             $table->foreignId('plate_methods_id')->constrained();
 
-            // $table->integer('company_id')->default(1);
             $table->foreignId('company_id')->nullable()->constrained();
-            // $table->integer('user_id')->default(1);
             $table->foreignId('user_id')->constrained();
 
             $table->timestamps();
