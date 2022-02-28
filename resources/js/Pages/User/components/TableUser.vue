@@ -177,6 +177,9 @@ export default {
         });
     });
     const generateDataTable = (type = 0) => {
+      if(type ==0){
+        filterOption.value  = 0
+      }
       $("#tableUsers").DataTable().clear().destroy();
       nextTick(() => {
         $("#tableUsers").DataTable({
@@ -348,6 +351,9 @@ export default {
         console.log(e);
       }
     };
+    const closeModalForm =()=>{
+      openModal.value = false
+    }
 
     onMounted(() => {
       gettingData();
@@ -356,7 +362,7 @@ export default {
       openModal,
       showModalDelete,
       openModalForm,
-      closeModalForm: () => (openModal.value = false),
+      closeModalForm,
       usersTable,
       generateDataTable,
       openModalDeleteClick,

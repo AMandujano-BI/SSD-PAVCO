@@ -33,6 +33,7 @@ const mutations = {
             }
         } else {
             const user = state.tableUsers.find(item => item.id == id)
+            if(user.company_id ==null)  user.company_id =0
             const rolsArray = []
             user.rols.map(item => {
                 // rolsArray.push({value:item.id,label:item.name})

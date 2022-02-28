@@ -13,7 +13,7 @@ const useFormuser = (formProps) => {
     const form = reactive(formProps);
     const store = useStore()
     const companies = ref([])
-    const typeRol = ref(0)
+    const typeRol = ref(0 || formProps.rols[0])
     const { emit } = getCurrentInstance();
     const { makeToast } = useHelper();
     const rules = computed(() => ({
@@ -80,7 +80,7 @@ const useFormuser = (formProps) => {
         }
     }
 
-    getCompanies()
+    getCompanies(typeRol.value)
 
     return {
         form,
