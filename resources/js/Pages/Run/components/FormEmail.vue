@@ -108,7 +108,6 @@ export default {
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return;
         if (validateEmails()) {
-          return;
           loading.value = true;
           const res = await axios.post("/email/runResult", form);
           loading.value = false;
