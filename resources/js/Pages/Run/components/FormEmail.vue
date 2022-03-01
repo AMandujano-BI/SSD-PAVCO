@@ -84,10 +84,18 @@ export default {
       },
     };
     const v$ = useVuelidate(rules, form);
+    const validateEmail = (email) => {
+      return String(email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    };
+
     const validateEmails = () => {
       let isCorrect = true;
       form.emailSend.map((text) => {
-        if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(text)) {
+        if (!validateEmail(text)) {
           makeToast(`Invalid email address ${text}`, "error");
           isCorrect = false;
           return isCorrect;
@@ -137,8 +145,7 @@ export default {
 </script>
 
 <style>
-.multiselect-tags-search:focus{
-  --tw-ring-shadow:none !important;
+.multiselect-tags-search:focus {
+  --tw-ring-shadow: none !important;
 }
-
 </style>
