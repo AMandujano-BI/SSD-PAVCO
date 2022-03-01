@@ -79,7 +79,7 @@ export default {
         const { ok, value, message } = res.data;
         if (ok) {
           makeToast(message);
-          emit("closeModal");
+          emit("closeModal", form);
         } else {
           makeToast(message);
         }

@@ -85,7 +85,7 @@
 
   <modal :show="openModal" @close="closeModalChange">
     <div class="p-5">
-      <form-daily-hours :arrayId="arrayId" @closeModal="closeModalChange" />
+      <form-daily-hours :arrayId="arrayId" @closeModal="apply" />
     </div>
   </modal>
 </template>
@@ -130,6 +130,7 @@ export default {
           `/run/getAllRunsByDate/'${startDate.value}'/${status}`
         );
         dataDailyHours.value = res.data;
+
         await generateDataTable(status);
       } catch (e) {
         console.log(e);
@@ -248,15 +249,36 @@ export default {
             data.checked = false;
           });
       });
+      
     };
 
+    const apply = (jsonData) => {
+      let idArr;
+      let indexArr;
+      let hourArr = Number(jsonData.hours);
+      jsonData.arrayId.forEach(id => {
+        idArr = Number(id);
+        indexArr = dataDailyHours.value.findIndex(run => run.id === idArr);
+        dataDailyHours.value[indexArr].isEdit = true
+        dataDailyHours.value[indexArr].last_edit = new Date()
+        dataDailyHours.value[indexArr].hours = hourArr
+      });
+      openModal.value = false;
+    }
+
+    const closeModalChange = () => {
+      openModal.value = false;
+    }
+
     gettingData();
+
     return {
       changeDateFilter,
       startDate,
       openModal,
       openModalChange,
-      closeModalChange: () => (openModal.value = false),
+      closeModalChange,
+      apply,
       arrayId,
       toggleAll,
       selectedCheckbox,

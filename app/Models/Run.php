@@ -374,7 +374,7 @@ class Run extends Model
                 $run = (new static)::find($runId);
                 $run->hours = $request->hours;
                 
-                $run->last_edit = Carbon::now('UTC');
+                $run->last_edit = Carbon::now();
                 $run->isEdit = true;
                 $run->save();
             }

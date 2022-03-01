@@ -218,7 +218,7 @@
         </div>
         @if ( count($photos) > 0 )
             <div>
-                <table cellspacing='10'>
+                <table cellspacing='10' >
                     
                     <tbody>
                         @for($i = 0; $i < count($photos); ++$i)
@@ -228,7 +228,7 @@
                                     <td style="text-align: center;"> 
                                         <p>Image - {{$photos[$i+($i*2)]['name']}}</p>
                                         <hr style="border-color: #cfcfcf !important">
-                                        <img src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em;' >
+                                        <img src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;' >
                                     </td>    
                                 @else
                                     @break
@@ -239,7 +239,7 @@
                                     <td style="text-align: center;">
                                         <p>Image - {{$photos[$i+($i*2)+1]['name']}}</p>
                                         <hr style="border-color: #cfcfcf !important">
-                                        <img src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em;' >
+                                        <img src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;' >
                                     </td>
                                 @else
                                     @break
@@ -249,7 +249,7 @@
                                     <td style="text-align: center;">
                                         <p>Image - {{$photos[$i+($i*2)+2]['name']}}</p>
                                         <hr style="border-color: #cfcfcf !important">
-                                        <img src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em;' >
+                                        <img src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;' >
                                     </td>
                                 @else
                                     @break
