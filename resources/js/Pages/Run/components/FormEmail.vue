@@ -84,10 +84,18 @@ export default {
       },
     };
     const v$ = useVuelidate(rules, form);
+    const validateEmail = (email) => {
+      return String(email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    };
+
     const validateEmails = () => {
       let isCorrect = true;
       form.emailSend.map((text) => {
-        if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(text)) {
+        if (!validateEmail(text)) {
           makeToast(`Invalid email address ${text}`, "error");
           isCorrect = false;
           return isCorrect;
@@ -100,6 +108,7 @@ export default {
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return;
         if (validateEmails()) {
+          return;
           loading.value = true;
           const res = await axios.post("/email/runResult", form);
           loading.value = false;
@@ -137,8 +146,7 @@ export default {
 </script>
 
 <style>
-.multiselect-tags-search:focus{
-  --tw-ring-shadow:none !important;
+.multiselect-tags-search:focus {
+  --tw-ring-shadow: none !important;
 }
-
 </style>
