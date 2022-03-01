@@ -61,7 +61,7 @@
       <tbody>
         <tr v-for="photo in photosTable" :key="photo.id">
           <td class="text-center">{{ photo.name }}</td>
-          <td class="text-center">{{ photo.created_at.slice(0, 10) }}</td>
+          <td class="text-center">{{  currentCreatedDate(photo.created_at) }}</td>
           <td class="text-center">
             {{
               calculateHours(
@@ -329,6 +329,16 @@ export default {
       }
     };
 
+    const currentCreatedDate = ( created_date ) => {
+      const originalDate = new Date(created_date);
+      let monthStartDate = originalDate.getMonth() + 1;
+      let fullMonthStartDate = '0';
+      (monthStartDate.toString().length < 2) ? fullMonthStartDate = fullMonthStartDate.concat(monthStartDate) : fullMonthStartDate = monthStartDate;
+      const currentStartDateConverted = '' + originalDate.getFullYear() + '-' + fullMonthStartDate + '-' + originalDate.toString().slice(8, 10);
+
+      return currentStartDateConverted;
+    }
+
     gettData();
     return {
       generateDataTable,
@@ -350,6 +360,7 @@ export default {
       openModalEdit,
       openModalEditClick,
       calculateHours,
+      currentCreatedDate,
       photoItem,
       idPhoto,
       closePhotosModal: () => (openModalEdit.value = false),

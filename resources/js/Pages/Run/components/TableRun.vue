@@ -420,7 +420,13 @@ export default {
         name: "start_date",
         searchable: true,
         render: function (data, type, row, meta) {
-          return "<td>" + row.start_date.slice(0, 10) + "</td>";
+          const currentDate = new Date(row.start_date);
+          let month = currentDate.getMonth() + 1;
+          let fullMonth = '0';
+          (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
+          const dateFormated = '' + currentDate.getFullYear() + '-' + fullMonth + '-' + currentDate.toString().slice(8, 10);
+
+          return "<td>" + dateFormated + "</td>";
         },
       },
       {
@@ -590,7 +596,13 @@ export default {
         name: "start_date",
         searchable: true,
         render: function (data, type, row, meta) {
-          return "<td>" + row.start_date.slice(0, 10) + "</td>";
+          const currentDate = new Date(row.start_date);
+          let month = currentDate.getMonth() + 1;
+          let fullMonth = '0';
+          (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
+          const dateFormated = '' + currentDate.getFullYear() + '-' + fullMonth + '-' + currentDate.toString().slice(8, 10);
+          
+          return "<td>" + dateFormated + "</td>";
         },
       },
       {

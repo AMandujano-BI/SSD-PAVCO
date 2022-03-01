@@ -56,7 +56,7 @@
       <tbody>
         <tr v-for="item in dataDailyHours" :key="item.id">
           <td></td>
-          <td>{{ item.start_date.slice(0, 10) }}</td>
+          <td>{{ currentStartDate(item.start_date) }}</td>
           <td>{{ item.id }}</td>
           <td>{{ item.company.name }}</td>
           <td>{{ item.method.name }}</td>
@@ -125,9 +125,15 @@ export default {
       gettingData();
     };
     const gettingData = async (status = 3) => {
+      let initDate = `${startDate.value} 0:01`;
+      let finalDate = `${startDate.value} 23:59`;
+
+      const initUTCDate = convertUTC(initDate);
+      const finalUTCDate = convertUTC(finalDate);
+
       try {
         const res = await axios.get(
-          `/run/getAllRunsByDate/'${startDate.value}'/${status}`
+          `/run/getAllRunsByDate/'${initUTCDate}'/'${finalUTCDate}'/${status}`
         );
         dataDailyHours.value = res.data;
 
@@ -136,6 +142,17 @@ export default {
         console.log(e);
       }
     };
+
+    const currentStartDate = ( start_date ) => {
+      const originalDate = new Date(start_date);
+      let monthStartDate = originalDate.getMonth() + 1;
+      let fullMonthStartDate = '0';
+      (monthStartDate.toString().length < 2) ? fullMonthStartDate = fullMonthStartDate.concat(monthStartDate) : fullMonthStartDate = monthStartDate;
+      const currentStartDateConverted = '' + originalDate.getFullYear() + '-' + fullMonthStartDate + '-' + originalDate.toString().slice(8, 10);
+
+      return currentStartDateConverted;
+    }
+
     const calculateHours = (
       id,
       status,
@@ -270,6 +287,36 @@ export default {
       openModal.value = false;
     }
 
+    const convertUTC = (dateToConvert) => {
+      const currentUTCDate = new Date(dateToConvert);
+      const monthUTC = currentUTCDate.getUTCMonth()+1;
+      const dayUTC = currentUTCDate.getUTCDate();
+      const hoursUTC = currentUTCDate.getUTCHours();
+      const minutesUTC = currentUTCDate.getUTCMinutes();
+      let fullMonthUTC = '0';
+      let fullDayUTC = '0';
+      let fullHoursUTC = '0';
+      let fullMinutesUTC = '0';
+      (monthUTC.toString().length < 2) ? fullMonthUTC = fullMonthUTC.concat(monthUTC) : fullMonthUTC = monthUTC;
+      (dayUTC.toString().length < 2) ? fullDayUTC = fullDayUTC.concat(dayUTC) : fullDayUTC = dayUTC;
+      (hoursUTC.toString().length < 2) ? fullHoursUTC = fullHoursUTC.concat(hoursUTC) : fullHoursUTC = hoursUTC;
+      (minutesUTC.toString().length < 2) ? fullMinutesUTC = fullMinutesUTC.concat(minutesUTC) : fullMinutesUTC = minutesUTC;
+      
+      const utcDate = 
+          ''+
+          currentUTCDate.getUTCFullYear()+
+          '-'+
+          fullMonthUTC+
+          '-'+
+          fullDayUTC+
+          'T'+
+          fullHoursUTC+
+          ':'+
+          fullMinutesUTC;
+
+      return utcDate;
+    }
+
     gettingData();
 
     return {
@@ -284,6 +331,7 @@ export default {
       selectedCheckbox,
       dataDailyHours,
       calculateHours,
+      currentStartDate,
     };
   },
 };

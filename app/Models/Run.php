@@ -206,9 +206,10 @@ class Run extends Model
         }
     }
 
-    public static function getAllRunByDate($startDate,$status)
+    public static function getAllRunByDate($startDate,$endDate,$status)
     {
         $startDate = str_replace("'", '', $startDate);
+        $endDate = str_replace("'", '', $endDate);
             if ($status == 3) {
                 $run = (new static)::with([
                     'method',
@@ -216,7 +217,7 @@ class Run extends Model
                     'company',
                 ])
                     ->where('status', '!=', 2)
-                    ->whereDate('runs.start_date',$startDate)
+                    ->whereBetween('runs.start_date',[$startDate,$endDate])
                     ->get();
                 return $run;
             } else {
