@@ -87,7 +87,7 @@ export default {
     const validateEmails = () => {
       let isCorrect = true;
       form.emailSend.map((text) => {
-        if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(text)) {
+        if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(text)) {
           makeToast(`Invalid email address ${text}`, "error");
           isCorrect = false;
           return isCorrect;
