@@ -206,34 +206,33 @@ class Run extends Model
         }
     }
 
-    public static function getAllRunByDate($startDate,$endDate,$status)
+    public static function getAllRunByDate($startDate, $endDate, $status)
     {
         $startDate = str_replace("'", '', $startDate);
         $endDate = str_replace("'", '', $endDate);
-            if ($status == 3) {
-                $run = (new static)::with([
-                    'method',
-              
-                    'company',
-                ])
-                    ->where('status', '!=', 2)
-                    ->whereBetween('runs.start_date',[$startDate,$endDate])
-                    ->get();
-                return $run;
-            } else {
+        if ($status == 3) {
+            $run = (new static)::with([
+                'method',
 
-                $run = (new static)::with([
-                    'method',
-               
-                    'company',
-                ])
-                    ->where('status', '!=', 2)
-                    ->where('status', $status)
-                    // ->whereDate('runs.start_date',$request->startDate)
-                    ->get();
-                return $run;
-            }
-        
+                'company',
+            ])
+                ->where('status', '!=', 2)
+                ->whereBetween('runs.start_date', [$startDate, $endDate])
+                ->get();
+            return $run;
+        } else {
+
+            $run = (new static)::with([
+                'method',
+
+                'company',
+            ])
+                ->where('status', '!=', 2)
+                ->where('status', $status)
+                // ->whereDate('runs.start_date',$request->startDate)
+                ->get();
+            return $run;
+        }
     }
 
 
@@ -318,21 +317,21 @@ class Run extends Model
                 ->find($request->runId);
 
             $runHours = $request->hours;
-            
 
-            foreach ($run->parts as $runPart ) {                             // se recorren parts del run
+
+            foreach ($run->parts as $runPart) {                             // se recorren parts del run
                 for ($j = 0; $j < count($request->parts); $j++) {            // Se recorre el Request
-                    if ( $runPart->id == $request->parts[$j]['id']) {        // se comparan los ids
+                    if ($runPart->id == $request->parts[$j]['id']) {        // se comparan los ids
                         $part = Part::find($runPart->id);
-                        
-                        if( $request->parts[$j]['rs'] == true && $runPart->isRs == null) {   // primera vez checkeado
+
+                        if ($request->parts[$j]['rs'] == true && $runPart->isRs == null) {   // primera vez checkeado
                             $part->isRs = true;
                             $part->hoursRs = $runHours;
                         } else {
                             $part->hoursRs = $request->parts[$j]['hoursRs'];
                         }
                         // dd($request->parts[$j]['ws'], $runPart->isWs, $request->parts[$j]['hoursWs']);
-                        if(  $request->parts[$j]['ws'] == true && $runPart->isWs == null) { // primera vez checkeado
+                        if ($request->parts[$j]['ws'] == true && $runPart->isWs == null) { // primera vez checkeado
                             $part->isWs = true;
                             $part->hoursWs = $runHours;
                         } else {
@@ -341,10 +340,9 @@ class Run extends Model
 
                         $part->save();
                     }
-                    
                 }
             }
-            
+
             // $run->save();
             DB::commit();
             return [
@@ -360,19 +358,19 @@ class Run extends Model
             ];
         }
 
-   
+
 
         // return $run;
     }
 
-    public static function updateHours($request) 
+    public static function updateHours($request)
     {
         DB::beginTransaction();
         try {
             foreach ($request->arrayId as $runId) {
                 $run = (new static)::find($runId);
                 $run->hours = $request->hours;
-                
+
                 $run->last_edit = Carbon::now();
                 $run->isEdit = true;
                 $run->save();
@@ -436,11 +434,18 @@ class Run extends Model
                 $coatPH = $request->parts[$j]['coatPH'] ?? null;
                 $coatDiptime = $request->parts[$j]['coatDiptime'] ?? null;
                 $numberParts = $request->parts[$j]['numberParts'];
-                $primaryCoatId = $request->parts[$j]['primaryCoatId'];
-                $coatId = $request->parts[$j]['coatId'];
-                $topCoatId = $request->parts[$j]['topCoatId'];
 
-                $plate_types_id = $request->parts[$j]['plate_types_id'];
+
+                $primaryCoatId = $request->parts[$j]['primaryCoatId'] ?? null;
+                $coatId = $request->parts[$j]['coatId'] ?? null;
+                $topCoatId = $request->parts[$j]['topCoatId'] ?? null;
+
+                $plate_types_id = $request->parts[$j]['plate_types_id'] ?? null;
+
+                if ($primaryCoatId == '' || $primaryCoatId == 0) $primaryCoatId = null;
+                if ($coatId == '' || $coatId == 0) $coatId = null;
+                if ($topCoatId == '' || $topCoatId == 0) $topCoatId = null;
+                if ($plate_types_id == '' || $plate_types_id == 0) $plate_types_id = null;
 
                 for ($i = 0; $i < $numberParts; $i++) {
                     $parts = Part::create([

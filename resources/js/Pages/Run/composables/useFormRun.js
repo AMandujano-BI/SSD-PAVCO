@@ -112,32 +112,6 @@ const useFormRun = () => {
                         isDiferentZero
                     ),
                 },
-                primaryCoatId: {
-                    isDiferentZero: helpers.withMessage(
-                        "You must select an option",
-                        isDiferentZero
-                    ),
-                },
-                topCoatId: {
-                    isDiferentZero: helpers.withMessage(
-                        "You must select an option",
-                        isDiferentZero
-                    ),
-
-                },
-                coatId: {
-                    isDiferentZero: helpers.withMessage(
-                        "You must select an option",
-                        isDiferentZero
-                    ),
-
-                },
-                plate_types_id: {
-                    isDiferentZero: helpers.withMessage(
-                        "You must select an option",
-                        isDiferentZero
-                    ),
-                },
 
 
             })

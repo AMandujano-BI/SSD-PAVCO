@@ -231,7 +231,7 @@ export default {
               name: "part.plate_type.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>" + row.plate_type.name + "</td>";
+                return "<td>" + row.plate_type?.name + "</td>";
               },
             },
             {
@@ -240,7 +240,7 @@ export default {
               render: function (data, type, row, meta) {
                 return (
                   "<td>" +
-                  row.chromate.name +
+                  row.chromate?.name +
                   " / " +
                   row.primaryPer +
                   " / " +
@@ -259,7 +259,7 @@ export default {
               render: function (data, type, row, meta) {
                 return (
                   "<td>" +
-                  row.top_coat.name +
+                  row.top_coat?.name +
                   " / " +
                   row.topCoatPer +
                   " / " +
@@ -278,7 +278,7 @@ export default {
               render: function (data, type, row, meta) {
                 return (
                   "<td>" +
-                  row.coat.name +
+                  row.coat?.name +
                   " / " +
                   row.coatPer +
                   " / " +

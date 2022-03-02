@@ -75,13 +75,6 @@
             :searchable="true"
             placeholder="Select Chromates "
           />
-          <p
-            v-for="error of v$.primaryCoatId.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
         </div>
         <div class="flex gap-2">
           <div>
@@ -135,13 +128,6 @@
             :searchable="true"
             placeholder="Select TopCoat"
           />
-          <p
-            v-for="error of v$.topCoatId.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
         </div>
         <div class="flex flex-col">
           <div class="flex gap-2">
@@ -197,13 +183,6 @@
             :searchable="true"
             placeholder="Select Secondary TopCoat"
           />
-          <p
-            v-for="error of v$.coatId.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
         </div>
         <div class="flex gap-2">
           <div>
@@ -374,25 +353,8 @@ export default {
           isDiferentZero
         ),
       },
-      primaryCoatId: {
-        isDiferentZero: helpers.withMessage(
-          "You must select an option",
-          isDiferentZero
-        ),
-      },
+
       typePlateThick: {
-        isDiferentZero: helpers.withMessage(
-          "You must select an option",
-          isDiferentZero
-        ),
-      },
-      topCoatId: {
-        isDiferentZero: helpers.withMessage(
-          "You must select an option",
-          isDiferentZero
-        ),
-      },
-      coatId: {
         isDiferentZero: helpers.withMessage(
           "You must select an option",
           isDiferentZero

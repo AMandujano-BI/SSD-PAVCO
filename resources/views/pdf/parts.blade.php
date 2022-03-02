@@ -194,7 +194,7 @@
                                     {{$part->hoursWs}} hrs
                                 @else
                                     @if ($part->status == 1)
-                                        Removet at {{$part->hours}} hrs
+                                        Removed at {{$part->hours}} hrs
                                     @else
                                         Active
                                     @endif
@@ -205,7 +205,7 @@
                                     {{$part->hoursRs}} hrs
                                 @else
                                     @if ($part->status == 1)
-                                        Removet at {{$part->hours}} hrs
+                                        Removed at {{$part->hours}} hrs
                                     @else
                                         Active
                                     @endif

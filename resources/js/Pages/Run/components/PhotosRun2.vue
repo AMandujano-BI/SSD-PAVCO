@@ -16,12 +16,11 @@
             <div>
               <img
                 :src="currentPhotos.image"
-                :alt="currentPhotos.name"
+                :alt="currentPhotos.image"
                 class="object-cover object-left-top h-[400px] max-h-[400px] w-full"
               />
               <div>
                 <ul class="flex flex-col gap-2 md:flex-row justify-between px-3 pt-3">
-                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Name: </strong>{{ currentPhotos.name }}</li>
                   <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Date added: </strong>{{ currentPhotos.created_at.slice(0,10) }}</li>
                   <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Hours: </strong>{{ calculateHours(currentPhotos.isEdit, currentPhotos.last_edit, currentPhotos.created_at, currentPhotos.hours) }}</li>
                 </ul>

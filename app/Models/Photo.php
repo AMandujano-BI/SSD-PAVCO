@@ -104,7 +104,6 @@ class Photo extends Model
         try {
 
             $photo = (new static)::find($request->id);
-            $photo->name = $request->name;
             $photo->description = $request->description;
             $photo->report = $request->report;
             if ($request->hasDiferentHours) {

@@ -181,7 +181,7 @@
                                     {{$part->hoursWs}} hrs
                                 @else
                                     @if ($run_status == 1)
-                                        Removet at {{$hours}} hrs
+                                        Removed at {{$hours}} hrs
                                     @else
                                         Active
                                     @endif
@@ -192,7 +192,7 @@
                                     {{$part->hoursRs}} hrs
                                 @else
                                     @if ($run_status == 1)
-                                        Removet at {{$hours}} hrs
+                                        Removed at {{$hours}} hrs
                                     @else
                                         Active
                                     @endif
@@ -205,7 +205,7 @@
                 </table>
             </div>
             <div class='top-separation'>
-                <div class='notes__label'>Notes: <span class='subheader__value'>Parts were salts sprayed using the guidelines of the ASTM B-117.</span></div>
+                <div class='notes__label'>Notes: <span class='subheader__value'>Parts were salt sprayed using the guidelines of the ASTM B-117.</span></div>
             </div>
             <div class='top-separation'>
                 <div class='notes__label'>Notes: <span class='subheader__value'>Pavco is not an independent testing laboratory. These results are for your information only and should be verified by an independent testing laboratory. </span></div>
