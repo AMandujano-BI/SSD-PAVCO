@@ -15,7 +15,6 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
-            $table->string('name',50);
             $table->integer('hours');
             $table->text('image');
             $table->text('description')->nullable();
