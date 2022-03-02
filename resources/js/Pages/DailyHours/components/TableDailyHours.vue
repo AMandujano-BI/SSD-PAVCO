@@ -1,85 +1,95 @@
 <template>
-<div class="p-2">
+  <div class="p-2">
+    <div class="pb-4">
+      <select
+        class="w-full p-3 rounded-sm border-[#a2a2a2] text-[#a2a2a2] flex-1"
+        @change="changeFilter"
+        v-model="filterOption"
+      >
+        <option value="3">Show All</option>
+        <option value="0">Active</option>
+        <option value="1">Complete</option>
+      </select>
+    </div>
 
-  <input
-    type="date"
-    class="w-full mb-5"
-    @change="changeDateFilter"
-    v-model="startDate"
-  />
-  <button
-    class="bg-primary-500 p-4 text-white rounded-md"
-    @click="openModalChange"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      aria-hidden="true"
-      role="img"
-      width="24"
-      height="24"
-      preserveAspectRatio="xMidYMid meet"
-      viewBox="0 0 24 24"
+    <input
+      type="date"
+      class="w-full mb-5"
+      @change="changeDateFilter"
+      v-model="startDate"
+    />
+    <button
+      class="bg-primary-500 p-4 text-white rounded-md"
+      @click="openModalChange"
     >
-      <path
-        fill="white"
-        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm.06 17v-2.01H12c-1.28 0-2.56-.49-3.54-1.46a5.006 5.006 0 0 1-.64-6.29l1.1 1.1c-.71 1.33-.53 3.01.59 4.13c.7.7 1.62 1.03 2.54 1.01v-2.14l2.83 2.83L12.06 19zm4.11-4.24l-1.1-1.1c.71-1.33.53-3.01-.59-4.13A3.482 3.482 0 0 0 12 8.5h-.06v2.15L9.11 7.83L11.94 5v2.02c1.3-.02 2.61.45 3.6 1.45c1.7 1.7 1.91 4.35.63 6.29z"
-      />
-    </svg>
-  </button>
-  <div class="rounded-lg bg-white p-5">
-    <table
-      id="activeRuns"
-      class="display nowrap responsive"
-      style="width: 100%; height: 100%"
-    >
-      <thead>
-        <tr>
-          <th data-priority="1">
-            <input
-              type="checkbox"
-              id="main_checkbox"
-              name="main_checkbox"
-              @change="toggleAll"
-              v-model="selectedCheckbox"
-            />
-          </th>
-          <th data-priority="2">StartDate</th>
-          <th data-priority="1">Run #</th>
-          <th data-priority="1" class="max-w-[150px]">Customer</th>
-          <th>Method</th>
-          <th data-priority="2">Status</th>
-          <th>Hrs</th>
-        </tr>
-      </thead>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        aria-hidden="true"
+        role="img"
+        width="24"
+        height="24"
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="white"
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm.06 17v-2.01H12c-1.28 0-2.56-.49-3.54-1.46a5.006 5.006 0 0 1-.64-6.29l1.1 1.1c-.71 1.33-.53 3.01.59 4.13c.7.7 1.62 1.03 2.54 1.01v-2.14l2.83 2.83L12.06 19zm4.11-4.24l-1.1-1.1c.71-1.33.53-3.01-.59-4.13A3.482 3.482 0 0 0 12 8.5h-.06v2.15L9.11 7.83L11.94 5v2.02c1.3-.02 2.61.45 3.6 1.45c1.7 1.7 1.91 4.35.63 6.29z"
+        />
+      </svg>
+    </button>
+    <div class="rounded-lg bg-white p-5">
+      <table
+        id="activeRuns"
+        class="display nowrap responsive"
+        style="width: 100%; height: 100%"
+      >
+        <thead>
+          <tr>
+            <th data-priority="1">
+              <input
+                type="checkbox"
+                id="main_checkbox"
+                name="main_checkbox"
+                @change="toggleAll"
+                v-model="selectedCheckbox"
+              />
+            </th>
+            <th data-priority="2">StartDate</th>
+            <th data-priority="1">Run #</th>
+            <th data-priority="1" class="max-w-[150px]">Customer</th>
+            <th>Method</th>
+            <th data-priority="2">Status</th>
+            <th>Hrs</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        <tr v-for="item in dataDailyHours" :key="item.id">
-          <td></td>
-          <td>{{ currentStartDate(item.start_date) }}</td>
-          <td>{{ item.id }}</td>
-          <td>{{ item.company.name }}</td>
-          <td>{{ item.method.name }}</td>
-          <td>{{ item.status === 1 ? "Complete" : "Active" }}</td>
-          <td>
-            {{
-              calculateHours(
-                item.id,
-                item.status,
-                item.start_date,
-                item.isEdit,
-                item.last_edit,
-                item.hours,
-                item.closed_date
-              )
-            }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <tbody>
+          <tr v-for="item in dataDailyHours" :key="item.id">
+            <td></td>
+            <td>{{ currentStartDate(item.start_date) }}</td>
+            <td>{{ item.id }}</td>
+            <td>{{ item.company.name }}</td>
+            <td>{{ item.method.name }}</td>
+            <td>{{ item.status === 1 ? "Complete" : "Active" }}</td>
+            <td>
+              {{
+                calculateHours(
+                  item.id,
+                  item.status,
+                  item.start_date,
+                  item.isEdit,
+                  item.last_edit,
+                  item.hours,
+                  item.closed_date
+                )
+              }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-
-</div>
 
   <!-- MODALS -->
 
@@ -114,6 +124,7 @@ export default {
     const { makeToast } = useHelper();
     const openModal = ref(false);
     const selectedCheckbox = ref(false);
+    const filterOption = ref(3);
     const arrayId = ref([]);
     const selected = ref([]);
     let table;
@@ -125,13 +136,12 @@ export default {
       gettingData();
     };
     const gettingData = async (status = 3) => {
-      let initDate = `${startDate.value} 0:01`;
-      let finalDate = `${startDate.value} 23:59`;
-
-      const initUTCDate = convertUTC(initDate);
-      const finalUTCDate = convertUTC(finalDate);
-
       try {
+        let initDate = `${startDate.value} 0:01`;
+        let finalDate = `${startDate.value} 23:59`;
+
+        const initUTCDate = convertUTC(initDate);
+        const finalUTCDate = convertUTC(finalDate);
         const res = await axios.get(
           `/run/getAllRunsByDate/'${initUTCDate}'/'${finalUTCDate}'/${status}`
         );
@@ -143,15 +153,23 @@ export default {
       }
     };
 
-    const currentStartDate = ( start_date ) => {
+    const currentStartDate = (start_date) => {
       const originalDate = new Date(start_date);
       let monthStartDate = originalDate.getMonth() + 1;
-      let fullMonthStartDate = '0';
-      (monthStartDate.toString().length < 2) ? fullMonthStartDate = fullMonthStartDate.concat(monthStartDate) : fullMonthStartDate = monthStartDate;
-      const currentStartDateConverted = '' + originalDate.getFullYear() + '-' + fullMonthStartDate + '-' + originalDate.toString().slice(8, 10);
+      let fullMonthStartDate = "0";
+      monthStartDate.toString().length < 2
+        ? (fullMonthStartDate = fullMonthStartDate.concat(monthStartDate))
+        : (fullMonthStartDate = monthStartDate);
+      const currentStartDateConverted =
+        "" +
+        originalDate.getFullYear() +
+        "-" +
+        fullMonthStartDate +
+        "-" +
+        originalDate.toString().slice(8, 10);
 
       return currentStartDateConverted;
-    }
+    };
 
     const calculateHours = (
       id,
@@ -198,7 +216,7 @@ export default {
         table.rows().select();
         const dataAll = document.querySelectorAll(`[data-id]`);
         dataAll.forEach((item) => {
-          item.checked = true
+          item.checked = true;
         });
         const data = table.rows(".selected").data();
         arrayId.value = [];
@@ -208,14 +226,16 @@ export default {
 
         const dataAll = document.querySelectorAll(`[data-id]`);
         dataAll.forEach((item) => {
-          item.checked = false
+          item.checked = false;
         });
       }
     };
 
     const generateDataTable = (status) => {
       const self = this;
-      $("#activeRuns").DataTable().clear().destroy();
+      // $("#activeRuns").DataTable().clear().destroy();
+      $("#activeRuns").DataTable().destroy();
+
       nextTick(() => {
         table = $("#activeRuns")
           .DataTable({
@@ -238,7 +258,7 @@ export default {
             ],
             responsive: true,
             select: "multi",
-        
+
             language: {
               paginate: {
                 next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
@@ -250,13 +270,12 @@ export default {
           .on("select.dt deselect.dt", function (e, dt, type, indexes) {
             const id = dt.rows(indexes).data()[0][2];
             const data = document.querySelector(`[data-id="${id}"]`);
-            const count = table.rows( { selected: true } ).count();
+            const count = table.rows({ selected: true }).count();
             const countAll = table.rows().count();
-            if(count === countAll){
-              document.querySelector('#main_checkbox').checked = true
-            }else{
-
-              document.querySelector('#main_checkbox').checked = false
+            if (count === countAll) {
+              document.querySelector("#main_checkbox").checked = true;
+            } else {
+              document.querySelector("#main_checkbox").checked = false;
             }
             data.checked = true;
           })
@@ -266,56 +285,67 @@ export default {
             data.checked = false;
           });
       });
-      
+
     };
 
     const apply = (jsonData) => {
       let idArr;
       let indexArr;
       let hourArr = Number(jsonData.hours);
-      jsonData.arrayId.forEach(id => {
+      jsonData.arrayId.forEach((id) => {
         idArr = Number(id);
-        indexArr = dataDailyHours.value.findIndex(run => run.id === idArr);
-        dataDailyHours.value[indexArr].isEdit = true
-        dataDailyHours.value[indexArr].last_edit = new Date()
-        dataDailyHours.value[indexArr].hours = hourArr
+        indexArr = dataDailyHours.value.findIndex((run) => run.id === idArr);
+        dataDailyHours.value[indexArr].isEdit = true;
+        dataDailyHours.value[indexArr].last_edit = new Date();
+        dataDailyHours.value[indexArr].hours = hourArr;
       });
       openModal.value = false;
-    }
+    };
 
     const closeModalChange = () => {
       openModal.value = false;
-    }
+    };
 
     const convertUTC = (dateToConvert) => {
       const currentUTCDate = new Date(dateToConvert);
-      const monthUTC = currentUTCDate.getUTCMonth()+1;
+      const monthUTC = currentUTCDate.getUTCMonth() + 1;
       const dayUTC = currentUTCDate.getUTCDate();
       const hoursUTC = currentUTCDate.getUTCHours();
       const minutesUTC = currentUTCDate.getUTCMinutes();
-      let fullMonthUTC = '0';
-      let fullDayUTC = '0';
-      let fullHoursUTC = '0';
-      let fullMinutesUTC = '0';
-      (monthUTC.toString().length < 2) ? fullMonthUTC = fullMonthUTC.concat(monthUTC) : fullMonthUTC = monthUTC;
-      (dayUTC.toString().length < 2) ? fullDayUTC = fullDayUTC.concat(dayUTC) : fullDayUTC = dayUTC;
-      (hoursUTC.toString().length < 2) ? fullHoursUTC = fullHoursUTC.concat(hoursUTC) : fullHoursUTC = hoursUTC;
-      (minutesUTC.toString().length < 2) ? fullMinutesUTC = fullMinutesUTC.concat(minutesUTC) : fullMinutesUTC = minutesUTC;
-      
-      const utcDate = 
-          ''+
-          currentUTCDate.getUTCFullYear()+
-          '-'+
-          fullMonthUTC+
-          '-'+
-          fullDayUTC+
-          'T'+
-          fullHoursUTC+
-          ':'+
-          fullMinutesUTC;
+      let fullMonthUTC = "0";
+      let fullDayUTC = "0";
+      let fullHoursUTC = "0";
+      let fullMinutesUTC = "0";
+      monthUTC.toString().length < 2
+        ? (fullMonthUTC = fullMonthUTC.concat(monthUTC))
+        : (fullMonthUTC = monthUTC);
+      dayUTC.toString().length < 2
+        ? (fullDayUTC = fullDayUTC.concat(dayUTC))
+        : (fullDayUTC = dayUTC);
+      hoursUTC.toString().length < 2
+        ? (fullHoursUTC = fullHoursUTC.concat(hoursUTC))
+        : (fullHoursUTC = hoursUTC);
+      minutesUTC.toString().length < 2
+        ? (fullMinutesUTC = fullMinutesUTC.concat(minutesUTC))
+        : (fullMinutesUTC = minutesUTC);
+
+      const utcDate =
+        "" +
+        currentUTCDate.getUTCFullYear() +
+        "-" +
+        fullMonthUTC +
+        "-" +
+        fullDayUTC +
+        "T" +
+        fullHoursUTC +
+        ":" +
+        fullMinutesUTC;
 
       return utcDate;
-    }
+    };
+    const changeFilter = async () => {
+      await gettingData(filterOption.value);
+    };
 
     gettingData();
 
@@ -328,6 +358,8 @@ export default {
       apply,
       arrayId,
       toggleAll,
+      filterOption,
+      changeFilter,
       selectedCheckbox,
       dataDailyHours,
       calculateHours,
@@ -338,36 +370,4 @@ export default {
 </script>
 
 <style>
-table.dataTable.display tbody > tr.odd.selected > .sorting_1,
-table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_1 {
-  background-color: #a6b4cd;
-}
-table.dataTable.display tbody > tr.odd.selected > .sorting_2,
-table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_2 {
-  background-color: #a8b5cf;
-}
-table.dataTable.display tbody > tr.odd.selected > .sorting_3,
-table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_3 {
-  background-color: #a9b7d1;
-}
-table.dataTable.display tbody > tr.even.selected > .sorting_1,
-table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_1 {
-  background-color: #acbad5;
-}
-table.dataTable.display tbody > tr.even.selected > .sorting_2,
-table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_2 {
-  background-color: #aebcd6;
-}
-table.dataTable.display tbody > tr.even.selected > .sorting_3,
-table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_3 {
-  background-color: #afbdd8;
-}
-table.dataTable.display tbody > tr.odd > .selected,
-table.dataTable.order-column.stripe tbody > tr.odd > .selected {
-  background-color: #a6b4cd;
-}
-table.dataTable.display tbody > tr.even > .selected,
-table.dataTable.order-column.stripe tbody > tr.even > .selected {
-  background-color: #acbad5;
-}
 </style>

@@ -229,7 +229,7 @@ class Run extends Model
             ])
                 ->where('status', '!=', 2)
                 ->where('status', $status)
-                // ->whereDate('runs.start_date',$request->startDate)
+                ->whereBetween('runs.start_date', [$startDate, $endDate])
                 ->get();
             return $run;
         }
