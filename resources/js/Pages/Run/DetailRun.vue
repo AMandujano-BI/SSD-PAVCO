@@ -80,15 +80,16 @@
             </span>
             <span>
               {{
-                !isCalculate ?
-                calculateHours(
-                  runDetail.status,
-                  runDetail.start_date,
-                  runDetail.isEdit,
-                  runDetail.last_edit,
-                  runDetail.hours,
-                  runDetail.closed_date
-                ) : '...'
+                !isCalculate
+                  ? calculateHours(
+                      runDetail.status,
+                      runDetail.start_date,
+                      runDetail.isEdit,
+                      runDetail.last_edit,
+                      runDetail.hours,
+                      runDetail.closed_date
+                    )
+                  : "..."
               }}
             </span>
           </p>
@@ -451,62 +452,54 @@
           </div>
         </div>
 
-
-
-      <div class="flex gap-2 items-center flex-1 w-full mb-5">
-        <div>
-          <button class="
-                        rounded
-                        py-4
-                      text-white
-                        px-3
-                        mt-5" 
-                    @click="showSaveWsRs"
-                    v-if="!loading"
-                    :class="{
-                      'bg-[#F0F0F0]': runDetail.status == 1 || !isWsRsChanges,
-                      'bg-primary': runDetail.status == 0,
-                    }"
-                    :disabled="runDetail.status == 1 || !isWsRsChanges"
-                    > <span
-                        :class="{ 'text-gray-400': runDetail.status == 1 || !isWsRsChanges}"
-                      >
-                        Save
-                      </span> 
-              </button>
-              <button class="
-                        bg-primary
-                          rounded
-                          py-4
-                        text-white
-                          px-3
-                          mt-5" 
-                      v-if="loading"
-                      disabled
-                    > 
-                      <div
-                        className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
-                      ></div>
+        <div class="flex gap-2 items-center flex-1 w-full mb-5">
+          <div>
+            <button
+              class="rounded py-4 text-white px-3 mt-5"
+              @click="showSaveWsRs"
+              v-if="!loading"
+              :class="{
+                'bg-[#F0F0F0]': runDetail.status == 1 || !isWsRsChanges,
+                'bg-primary': runDetail.status == 0,
+              }"
+              :disabled="runDetail.status == 1 || !isWsRsChanges"
+            >
+              <span
+                :class="{
+                  'text-gray-400': runDetail.status == 1 || !isWsRsChanges,
+                }"
+              >
+                Save
+              </span>
             </button>
+            <button
+              class="bg-primary rounded py-4 text-white px-3 mt-5"
+              v-if="loading"
+              disabled
+            >
+              <div
+                className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
+              ></div>
+            </button>
+          </div>
+          <input
+            type="text"
+            class="
+              py-[14px]
+              text-sm
+              w-full
+              pl-10
+              rounded-sm
+              border-[#a2a2a2]
+              placeholder-[#a2a2a2]
+              text-[#333]
+              mt-5
+            "
+            id="filterRunPartInputBot"
+            placeholder="Search Parts..."
+            autocomplete="off"
+          />
         </div>
-         <input
-              type="text"
-              class="
-                py-[14px]
-                text-sm
-                w-full
-                pl-10
-                rounded-sm
-                border-[#a2a2a2]
-                placeholder-[#a2a2a2]
-                text-[#333]
-                mt-5
-              "
-              id="filterRunPartInputBot"
-              placeholder="Search Parts..."
-              autocomplete="off"
-        />
-      </div>
 
         <table id="activeRunsDetail" class="display" style="width: 100%">
           <thead>
@@ -524,8 +517,7 @@
           <tbody></tbody>
         </table>
 
-        <div>
-        </div>
+        <div></div>
         <modal :show="isModalPhotos" @close="closePhotosModal">
           <div class="container mx-auto p-5 relative bg-[#ebf2fd]">
             <button @click="closePhotosModal" class="absolute right-5">
@@ -609,9 +601,6 @@
           </template>
         </confirmation-modal>
 
-        
-        
-        
         <confirmation-modal :show="isModalSaveWsRs">
           <template v-slot:title>
             <h1>Are you sure that you want to apply this changes?</h1>
@@ -633,7 +622,6 @@
             </div>
           </template>
         </confirmation-modal>
-
       </div>
     </div>
   </app-layout>
@@ -693,10 +681,9 @@ export default {
     let globalHours = 0;
     const loading = ref(false);
     const isWsRsChanges = ref(false);
-    const isCalculate = ref(false)
+    const isCalculate = ref(false);
 
     const generateForm = async () => {
-      
       const res = await axios.get(`/part/getPartsByRun/${runDetail.value.id}`);
       parts.value = [];
       // console.log(res.data.data);
@@ -819,7 +806,7 @@ export default {
       isModalClose.value = true;
     };
     const showSaveWsRs = () => {
-      if ( runDetail.value.status === 1 ) {
+      if (runDetail.value.status === 1) {
         return;
       }
       isModalSaveWsRs.value = true;
@@ -914,51 +901,78 @@ export default {
               name: "description",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>" + row.description + "</td>";
+                if (row.description != null) {
+                  return "<td>" + row.description + "</td>";
+                }
+                return "<td></td>";
               },
             },
             {
               name: "plate_type.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>" + row.plate_type.name + "</td>";
+                if (row.plate_type?.name != undefined) {
+                  return "<td>" + row.plate_type?.name + "</td>";
+                }
+                return "<td></td>";
               },
             },
             {
               name: "part.chromate.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return (
-                  "<td>" +
-                  row.chromate.name +
-                  " - " +
-                  row.primaryPer +
-                  " % " +
-                  "</td>"
-                );
+                if (row.chromate?.name != undefined) {
+                  if(row.primaryPer ==null){
+                    return `<td>${row.chromate.name}</td>`
+                  }
+                  return (
+                    "<td>" +
+                    row.chromate.name +
+                    " - " +
+                    row.primaryPer +
+                    " % " +
+                    "</td>"
+                  );
+                }
+                return "<td></td>";
               },
             },
             {
               name: "part.top_coat.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return (
-                  "<td>" +
+                if(row.top_coat?.name !=undefined){
+
+                  if(row.topCoatPer ==null){
+                    return `<td>${row.top_coat.name}</td>`
+                  }
+
+                  return (
+                    "<td>" +
                   row.top_coat.name +
                   " - " +
                   row.topCoatPer +
                   " % " +
                   "</td>"
                 );
+                  }
+                  return '<td></td>'
               },
             },
             {
               name: "part.coat.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return (
-                  "<td>" + row.coat.name + " - " + row.coatPer + " % " + "</td>"
+                if(row.coat?.name !=undefined){
+
+                  if(row.coatPer ==null){
+                    return `<td>${row.coat.name}</td>`
+                  }
+                  return (
+                    "<td>" + row.coat.name + " - " + row.coatPer + " % " + "</td>"
                 );
+                  }
+                  return '<td></td>'
               },
             },
             {
@@ -989,8 +1003,8 @@ export default {
                   } else {
                     // Si no tiene horas, se colocará input value = false
                     whiteSaltInput =
-                      '<input type="checkbox" id="ws' + 
-                      row.id + 
+                      '<input type="checkbox" id="ws' +
+                      row.id +
                       '" class="whitesChk" itemId=' +
                       row.id +
                       ' value="false">';
@@ -1025,7 +1039,7 @@ export default {
                       ' style="width: 60px;"> hrs';
                   } else {
                     redRustInput =
-                      '<input type="checkbox" id="rs'+
+                      '<input type="checkbox" id="rs' +
                       row.id +
                       '" class="redrChk" itemId=' +
                       row.id +
@@ -1117,8 +1131,8 @@ export default {
       // console.log({parts, hoursRs, idHrss})
     };
 
-    const updateWsRs = async() =>{
-      if ( runDetail.value.status === 1 ) {
+    const updateWsRs = async () => {
+      if (runDetail.value.status === 1) {
         return;
       }
       isModalSaveWsRs.value = false;
@@ -1136,9 +1150,9 @@ export default {
 
       const res = await axios.post(`/run/updatePartsWsRs`, partsUpdated);
       const { ok, value, message } = res.data;
-      
+
       if (ok) {
-        gettingData()
+        gettingData();
         // generateForm();
         // $("#activeRunsDetail").DataTable().clear().destroy();
         // await generateDataTableDetail();
@@ -1195,7 +1209,7 @@ export default {
       updateWsRs,
       closeCloseModal: () => (isModalClose.value = false),
     };
-  }
+  },
 };
 </script>
 

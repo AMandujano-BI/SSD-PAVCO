@@ -224,21 +224,20 @@ export default {
               name: "part.description",
               searchable: true,
               render: function (data, type, row, meta) {
-                if(row.description !=null){
+                if (row.description != null) {
                   return "<td>" + row.description + "</td>";
                 }
-                return '<td></td>'
+                return "<td></td>";
               },
             },
             {
               name: "part.plate_type.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                if(row.plate_type?.name !=undefined){
-
+                if (row.plate_type?.name != undefined) {
                   return "<td>" + row.plate_type?.name + "</td>";
                 }
-                return '<td></td>'
+                return "<td></td>";
               },
             },
             {
@@ -246,19 +245,19 @@ export default {
               searchable: true,
               render: function (data, type, row, meta) {
                 if (row.chromate?.name != undefined) {
-                  return (
-                    "<td>" +
-                    row.chromate?.name +
-                    " / " +
-                    row.primaryPer +
-                    " / " +
-                    row.primaryTemp +
-                    " / " +
-                    row.primaryPH +
-                    " / " +
-                    row.primaryDiptime +
-                    "</td>"
-                  );
+                  return `<td> ${row.chromate?.name}  ${
+                    row.primaryPer != null ? "/ " + row.primaryPer + " %" : ""
+                  } ${
+                    row.primaryTemp != null
+                      ? "/ " + row.primaryTemp + " °F"
+                      : ""
+                  } ${
+                    row.primaryPH != null ? " /" + row.primaryPH + " pH" : ""
+                  } ${
+                    row.primaryDiptime != null
+                      ? " / " + row.primaryDiptime + " sec"
+                      : ""
+                  } </td>`;
                 }
                 return "<td></td>";
               },
@@ -268,19 +267,19 @@ export default {
               searchable: true,
               render: function (data, type, row, meta) {
                 if (row.top_coat?.name != undefined) {
-                  return (
-                    "<td>" +
-                    row.top_coat?.name +
-                    " / " +
-                    row.topCoatPer +
-                    " / " +
-                    row.topCoatTemp +
-                    " / " +
-                    row.topCoatPH +
-                    " / " +
-                    row.topCoatDiptime +
-                    "</td>"
-                  );
+                  return `<td> ${row.top_coat?.name}  ${
+                    row.topCoatPer != null ? "/ " + row.topCoatPer + " %" : ""
+                  } ${
+                    row.topCoatTemp != null
+                      ? "/ " + row.topCoatTemp + " °F"
+                      : ""
+                  } ${
+                    row.topCoatPH != null ? " /" + row.topCoatPH + " pH" : ""
+                  } ${
+                    row.topCoatDiptime != null
+                      ? " / " + row.topCoatDiptime + " sec"
+                      : ""
+                  } </td>`;
                 }
                 return "<td></td>";
               },
@@ -290,19 +289,15 @@ export default {
               searchable: true,
               render: function (data, type, row, meta) {
                 if (row.coat?.name != undefined) {
-                  return (
-                    "<td>" +
-                    row.coat?.name +
-                    " / " +
-                    row.coatPer +
-                    " / " +
-                    row.coatTemp +
-                    " / " +
-                    row.coatPH +
-                    " / " +
-                    row.coatDiptime +
-                    "</td>"
-                  );
+                  return `<td> ${row.coat?.name}  ${
+                    row.coatPer != null ? "/ " + row.coatPer + " %" : ""
+                  } ${
+                    row.coatTemp != null ? "/ " + row.coatTemp + " °F" : ""
+                  } ${row.coatPH != null ? " /" + row.coatPH + " pH" : ""} ${
+                    row.coatDiptime != null
+                      ? " / " + row.coatDiptime + " sec"
+                      : ""
+                  } </td>`;
                 }
                 return "<td></td>";
               },
