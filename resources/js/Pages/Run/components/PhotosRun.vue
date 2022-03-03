@@ -14,13 +14,12 @@
 
             <img
               :src="photo.image"
-              :alt="photo.name"
+              :alt="photo.image"
               class="object-cover object-left-top h-[400px] max-h-[400px] w-full"
             />
             </div>
             <div>
               <ul class="flex flex-col gap-2 md:flex-row justify-between px-3 pt-3">
-                <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Name: </strong>{{ photo.name }}</li>
                 <li class="text-[#7e7f82]">
                   <strong class="text-[#1e385e]">Date added: </strong
                   >{{ photo.created_at.slice(0, 10) }}
