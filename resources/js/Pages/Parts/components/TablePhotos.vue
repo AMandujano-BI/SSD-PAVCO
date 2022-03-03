@@ -48,7 +48,6 @@
     <table id="photosTable" class="display responsive" style="width: 100%">
       <thead>
         <tr>
-          <th>Name</th>
           <th>Date Added</th>
           <th>Hours</th>
           <th>Description</th>
@@ -60,7 +59,6 @@
       </thead>
       <tbody>
         <tr v-for="photo in photosTable" :key="photo.id">
-          <td class="text-center">{{ photo.name }}</td>
           <td class="text-center">{{  currentCreatedDate(photo.created_at) }}</td>
           <td class="text-center">
             {{
