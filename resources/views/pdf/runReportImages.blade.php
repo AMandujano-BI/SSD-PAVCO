@@ -164,7 +164,7 @@
         </div>
         <div class='body'>
             <div class='table__container'>
-                <table class="table" cellspacing='10'>
+                <table class="table" cellspacing='10' style='width:100%;'>
                     <thead>
                         <tr>
                             <th class="th">Desc</th>
