@@ -85,7 +85,7 @@ class RunResult extends Mailable
         $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img']));
         $pdf->setPaper('a4', 'landscape');
         return $this->view('emails.runResult')
-            ->with(['run' => $this->_run])
+            ->with(['run' => $this->_run, 'hours' => $hours ])
             ->attachData($pdf->output(), 'run_report_' . $this->_run->id . '.pdf', [
                 'mime' => 'application/pdf',
             ])

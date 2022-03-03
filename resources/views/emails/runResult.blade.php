@@ -315,7 +315,7 @@
                               <div class="v-text-align" style="line-height: 140%; text-align: left; word-wrap: break-word;">
                                 <p style="font-size: 14px; line-height: 140%; text-align: left;"><span style="font-size: 16px; line-height: 22.4px;"><span style="color: #236fa1; line-height: 22.4px; font-size: 16px;"><strong><span style="color: #34689c; line-height: 22.4px; font-size: 16px;">Hours</span>:</strong>
                                     </span>
-                                    <span style="color: #3b4559; line-height: 22.4px; font-size: 16px;">#{{$run->id}}</span></span>
+                                    <span style="color: #3b4559; line-height: 22.4px; font-size: 16px;">{{$hours}}</span></span>
                                 </p>
                               </div>
 
