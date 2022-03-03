@@ -185,7 +185,11 @@
                         )
                         <tr style="text-align: center;">
                             <td class="td" style="text-align: center;">{{$part->description}}</td>
-                            <td class="td" style="text-align: center;">{{$part->plateType->name}}</td>
+                            <td class="td" style="text-align: center;">
+                                @if($part->plateType)
+                                {{$part->plateType->name}}
+                                @endif
+                            </td>
                             <td class="td" style="text-align: center;">
                                 @if($part->chromate)
 

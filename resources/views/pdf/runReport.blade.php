@@ -175,7 +175,11 @@
                         )
                         <tr style="text-align: center;">
                             <td style="text-align: center;">{{$part->description}}</td>
-                            <td style="text-align: center;">{{$part->plateType->name}}</td>
+                            <td style="text-align: center;">
+                                @if($part->plateType)
+                                {{$part->plateType->name}}
+                                @endif
+                            </td>
                             <td style="text-align: center;">
                                 @if($part->chromate)
 
@@ -208,7 +212,7 @@
                             <td style="text-align: center;">
                                 @if($part->topCoat)
 
-                                {{$part->topCoat->name}} 
+                                {{$part->topCoat->name}}
 
 
                                 @if($part->topCoatPer !=null)
@@ -233,7 +237,7 @@
                             <td style="text-align: center;">
 
                                 @if($part->coat)
-                                {{$part->coat->name}} 
+                                {{$part->coat->name}}
 
                                 @if($part->coatPer!=null)
                                 <span>/ {{$part->coatPer}} %</span>
