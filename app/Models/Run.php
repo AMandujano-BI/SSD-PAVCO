@@ -396,10 +396,6 @@ class Run extends Model
         DB::beginTransaction();
         try {
             $user = auth()->user();
-            // $date = Carbon::parse($request->start_date)->format('Y-m-d H:i');
-
-            // $startDate = Carbon::parse()->setTimezone('UTC');
-            // dd($request->parts);
             $countParts = 1;
             $start_date = $request->start_date;
             $description = $request->description;
@@ -419,17 +415,19 @@ class Run extends Model
             $run->save();
 
             $parts =  $request->parts;
-            // dd($parts[1]);
 
             for ($j = 0; $j < count($request->parts); $j++) {
                 $typePlateThick = $request->parts[$j]['typePlateThick'] ?? null;
                 $plateThick = $request->parts[$j]['plateThick'] ?? null;
+                $topCoatPer = $request->parts[$j]['topCoatPer'] ?? null;
                 $topCoatTemp = $request->parts[$j]['topCoatTemp'] ?? null;
                 $topCoatPH = $request->parts[$j]['topCoatPH'] ?? null;
                 $topCoatDiptime = $request->parts[$j]['topCoatDiptime'] ?? null;
                 $primaryTemp = $request->parts[$j]['primaryTemp'] ?? null;
+                $primaryPer = $request->parts[$j]['primaryPer'] ?? null;
                 $primaryPH = $request->parts[$j]['primaryPH'] ?? null;
                 $primaryDiptime = $request->parts[$j]['primaryDiptime'] ?? null;
+                $coatPer = $request->parts[$j]['coatPer'] ?? null;
                 $coatTemp = $request->parts[$j]['coatTemp'] ?? null;
                 $coatPH = $request->parts[$j]['coatPH'] ?? null;
                 $coatDiptime = $request->parts[$j]['coatDiptime'] ?? null;
@@ -447,6 +445,29 @@ class Run extends Model
                 if ($topCoatId == '' || $topCoatId == 0) $topCoatId = null;
                 if ($plate_types_id == '' || $plate_types_id == 0) $plate_types_id = null;
 
+
+
+                if ($primaryCoatId == null) {
+                    $primaryPer = null;
+                    $primaryPH = null;
+                    $primaryDiptime = null;
+                    $primaryTemp = null;
+                }
+                if ($coatId == null) {
+                    $coatPer = null;
+                    $coatPH = null;
+                    $coatDiptime = null;
+                    $coatTemp = null;
+                }
+                if ($topCoatId == null) {
+                    $topCoatPH = null;
+                    $topCoatTemp = null;
+                    $topCoatDiptime = null;
+                    $topCoatPer = null;
+                }
+
+
+
                 for ($i = 0; $i < $numberParts; $i++) {
                     $parts = Part::create([
                         'plateThick' => $plateThick,
@@ -457,12 +478,15 @@ class Run extends Model
                         'coatId' => $coatId,
                         'topCoatId' => $topCoatId,
                         'topCoatTemp' => $topCoatTemp,
+                        'topCoatPer' => $topCoatPer,
                         'topCoatPH' => $topCoatPH,
                         'topCoatDiptime' => $topCoatDiptime,
+                        'primaryPer' => $primaryPer,
                         'primaryTemp' => $primaryTemp,
                         'primaryPH' => $primaryPH,
                         'primaryDiptime' => $primaryDiptime,
                         'coatTemp' => $coatTemp,
+                        'coatPer' => $coatPer,
                         'coatPH' => $coatPH,
                         'coatDiptime' => $coatDiptime,
                         'run_id' => $run->id,

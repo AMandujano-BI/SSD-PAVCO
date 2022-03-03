@@ -177,7 +177,9 @@
                 type="number"
                 class="w-[60px] disabled:bg-gray-100"
                 v-model="part.primaryPer"
-                :disabled=" part.primaryCoatId == '' || part.primaryCoatId == null "
+                :disabled="
+                  part.primaryCoatId == '' || part.primaryCoatId == null
+                "
               />
               <span class="text-center block pt-1 text-[#3b4559]">%</span>
             </div>
@@ -316,7 +318,6 @@
                 type="text"
                 class="w-[60px] disabled:bg-gray-100"
                 v-model="part.coatTemp"
-                
                 :disabled="part.coatId == '' || part.coatId == null"
               />
               <span class="text-center block pt-1 text-[#3b4559]">°F</span>

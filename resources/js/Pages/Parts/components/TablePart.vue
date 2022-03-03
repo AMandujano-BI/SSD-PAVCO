@@ -224,7 +224,10 @@ export default {
               name: "part.description",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>" + row.description + "</td>";
+                if(row.description !=null){
+                  return "<td>" + row.description + "</td>";
+                }
+                return '<td></td>'
               },
             },
             {

@@ -177,7 +177,8 @@ const useFormRun = () => {
         }
     };
 
-  
+
+ 
 
     const deleteSection =(index) =>{
         form.parts.splice(index,1)
@@ -188,7 +189,7 @@ const useFormRun = () => {
         submitForm,
         loading,
         addForm,
-        deleteSection
+        deleteSection,
 
     }
 }

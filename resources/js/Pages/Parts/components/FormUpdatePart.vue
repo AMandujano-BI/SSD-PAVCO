@@ -12,13 +12,6 @@
             :searchable="true"
             placeholder="Select Plate Type"
           />
-          <p
-            v-for="error of v$.plate_types_id.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
         </div>
         <div class="w-[180px]">
           <multi-select
@@ -75,21 +68,15 @@
             :searchable="true"
             placeholder="Select Chromates "
           />
-          <p
-            v-for="error of v$.primaryCoatId.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
         </div>
         <div class="flex gap-2">
           <div>
             <input
               type="number"
               step=".01"
-              class="w-[60px]"
+              class="w-[60px] disabled:bg-gray-100"
               v-model="form.primaryPer"
+              :disabled="form.primaryCoatId == '' || form.primaryCoatId == null"
             />
             <span class="text-center block pt-1 text-[#3b4559]">%</span>
           </div>
@@ -98,7 +85,8 @@
             <input
               type="number"
               step=".01"
-              class="w-[60px]"
+              class="w-[60px] disabled:bg-gray-100"
+              :disabled="form.primaryCoatId == '' || form.primaryCoatId == null"
               v-model="form.primaryTemp"
             />
             <span class="text-center block pt-1 text-[#3b4559]">°F</span>
@@ -107,7 +95,8 @@
             <input
               type="number"
               step=".01"
-              class="w-[60px]"
+              class="w-[60px] disabled:bg-gray-100"
+              :disabled="form.primaryCoatId == '' || form.primaryCoatId == null"
               v-model="form.primaryPH"
             />
             <span class="text-center block pt-1 text-[#3b4559]">pH</span>
@@ -116,8 +105,9 @@
             <input
               type="number"
               step=".01"
-              class="w-[60px]"
+              class="w-[60px] disabled:bg-gray-100"
               v-model="form.primaryDiptime"
+              :disabled="form.primaryCoatId == '' || form.primaryCoatId == null"
             />
             <span class="text-center block pt-1 text-[#3b4559]">sec</span>
           </div>
@@ -135,13 +125,6 @@
             :searchable="true"
             placeholder="Select TopCoat"
           />
-          <p
-            v-for="error of v$.primaryCoatId.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
         </div>
         <div class="flex flex-col">
           <div class="flex gap-2">
@@ -149,8 +132,9 @@
               <input
                 type="number"
                 step=".01"
-                class="w-[60px]"
+                class="w-[60px] disabled:bg-gray-100"
                 v-model="form.topCoatPer"
+                :disabled="form.topCoatId == '' || form.topCoatId == null"
               />
               <span class="text-center block pt-1 text-[#3b4559]">%</span>
             </div>
@@ -159,8 +143,9 @@
               <input
                 type="number"
                 step=".01"
-                class="w-[60px]"
+                class="w-[60px] disabled:bg-gray-100"
                 v-model="form.topCoatTemp"
+                :disabled="form.topCoatId == '' || form.topCoatId == null"
               />
               <span class="text-center block pt-1 text-[#3b4559]">°F</span>
             </div>
@@ -168,8 +153,9 @@
               <input
                 type="number"
                 step=".01"
-                class="w-[60px]"
+                class="w-[60px] disabled:bg-gray-100"
                 v-model="form.topCoatPH"
+                :disabled="form.topCoatId == '' || form.topCoatId == null"
               />
               <span class="text-center block pt-1 text-[#3b4559]">pH</span>
             </div>
@@ -177,8 +163,9 @@
               <input
                 type="number"
                 step=".01"
-                class="w-[60px]"
+                class="w-[60px] disabled:bg-gray-100"
                 v-model="form.topCoatDiptime"
+                :disabled="form.topCoatId == '' || form.topCoatId == null"
               />
               <span class="text-center block pt-1 text-[#3b4559]">sec</span>
             </div>
@@ -197,21 +184,15 @@
             :searchable="true"
             placeholder="Select Secondary TopCoat"
           />
-          <p
-            v-for="error of v$.coatId.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
         </div>
         <div class="flex gap-2">
           <div>
             <input
               type="number"
               step=".01"
-              class="w-[60px]"
+              class="w-[60px] disabled:bg-gray-100"
               v-model="form.coatPer"
+              :disabled="form.coatId == '' || form.coatId == null"
             />
             <span class="text-center block pt-1 text-[#3b4559]">%</span>
           </div>
@@ -220,8 +201,9 @@
             <input
               type="number"
               step=".01"
-              class="w-[60px]"
+              class="w-[60px] disabled:bg-gray-100"
               v-model="form.coatTemp"
+              :disabled="form.coatId == '' || form.coatId == null"
             />
             <span class="text-center block pt-1 text-[#3b4559]">°F</span>
           </div>
@@ -229,8 +211,9 @@
             <input
               type="number"
               step=".01"
-              class="w-[60px]"
+              class="w-[60px] disabled:bg-gray-100"
               v-model="form.coatPH"
+              :disabled="form.coatId == '' || form.coatId == null"
             />
             <span class="text-center block pt-1 text-[#3b4559]">pH</span>
           </div>
@@ -238,8 +221,9 @@
             <input
               type="number"
               step=".01"
-              class="w-[60px]"
+              class="w-[60px] disabled:bg-gray-100"
               v-model="form.coatDiptime"
+              :disabled="form.coatId == '' || form.coatId == null"
             />
 
             <span class="text-center block pt-1 text-[#3b4559]">sec</span>
@@ -370,31 +354,7 @@ export default {
       description: {
         required,
       },
-      plate_types_id: {
-        isDiferentZero: helpers.withMessage(
-          "You must select an option",
-          isDiferentZero
-        ),
-      },
-      primaryCoatId: {
-        isDiferentZero: helpers.withMessage(
-          "You must select an option",
-          isDiferentZero
-        ),
-      },
       typePlateThick: {
-        isDiferentZero: helpers.withMessage(
-          "You must select an option",
-          isDiferentZero
-        ),
-      },
-      topCoatId: {
-        isDiferentZero: helpers.withMessage(
-          "You must select an option",
-          isDiferentZero
-        ),
-      },
-      coatId: {
         isDiferentZero: helpers.withMessage(
           "You must select an option",
           isDiferentZero
