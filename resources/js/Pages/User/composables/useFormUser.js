@@ -76,7 +76,7 @@ const useFormuser = (formProps) => {
             emit('closeModal')
             emit('generateTable')
         } else {
-            makeToast("An error has occurred on the server", 'error')
+            makeToast(message, 'error')
         }
     }
 

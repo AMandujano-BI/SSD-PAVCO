@@ -13,7 +13,6 @@ class Photo extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
         'hours',
         'image',
         'description',
@@ -55,7 +54,6 @@ class Photo extends Model
             $file = $request->file('image');
             $filename = $file->getClientOriginalName();
             $run_id = $request->input('run');
-            $name = $request->input('name');
             $description = $request->input('description');
             $run_id = $request->input('run');
             $report = $request->input('report');
@@ -70,7 +68,6 @@ class Photo extends Model
                 ];  
             }
             $photo = (new static)::create([
-                'name' => $name,
                 'hours' => 0,
                 'image' =>$file_name, 
                 'description' => $description,
@@ -107,7 +104,6 @@ class Photo extends Model
         try {
 
             $photo = (new static)::find($request->id);
-            $photo->name = $request->name;
             $photo->description = $request->description;
             $photo->report = $request->report;
             if ($request->hasDiferentHours) {

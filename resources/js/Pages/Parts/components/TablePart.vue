@@ -224,71 +224,87 @@ export default {
               name: "part.description",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>" + row.description + "</td>";
+                if(row.description !=null){
+                  return "<td>" + row.description + "</td>";
+                }
+                return '<td></td>'
               },
             },
             {
               name: "part.plate_type.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return "<td>" + row.plate_type.name + "</td>";
+                if(row.plate_type?.name !=undefined){
+
+                  return "<td>" + row.plate_type?.name + "</td>";
+                }
+                return '<td></td>'
               },
             },
             {
               name: "part.chromate.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return (
-                  "<td>" +
-                  row.chromate.name +
-                  " / " +
-                  row.primaryPer +
-                  " / " +
-                  row.primaryTemp +
-                  " / " +
-                  row.primaryPH +
-                  " / " +
-                  row.primaryDiptime +
-                  "</td>"
-                );
+                if (row.chromate?.name != undefined) {
+                  return (
+                    "<td>" +
+                    row.chromate?.name +
+                    " / " +
+                    row.primaryPer +
+                    " / " +
+                    row.primaryTemp +
+                    " / " +
+                    row.primaryPH +
+                    " / " +
+                    row.primaryDiptime +
+                    "</td>"
+                  );
+                }
+                return "<td></td>";
               },
             },
             {
               name: "part.top_coat.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return (
-                  "<td>" +
-                  row.top_coat.name +
-                  " / " +
-                  row.topCoatPer +
-                  " / " +
-                  row.topCoatTemp +
-                  " / " +
-                  row.topCoatPH +
-                  " / " +
-                  row.topCoatDiptime +
-                  "</td>"
-                );
+                if (row.top_coat?.name != undefined) {
+                  return (
+                    "<td>" +
+                    row.top_coat?.name +
+                    " / " +
+                    row.topCoatPer +
+                    " / " +
+                    row.topCoatTemp +
+                    " / " +
+                    row.topCoatPH +
+                    " / " +
+                    row.topCoatDiptime +
+                    "</td>"
+                  );
+                }
+                return "<td></td>";
               },
             },
             {
               name: "part.coat.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                return (
-                  "<td>" +
-                  row.coat.name +
-                  " / " +
-                  row.coatPer +
-                  " / " +
-                  row.coatTemp +
-                  " / " +
-                  row.coatPH +
-                  " / " +
-                  row.coatDiptime +
-                  "</td>"
-                );
+                if (row.coat?.name != undefined) {
+                  return (
+                    "<td>" +
+                    row.coat?.name +
+                    " / " +
+                    row.coatPer +
+                    " / " +
+                    row.coatTemp +
+                    " / " +
+                    row.coatPH +
+                    " / " +
+                    row.coatDiptime +
+                    "</td>"
+                  );
+                }
+                return "<td></td>";
               },
             },
             {

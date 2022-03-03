@@ -20,24 +20,8 @@
         alt="image"
         class="w-full h-64 my-5 object-cover"
       />
-      <div>
-        <label class=" text-[#3b4559] font-semibold">Name</label>
-        <input
-          type="text"
-          class="w-full"
-          v-model="form.name"
-          :class="{ 'border-red-500': v$.name.$error }"
-        />
-        <p
-          v-for="error of v$.name.$errors"
-          :key="error.$uid"
-          class="text-red-400"
-        >
-          {{ error.$message }}
-        </p>
-      </div>
 
-      <div>
+      <div class="mb-2">
         <label class="w-full pb-2 block font-semibold text-[#3b4559]">Report?</label>
         <input type="radio" value="1" v-model="form.report" id="yes" />
         <label for="yes">Yes </label>
@@ -47,7 +31,7 @@
           No</label
         >
       </div>
-      <div>
+      <div class="mb-2">
         <label class=" text-[#3b4559] font-semibold">Description </label>
         <textarea
           v-model="form.description"
@@ -166,7 +150,6 @@ export default {
     const form = reactive({
       id: photoItem.id,
       description: photoItem.description,
-      name: photoItem.name,
       report: photoItem.report,
       isEdit: photoItem.isEdit,
       hours: hours,
@@ -180,7 +163,6 @@ export default {
     const { makeToast } = useHelper();
     const rules = {
       hours: { required, minValue: minValue(0) },
-      name: { required },
     };
     const v$ = useVuelidate(rules, form);
 
@@ -248,7 +230,6 @@ export default {
           }
           photos.value[index] = {
             ...photos.value[index],
-            name: form.name,
             description: form.description,
             report: form.report,
             hours: currentHours,

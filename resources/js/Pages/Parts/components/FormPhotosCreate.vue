@@ -59,22 +59,6 @@
         class="w-full h-64 my-5 object-cover"
       />
       <div>
-        <label class="text-[#3b4559] font-semibold">Name</label>
-        <input
-          type="text"
-          class="w-full"
-          v-model="form.name"
-          :class="{ 'border-red-500': v$.name.$error }"
-        />
-        <p
-          v-for="error of v$.name.$errors"
-          :key="error.$uid"
-          class="text-red-400"
-        >
-          {{ error.$message }}
-        </p>
-      </div>
-      <div>
         <label class="text-[#3b4559] font-semibold">Date Added</label>
         <input
           type="date"
@@ -184,7 +168,6 @@ export default {
     const { makeToast, getCurrentDate } = useHelper();
     const form = reactive({
       description: "",
-      name: "",
       report: 1,
       // hours: "",
       // start_date: new Date().toISOString().slice(0, 10),
@@ -196,7 +179,6 @@ export default {
     const image = ref(null);
     const rules = {
       hours: { required },
-      name: { required },
       image: { required },
     };
     const v$ = useVuelidate(rules, form);
@@ -226,7 +208,6 @@ export default {
         formData.append("image", form.image);
         formData.append("run", run_id);
         formData.append("description", form.description);
-        formData.append("name", form.name);
         formData.append("hours", form.hours);
         formData.append("report", form.report);
         const res = await axios.post(`/photo`, formData, {

@@ -10,27 +10,36 @@
 
 <body>
     <style>
- 
-        @page{margin: 0px;} .body__first{margin: 0;font-family: Helvetica}
-        
+        @page {
+            margin: 0px;
+        }
+
+        .body__first {
+            margin: 0;
+            font-family: Helvetica
+        }
+
         .rectangle {
             width: 130px;
-            position:absolute;
+            position: absolute;
             height: 40px;
             margin: 0 63px 0px 0;
             padding: 30px 54.8px 69px 54px;
             background-color: #0271c5 !important;
         }
+
         img.PavcoWhite {
-          margin-top: 10px;
-          width: 126.2px;
-          object-fit: contain;
+            margin-top: 10px;
+            width: 126.2px;
+            object-fit: contain;
         }
-        .content{
+
+        .content {
             background-color: white;
             height: 139px;
             position: relative;
         }
+
         .title {
             margin: 50px 69px 41px 300px;
             font-size: 20px;
@@ -38,7 +47,8 @@
             color: #3b4559;
             position: absolute;
         }
-        .header{
+
+        .header {
             width: 100%;
             /* height: 50px; */
             background-color: #e1e8f3;
@@ -46,17 +56,20 @@
             padding-bottom: 35px;
             /* display: grid; */
         }
-        .top-separation{
+
+        .top-separation {
             margin-top: 10px;
         }
-        .subheader{
+
+        .subheader {
             /* height: 22px; */
             margin: 35px 70px 64px 54px;
             font-size: 16px;
             font-weight: bold;
             color: #34689c;
         }
-        .subheader__content{
+
+        .subheader__content {
             /* height: 22px; */
             margin-left: 54px;
             margin-right: 70px;
@@ -64,36 +77,43 @@
             font-weight: bold;
             color: #34689c;
         }
+
         .subheader__label {
             margin-right: 70px;
             font-size: 16px;
             font-weight: bold;
             color: #34689c;
         }
-        .subheader__value{
+
+        .subheader__value {
             font-weight: normal;
             color: #3b4559;
         }
+
         body {
             background-color: #f8fafc;
         }
-        .table__container{
+
+        .table__container {
             margin: 34px 34px 34px 34px;
-            
+
         }
-        table{
+
+        table {
             background-color: white;
             border: none;
             border-collapse: collapse;
         }
-        th{
+
+        th {
             color: #3b4559;
             font-size: 16px;
             font-weight: bold;
             height: 72px;
             border: none;
         }
-        td{
+
+        td {
             border-top: 1px solid #979797 !important;
             color: #3b4559;
             font-size: 16px;
@@ -103,8 +123,9 @@
             padding-bottom: 13px;
             padding-left: 13px;
         }
-        .notes__label{
-            color: #34689c;   
+
+        .notes__label {
+            color: #34689c;
             font-size: 16px;
             font-weight: bold;
             margin-left: 34px;
@@ -114,7 +135,7 @@
     <div class='body__first'>
         <div class='content'>
             <span class='rectangle'>
-                <img src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png'  class='PavcoWhite'>
+                <img src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png' class='PavcoWhite'>
                 <!-- srcset='pavco@2x.png 2x, pavco@3x.png 3x' -->
             </span>
             <span class='title'>Salt Spray Report Results</span>
@@ -133,7 +154,7 @@
         </div>
         <div class='body'>
             <div class='table__container'>
-                <table cellspacing='10' style='width:100%;' >
+                <table cellspacing='10' style='width:100%;'>
                     <thead>
                         <tr>
                             <th>Desc</th>
@@ -148,54 +169,115 @@
                     <tbody>
                         @foreach ($allParts as $part)
                         @if (
-                                    $part->topCoatPer != null || $part->topCoatTemp != null || $part->topCoatPH != null || $part->topCoatDiptime != null ||
-                                    $part->primaryPer != null || $part->primaryTemp != null || $part->primaryPH != null || $part->primaryDiptime != null ||
-                                    $part->coatPer != null || $part->coatTemp != null || $part->coatPH != null || $part->coatDiptime != null
-                                    )
+                        $part->topCoatPer != null || $part->topCoatTemp != null || $part->topCoatPH != null || $part->topCoatDiptime != null ||
+                        $part->primaryPer != null || $part->primaryTemp != null || $part->primaryPH != null || $part->primaryDiptime != null ||
+                        $part->coatPer != null || $part->coatTemp != null || $part->coatPH != null || $part->coatDiptime != null
+                        )
                         <tr style="text-align: center;">
                             <td style="text-align: center;">{{$part->description}}</td>
-                            <td style="text-align: center;">{{$part->plateType->name}}</td>
                             <td style="text-align: center;">
-                                {{$part->chromate->name}} /
-                                {{$part->primaryPer}}% /
-                                {{$part->primaryTemp}}° /
-                                {{$part->primaryPH}}pH /
-                                {{$part->primaryDiptime}}sec
-                            </td>
-                            <td style="text-align: center;">
-                                {{$part->topCoat->name}} /
-                                {{$part->topCoatPer}}% /
-                                {{$part->topCoatTemp}}° /
-                                {{$part->topCoatPH}}pH /
-                                {{$part->topCoatDiptime}}sec
-                            </td>
-                            <td style="text-align: center;">
-                                {{$part->coat->name}} /
-                                {{$part->coatPer}}% /
-                                {{$part->coatTemp}}° /
-                                {{$part->coatPH}}pH /
-                                {{$part->coatDiptime}}sec
-                            </td>
-                            <td style="text-align: center;">
-                                @if ( $part->isWs != null)  
-                                    {{$part->hoursWs}} hrs
-                                @else
-                                    @if ($run_status == 1)
-                                        Removet at {{$hours}} hrs
-                                    @else
-                                        Active
-                                    @endif
+                                @if($part->plateType)
+                                {{$part->plateType->name}}
                                 @endif
                             </td>
                             <td style="text-align: center;">
-                                @if ( $part->isRs != null)  
-                                    {{$part->hoursRs}} hrs
+                                @if($part->chromate)
+
+
+                                {{$part->chromate->name}}
+
+                                @if($part->primaryPer !=null)
+                                <span> / {{$part->primaryPer}} % </span>
+
+                                @endif
+
+
+                                @if($part->primaryTemp!=null)
+                                <span>/ {{$part->primaryTemp}} ° </span>
+                                @endif
+
+                                @if($part->primaryPH!=null)
+                                <span>/ {{$part->primaryPH}} pH </span>
+                                @endif
+
+
+                                @if($part->primaryDiptime!=null)
+                                <span>/ {{$part->primaryDiptime}} sec </span>
+                                @endif
+
+
+
+                                @endif
+                            </td>
+                            <td style="text-align: center;">
+                                @if($part->topCoat)
+
+                                {{$part->topCoat->name}}
+
+
+                                @if($part->topCoatPer !=null)
+                                <span>/ {{$part->topCoatPer}} %</span>
+                                @endif
+
+
+                                @if($part->topCoatTemp !=null)
+                                <span>/ {{$part->topCoatTemp}} ° </span>
+                                @endif
+
+                                @if($part->topCoatPH!=null)
+                                <span>/ {{$part->topCoatPH}} pH </span>
+                                @endif
+
+                                @if($part->topCoatDiptime!=null)
+                                <span>/ {{$part->topCoatDiptime}} sec </span>
+                                @endif
+
+                                @endif
+                            </td>
+                            <td style="text-align: center;">
+
+                                @if($part->coat)
+                                {{$part->coat->name}}
+
+                                @if($part->coatPer!=null)
+                                <span>/ {{$part->coatPer}} %</span>
+                                @endif
+
+
+                                @if($part->coatTemp!=null)
+                                <span>/ {{$part->coatTemp}} °</span>
+                                @endif
+
+                                @if($part->coatPH!=null)
+                                <span>/ {{$part->coatPH}} pH</span>
+                                @endif
+
+                                @if($part->coatDiptime!=null)
+                                <span>/ {{$part->coatDiptime}} sec</span>
+                                @endif
+
+                                @endif
+                            </td>
+                            <td style="text-align: center;">
+                                @if ( $part->isWs != null)
+                                {{$part->hoursWs}} hrs
                                 @else
-                                    @if ($run_status == 1)
-                                        Removet at {{$hours}} hrs
-                                    @else
-                                        Active
-                                    @endif
+                                @if ($run_status == 1)
+                                Removed at {{$hours}} hrs
+                                @else
+                                Active
+                                @endif
+                                @endif
+                            </td>
+                            <td style="text-align: center;">
+                                @if ( $part->isRs != null)
+                                {{$part->hoursRs}} hrs
+                                @else
+                                @if ($run_status == 1)
+                                Removed at {{$hours}} hrs
+                                @else
+                                Active
+                                @endif
                                 @endif
                             </td>
                         </tr>
@@ -205,7 +287,7 @@
                 </table>
             </div>
             <div class='top-separation'>
-                <div class='notes__label'>Notes: <span class='subheader__value'>Parts were salts sprayed using the guidelines of the ASTM B-117.</span></div>
+                <div class='notes__label'>Notes: <span class='subheader__value'>Parts were salt sprayed using the guidelines of the ASTM B-117.</span></div>
             </div>
             <div class='top-separation'>
                 <div class='notes__label'>Notes: <span class='subheader__value'>Pavco is not an independent testing laboratory. These results are for your information only and should be verified by an independent testing laboratory. </span></div>

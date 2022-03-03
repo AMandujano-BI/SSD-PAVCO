@@ -69,6 +69,34 @@ class Part extends Model
             $run_id = $request->run_id;
             $topCoatId = $request->topCoatId;
 
+
+            if ($plate_types_id== '' || $plate_types_id == 0) $plate_types_id = null;
+            if ($primaryCoatId == '' || $primaryCoatId == 0) $primaryCoatId = null;
+            if ($coatId == '' || $coatId == 0) $coatId = null;
+            if ($topCoatId == '' || $topCoatId == 0) $topCoatId = null;
+            if ($plate_types_id == '' || $plate_types_id == 0) $plate_types_id = null;
+
+
+            if ($primaryCoatId == null) {
+                $primaryPer = null;
+                $primaryPH = null;
+                $primaryDiptime = null;
+                $primaryTemp = null;
+            }
+            if ($coatId == null) {
+                $coatPer = null;
+                $coatPH = null;
+                $coatDiptime = null;
+                $coatTemp = null;
+            }
+            if ($topCoatId == null) {
+                $topCoatPH = null;
+                $topCoatTemp = null;
+                $topCoatDiptime = null;
+                $topCoatPer = null;
+            }
+
+
             $partCreate = (new static)::create([
                 'plateThick' => $plateThick,
                 'typePlateThick' => $typePlateThick,
@@ -121,6 +149,32 @@ class Part extends Model
         DB::beginTransaction();
         try {
             $part = (new static)::find($id);
+            if ($request->plate_types_id== '' || $request->plate_types_id == 0) $request->plate_types_id = null;
+            if ($request->primaryCoatId == '' || $request->primaryCoatId == 0) $part->primaryCoatId = null;
+            if ($request->coatId == '' || $request->coatId == 0) $request->coatId = null;
+            if ($request->topCoatId == '' || $request->topCoatId == 0) $request->topCoatId = null;
+            if ($request->plate_types_id == '' || $request->plate_types_id == 0) $request->plate_types_id = null;
+
+
+            if ($request->primaryCoatId == null) {
+                $request->primaryPer = null;
+                $request->primaryPH = null;
+                $request->primaryDiptime = null;
+                $request->primaryTemp = null;
+            }
+            if ($request->coatId == null) {
+                $request->coatPer = null;
+                $request->coatPH = null;
+                $request->coatDiptime = null;
+                $request->coatTemp = null;
+            }
+            if ($request->topCoatId == null) {
+                $request->topCoatPH = null;
+                $request->topCoatTemp = null;
+                $request->topCoatDiptime = null;
+                $request->topCoatPer = null;
+            }
+
             $part->description = $request->description;
             $part->topCoatPer = $request->topCoatPer;
             $part->topCoatTemp = $request->topCoatTemp;

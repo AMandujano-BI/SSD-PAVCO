@@ -150,7 +150,7 @@ class User extends Authenticatable
             DB::rollback();
             return [
                 'ok' => false,
-                'message' => $e->getMessage(),
+                'message' => 'An error has occurred on the server',
                 'value' => 0
             ];
         }

@@ -112,32 +112,6 @@ const useFormRun = () => {
                         isDiferentZero
                     ),
                 },
-                primaryCoatId: {
-                    isDiferentZero: helpers.withMessage(
-                        "You must select an option",
-                        isDiferentZero
-                    ),
-                },
-                topCoatId: {
-                    isDiferentZero: helpers.withMessage(
-                        "You must select an option",
-                        isDiferentZero
-                    ),
-
-                },
-                coatId: {
-                    isDiferentZero: helpers.withMessage(
-                        "You must select an option",
-                        isDiferentZero
-                    ),
-
-                },
-                plate_types_id: {
-                    isDiferentZero: helpers.withMessage(
-                        "You must select an option",
-                        isDiferentZero
-                    ),
-                },
 
 
             })
@@ -203,7 +177,8 @@ const useFormRun = () => {
         }
     };
 
-  
+
+ 
 
     const deleteSection =(index) =>{
         form.parts.splice(index,1)
@@ -214,7 +189,7 @@ const useFormRun = () => {
         submitForm,
         loading,
         addForm,
-        deleteSection
+        deleteSection,
 
     }
 }

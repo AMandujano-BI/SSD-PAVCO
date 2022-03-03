@@ -30,14 +30,10 @@ class CreatePartsTable extends Migration
             $table->string('coatPH', 50)->nullable();;
             $table->string('coatDiptime', 50)->nullable();;
             // Relations
-            $table->unsignedBigInteger('plate_types_id');
-            $table->foreign('plate_types_id')->references('id')->on('chemicals');
-            $table->unsignedBigInteger('primaryCoatId');
-            $table->foreign('primaryCoatId')->references('id')->on('chemicals');
-            $table->unsignedBigInteger('coatId');
-            $table->foreign('coatId')->references('id')->on('chemicals');
-            $table->unsignedBigInteger('topCoatId');
-            $table->foreign('topCoatId')->references('id')->on('chemicals');
+            $table->foreignId('plate_types_id')->nullable()->constrained('chemicals');
+            $table->foreignId('primaryCoatId')->nullable()->constrained('chemicals');
+            $table->foreignId('coatId')->nullable()->constrained('chemicals');
+            $table->foreignId('topCoatId')->nullable()->constrained('chemicals');
             $table->foreignId('run_id')->constrained();
             $table->timestamps();
         });

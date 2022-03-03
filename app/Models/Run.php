@@ -206,34 +206,33 @@ class Run extends Model
         }
     }
 
-    public static function getAllRunByDate($startDate,$endDate,$status)
+    public static function getAllRunByDate($startDate, $endDate, $status)
     {
         $startDate = str_replace("'", '', $startDate);
         $endDate = str_replace("'", '', $endDate);
-            if ($status == 3) {
-                $run = (new static)::with([
-                    'method',
-              
-                    'company',
-                ])
-                    ->where('status', '!=', 2)
-                    ->whereBetween('runs.start_date',[$startDate,$endDate])
-                    ->get();
-                return $run;
-            } else {
+        if ($status == 3) {
+            $run = (new static)::with([
+                'method',
 
-                $run = (new static)::with([
-                    'method',
-               
-                    'company',
-                ])
-                    ->where('status', '!=', 2)
-                    ->where('status', $status)
-                    // ->whereDate('runs.start_date',$request->startDate)
-                    ->get();
-                return $run;
-            }
-        
+                'company',
+            ])
+                ->where('status', '!=', 2)
+                ->whereBetween('runs.start_date', [$startDate, $endDate])
+                ->get();
+            return $run;
+        } else {
+
+            $run = (new static)::with([
+                'method',
+
+                'company',
+            ])
+                ->where('status', '!=', 2)
+                ->where('status', $status)
+                ->whereBetween('runs.start_date', [$startDate, $endDate])
+                ->get();
+            return $run;
+        }
     }
 
 
@@ -318,14 +317,14 @@ class Run extends Model
                 ->find($request->runId);
 
             $runHours = $request->hours;
-            
 
-            foreach ($run->parts as $runPart ) {                             // se recorren parts del run
+
+            foreach ($run->parts as $runPart) {                             // se recorren parts del run
                 for ($j = 0; $j < count($request->parts); $j++) {            // Se recorre el Request
-                    if ( $runPart->id == $request->parts[$j]['id']) {        // se comparan los ids
+                    if ($runPart->id == $request->parts[$j]['id']) {        // se comparan los ids
                         $part = Part::find($runPart->id);
-                        
-                        if( $request->parts[$j]['rs'] == true && $runPart->isRs == null) {   // primera vez checkeado
+
+                        if ($request->parts[$j]['rs'] == true && $runPart->isRs == null) {   // primera vez checkeado
                             $part->isRs = true;
                             $part->hoursRs = $runHours;
                         } else {
@@ -338,7 +337,7 @@ class Run extends Model
                             }
                         }
                         // dd($request->parts[$j]['ws'], $runPart->isWs, $request->parts[$j]['hoursWs']);
-                        if(  $request->parts[$j]['ws'] == true && $runPart->isWs == null) { // primera vez checkeado
+                        if ($request->parts[$j]['ws'] == true && $runPart->isWs == null) { // primera vez checkeado
                             $part->isWs = true;
                             $part->hoursWs = $runHours;
                         } else {
@@ -352,10 +351,9 @@ class Run extends Model
 
                         $part->save();
                     }
-                    
                 }
             }
-            
+
             // $run->save();
             DB::commit();
             return [
@@ -371,12 +369,12 @@ class Run extends Model
             ];
         }
 
-   
+
 
         // return $run;
     }
 
-    public static function updateHours($request) 
+    public static function updateHours($request)
     {
         DB::beginTransaction();
         try {
@@ -409,10 +407,6 @@ class Run extends Model
         DB::beginTransaction();
         try {
             $user = auth()->user();
-            // $date = Carbon::parse($request->start_date)->format('Y-m-d H:i');
-
-            // $startDate = Carbon::parse()->setTimezone('UTC');
-            // dd($request->parts);
             $countParts = 1;
             $start_date = $request->start_date;
             $description = $request->description;
@@ -432,26 +426,58 @@ class Run extends Model
             $run->save();
 
             $parts =  $request->parts;
-            // dd($parts[1]);
 
             for ($j = 0; $j < count($request->parts); $j++) {
                 $typePlateThick = $request->parts[$j]['typePlateThick'] ?? null;
                 $plateThick = $request->parts[$j]['plateThick'] ?? null;
+                $topCoatPer = $request->parts[$j]['topCoatPer'] ?? null;
                 $topCoatTemp = $request->parts[$j]['topCoatTemp'] ?? null;
                 $topCoatPH = $request->parts[$j]['topCoatPH'] ?? null;
                 $topCoatDiptime = $request->parts[$j]['topCoatDiptime'] ?? null;
                 $primaryTemp = $request->parts[$j]['primaryTemp'] ?? null;
+                $primaryPer = $request->parts[$j]['primaryPer'] ?? null;
                 $primaryPH = $request->parts[$j]['primaryPH'] ?? null;
                 $primaryDiptime = $request->parts[$j]['primaryDiptime'] ?? null;
+                $coatPer = $request->parts[$j]['coatPer'] ?? null;
                 $coatTemp = $request->parts[$j]['coatTemp'] ?? null;
                 $coatPH = $request->parts[$j]['coatPH'] ?? null;
                 $coatDiptime = $request->parts[$j]['coatDiptime'] ?? null;
                 $numberParts = $request->parts[$j]['numberParts'];
-                $primaryCoatId = $request->parts[$j]['primaryCoatId'];
-                $coatId = $request->parts[$j]['coatId'];
-                $topCoatId = $request->parts[$j]['topCoatId'];
 
-                $plate_types_id = $request->parts[$j]['plate_types_id'];
+
+                $primaryCoatId = $request->parts[$j]['primaryCoatId'] ?? null;
+                $coatId = $request->parts[$j]['coatId'] ?? null;
+                $topCoatId = $request->parts[$j]['topCoatId'] ?? null;
+
+                $plate_types_id = $request->parts[$j]['plate_types_id'] ?? null;
+
+                if ($primaryCoatId == '' || $primaryCoatId == 0) $primaryCoatId = null;
+                if ($coatId == '' || $coatId == 0) $coatId = null;
+                if ($topCoatId == '' || $topCoatId == 0) $topCoatId = null;
+                if ($plate_types_id == '' || $plate_types_id == 0) $plate_types_id = null;
+
+
+
+                if ($primaryCoatId == null) {
+                    $primaryPer = null;
+                    $primaryPH = null;
+                    $primaryDiptime = null;
+                    $primaryTemp = null;
+                }
+                if ($coatId == null) {
+                    $coatPer = null;
+                    $coatPH = null;
+                    $coatDiptime = null;
+                    $coatTemp = null;
+                }
+                if ($topCoatId == null) {
+                    $topCoatPH = null;
+                    $topCoatTemp = null;
+                    $topCoatDiptime = null;
+                    $topCoatPer = null;
+                }
+
+
 
                 for ($i = 0; $i < $numberParts; $i++) {
                     $parts = Part::create([
@@ -463,12 +489,15 @@ class Run extends Model
                         'coatId' => $coatId,
                         'topCoatId' => $topCoatId,
                         'topCoatTemp' => $topCoatTemp,
+                        'topCoatPer' => $topCoatPer,
                         'topCoatPH' => $topCoatPH,
                         'topCoatDiptime' => $topCoatDiptime,
+                        'primaryPer' => $primaryPer,
                         'primaryTemp' => $primaryTemp,
                         'primaryPH' => $primaryPH,
                         'primaryDiptime' => $primaryDiptime,
                         'coatTemp' => $coatTemp,
+                        'coatPer' => $coatPer,
                         'coatPH' => $coatPH,
                         'coatDiptime' => $coatDiptime,
                         'run_id' => $run->id,
