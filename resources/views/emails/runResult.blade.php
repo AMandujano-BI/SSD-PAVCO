@@ -331,7 +331,7 @@
                 </div>
                 <!--[if (mso)|(IE)]></td><![endif]-->
                 <!--[if (mso)|(IE)]><td align="center" width="300" style="background-color: #e1e8f3;width: 300px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
-             
+
               </div>
             </div>
           </div>
@@ -343,7 +343,7 @@
                 <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:900px;"><tr style="background-color: transparent;"><![endif]-->
 
                 <!--[if (mso)|(IE)]><td align="center" width="900" style="background-color: #e1e8f3;width: 900px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
-         
+
                 <div class="u-col u-col-66p67" style="max-width: 320px;min-width: 900px;display: table-cell;vertical-align: top;">
                   <div style="background-color: #e1e8f3;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
                     <!--[if (!mso)&(!IE)]><!-->
@@ -495,11 +495,41 @@
                                     $part->coatPer != null || $part->coatTemp != null || $part->coatPH != null || $part->coatDiptime != null
                                     )
                                     <tr style=" border-top: 1px solid #979797;padding:5px;">
-                                      <td data-label="Part Description">{{$part->description}}</td>
-                                      <td data-label="Plate Type">{{$part->plateType->name}}</td>
-                                      <td data-label="Primary Coat">{{$part->chromate->name}} - {{$part->primaryPer}} %</td>
-                                      <td data-label="Coat">{{$part->coat->name}} - {{$part->coatPer}} %</td>
-                                      <td data-label="Account">{{$part->topCoat->name}} - {{$part->topCoatPer}} %</td>
+                                      <td data-label="Part Description" style="text-align: center;">{{$part->description}}</td>
+                                      <td data-label="Plate Type" style="text-align: center;">
+                                        @if($part->plateType)
+                                        {{$part->plateType->name}}
+                                        @endif
+
+                                      </td>
+                                      <td data-label="Primary Coat" style="text-align: center;">
+                                        @if($part->chromate)
+                                        {{$part->chromate->name}} - {{$part->primaryPer}} %
+
+                                        @endif
+
+                                      </td>
+                                      <td data-label="Coat" style="text-align: center;">
+                                        @if($part->coat)
+                                        {{$part->coat->name}}
+
+                                        @if($part->coatPer!=null)
+                                        <span> - {{$part->coatPer}} %</span>
+                                        @endif
+
+                                        @endif
+
+                                      </td>
+                                      <td data-label="Account" style="text-align: center;">
+                                        @if($part->topCoat)
+                                        {{$part->topCoat->name}}
+                                        @if($part->coatPer!=null)
+                                        <span> - {{$part->topCoatPer}} % </span>
+
+                                        @endif
+
+                                        @endif
+                                      </td>
                                     </tr>
                                     @endif
                                     @endforeach
