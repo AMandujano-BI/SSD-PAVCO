@@ -270,15 +270,18 @@ export default {
     };
 
     const apply = (jsonData) => {
+      // console.log(jsonData);
       let idArr;
       let indexArr;
       let hourArr = Number(jsonData.hours);
+      // console.log(hourArr);
       jsonData.arrayId.forEach(id => {
         idArr = Number(id);
         indexArr = dataDailyHours.value.findIndex(run => run.id === idArr);
+        // console.log(dataDailyHours.value[indexArr].hours);
         dataDailyHours.value[indexArr].isEdit = true
         dataDailyHours.value[indexArr].last_edit = new Date()
-        dataDailyHours.value[indexArr].hours = hourArr
+        dataDailyHours.value[indexArr].hours += hourArr
       });
       openModal.value = false;
     }

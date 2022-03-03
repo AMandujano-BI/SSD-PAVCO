@@ -329,14 +329,25 @@ class Run extends Model
                             $part->isRs = true;
                             $part->hoursRs = $runHours;
                         } else {
-                            $part->hoursRs = $request->parts[$j]['hoursRs'];
+                            if( empty($request->parts[$j]['hoursRs']) && $runPart->isRs == true ) {
+                                // dd('void', $request->parts[$j]['id']);
+                                $part->isRs = false;
+                                $part->hoursRs = null;
+                            } else {
+                                $part->hoursRs = $request->parts[$j]['hoursRs'];
+                            }
                         }
                         // dd($request->parts[$j]['ws'], $runPart->isWs, $request->parts[$j]['hoursWs']);
                         if(  $request->parts[$j]['ws'] == true && $runPart->isWs == null) { // primera vez checkeado
                             $part->isWs = true;
                             $part->hoursWs = $runHours;
                         } else {
-                            $part->hoursWs = $request->parts[$j]['hoursWs'];
+                            if( empty($request->parts[$j]['hoursWs']) && $runPart->isWs == true ) {
+                                $part->isWs = false;
+                                $part->hoursWs = null;
+                            } else {
+                                $part->hoursWs = $request->parts[$j]['hoursWs'];
+                            }
                         }
 
                         $part->save();
@@ -371,7 +382,7 @@ class Run extends Model
         try {
             foreach ($request->arrayId as $runId) {
                 $run = (new static)::find($runId);
-                $run->hours = $request->hours;
+                $run->hours += $request->hours;
                 
                 $run->last_edit = Carbon::now();
                 $run->isEdit = true;

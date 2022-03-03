@@ -703,7 +703,7 @@ export default {
       res.data.data.forEach((element) => {
         parts.value.push({
           id: element.id,
-          ws: element.isRs === null ? false : element.isWs,
+          ws: element.isWs === null ? false : element.isWs,
           rs: element.isRs === null ? false : element.isRs,
           hoursWs: element.hoursWs,
           hoursRs: element.hoursRs,
@@ -1097,7 +1097,9 @@ export default {
 
     const getHoursWs = (hours, id) => {
       isWsRsChanges.value = true;
-      const hoursWs = Number(hours);
+      let hoursWs;
+      (hours !== '') ? hoursWs = Number(hours) : hoursWs = null;
+      // console.log(hoursWs)
       const idHWs = Number(id);
       const hwsPos = parts.value.findIndex((el) => el.id === idHWs);
       parts.value[hwsPos].hoursWs = hoursWs;
@@ -1106,7 +1108,9 @@ export default {
 
     const getHoursRs = (hours, id) => {
       isWsRsChanges.value = true;
-      const hoursRs = Number(hours);
+      let hoursRs;
+      (hours !== '') ? hoursRs = Number(hours) : hoursRs = null;
+      // console.log(hoursRs);
       const idHrss = Number(id);
       const hrssPos = parts.value.findIndex((el) => el.id === idHrss);
       parts.value[hrssPos].hoursRs = hoursRs;

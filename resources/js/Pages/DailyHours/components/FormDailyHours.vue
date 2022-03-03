@@ -6,7 +6,7 @@
     <input
       type="text"
       class="w-full"
-      placeholder="Change Hours"
+      placeholder="Add Hours"
       v-model="form.hours"
     />
     <p v-for="error of v$.hours.$errors" :key="error.$uid" class="text-red-400">
