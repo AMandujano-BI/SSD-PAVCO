@@ -104,7 +104,7 @@
             </p>
           </div>
           <div class="w-full flex justify-between gap-2">
-            <div class="w-full  md:w-[210px]">
+            <div class="w-full md:w-[210px]">
               <multi-select
                 :options="[
                   {
@@ -175,8 +175,9 @@
               <input
                 step=".01"
                 type="number"
-                class="w-[60px]"
+                class="w-[60px] disabled:bg-gray-100"
                 v-model="part.primaryPer"
+                :disabled=" part.primaryCoatId == '' || part.primaryCoatId == null "
               />
               <span class="text-center block pt-1 text-[#3b4559]">%</span>
             </div>
@@ -185,8 +186,11 @@
               <input
                 step=".01"
                 type="number"
-                class="w-[60px]"
+                class="w-[60px] disabled:bg-gray-100"
                 v-model="part.primaryTemp"
+                :disabled="
+                  part.primaryCoatId == '' || part.primaryCoatId == null
+                "
               />
               <span class="text-center block pt-1 text-[#3b4559]">°F</span>
             </div>
@@ -194,7 +198,10 @@
               <input
                 step=".01"
                 type="number"
-                class="w-[60px]"
+                class="w-[60px] disabled:bg-gray-100"
+                :disabled="
+                  part.primaryCoatId == '' || part.primaryCoatId == null
+                "
                 v-model="part.primaryPH"
               />
               <span class="text-center block pt-1 text-[#3b4559]">pH</span>
@@ -202,8 +209,11 @@
             <div>
               <input
                 type="text"
-                class="w-[60px]"
+                class="w-[60px] disabled:bg-gray-100"
                 v-model="part.primaryDiptime"
+                :disabled="
+                  part.primaryCoatId == '' || part.primaryCoatId == null
+                "
               />
               <span class="text-center block pt-1 text-[#3b4559]">sec</span>
             </div>
@@ -232,23 +242,39 @@
           </div>
           <div class="flex gap-2">
             <div>
-              <input type="text" class="w-[60px]" v-model="part.topCoatPer" />
+              <input
+                type="text"
+                class="w-[60px] disabled:bg-gray-100"
+                v-model="part.topCoatPer"
+                :disabled="part.topCoatId == '' || part.topCoatId == null"
+              />
               <span class="text-center block pt-1 text-[#3b4559]">%</span>
             </div>
 
             <div>
-              <input type="text" class="w-[60px]" v-model="part.topCoatTemp" />
+              <input
+                type="text"
+                class="w-[60px] disabled:bg-gray-100"
+                v-model="part.topCoatTemp"
+                :disabled="part.topCoatId == '' || part.topCoatId == null"
+              />
               <span class="text-center block pt-1 text-[#3b4559]">°F</span>
             </div>
             <div>
-              <input type="text" class="w-[60px]" v-model="part.topCoatPH" />
+              <input
+                type="text"
+                class="w-[60px] disabled:bg-gray-100"
+                v-model="part.topCoatPH"
+                :disabled="part.topCoatId == '' || part.topCoatId == null"
+              />
               <span class="text-center block pt-1 text-[#3b4559]">pH</span>
             </div>
             <div>
               <input
                 type="text"
-                class="w-[60px]"
+                class="w-[60px] disabled:bg-gray-100"
                 v-model="part.topCoatDiptime"
+                :disabled="part.topCoatId == '' || part.topCoatId == null"
               />
               <span class="text-center block pt-1 text-[#3b4559]">sec</span>
             </div>
@@ -261,7 +287,7 @@
           <div class="w-full">
             <multi-select
               :options="secondaryCoats"
-              class="w-full"
+              class="w-full disabled:bg-gray-100"
               v-model="part.coatId"
               :searchable="true"
               placeholder="Select Secondary TopCoat"
@@ -276,20 +302,41 @@
           </div>
           <div class="flex gap-2">
             <div>
-              <input type="text" class="w-[60px]" v-model="part.coatPer" />
+              <input
+                type="text"
+                class="w-[60px] disabled:bg-gray-100"
+                v-model="part.coatPer"
+                :disabled="part.coatId == '' || part.coatId == null"
+              />
               <span class="text-center block pt-1 text-[#3b4559]">%</span>
             </div>
 
             <div>
-              <input type="text" class="w-[60px]" v-model="part.coatTemp" />
+              <input
+                type="text"
+                class="w-[60px] disabled:bg-gray-100"
+                v-model="part.coatTemp"
+                
+                :disabled="part.coatId == '' || part.coatId == null"
+              />
               <span class="text-center block pt-1 text-[#3b4559]">°F</span>
             </div>
             <div>
-              <input type="text" class="w-[60px]" v-model="part.coatPH" />
+              <input
+                type="text"
+                class="w-[60px] disabled:bg-gray-100"
+                v-model="part.coatPH"
+                :disabled="part.coatId == '' || part.coatId == null"
+              />
               <span class="text-center block pt-1 text-[#3b4559]">pH</span>
             </div>
             <div>
-              <input type="text" class="w-[60px]" v-model="part.coatDiptime" />
+              <input
+                type="text"
+                class="w-[60px] disabled:bg-gray-100"
+                v-model="part.coatDiptime"
+                :disabled="part.coatId == '' || part.coatId == null"
+              />
               <span class="text-center block pt-1 text-[#3b4559]">sec</span>
             </div>
           </div>
@@ -401,7 +448,8 @@ export default {
     multiSelect: Multiselect,
   },
   setup(props, { emit }) {
-    const { form, v$, submitForm, loading, options, addForm, deleteSection } = useFormRun();
+    const { form, v$, submitForm, loading, options, addForm, deleteSection } =
+      useFormRun();
     const closeModal = () => emit("closeModal");
     return {
       v$,
