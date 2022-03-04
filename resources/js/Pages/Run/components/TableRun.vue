@@ -262,6 +262,7 @@ export default {
     const filterOption = ref(3);
     const rolConditional = ref(Inertia.page.props.auth.rols[0].id);
     const modalEmail = ref(false);
+    let table
     const onSwiper = (swiper) => {};
     const onSlideChange = () => {};
     onUnmounted(()=>{
@@ -276,12 +277,12 @@ export default {
       $("#filterRunInput")
         .off()
         .keyup(function () {
-          $("#activeRuns").DataTable().search(this.value).draw();
+         table?.search(this.value).draw();
         });
       $("#filterRunInputBot")
         .off()
         .keyup(function () {
-          $("#activeRuns").DataTable().search(this.value).draw();
+          table?.search(this.value).draw();
         });
     });
     const findRun = (id) => {
@@ -414,7 +415,6 @@ export default {
     };
     const gettingData = async (status = 3) => {
       try {
-        $("#activeRuns").DataTable().clear().destroy();
         await generateDataTable(status);
       } catch (e) {
         console.log(e);
@@ -713,8 +713,9 @@ export default {
     ];
     const generateDataTable = (status) => {
       const self = this;
+      table?.clear().destroy();
       nextTick(() => {
-        $("#activeRuns").DataTable({
+        table =$("#activeRuns").DataTable({
           ordering: true,
           bLengthChange: false,
           pageLength: 10,
