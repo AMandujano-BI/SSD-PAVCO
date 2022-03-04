@@ -485,6 +485,7 @@ class Run extends Model
                 for ($i = 0; $i < $numberParts; $i++) {
                     $parts = Part::create([
                         'plateThick' => $plateThick,
+                        'number'=>$countParts,
                         'typePlateThick' => $typePlateThick,
                         'description' => 'Part number ' . $countParts,
                         'plate_types_id' => $plate_types_id,

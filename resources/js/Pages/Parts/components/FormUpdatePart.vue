@@ -365,10 +365,8 @@ export default {
     };
     const submitForm = async () => {
       try {
-        console.log(v$.value)
         const isFormCorrect = await v$.value.$validate();
         const id = form.id;
-        console.log(isFormCorrect)
         if (!isFormCorrect) return;
         let res;
         loading.value = true;

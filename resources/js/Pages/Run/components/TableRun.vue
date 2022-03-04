@@ -205,7 +205,7 @@
 
 <script>
 import { Navigation, Pagination } from "swiper";
-import { ref, nextTick } from "vue";
+import { ref, nextTick,onUnmounted,onErrorCaptured } from "vue";
 import Modal from "../../../Jetstream/Modal.vue";
 import ConfirmationModal from "../../../Jetstream/ConfirmationModal.vue";
 import useHelper from "@/composables/useHelper";
@@ -262,18 +262,27 @@ export default {
     const filterOption = ref(3);
     const rolConditional = ref(Inertia.page.props.auth.rols[0].id);
     const modalEmail = ref(false);
+    let table
     const onSwiper = (swiper) => {};
     const onSlideChange = () => {};
+    onUnmounted(()=>{
+      $("#activeRuns").DataTable().destroy()
+    })
+
+    onErrorCaptured((e)=>{
+      console.log(e)
+      gettingData()
+    })
     $(document).ready(function () {
       $("#filterRunInput")
         .off()
         .keyup(function () {
-          $("#activeRuns").DataTable().search(this.value).draw();
+         table?.search(this.value).draw();
         });
       $("#filterRunInputBot")
         .off()
         .keyup(function () {
-          $("#activeRuns").DataTable().search(this.value).draw();
+          table?.search(this.value).draw();
         });
     });
     const findRun = (id) => {
@@ -406,7 +415,6 @@ export default {
     };
     const gettingData = async (status = 3) => {
       try {
-        $("#activeRuns").DataTable().clear().destroy();
         await generateDataTable(status);
       } catch (e) {
         console.log(e);
@@ -705,8 +713,9 @@ export default {
     ];
     const generateDataTable = (status) => {
       const self = this;
+      table?.clear().destroy();
       nextTick(() => {
-        $("#activeRuns").DataTable({
+        table =$("#activeRuns").DataTable({
           ordering: true,
           bLengthChange: false,
           pageLength: 10,

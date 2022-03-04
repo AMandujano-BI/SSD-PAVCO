@@ -30,7 +30,8 @@ class Part extends Model
         'coatPH',
         'coatDiptime',
         'run_id',
-        'created_at'
+        'created_at',
+        'number'
     ];
 
     public static function getPartsByRun($id)
@@ -41,9 +42,26 @@ class Part extends Model
             'chromate',
             'coat',
             'plateType',
-        ])->where('run_id', $id)->orderBy('id','asc')->get();
+        ])->where('run_id', $id)->orderBy('number', 'asc')->get();
         return $parts;
     }
+    public static function getNextNumberDescription($idRun)
+    {
+
+        $number = 0;
+
+        $getLastNumber = (new static)
+            ->where('number', DB::raw("(select max(`number`) from parts where run_id = $idRun)"))
+            ->first();
+        if ($getLastNumber == null) {
+            return 0;
+        }
+        $number = $getLastNumber->number + 1;
+
+        return $number;
+    }
+
+
     public static function createPart($request)
     {
         DB::beginTransaction();
@@ -70,7 +88,7 @@ class Part extends Model
             $topCoatId = $request->topCoatId;
 
 
-            if ($plate_types_id== '' || $plate_types_id == 0) $plate_types_id = null;
+            if ($plate_types_id == '' || $plate_types_id == 0) $plate_types_id = null;
             if ($primaryCoatId == '' || $primaryCoatId == 0) $primaryCoatId = null;
             if ($coatId == '' || $coatId == 0) $coatId = null;
             if ($topCoatId == '' || $topCoatId == 0) $topCoatId = null;
@@ -95,12 +113,19 @@ class Part extends Model
                 $topCoatDiptime = null;
                 $topCoatPer = null;
             }
+            $number = 0;
+
+            $getLastNumber = (new static)
+                ->where('number', DB::raw("(select max(`number`) from parts where run_id = $run_id)"))
+                ->first();
+            $number = $getLastNumber->number + 1;
 
 
             $partCreate = (new static)::create([
                 'plateThick' => $plateThick,
                 'typePlateThick' => $typePlateThick,
                 'coatId' => $coatId,
+                'number' => $number,
                 'topCoatId' => $topCoatId,
                 'primaryCoatId' => $primaryCoatId,
                 'plate_types_id' => $plate_types_id,
@@ -149,7 +174,7 @@ class Part extends Model
         DB::beginTransaction();
         try {
             $part = (new static)::find($id);
-            if ($request->plate_types_id== '' || $request->plate_types_id == 0) $request->plate_types_id = null;
+            if ($request->plate_types_id == '' || $request->plate_types_id == 0) $request->plate_types_id = null;
             if ($request->primaryCoatId == '' || $request->primaryCoatId == 0) $part->primaryCoatId = null;
             if ($request->coatId == '' || $request->coatId == 0) $request->coatId = null;
             if ($request->topCoatId == '' || $request->topCoatId == 0) $request->topCoatId = null;
@@ -192,8 +217,8 @@ class Part extends Model
             $part->coatTemp = $request->coatTemp;
             $part->coatPH = $request->coatPH;
             $part->coatDiptime = $request->coatDiptime;
-            $part->plateThick= $request->plateThick;
-            $part->typePlateThick= $request->typePlateThick;
+            $part->plateThick = $request->plateThick;
+            $part->typePlateThick = $request->typePlateThick;
             $part->save();
             $run = Run::find($request->run_id);
             if ($run == null) {

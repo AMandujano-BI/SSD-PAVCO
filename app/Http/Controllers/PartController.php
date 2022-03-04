@@ -112,6 +112,12 @@ class PartController extends Controller
         return datatables()->of($parts)->toJson();
     }
 
+    public function getNextNumberDescription($idRun){
+        $number =$this->_part->getNextNumberDescription($idRun);
+        return response()->json(['number'=> $number]);
+
+    }
+
     /**
      * Update the specified resource in storage.
      *
