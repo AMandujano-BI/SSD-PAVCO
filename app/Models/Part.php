@@ -51,8 +51,11 @@ class Part extends Model
         $number = 0;
 
         $getLastNumber = (new static)
-            ->where('run_id', $idRun)
-            ->where('number', DB::raw("(select max(`number`) from parts)"))->first();
+            ->where('number', DB::raw("(select max(`number`) from parts where run_id = $idRun)"))
+            ->first();
+        if ($getLastNumber == null) {
+            return 0;
+        }
         $number = $getLastNumber->number + 1;
 
         return $number;
