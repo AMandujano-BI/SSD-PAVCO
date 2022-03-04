@@ -179,7 +179,6 @@ export default {
     })
 
     const gettinDataParts = async () => {
-      table?.clear().destroy();
       generateDataTable();
     };
 
