@@ -378,9 +378,12 @@ class Run extends Model
     {
         DB::beginTransaction();
         try {
-            foreach ($request->arrayId as $runId) {
-                $run = (new static)::find($runId);
-                $run->hours += $request->hours;
+            foreach ($request->arrayId as $index => $runSelected) {
+                $run = (new static)::find($runSelected['id']);
+                $run->hours = $runSelected['hours'] + intval($request->hours,10);
+                // if($index > 3) {
+                    // dd($runSelected['hours'], intval($request->hours,10), $run->hours);
+                // }
                 
                 $run->last_edit = Carbon::now();
                 $run->isEdit = true;

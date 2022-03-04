@@ -180,6 +180,7 @@ export default {
       hours,
       closeDate
     ) => {
+      
       if (status === 1) {
         //cerrado
         if (edit) {
@@ -195,16 +196,36 @@ export default {
           const hoursEdited = activeEdit | 0; // trunca los decimales y se queda con el entero
           return hours + hoursEdited;
         } else {
+          
           const activeNonEdit =
             Math.abs(new Date() - new Date(created_date)) / 36e5;
           return activeNonEdit | 0; // trunca los decimales y se queda con el entero
         }
       }
     };
+
     const openModalChange = () => {
       const data = table.rows(".selected").data();
+      let indexData;
+      let dataId;
       arrayId.value = [];
-      data.map((item) => arrayId.value.push(item[2]));
+      data.map((item) => {
+        dataId = Number(item[2]);
+        indexData = dataDailyHours.value.findIndex(run => run.id === dataId);
+        arrayId.value.push({
+          id: item[2],
+          hours: calculateHours(
+                  dataDailyHours.value[indexData].id,
+                  dataDailyHours.value[indexData].status,
+                  dataDailyHours.value[indexData].start_date,
+                  dataDailyHours.value[indexData].isEdit,
+                  dataDailyHours.value[indexData].last_edit,
+                  dataDailyHours.value[indexData].hours,
+                  dataDailyHours.value[indexData].closed_date)
+        });
+      });
+      console.log(arrayId.value);
+      // }arrayId.value.push(item[2]));
       if (arrayId.value.length > 0) {
         openModal.value = true;
       } else {
@@ -215,12 +236,28 @@ export default {
       if (selectedCheckbox.value) {
         table.rows().select();
         const dataAll = document.querySelectorAll(`[data-id]`);
+        let indexData;
+        let dataId;
         dataAll.forEach((item) => {
           item.checked = true;
         });
         const data = table.rows(".selected").data();
         arrayId.value = [];
-        data.map((item) => arrayId.value.push(item[2]));
+        data.map((item) => {
+          dataId = Number(item[2]);
+          indexData = dataDailyHours.value.findIndex(run => run.id === dataId);
+          arrayId.value.push({
+            id: item[2],
+            hours: calculateHours(
+                  dataDailyHours.value[indexData].id,
+                  dataDailyHours.value[indexData].status,
+                  dataDailyHours.value[indexData].start_date,
+                  dataDailyHours.value[indexData].isEdit,
+                  dataDailyHours.value[indexData].last_edit,
+                  dataDailyHours.value[indexData].hours,
+                  dataDailyHours.value[indexData].closed_date)
+          });
+        });
       } else {
         table.rows().deselect();
 
@@ -293,14 +330,17 @@ export default {
       let idArr;
       let indexArr;
       let hourArr = Number(jsonData.hours);
-      // console.log(hourArr);
-      jsonData.arrayId.forEach(id => {
-        idArr = Number(id);
+      console.log(hourArr);
+      jsonData.arrayId.forEach((el) => {
+        idArr = Number(el.id);
+        console.log(el.hours);        
+        console.log(el.id);        
+
         indexArr = dataDailyHours.value.findIndex(run => run.id === idArr);
         // console.log(dataDailyHours.value[indexArr].hours);
         dataDailyHours.value[indexArr].isEdit = true;
         dataDailyHours.value[indexArr].last_edit = new Date();
-        dataDailyHours.value[indexArr].hours += hourArr;
+        dataDailyHours.value[indexArr].hours = hourArr + el.hours;
       });
       openModal.value = false;
     };
