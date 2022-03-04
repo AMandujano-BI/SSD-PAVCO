@@ -326,6 +326,7 @@ export default {
     const { run_id, partsTable } = props;
     const parts = ref(partsTable);
     const loading = ref(false);
+    const newDescription = ref('')
     const form = reactive({
       id: 0,
       description: "",
@@ -340,6 +341,7 @@ export default {
       topCoatPer: "",
       topCoatTemp: "",
       topCoatPH: "",
+      description:newDescription,
       topCoatDiptime: "",
       primaryPer: "",
       primaryTemp: "",
@@ -389,12 +391,24 @@ export default {
       }
     };
 
+
+    const getNextPartDescription = async()=>{
+
+      const res = await axios.get(`getNextNumberDescription/${run_id}`)
+      const number = res.data.number
+      newDescription.value = `Part number ${number}`
+
+    }
+
+    getNextPartDescription()
+
     return {
       form,
       closeModal,
       v$,
       submitForm,
       loading,
+      newDescription
     };
   },
   watch: {

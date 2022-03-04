@@ -501,7 +501,7 @@
           />
         </div>
 
-        <table id="activeRunsDetail" class="display" style="width: 100%">
+        <table id="activeRunsDetail" class="display" style="width: 100%" data-ordering="false">
           <thead>
             <tr>
               <th class="no-sort" data-priority="1">Part description</th>

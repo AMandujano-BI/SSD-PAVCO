@@ -45,16 +45,16 @@
     </div>
   </div>
   <div class="rounded-lg bg-white p-5 mt-2">
-    <table id="partsTable1" class="display" style="width: 100%">
+    <table id="partsTable1" class="display" style="width: 100%"   data-ordering="false">
       <thead>
         <tr>
-          <th class="no-sort">Part Description</th>
-          <th>Plate Type</th>
-          <th>Chromate</th>
-          <th>Topcoat</th>
-          <th>Secondary TopCoat</th>
-          <th class="no-sort">Edit</th>
-          <th class="no-sort">Delete</th>
+          <th  >Part Description</th>
+          <th  >Plate Type</th>
+          <th >Chromate</th>
+          <th >Topcoat</th>
+          <th >Secondary TopCoat</th>
+          <th >Edit</th>
+          <th >Delete</th>
           <!-- <th class="no-sort">Notes</th> -->
         </tr>
       </thead>
@@ -189,7 +189,7 @@ export default {
       $("#partsTable1").DataTable().clear().destroy();
       nextTick(() => {
         $("#partsTable1").DataTable({
-          ordering: true,
+          // ordering: true,
           bLengthChange: false,
           pageLength: 10,
           stateSave: true,
@@ -199,7 +199,7 @@ export default {
               targets: "_all",
             },
           ],
-          order: [[1, "desc"]],
+          // order: [[0, "desc"]],
           responsive: true,
           language: {
             paginate: {
@@ -223,9 +223,10 @@ export default {
             {
               name: "part.description",
               searchable: true,
+              // orderable: false,
               render: function (data, type, row, meta) {
                 if (row.description != null) {
-                  return "<td>" + row.description + "</td>";
+                  return `<td>${row.description}</td>`;
                 }
                 return "<td></td>";
               },
@@ -233,6 +234,7 @@ export default {
             {
               name: "part.plate_type.name",
               searchable: true,
+               orderable: false,
               render: function (data, type, row, meta) {
                 if (row.plate_type?.name != undefined) {
                   return "<td>" + row.plate_type?.name + "</td>";
@@ -243,6 +245,7 @@ export default {
             {
               name: "part.chromate.name",
               searchable: true,
+               orderable: false,
               render: function (data, type, row, meta) {
                 if (row.chromate?.name != undefined) {
                   return `<td> ${row.chromate?.name}  ${
@@ -265,6 +268,7 @@ export default {
             {
               name: "part.top_coat.name",
               searchable: true,
+               orderable: false,
               render: function (data, type, row, meta) {
                 if (row.top_coat?.name != undefined) {
                   return `<td> ${row.top_coat?.name}  ${
@@ -287,6 +291,7 @@ export default {
             {
               name: "part.coat.name",
               searchable: true,
+               orderable: false,
               render: function (data, type, row, meta) {
                 if (row.coat?.name != undefined) {
                   return `<td> ${row.coat?.name}  ${
