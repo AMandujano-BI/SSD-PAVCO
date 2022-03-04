@@ -205,7 +205,7 @@
 
 <script>
 import { Navigation, Pagination } from "swiper";
-import { ref, nextTick,onUnmounted } from "vue";
+import { ref, nextTick,onUnmounted,onErrorCaptured } from "vue";
 import Modal from "../../../Jetstream/Modal.vue";
 import ConfirmationModal from "../../../Jetstream/ConfirmationModal.vue";
 import useHelper from "@/composables/useHelper";
@@ -266,6 +266,11 @@ export default {
     const onSlideChange = () => {};
     onUnmounted(()=>{
       $("#activeRuns").DataTable().destroy()
+    })
+
+    onErrorCaptured((e)=>{
+      console.log(e)
+      gettingData()
     })
     $(document).ready(function () {
       $("#filterRunInput")

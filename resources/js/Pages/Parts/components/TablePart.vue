@@ -167,6 +167,7 @@ export default {
     const { makeToast } = useHelper();
     const idPart = ref(0);
     const showModalDelete = ref(false);
+    let table
     const partUpdate = ref({
       id: 0,
       plateThick: 0,
@@ -174,11 +175,11 @@ export default {
     });
 
      onUnmounted(()=>{
-     $("#partsTable1").DataTable().clear().destroy();
+    table?.clear().destroy();
     })
 
     const gettinDataParts = async () => {
-      $("#partsTable1").DataTable().clear().destroy();
+      table?.clear().destroy();
       generateDataTable();
     };
 
@@ -186,13 +187,13 @@ export default {
       $("#filterPartInputBot1")
         .off()
         .keyup(function () {
-          $("#partsTable1").DataTable().search(this.value).draw();
+          table.search(this.value).draw();
         });
     });
     const generateDataTable = () => {
-      $("#partsTable1").DataTable().clear().destroy();
+      table?.clear().destroy();
       nextTick(() => {
-        $("#partsTable1").DataTable({
+        table =$("#partsTable1").DataTable({
           // ordering: true,
           bLengthChange: false,
           pageLength: 10,
