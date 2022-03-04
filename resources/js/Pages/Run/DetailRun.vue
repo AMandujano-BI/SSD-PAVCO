@@ -444,6 +444,7 @@
               text-white
               py-4
               justify-center
+              cursor-pointer
             "
             @click="openModalEmail"
           >

@@ -205,7 +205,7 @@
 
 <script>
 import { Navigation, Pagination } from "swiper";
-import { ref, nextTick } from "vue";
+import { ref, nextTick,onUnmounted } from "vue";
 import Modal from "../../../Jetstream/Modal.vue";
 import ConfirmationModal from "../../../Jetstream/ConfirmationModal.vue";
 import useHelper from "@/composables/useHelper";
@@ -264,6 +264,9 @@ export default {
     const modalEmail = ref(false);
     const onSwiper = (swiper) => {};
     const onSlideChange = () => {};
+    onUnmounted(()=>{
+      $("#activeRuns").DataTable().destroy()
+    })
     $(document).ready(function () {
       $("#filterRunInput")
         .off()

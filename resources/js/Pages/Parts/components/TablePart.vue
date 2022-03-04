@@ -131,7 +131,7 @@
 const $ = require("jquery");
 import dt from "datatables.net";
 import ModalVue from "@/Jetstream/Modal.vue";
-import { ref, nextTick } from "vue";
+import { ref, nextTick,onUnmounted } from "vue";
 import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 import FormUpdatePartVue from "./FormUpdatePart.vue";
 import axios from "axios";
@@ -172,6 +172,10 @@ export default {
       plateThick: 0,
       primaryPer: 0,
     });
+
+     onUnmounted(()=>{
+     $("#partsTable1").DataTable().clear().destroy();
+    })
 
     const gettinDataParts = async () => {
       $("#partsTable1").DataTable().clear().destroy();
