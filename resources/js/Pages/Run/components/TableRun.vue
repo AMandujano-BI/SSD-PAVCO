@@ -266,7 +266,7 @@ export default {
     const onSwiper = (swiper) => {};
     const onSlideChange = () => {};
     onUnmounted(()=>{
-      $("#activeRuns").DataTable().destroy()
+      table?.destroy()
     })
 
     onErrorCaptured((e)=>{
