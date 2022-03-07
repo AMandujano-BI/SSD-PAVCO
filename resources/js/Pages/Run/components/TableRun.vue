@@ -266,7 +266,7 @@ export default {
     const onSwiper = (swiper) => {};
     const onSlideChange = () => {};
     onUnmounted(()=>{
-      table?.destroy()
+      table?.clear().destroy()
     })
 
     onErrorCaptured((e)=>{
