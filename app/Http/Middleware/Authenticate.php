@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Inertia\Inertia;
 
 class Authenticate extends Middleware
 {
@@ -14,9 +15,14 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        // if (! $request->expectsJson()) {
-        //     return route('login');
-        // }
-        if (! $request->expectsJson() && $request->inertia()) { abort(409, '', ['X-Inertia-Location' => url()->route('login')]); } else if (! $request->expectsJson()) { return route('login'); }
+        if (!$request->expectsJson()) {
+            return route('login');
+        }
+
+        if (!$request->expectsJson() && $request->inertia()) {
+            abort(409, '', ['X-Inertia-Location' => url()->route('login')]);
+        } else if (!$request->expectsJson()) {
+            return route('login');
+        }
     }
 }
