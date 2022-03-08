@@ -648,6 +648,8 @@ import FormEmail from "./components/FormEmail.vue";
 import useHelper from "@/composables/useHelper";
 import ConfirmationModal from "../../Jetstream/ConfirmationModal.vue";
 import PhotosRun from "./components/PhotosRun.vue";
+import axios from "axios";
+
 export default {
   components: {
     modal: Modal,
@@ -792,10 +794,45 @@ export default {
       modalEmail.value = false;
     };
     const reportRun = () => {
-      window.location.href = `/run/download/${id}`;
+      const currentTimeZone =  `${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+      axios.post(`/run/download/${id}`, {
+        zone: currentTimeZone
+      }, {
+        Accept: 'application/pdf',
+        responseType: 'blob'
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'run_report.pdf');
+        document.body.appendChild(link);
+        link.click();
+      }).catch( e => {
+        console.log(e);
+      })
+      // window.location.href = `/run/download/${id}`;
     };
     const reportAndPhotosRun = () => {
-      window.location.href = `/run/downloadPlus/${id}`;
+      const currentTimeZone =  `${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+
+      axios.post(`/run/downloadPlus/${id}`, {
+        zone: currentTimeZone
+      }, {
+        Accept: 'application/pdf',
+        responseType: 'blob'
+      }).then((response) => {
+        console.log(response);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'run_report.pdf');
+        document.body.appendChild(link);
+        link.click();
+      }).catch( e => {
+        console.log(e);
+      })
+
+      // window.location.href = `/run/downloadPlus/${id}`;
     };
     const openModalEmail = (id) => {
       modalEmail.value = true;

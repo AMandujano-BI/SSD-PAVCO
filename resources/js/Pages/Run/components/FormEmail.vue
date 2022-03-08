@@ -74,9 +74,11 @@ export default {
     const options = ref([]);
     const loading = ref(false);
     const value = ref("");
+    const currentTimeZone =  `${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
     const form = reactive({
       id: id,
       emailSend: [],
+      zone: currentTimeZone
     });
     const rules = {
       emailSend: {

@@ -371,6 +371,8 @@ export default {
       coatPH_less_than: 0,
       coatDiptime_more_than: 0,
       coatDiptime_less_than: 0,
+      startUtcDate: null,
+      endUtcDate: null
     });
     const listThickness = ref([
       { value: 0, label: "Select Operator" },

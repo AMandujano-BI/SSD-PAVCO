@@ -221,6 +221,7 @@ import IconReOpen from "@/assets/Icons/iconReopen.vue";
 import IconResult from "@/assets/Icons/iconResult.vue";
 import IconPhoto from "@/assets/Icons/iconPhoto.vue";
 import IconClose from "@/assets/Icons/iconClose.vue";
+import axios from "axios";
 const $ = require("jquery");
 var dt = require("datatables.net");
 import "datatables.net-responsive-dt";
@@ -794,10 +795,48 @@ export default {
       Inertia.get(`/part/${id}`);
     };
     const reportRun = (id) => {
-      window.location.href = `/run/download/${id}`;
+      const currentTimeZone =  `${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+      axios.post(`/run/download/${id}`, {
+        zone: currentTimeZone
+      }, {
+        Accept: 'application/pdf',
+        responseType: 'blob'
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'run_report.pdf');
+        document.body.appendChild(link);
+        link.click();
+      }).catch( e => {
+        console.log(e);
+      })
+      // window.location.href = `/run/download/${id}`;
     };
     const reportAndPhotosRun = (id) => {
-      window.location.href = `/run/downloadPlus/${id}`;
+      const currentTimeZone =  `${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+
+      axios.post(`/run/downloadPlus/${id}`, {
+        zone: currentTimeZone
+      }, {
+        Accept: 'application/pdf',
+        responseType: 'blob'
+      }).then((response) => {
+        console.log(response);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'run_report.pdf');
+        document.body.appendChild(link);
+        link.click();
+      }).catch( e => {
+        console.log(e);
+      })
+
+
+
+
+      // window.location.href = `/run/downloadPlus/${id}/${currentTimeZone}`;
     };
     const openModalEmail = (id) => {
       modalEmail.value = true;

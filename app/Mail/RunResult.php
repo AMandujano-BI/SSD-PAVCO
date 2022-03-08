@@ -9,6 +9,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Carbon\Carbon;
 use DateTime;
 
 class RunResult extends Mailable
@@ -17,14 +18,16 @@ class RunResult extends Mailable
 
 
     private $_run;
+    private $_zone;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Run $run)
+    public function __construct(Run $run, String $zone)
     {
         $this->_run = $run;
+        $this->_zone = $zone;
     }
 
     /**
@@ -35,12 +38,13 @@ class RunResult extends Mailable
     public function build()
     {
         $id_run = $this->_run->id;
-        $start_date = substr($this->_run->start_date, 0, 10);
+        $localStartDate = Carbon::parse($this->_run->start_date)->setTimezone($this->_zone);
+        $start_date = substr($localStartDate, 0, 10);
         $customer = $this->_run->company->name;
 
         $current_date = new DateTime();
         $currentDate = $current_date->format('Y-m-d H:i:s');
-        $created_at = new DateTime($this->_run->created_at);
+        $created_at = new DateTime($this->_run->start_date);
         $createdDate = $created_at->format('Y-m-d H:i:s');
         $last_edit = new DateTime($this->_run->last_edit);
         $lastDate = $last_edit->format('Y-m-d H:i:s');
@@ -85,7 +89,7 @@ class RunResult extends Mailable
         $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img']));
         $pdf->setPaper('a4', 'landscape');
         return $this->view('emails.runResult')
-            ->with(['run' => $this->_run, 'hours' => $hours ])
+            ->with(['run' => $this->_run, 'hours' => $hours, 'start_date' => $start_date ])
             ->attachData($pdf->output(), 'run_report_' . $this->_run->id . '.pdf', [
                 'mime' => 'application/pdf',
             ])

@@ -42,8 +42,8 @@ Route::middleware(['auth:sanctum', 'verified', 'rols'])->group(function () {
     Route::middleware(['auth:sanctum', 'verified'])->get('/company/getCompanies/{type}', [CompanyController::class, 'getCompanies'])->name('company.getCompanies');
     Route::middleware(['auth:sanctum', 'verified'])->get('/company/getCompaniesDropdown/{type}', [CompanyController::class, 'getCompaniesDropdown'])->name('company.getCompaniesDropdown');
     Route::middleware(['auth:sanctum', 'verified'])->get('/company/getDistributors/{id}', [CompanyController::class, 'getDistributors'])->name('company.getDistributors');
-    Route::middleware(['auth:sanctum', 'verified'])->get('/run/download/{id}', [RunController::class, 'downloadPdf'])->name('run.downloadPdf');
-    Route::middleware(['auth:sanctum', 'verified'])->get('/run/downloadPlus/{id}', [RunController::class, 'downloadPlus'])->name('run.downloadPlus');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/run/download/{id}', [RunController::class, 'downloadPdf'])->name('run.downloadPdf');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/run/downloadPlus/{id}', [RunController::class, 'downloadPlus'])->name('run.downloadPlus');
     Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRuns/{status}', [RunController::class, 'getAllRuns'])->name('run.getAllRuns');
     Route::middleware(['auth:sanctum', 'verified'])->get('/run/getAllRunsByDate/{startDate}/{endDate}/{status}', [RunController::class, 'getAllRunsByDate'])->name('run.getAllRunsByDate');
     Route::middleware(['auth:sanctum', 'verified'])->get('/run/detail/{id}', [RunController::class, 'runDetail'])->name('run.runDetail');//Se puso de nombre company para que no aparezca el search en el navbar

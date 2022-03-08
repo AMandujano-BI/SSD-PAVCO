@@ -10,6 +10,7 @@ use App\Models\Run;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use DateTime;
 
 class RunController extends Controller
@@ -174,18 +175,21 @@ class RunController extends Controller
         return response()->json($run);
     }
 
-    public function downloadPdf($id)
+    public function downloadPdf($id, Request $request)
     {
+        // dd($request);
+
         $run = $this->_run->getRun($id);
         // $pdf = PDF::loadView('runReport', compact('run'));
 
         $id_run = $run->id;
-        $start_date = substr($run->start_date, 0, 10);
+        $localStartDate = Carbon::parse($run->start_date)->setTimezone($request->zone);
+        $start_date = substr($localStartDate, 0, 10);
         $customer = $run->company->name;
 
         $current_date = new DateTime();
         $currentDate = $current_date->format('Y-m-d H:i:s');
-        $created_at = new DateTime($run->created_at);
+        $created_at = new DateTime($run->start_date);
         $createdDate = $created_at->format('Y-m-d H:i:s');
         $last_edit = new DateTime($run->last_edit);
         $lastDate = $last_edit->format('Y-m-d H:i:s');
@@ -231,21 +235,23 @@ class RunController extends Controller
 
         $pdf = PDF::loadView('pdf.runReport', compact(['allParts', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status']));
         $pdf->setPaper('a4', 'landscape');
-        return $pdf->download('run_report_' . $run->id . '.pdf');
+        return $pdf->output();
+        // return $pdf->download('run_report_' . $run->id . '.pdf');
     }
 
-    public function downloadPlus($id)
+    public function downloadPlus($id, Request $request)
     {
         $run = $this->_run->getRun($id);
         $id_run = $run->id;
-        $start_date = substr($run->start_date, 0, 10);
+        $localStartDate = Carbon::parse($run->start_date)->setTimezone($request->zone);
+        $start_date = substr($localStartDate, 0, 10);
         $customer = $run->company->name;
 
 
 
         $current_date = new DateTime();
         $currentDate = $current_date->format('Y-m-d H:i:s');
-        $created_at = new DateTime($run->created_at);
+        $created_at = new DateTime($run->start_date);
         $createdDate = $created_at->format('Y-m-d H:i:s');
         $last_edit = new DateTime($run->last_edit);
         $lastDate = $last_edit->format('Y-m-d H:i:s');
@@ -293,7 +299,8 @@ class RunController extends Controller
 
         $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img']));
         $pdf->setPaper('a4', 'landscape');
-        return $pdf->download('run_report_' . $run->id . '.pdf');
+        return $pdf->output();
+        // return $pdf->download('run_report_' . $run->id . '.pdf');
     }
 
     /**

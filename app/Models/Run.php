@@ -328,7 +328,8 @@ class Run extends Model
                             $part->isRs = true;
                             $part->hoursRs = $runHours;
                         } else {
-                            if( empty($request->parts[$j]['hoursRs']) && $runPart->isRs == true ) {
+                            // dd($request->parts[$j]['hoursRs'], $runPart->isRs);
+                            if( is_null($request->parts[$j]['hoursRs']) && $runPart->isRs == true ) {
                                 // dd('void', $request->parts[$j]['id']);
                                 $part->isRs = false;
                                 $part->hoursRs = null;
@@ -341,7 +342,8 @@ class Run extends Model
                             $part->isWs = true;
                             $part->hoursWs = $runHours;
                         } else {
-                            if( empty($request->parts[$j]['hoursWs']) && $runPart->isWs == true ) {
+                            // dd( is_null($request->parts[$j]['hoursWs']) ,  is_null($runPart->isWs));
+                            if( is_null($request->parts[$j]['hoursWs']) && $runPart->isWs == true ) {
                                 $part->isWs = false;
                                 $part->hoursWs = null;
                             } else {

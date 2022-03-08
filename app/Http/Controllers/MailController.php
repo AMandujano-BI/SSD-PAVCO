@@ -26,9 +26,9 @@ class MailController extends Controller
 
             $id = $request->id;
             $run = $this->_run->getRun($id);
-            $run->start_date = Carbon::parse($run->start_date)->format('Y/m/d');
+            // $run->start_date = Carbon::parse($run->start_date)->format('Y/m/d');
             for($i =0;$i<count($request->emailSend);$i++){
-                Mail::to($request->emailSend[$i])->send(new RunResult($run));
+                Mail::to($request->emailSend[$i])->send(new RunResult($run, $request->zone));
             }
             return   [
                 'ok' => true,
