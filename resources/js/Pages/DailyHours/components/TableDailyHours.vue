@@ -224,7 +224,6 @@ export default {
                   dataDailyHours.value[indexData].closed_date)
         });
       });
-      console.log(arrayId.value);
       // }arrayId.value.push(item[2]));
       if (arrayId.value.length > 0) {
         openModal.value = true;
@@ -330,11 +329,8 @@ export default {
       let idArr;
       let indexArr;
       let hourArr = Number(jsonData.hours);
-      console.log(hourArr);
       jsonData.arrayId.forEach((el) => {
         idArr = Number(el.id);
-        console.log(el.hours);        
-        console.log(el.id);        
 
         indexArr = dataDailyHours.value.findIndex(run => run.id === idArr);
         // console.log(dataDailyHours.value[indexArr].hours);

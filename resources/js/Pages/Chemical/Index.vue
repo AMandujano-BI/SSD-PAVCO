@@ -261,7 +261,6 @@ export default {
         $("#chemicalTable").DataTable().clear().destroy();
         generateDataTable(type);
       } catch (error) {
-        console.log(error);
         makeToast(
           "There is an error to load chemicals. Try again please.",
           "error"

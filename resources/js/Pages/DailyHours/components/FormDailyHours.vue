@@ -74,7 +74,6 @@ export default {
     const submitForm = async () => {
       const isFormCorrect = await v$.value.$validate();
       if (!isFormCorrect) return;
-          console.log(form);
       try {
         const res = await axios.post("/dailyHours", form);
         const { ok, value, message } = res.data;
