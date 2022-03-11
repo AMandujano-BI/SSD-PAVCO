@@ -175,15 +175,17 @@ class RunController extends Controller
         return response()->json($run);
     }
 
-    public function downloadPdf($id, Request $request)
+    public function downloadPdf($id,  $date)
     {
         // dd($request);
 
         $run = $this->_run->getRun($id);
         // $pdf = PDF::loadView('runReport', compact('run'));
+        $zone= str_replace("'", '', $date);
+        $zone= str_replace("----", '/', $zone);
 
         $id_run = $run->id;
-        $localStartDate = Carbon::parse($run->start_date)->setTimezone($request->zone);
+        $localStartDate = Carbon::parse($run->start_date)->setTimezone($zone);
         $start_date = substr($localStartDate, 0, 10);
         $customer = $run->company->name;
 
@@ -235,15 +237,17 @@ class RunController extends Controller
 
         $pdf = PDF::loadView('pdf.runReport', compact(['allParts', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status']));
         $pdf->setPaper('a4', 'landscape');
-        return $pdf->output();
-        // return $pdf->download('run_report_' . $run->id . '.pdf');
+        // return $pdf->output();
+        return $pdf->download('run_report_' . $run->id . '.pdf');
     }
 
-    public function downloadPlus($id, Request $request)
+    public function downloadPlus($id,$date)
     {
         $run = $this->_run->getRun($id);
         $id_run = $run->id;
-        $localStartDate = Carbon::parse($run->start_date)->setTimezone($request->zone);
+        $zone= str_replace("'", '', $date);
+        $zone= str_replace("----", '/', $zone);
+        $localStartDate = Carbon::parse($run->start_date)->setTimezone($zone);
         $start_date = substr($localStartDate, 0, 10);
         $customer = $run->company->name;
 
@@ -299,8 +303,8 @@ class RunController extends Controller
 
         $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img']));
         $pdf->setPaper('a4', 'landscape');
-        return $pdf->output();
-        // return $pdf->download('run_report_' . $run->id . '.pdf');
+        // return $pdf->output();
+        return $pdf->download('run_report_' . $run->id . '.pdf');
     }
 
     /**

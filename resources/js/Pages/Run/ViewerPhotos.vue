@@ -13,7 +13,7 @@
               <div class="h-[550px]">
                 <img
                   :src="photo.image"
-                  :alt="photo.img"
+                  :alt="photo.description"
                   class="object-contain  h-full w-full"
                 />
               </div>

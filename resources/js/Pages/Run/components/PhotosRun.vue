@@ -14,7 +14,7 @@
 
             <img
               :src="photo.image"
-              :alt="photo.image"
+              :alt="photo.description"
               class="object-cover object-left-top h-[400px] max-h-[400px] w-full"
             />
             </div>

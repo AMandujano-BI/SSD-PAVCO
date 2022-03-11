@@ -205,7 +205,7 @@
 
 <script>
 import { Navigation, Pagination } from "swiper";
-import { ref, nextTick,onUnmounted,onErrorCaptured } from "vue";
+import { ref, nextTick, onUnmounted, onErrorCaptured } from "vue";
 import Modal from "../../../Jetstream/Modal.vue";
 import ConfirmationModal from "../../../Jetstream/ConfirmationModal.vue";
 import useHelper from "@/composables/useHelper";
@@ -263,22 +263,22 @@ export default {
     const filterOption = ref(3);
     const rolConditional = ref(Inertia.page.props.auth.rols[0].id);
     const modalEmail = ref(false);
-    let table
+    let table;
     const onSwiper = (swiper) => {};
     const onSlideChange = () => {};
-    onUnmounted(()=>{
-      table?.clear().destroy()
-    })
+    onUnmounted(() => {
+      table?.clear().destroy();
+    });
 
-    onErrorCaptured((e)=>{
-      console.log(e)
-      gettingData()
-    })
+    onErrorCaptured((e) => {
+      console.log(e);
+      gettingData();
+    });
     $(document).ready(function () {
       $("#filterRunInput")
         .off()
         .keyup(function () {
-         table?.search(this.value).draw();
+          table?.search(this.value).draw();
         });
       $("#filterRunInputBot")
         .off()
@@ -431,9 +431,17 @@ export default {
         render: function (data, type, row, meta) {
           const currentDate = new Date(row.start_date);
           let month = currentDate.getMonth() + 1;
-          let fullMonth = '0';
-          (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
-          const dateFormated = '' + currentDate.getFullYear() + '-' + fullMonth + '-' + currentDate.toString().slice(8, 10);
+          let fullMonth = "0";
+          month.toString().length < 2
+            ? (fullMonth = fullMonth.concat(month))
+            : (fullMonth = month);
+          const dateFormated =
+            "" +
+            currentDate.getFullYear() +
+            "-" +
+            fullMonth +
+            "-" +
+            currentDate.toString().slice(8, 10);
 
           return "<td>" + dateFormated + "</td>";
         },
@@ -607,10 +615,18 @@ export default {
         render: function (data, type, row, meta) {
           const currentDate = new Date(row.start_date);
           let month = currentDate.getMonth() + 1;
-          let fullMonth = '0';
-          (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
-          const dateFormated = '' + currentDate.getFullYear() + '-' + fullMonth + '-' + currentDate.toString().slice(8, 10);
-          
+          let fullMonth = "0";
+          month.toString().length < 2
+            ? (fullMonth = fullMonth.concat(month))
+            : (fullMonth = month);
+          const dateFormated =
+            "" +
+            currentDate.getFullYear() +
+            "-" +
+            fullMonth +
+            "-" +
+            currentDate.toString().slice(8, 10);
+
           return "<td>" + dateFormated + "</td>";
         },
       },
@@ -716,7 +732,7 @@ export default {
       const self = this;
       table?.clear().destroy();
       nextTick(() => {
-        table =$("#activeRuns").DataTable({
+        table = $("#activeRuns").DataTable({
           ordering: true,
           bLengthChange: false,
           pageLength: 10,
@@ -795,45 +811,65 @@ export default {
       Inertia.get(`/part/${id}`);
     };
     const reportRun = (id) => {
-      const currentTimeZone =  `${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
-      axios.post(`/run/download/${id}`, {
-        zone: currentTimeZone
-      }, {
-        Accept: 'application/pdf',
-        responseType: 'blob'
-      }).then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'run_report.pdf');
-        document.body.appendChild(link);
-        link.click();
-      }).catch( e => {
-        console.log(e);
-      })
+      let currentTimeZone = `${
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+      }`;
+      currentTimeZone = currentTimeZone.replace("/", "----");
+      window.location.href = `/run/download/${id}/'${currentTimeZone}'`;
+      return;
+      axios
+        .post(
+          `/run/download/${id}`,
+          {
+            zone: currentTimeZone,
+          },
+          {
+            Accept: "application/pdf",
+            responseType: "blob",
+          }
+        )
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "run_report.pdf");
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
       // window.location.href = `/run/download/${id}`;
     };
     const reportAndPhotosRun = (id) => {
-      const currentTimeZone =  `${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
-
-      axios.post(`/run/downloadPlus/${id}`, {
-        zone: currentTimeZone
-      }, {
-        Accept: 'application/pdf',
-        responseType: 'blob'
-      }).then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'run_report.pdf');
-        document.body.appendChild(link);
-        link.click();
-      }).catch( e => {
-        console.log(e);
-      })
-
-
-
+      let currentTimeZone = `${
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+      }`;
+      currentTimeZone = currentTimeZone.replace("/", "----");
+      window.location.href = `/run/downloadPlus/${id}/'${currentTimeZone}'`;
+      return;
+      axios
+        .post(
+          `/run/downloadPlus/${id}`,
+          {
+            zone: currentTimeZone,
+          },
+          {
+            Accept: "application/pdf",
+            responseType: "blob",
+          }
+        )
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "run_report.pdf");
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
 
       // window.location.href = `/run/downloadPlus/${id}/${currentTimeZone}`;
     };
