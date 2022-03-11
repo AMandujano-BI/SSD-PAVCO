@@ -94,14 +94,7 @@
               placeholder="Select Plate Type"
             />
             <!-- :class="{ 'error-dropdown': v$.plate_types_id.$error }" -->
-            <p
-              v-for="error of v$.parts.$each.$response?.$errors[index]
-                .plate_types_id"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
+         
           </div>
           <div class="w-full flex justify-between gap-2">
             <div class="w-full md:w-[210px]">
@@ -121,14 +114,6 @@
                 :searchable="true"
                 placeholder="Select Type "
               />
-              <p
-                v-for="error of v$.parts.$each.$response?.$errors[index]
-                  .typePlateThick"
-                :key="error.$uid"
-                class="text-red-400"
-              >
-                {{ error.$message }}
-              </p>
             </div>
 
             <input

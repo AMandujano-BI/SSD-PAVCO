@@ -129,6 +129,8 @@ class ReportController extends Controller
         $chromate = $request->chromate;
         $top_coat = $request->top_coat;
         $coat = $request->coat;
+        $filterAll = $request->filterOption;
+        if ($filterAll == 0) $filterAll = 4;
 
         $customerName = $request->customerName;
         $chromateName = $request->chromateName;
@@ -137,7 +139,7 @@ class ReportController extends Controller
         $plate_typeName = $request->plate_typeName;
 
         if ($plate_type == 0) {
-            $plate_type ==null;
+            $plate_type == null;
             $plate_typeName = 'All';
         }
         if ($chromate == 0) {
@@ -186,9 +188,20 @@ class ReportController extends Controller
             $parts = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
-                ->join('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
-                ->join('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
+                ->leftJoin('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
+                ->leftJoin('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
+                ->leftJoin('chemicals as coat', 'parts.coatId', '=', 'coat.id')
                 ->whereBetween('parts.created_at', [$start_utc_date, $end_utc_date])
+                ->where('runs.status', '!=', 2)
+                ->when($filterAll, function ($query, $filterAll) {
+                    if ($filterAll != 3) {
+                        if ($filterAll == 4) {
+                            return $query->where('runs.status', 0);
+                        }else{
+                            return $query->where('runs.status', $filterAll);
+                        }
+                    }
+                })
                 ->when($plate_type, function ($query, $plate_type) {
                     return $query->where('plate_types_id', $plate_type);
                 })
@@ -233,16 +246,29 @@ class ReportController extends Controller
                     'runs.status'
 
                 )
+                ->orderBy('parts.run_id', 'asc')
                 ->get();
+
         } else {
             //ONE CUSTOMER
             $parts = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
-                ->join('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
-                ->join('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
+                ->leftJoin('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
+                ->leftJoin('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
+                ->leftJoin('chemicals as coat', 'parts.coatId', '=', 'coat.id')
                 ->whereBetween('parts.created_at', [$start_utc_date, $end_utc_date])
                 ->where('runs.company_id', $company_id)
+                ->where('runs.status', '!=', 2)
+                ->when($filterAll, function ($query, $filterAll) {
+                    if ($filterAll != 3) {
+                        if ($filterAll == 4) {
+                            return $query->where('runs.status', 0);
+                        }else{
+                            return $query->where('runs.status', $filterAll);
+                        }
+                    }
+                })
                 ->when($plate_type, function ($query, $plate_type) {
                     return $query->where('plate_types_id', $plate_type);
                 })
@@ -276,15 +302,20 @@ class ReportController extends Controller
                     'parts.primaryCoatId',
                     'parts.coatId',
                     'parts.topCoatId',
+                    'parts.isWs',
+                    'parts.isRs',
                     'companies.name as company',
                     'parts.run_id',
                     'chromate.name as chromate',
-                    'topcoat.name as topcoat'
+                    'topcoat.name as topcoat',
+                    'runs.hours',
+                    'runs.status'
                 )
+                ->orderBy('parts.run_id', 'asc')
                 ->get();
         }
 
-        $pdf = PDF::loadView('pdf.parts', compact(['start_date', 'customerName', 'endDate', 'plate_typeName', 'chromateName', 'top_coatName', 'coatName', 'parts']));
+        $pdf = PDF::loadView('pdf.parts', compact(['start_date', 'customerName', 'endDate', 'plate_typeName', 'chromateName', 'top_coatName', 'coatName', 'parts','filterAll']));
         $pdf->setPaper('a4', 'landscape');
         return $pdf->output();
     }

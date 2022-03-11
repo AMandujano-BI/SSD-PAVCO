@@ -156,7 +156,8 @@
                 <span class='subheader'>Chromate: <span class='subheader__value'>{{$chromateName}} </span></span>
             </div>
             <div class='subheader__content' style="padding-top: 10px;">
-                <span class='subheader__label'>Plate: <span class='subheader__value'>{{$plate_typeName}}</span></span>
+                <span class='subheader__label'>Status: <span class='subheader__value'>{{$filterAll ==3?'All':($filterAll ==4?'Active':'Complete')}}</span></span>
+                <span class='subheader'>Plate: <span class='subheader__value'>{{$plate_typeName}} </span></span>
                 <span class='subheader'>TopCoat: <span class='subheader__value'>{{$top_coatName}} </span></span>
                 <span class='subheader'>Coat: <span class='subheader__value'>{{$coatName }}</span></span>
             </div>

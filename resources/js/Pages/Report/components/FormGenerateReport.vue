@@ -181,6 +181,31 @@
           />
         </div>
       </div>
+       <div class="flex flex-col md:flex-row md:items-center flex-1 w-full">
+        <label
+          class="
+            pr-3
+            font-semibold
+            text-[16px]
+            md:max-w-[110px]
+            text-[#3b4559]
+            md:text-right
+            text-left
+            mb-2
+            md:mb-0
+            w-full
+          "
+          >Status</label>
+        <select
+          class="w-full h-10 text-sm p-3 rounded-sm border-[#a2a2a2] text-[#a2a2a2] flex-1"
+          v-model="filterOption"
+        >
+          <!-- @change="changeFilter" -->
+          <option value="3">Show All</option>
+          <option value="0">Active</option>
+          <option value="1">Complete</option>
+        </select>
+      </div>
     </div>
 
     <!-- THIRD  -->
@@ -216,7 +241,18 @@
       </div>
 
       <div>
-        <div class="flex w-full flex-col lg:flex-row gap-2 items-center mb-4 lg:pb-4 ">
+        <div
+          class="
+            flex
+            w-full
+            flex-col
+            lg:flex-row
+            gap-2
+            items-center
+            mb-4
+            lg:pb-4
+          "
+        >
           <label
             class="
               pr-3
@@ -270,7 +306,6 @@
               placeholder="Select Secondary Topcoat"
             />
           </div>
-
         </div>
       </div>
     </div>
@@ -279,37 +314,37 @@
       <div class="flex w-full flex-col lg:flex-row gap-2">
         <div class="w-full"></div>
         <div class="flex gap-2 justify-end">
-            <button
-              v-if="!loading"
-              class="
-                bg-primary
-                rounded
-                w-60
-                py-2.5
-                px-1.8
-                text-white
-                hover:bg-primary-600
-              "
-            >
-              Run Detailed Report
-            </button>
-            <button
-              v-if="loading"
-              class="
-                bg-primary
-                rounded
-                w-60
-                py-2.5
-                px-1.8
-                text-white
-                hover:bg-primary-600
-              "
-              disabled
-            >
-              <div
-                className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
-              ></div>
-            </button>
+          <button
+            v-if="!loading"
+            class="
+              bg-primary
+              rounded
+              w-60
+              py-2.5
+              px-1.8
+              text-white
+              hover:bg-primary-600
+            "
+          >
+            Run Detailed Report
+          </button>
+          <button
+            v-if="loading"
+            class="
+              bg-primary
+              rounded
+              w-60
+              py-2.5
+              px-1.8
+              text-white
+              hover:bg-primary-600
+            "
+            disabled
+          >
+            <div
+              className="animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white inline-block"
+            ></div>
+          </button>
         </div>
       </div>
     </div>
@@ -334,7 +369,7 @@ export default {
     swiperSlide: SwiperSlide,
   },
   setup() {
-    const { form, v$, submitForm, loading } = useFormReport({
+    const { form, v$, submitForm, loading,filterOption } = useFormReport({
       customer: 0,
       customerName: "All Customers",
       chromateName: "All",
@@ -372,7 +407,7 @@ export default {
       coatDiptime_more_than: 0,
       coatDiptime_less_than: 0,
       startUtcDate: null,
-      endUtcDate: null
+      endUtcDate: null,
     });
     const listThickness = ref([
       { value: 0, label: "Select Operator" },
@@ -386,6 +421,7 @@ export default {
       v$,
       submitForm,
       listThickness,
+      filterOption,
       loading,
       changeSelectCustomer: (value, data) => (form.customerName = data.label),
       changeSelectChromate: (value, data) => (form.chromateName = data.label),

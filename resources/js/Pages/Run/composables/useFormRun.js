@@ -106,12 +106,7 @@ const useFormRun = () => {
                 plateThick: {
                     required,
                 },
-                typePlateThick: {
-                    isDiferentZero: helpers.withMessage(
-                        "You must select an option",
-                        isDiferentZero
-                    ),
-                },
+          
 
 
             })

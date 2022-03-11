@@ -58,7 +58,7 @@ const useFormReport = (formProps) => {
     const loading = ref(false)
     const { makeToast } = useHelper();
     const { emit } = getCurrentInstance();
-
+    const filterOption = ref(3);
     const rules = {
 
         start_date: {
@@ -108,6 +108,7 @@ const useFormReport = (formProps) => {
         
         form.startUtcDate = convertDate( `${form.start_date} 0:00:00` );
         form.endUtcDate = convertDate( `${form.endDate} 23:59:59` );
+        form.filterOption = parseInt( filterOption.value)
 
 
         const isFormCorrect = await v$.value.$validate();
@@ -133,7 +134,8 @@ const useFormReport = (formProps) => {
         form,
         v$,
         submitForm,
-        loading
+        loading,
+        filterOption,
     }
 
 }
