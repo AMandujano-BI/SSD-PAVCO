@@ -502,7 +502,12 @@
           />
         </div>
 
-        <table id="activeRunsDetail" class="display" style="width: 100%" data-ordering="false">
+        <table
+          id="activeRunsDetail"
+          class="display"
+          style="width: 100%"
+          data-ordering="false"
+        >
           <thead>
             <tr>
               <th class="no-sort" data-priority="1">Part description</th>
@@ -794,44 +799,18 @@ export default {
       modalEmail.value = false;
     };
     const reportRun = () => {
-      const currentTimeZone =  `${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
-      axios.post(`/run/download/${id}`, {
-        zone: currentTimeZone
-      }, {
-        Accept: 'application/pdf',
-        responseType: 'blob'
-      }).then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'run_report.pdf');
-        document.body.appendChild(link);
-        link.click();
-      }).catch( e => {
-        console.log(e);
-      })
-      // window.location.href = `/run/download/${id}`;
+      let currentTimeZone = `${
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+      }`;
+      currentTimeZone = currentTimeZone.replace("/", "----");
+      window.location.href = `/run/download/${id}/'${currentTimeZone}'`;
     };
     const reportAndPhotosRun = () => {
-      const currentTimeZone =  `${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
-
-      axios.post(`/run/downloadPlus/${id}`, {
-        zone: currentTimeZone
-      }, {
-        Accept: 'application/pdf',
-        responseType: 'blob'
-      }).then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'run_report.pdf');
-        document.body.appendChild(link);
-        link.click();
-      }).catch( e => {
-        console.log(e);
-      })
-
-      // window.location.href = `/run/downloadPlus/${id}`;
+      let currentTimeZone = `${
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+      }`;
+      currentTimeZone = currentTimeZone.replace("/", "----");
+      window.location.href = `/run/downloadPlus/${id}/'${currentTimeZone}'`;
     };
     const openModalEmail = (id) => {
       modalEmail.value = true;
@@ -959,8 +938,8 @@ export default {
               searchable: true,
               render: function (data, type, row, meta) {
                 if (row.chromate?.name != undefined) {
-                  if(row.primaryPer ==null){
-                    return `<td>${row.chromate.name}</td>`
+                  if (row.primaryPer == null) {
+                    return `<td>${row.chromate.name}</td>`;
                   }
                   return (
                     "<td>" +
@@ -978,38 +957,41 @@ export default {
               name: "part.top_coat.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                if(row.top_coat?.name !=undefined){
-
-                  if(row.topCoatPer ==null){
-                    return `<td>${row.top_coat.name}</td>`
+                if (row.top_coat?.name != undefined) {
+                  if (row.topCoatPer == null) {
+                    return `<td>${row.top_coat.name}</td>`;
                   }
 
                   return (
                     "<td>" +
-                  row.top_coat.name +
-                  " - " +
-                  row.topCoatPer +
-                  " % " +
-                  "</td>"
-                );
-                  }
-                  return '<td></td>'
+                    row.top_coat.name +
+                    " - " +
+                    row.topCoatPer +
+                    " % " +
+                    "</td>"
+                  );
+                }
+                return "<td></td>";
               },
             },
             {
               name: "part.coat.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                if(row.coat?.name !=undefined){
-
-                  if(row.coatPer ==null){
-                    return `<td>${row.coat.name}</td>`
+                if (row.coat?.name != undefined) {
+                  if (row.coatPer == null) {
+                    return `<td>${row.coat.name}</td>`;
                   }
                   return (
-                    "<td>" + row.coat.name + " - " + row.coatPer + " % " + "</td>"
-                );
-                  }
-                  return '<td></td>'
+                    "<td>" +
+                    row.coat.name +
+                    " - " +
+                    row.coatPer +
+                    " % " +
+                    "</td>"
+                  );
+                }
+                return "<td></td>";
               },
             },
             {
@@ -1149,7 +1131,7 @@ export default {
     const getHoursWs = (hours, id) => {
       isWsRsChanges.value = true;
       let hoursWs;
-      (hours !== '') ? hoursWs = Number(hours) : hoursWs = null;
+      hours !== "" ? (hoursWs = Number(hours)) : (hoursWs = null);
       // console.log(hoursWs)
       const idHWs = Number(id);
       const hwsPos = parts.value.findIndex((el) => el.id === idHWs);
@@ -1160,7 +1142,7 @@ export default {
     const getHoursRs = (hours, id) => {
       isWsRsChanges.value = true;
       let hoursRs;
-      (hours !== '') ? hoursRs = Number(hours) : hoursRs = null;
+      hours !== "" ? (hoursRs = Number(hours)) : (hoursRs = null);
       // console.log(hoursRs);
       const idHrss = Number(id);
       const hrssPos = parts.value.findIndex((el) => el.id === idHrss);

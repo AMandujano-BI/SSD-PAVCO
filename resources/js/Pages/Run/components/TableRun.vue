@@ -73,7 +73,7 @@
             <th data-priority="1" class="max-w-[150px]">Customer</th>
             <th>Method</th>
             <th data-priority="2">Status</th>
-            <th>Hrs</th>
+            <th class="no-sort">Hrs</th>
             <th class="no-sort">Photos</th>
             <th class="no-sort">Results</th>
             <th class="no-sort">Edit</th>
@@ -91,7 +91,7 @@
             <th data-priority="1" class="max-w-[150px]">Customer</th>
             <th>Method</th>
             <th data-priority="2">Status</th>
-            <th>Hrs</th>
+            <th class="no-sort">Hrs</th>
             <th class="no-sort">Photos</th>
             <th class="no-sort">Results</th>
             <th class="no-sort">Reports</th>
@@ -816,30 +816,7 @@ export default {
       }`;
       currentTimeZone = currentTimeZone.replace("/", "----");
       window.location.href = `/run/download/${id}/'${currentTimeZone}'`;
-      return;
-      axios
-        .post(
-          `/run/download/${id}`,
-          {
-            zone: currentTimeZone,
-          },
-          {
-            Accept: "application/pdf",
-            responseType: "blob",
-          }
-        )
-        .then((response) => {
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", "run_report.pdf");
-          document.body.appendChild(link);
-          link.click();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      // window.location.href = `/run/download/${id}`;
+
     };
     const reportAndPhotosRun = (id) => {
       let currentTimeZone = `${
@@ -847,31 +824,6 @@ export default {
       }`;
       currentTimeZone = currentTimeZone.replace("/", "----");
       window.location.href = `/run/downloadPlus/${id}/'${currentTimeZone}'`;
-      return;
-      axios
-        .post(
-          `/run/downloadPlus/${id}`,
-          {
-            zone: currentTimeZone,
-          },
-          {
-            Accept: "application/pdf",
-            responseType: "blob",
-          }
-        )
-        .then((response) => {
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", "run_report.pdf");
-          document.body.appendChild(link);
-          link.click();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-
-      // window.location.href = `/run/downloadPlus/${id}/${currentTimeZone}`;
     };
     const openModalEmail = (id) => {
       modalEmail.value = true;
