@@ -143,7 +143,7 @@
     <div class='body__first'>
         <div class='content'>
             <span class='rectangle'>
-                <img src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png' class='PavcoWhite'>
+                <img src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png' alt='Pavco Icon' class='PavcoWhite'>
                 <!-- srcset='pavco@2x.png 2x, pavco@3x.png 3x' -->
             </span>
             <span class='title'>Salt Spray Report Results</span>

@@ -145,7 +145,7 @@
     <div class='body__first'>
         <div class='content'>
             <span class='rectangle'>
-                <img src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png' class='PavcoWhite'>
+                <img src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png' alt='Pavco Icon' class='PavcoWhite'>
                 <!-- srcset='pavco@2x.png 2x, pavco@3x.png 3x' -->
             </span>
             <span class='title'>Salt Spray Report Results</span>
@@ -310,25 +310,23 @@
                         @for($i = 0; $i < count($photos); ++$i) <tr>
                             @if (($i+($i*2)) < count($photos)) <td style="text-align: center;">
                                 <hr style="border-color: #cfcfcf !important">
-                                <img src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
+                                <img src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
                                 </td>
                                 @else
                                 @break
                                 @endif
 
                                 @if ( ($i+($i*2)+1) < count($photos) ) <td style="text-align: center;">
-                                    <p>Image - {{$photos[$i+($i*2)+1]['name']}}</p>
                                     <hr style="border-color: #cfcfcf !important">
-                                    <img src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
+                                    <img src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
                                     </td>
                                     @else
                                     @break
                                     @endif
 
                                     @if ( ($i+($i*2)+2) < count($photos) ) <td style="text-align: center;">
-                                        <p>Image - {{$photos[$i+($i*2)+2]['name']}}</p>
                                         <hr style="border-color: #cfcfcf !important">
-                                        <img src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['name']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
+                                        <img src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
                                         </td>
                                         @else
                                         @break
