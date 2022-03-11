@@ -3,7 +3,7 @@
   <form @submit.prevent="submitForm">
     <div>
       <label class="text-[#3b4559] font-semibold">Plate Type</label>
-      <div class="flex w-full justify-between gap-2">
+      <div class="flex flex-col md:flex-row w-full justify-between gap-2">
         <div class="w-full">
           <multi-select
             :options="plateTypes"
@@ -13,47 +13,42 @@
             placeholder="Select Plate Type"
           />
         </div>
-        <div class="w-[180px]">
-          <multi-select
-            :options="[
-              {
-                value: 1,
-                label: 'micra',
-              },
-              {
-                value: 2,
-                label: 'mils',
-              },
-            ]"
-            class="w-full"
-            v-model="form.typePlateThick"
-            :searchable="true"
-            placeholder="Select Type "
-          />
-          <p
-            v-for="error of v$.typePlateThick.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
-        </div>
-        <div>
-          <input
-            step=".01"
-            type="number"
-            class="w-[80px]"
-            v-model="form.plateThick"
-            :class="{ 'border-red-500': v$.plateThick.$error }"
-          />
-          <span class="text-center block pt-1 text-[#3b4559]">mil</span>
-          <p
-            v-for="error of v$.plateThick.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
+        <div class="w-full flex justify-between gap-2">
+          <div class="w-full md:w-[210px]">
+            <multi-select
+              :options="[
+                {
+                  value: 1,
+                  label: 'micra',
+                },
+                {
+                  value: 2,
+                  label: 'mils',
+                },
+              ]"
+              class="w-full"
+              v-model="form.typePlateThick"
+              :searchable="true"
+              placeholder="Select Type "
+            />
+        
+          </div>
+          <div>
+            <input
+              step=".01"
+              type="number"
+              class="w-[80px]"
+              v-model="form.plateThick"
+              :class="{ 'border-red-500': v$.plateThick.$error }"
+            />
+            <p
+              v-for="error of v$.plateThick.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -351,12 +346,6 @@ export default {
       typePlateThick: partUpdate.typePlateThick,
     });
     const rules = {
-      typePlateThick: {
-        isDiferentZero: helpers.withMessage(
-          "You must select an option",
-          isDiferentZero
-        ),
-      },
       plateThick: { required },
     };
     const v$ = useVuelidate(rules, form);

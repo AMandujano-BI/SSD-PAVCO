@@ -3,7 +3,7 @@
   <form @submit.prevent="submitForm">
     <div>
       <label class="text-[#3b4559] font-semibold">Plate Type</label>
-      <div class="flex w-full justify-between gap-2">
+      <div class="flex flex-col md:flex-row w-full justify-between gap-2">
         <div class="w-full">
           <multi-select
             :options="plateTypes"
@@ -13,46 +13,42 @@
             placeholder="Select Plate Type"
           />
         </div>
-        <div class="w-[180px]">
-          <multi-select
-            :options="[
-              {
-                value: 1,
-                label: 'micra',
-              },
-              {
-                value: 2,
-                label: 'mils',
-              },
-            ]"
-            class="w-full"
-            v-model="form.typePlateThick"
-            :searchable="true"
-            placeholder="Select Type "
-          />
-          <p
-            v-for="error of v$.typePlateThick.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
-        </div>
-        <div>
-          <input
-            type="number"
-            step=".01"
-            class="w-[80px]"
-            v-model="form.plateThick"
-            :class="{ 'border-red-500': v$.plateThick.$error }"
-          />
-          <p
-            v-for="error of v$.plateThick.$errors"
-            :key="error.$uid"
-            class="text-red-400"
-          >
-            {{ error.$message }}
-          </p>
+        <div class="w-full flex justify-between gap-2">
+          <div class="w-full md:w-[210px]">
+            <multi-select
+              :options="[
+                {
+                  value: 1,
+                  label: 'micra',
+                },
+                {
+                  value: 2,
+                  label: 'mils',
+                },
+              ]"
+              class="w-full"
+              v-model="form.typePlateThick"
+              :searchable="true"
+              placeholder="Select Type "
+            />
+        
+          </div>
+          <div>
+            <input
+              type="number"
+              step=".01"
+              class="w-[80px]"
+              v-model="form.plateThick"
+              :class="{ 'border-red-500': v$.plateThick.$error }"
+            />
+            <p
+              v-for="error of v$.plateThick.$errors"
+              :key="error.$uid"
+              class="text-red-400"
+            >
+              {{ error.$message }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -326,7 +322,7 @@ export default {
     const { run_id, partsTable } = props;
     const parts = ref(partsTable);
     const loading = ref(false);
-    const newDescription = ref('')
+    const newDescription = ref("");
     const form = reactive({
       id: 0,
       description: "",
@@ -341,7 +337,7 @@ export default {
       topCoatPer: "",
       topCoatTemp: "",
       topCoatPH: "",
-      description:newDescription,
+      description: newDescription,
       topCoatDiptime: "",
       primaryPer: "",
       primaryTemp: "",
@@ -353,13 +349,6 @@ export default {
       coatDiptime: "",
     });
     const rules = {
-
-      typePlateThick: {
-        isDiferentZero: helpers.withMessage(
-          "You must select an option",
-          isDiferentZero
-        ),
-      },
       plateThick: {
         required,
       },
@@ -391,16 +380,13 @@ export default {
       }
     };
 
+    const getNextPartDescription = async () => {
+      const res = await axios.get(`getNextNumberDescription/${run_id}`);
+      const number = res.data.number;
+      newDescription.value = `Part number ${number}`;
+    };
 
-    const getNextPartDescription = async()=>{
-
-      const res = await axios.get(`getNextNumberDescription/${run_id}`)
-      const number = res.data.number
-      newDescription.value = `Part number ${number}`
-
-    }
-
-    getNextPartDescription()
+    getNextPartDescription();
 
     return {
       form,
@@ -408,7 +394,7 @@ export default {
       v$,
       submitForm,
       loading,
-      newDescription
+      newDescription,
     };
   },
   watch: {
