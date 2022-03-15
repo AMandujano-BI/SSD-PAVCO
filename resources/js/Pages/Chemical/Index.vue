@@ -1,10 +1,10 @@
 <template>
   <app-layout title="Chemicals">
-      <div class="container pt-14 mx-auto">
-        <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
-          List of Chemicals
-        </h1>
-          <div class="container p-2">
+    <div class="container pt-14 mx-auto">
+      <h1 class="text-center text-2xl p-5 font-bold text-[#3b4559]">
+        List of Chemicals
+      </h1>
+      <div class="container p-2">
         <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
           <div class="flex gap-8 items-center flex-1 w-full">
             <button @click="openModal"><icon-plus /></button>
@@ -95,7 +95,9 @@
 
         <modal :show="show">
           <form @submit.prevent="submit" class="container mx-auto p-5">
-            <p class="text-xl font-bold text-center text-[#3b4559]">{{ modalTitle }}</p>
+            <p class="text-xl font-bold text-center text-[#3b4559]">
+              {{ modalTitle }}
+            </p>
             <div>
               <div>
                 <label class="text-[#3b4559] font-semibold">Name</label>
@@ -195,13 +197,13 @@
             </div>
           </template>
         </confirmation-modal>
-          </div>
       </div>
+    </div>
   </app-layout>
 </template>
 
 <script>
-import { ref, nextTick, onMounted } from "vue";
+import { ref, nextTick, onMounted,onUnmounted } from "vue";
 import dt from "datatables.net";
 import axios from "axios";
 import { required } from "@vuelidate/validators";
@@ -236,10 +238,15 @@ export default {
     let show = ref(false);
     let showDeleteModal = ref(false);
     let modalTitle = ref("");
+    let table;
     let form = ref({
       id: 0,
       name: "",
       type: "",
+    });
+
+    onUnmounted(() => {
+      table?.clear().destroy();
     });
 
     const rules = {
@@ -255,22 +262,16 @@ export default {
 
     const getChemical = async (type) => {
       try {
-        // const res = await axios.get(`/chemical/getChemicals/${type}`);
-        // chemicalList.value = res.data;
-
-        $("#chemicalTable").DataTable().clear().destroy();
+        table?.clear().destroy();
         generateDataTable(type);
-      } catch (error) {
-        makeToast(
-          "There is an error to load chemicals. Try again please.",
-          "error"
-        );
+      } catch (e) {
+        console.log(e);
       }
     };
     const typesArray = ref([
-      { value: 3, label: "Plate Type" },
-      { value: 2, label: "Chromate" },
       { value: 1, label: "TopCoat" },
+      { value: 2, label: "Chromate" },
+      { value: 3, label: "Plate Type" },
       { value: 4, label: "Secondary TopCoat" },
     ]);
 
@@ -285,7 +286,7 @@ export default {
         res = await axios.post("/chemical", form._value);
       }
       const { ok, message } = res.data;
-      await v$.value.$reset()
+      await v$.value.$reset();
       if (ok === true) {
         makeToast(message);
         if (selected._value !== "0") {
@@ -367,13 +368,13 @@ export default {
       $("#filterChemicalInputBot")
         .off()
         .keyup(function () {
-          $("#chemicalTable").DataTable().search(this.value).draw();
+          table?.search(this.value).draw();
         });
     });
 
     const generateDataTable = (type) => {
       nextTick(() => {
-        $("#chemicalTable").DataTable({
+        table = $("#chemicalTable").DataTable({
           ordering: true,
           bLengthChange: false,
           pageLength: 10,
