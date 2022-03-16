@@ -60,9 +60,11 @@ class RolsMiddlware
             ],
             'Administrator' => [
                 'photo',
+                'company',
                 'run',
                 'part',
                 'report',
+                'dailyHours',
            
             ],
             'Distributor' => [

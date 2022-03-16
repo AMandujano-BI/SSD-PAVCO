@@ -8,18 +8,41 @@ export default [
   'General',
   [
     {
+      // to: '/run',
       href: '/run',
       label: 'Runs',
       icon: 'run',
       itemRoute: 'run.index'
+      // updateMark: true
     },
     {
+      label: 'Maintenance',
+      icon: 'Maintenance',
+      menu: [
+        {
+          label: 'Company',
+          href: '/company',
+          icon: 'Company',
+          itemRoute: 'company.index'
+        },
+    
+
+      ]
+    },
+    {
+      // to: '/run',
       href: '/report',
       label: 'Reports',
       icon: 'Reports',
       itemRoute: 'report.index',
       updateMark: true
     },
+    {
+      label: 'Daily Hours',
+      href: '/daily-hours',
+      icon: 'DailyHours',
+      itemRoute: 'dailyHours.index'
+    }
   ],
 
 ]

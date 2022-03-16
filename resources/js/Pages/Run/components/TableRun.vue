@@ -6,7 +6,7 @@
   <div class="container p-2">
     <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
       <div class="flex gap-8 items-center flex-1 w-full">
-        <div v-if="$page.props.auth.rols[0].id == 1">
+        <div v-if="$page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2">
           <button @click="openModalButton"><icon-plus /></button>
         </div>
         <select
