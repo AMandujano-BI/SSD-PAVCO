@@ -178,11 +178,7 @@
                     </thead>
                     <tbody>
                         @foreach ($allParts as $part)
-                        @if (
-                        $part->topCoatPer != null || $part->topCoatTemp != null || $part->topCoatPH != null || $part->topCoatDiptime != null ||
-                        $part->primaryPer != null || $part->primaryTemp != null || $part->primaryPH != null || $part->primaryDiptime != null ||
-                        $part->coatPer != null || $part->coatTemp != null || $part->coatPH != null || $part->coatDiptime != null
-                        )
+                      
                         <tr style="text-align: center;">
                             <td class="td" style="text-align: center;">{{$part->description}}</td>
                             <td class="td" style="text-align: center;">
@@ -291,7 +287,6 @@
                                 @endif
                             </td>
                         </tr>
-                        @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -309,31 +304,34 @@
                     <tbody>
                         @for($i = 0; $i < count($photos); ++$i) <tr>
                             @if (($i+($i*2)) < count($photos)) <td style="text-align: center;">
-                                <hr style="border-color: #cfcfcf !important">
                                 <img src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
+                                <hr style="border-color: #cfcfcf !important">
+                                <p>{{$photos[$i+($i*2)]['description']}}</p>
                                 </td>
                                 @else
                                 @break
                                 @endif
 
                                 @if ( ($i+($i*2)+1) < count($photos) ) <td style="text-align: center;">
-                                    <hr style="border-color: #cfcfcf !important">
                                     <img src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
+                                    <hr style="border-color: #cfcfcf !important">
+                                    <p>{{$photos[$i+($i*2)+1]['description']}}</p>
                                     </td>
                                     @else
                                     @break
                                     @endif
 
                                     @if ( ($i+($i*2)+2) < count($photos) ) <td style="text-align: center;">
-                                        <hr style="border-color: #cfcfcf !important">
                                         <img src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
+                                        <hr style="border-color: #cfcfcf !important">
+                                        <p>{{$photos[$i+($i*2)+2]['description']}}</p>
                                         </td>
                                         @else
                                         @break
                                         @endif
 
                                         </tr>
-                                        @endfor
+                        @endfor
                     </tbody>
                 </table>
             </div>

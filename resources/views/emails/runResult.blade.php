@@ -480,20 +480,16 @@
                                 <table style="width: 100%;">
                                   <thead>
                                     <tr>
-                                      <th scope="col">Part Description</th>
-                                      <th scope="col">Plate Type</th>
-                                      <th scope="col">Primary Coat</th>
-                                      <th scope="col">Coat</th>
+                                      <th scope="col">Description</th>
+                                      <th scope="col">Plate</th>
+                                      <th scope="col">Chromate</th>
                                       <th scope="col">Topcoat</th>
+                                      <th scope="col">Secondary Topcoat</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     @foreach ($run->parts as $part)
-                                    @if (
-                                    $part->topCoatPer != null || $part->topCoatTemp != null || $part->topCoatPH != null || $part->topCoatDiptime != null ||
-                                    $part->primaryPer != null || $part->primaryTemp != null || $part->primaryPH != null || $part->primaryDiptime != null ||
-                                    $part->coatPer != null || $part->coatTemp != null || $part->coatPH != null || $part->coatDiptime != null
-                                    )
+
                                     <tr style=" border-top: 1px solid #979797;padding:5px;">
                                       <td data-label="Part Description" style="text-align: center;">{{$part->description}}</td>
                                       <td data-label="Plate Type" style="text-align: center;">
@@ -504,34 +500,81 @@
                                       </td>
                                       <td data-label="Primary Coat" style="text-align: center;">
                                         @if($part->chromate)
-                                        {{$part->chromate->name}} - {{$part->primaryPer}} %
+
+                                        {{$part->chromate->name}}
+
+
+                                        @if($part->primaryPer !=null)
+                                        <span> / {{$part->primaryPer}} % </span>
+
+                                        @endif
+
+                                        @if($part->primaryTemp!=null)
+                                        <span>/ {{$part->primaryTemp}} ° </span>
+                                        @endif
+
+                                        @if($part->primaryPH!=null)
+                                        <span>/ {{$part->primaryPH}} pH </span>
+                                        @endif
+
+
+                                        @if($part->primaryDiptime!=null)
+                                        <span>/ {{$part->primaryDiptime}} sec </span>
+                                        @endif
 
                                         @endif
 
                                       </td>
                                       <td data-label="Coat" style="text-align: center;">
-                                        @if($part->coat)
-                                        {{$part->coat->name}}
+                                        @if($part->topCoat)
+                                        {{$part->topCoat->name}}
 
-                                        @if($part->coatPer!=null)
-                                        <span> - {{$part->coatPer}} %</span>
+                                        @if($part->topCoatPer!=null)
+                                        <span> / {{$part->topCoatPer}} %</span>
+                                        @endif
+
+                                        @if($part->topCoatTemp !=null)
+                                        <span>/ {{$part->topCoatTemp}} ° </span>
+                                        @endif
+
+                                        @if($part->topCoatPH!=null)
+                                        <span>/ {{$part->topCoatPH}} pH </span>
+                                        @endif
+
+                                        @if($part->topCoatDiptime!=null)
+                                        <span>/ {{$part->topCoatDiptime}} sec </span>
                                         @endif
 
                                         @endif
 
                                       </td>
                                       <td data-label="Account" style="text-align: center;">
-                                        @if($part->topCoat)
-                                        {{$part->topCoat->name}}
+                                        @if($part->coat)
+                                        {{$part->coat->name}}
+
+
                                         @if($part->coatPer!=null)
-                                        <span> - {{$part->topCoatPer}} % </span>
+                                        <span> / {{$part->coatPer}} % </span>
+
+                                        @if($part->coatTemp!=null)
+                                        <span>/ {{$part->coatTemp}} °</span>
+                                        @endif
+
+                                        @if($part->coatPH!=null)
+                                        <span>/ {{$part->coatPH}} pH</span>
+                                        @endif
+
+                                        @if($part->coatDiptime!=null)
+                                        <span>/ {{$part->coatDiptime}} sec</span>
+                                        @endif
+
 
                                         @endif
 
                                         @endif
                                       </td>
                                     </tr>
-                                    @endif
+
                                     @endforeach
                                   </tbody>
 
@@ -617,9 +660,36 @@
 
                     <h1 style="margin: 10px 0px; color:#34689C;text-align: center;">Images</h1>
                     <div class="u-row-container" style="padding: 0px;background-color: transparent">
-                      @foreach ($run->photos as $photo)
-                      <img style="width: 330px;height: 330px;" src="{{$photo->image}}">
-                      @endforeach
+                      @if ( count($run->photos) > 0 )
+                      <table cellspacing='10'>
+
+                        <tbody>
+                          @for($i = 0; $i < count($run->photos); ++$i) <tr>
+
+
+                              @if (($i+($i*2)) < count($run->photos)) <td style="text-align: center;  width: 50%;">
+                                  <img src='{{$run->photos[$i+($i*2)]['image']}}' alt='{{$run->photos[$i]['description']}}' style='max-height: 200px; margin-top: 1em; max-width: 360px;'>
+                                  <hr style="border-color: #cfcfcf !important">
+                                  <p>{{$run->photos[$i+($i*2)]['description']}}</p>
+                                </td>
+                                @else
+                                @break
+                                @endif
+
+                                @if ( ($i+($i*2)+1) < count($run->photos) ) <td style="text-align: center;width: 50%;">
+                                    <img src='{{$run->photos[$i+($i*2)+1]['image']}}' alt='{{$run->photos[$i]['description']}}' style='max-height: 200px; margin-top: 1em; max-width: 360px;'>
+                                    <hr style="border-color: #cfcfcf !important">
+                                    <p>{{$run->photos[$i+($i*2)+1]['description']}}</p>
+                                  </td>
+                                  @else
+                                  @break
+                                  @endif
+                            </tr>
+                            @endfor
+                        </tbody>
+
+                      </table>
+                      @endif
                     </div>
                   </div>
                 </div>

@@ -6,7 +6,7 @@
     <p class="pb-4 text-[#3b4559]">
       Please enter a valid email address below. The email address that you enter
       below will receive an email from
-      <strong><a href="mailto:vayala@pavco.com">vayala@pavco.com</a></strong
+      <strong><a href="mailto:ssd@pavco.com">ssd@pavco.com</a></strong
       >.This email will contain the results to the run as well as a link to view
       all of the images for this run.
     </p>

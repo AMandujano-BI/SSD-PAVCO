@@ -168,11 +168,7 @@
                     </thead>
                     <tbody>
                         @foreach ($allParts as $part)
-                        @if (
-                        $part->topCoatPer != null || $part->topCoatTemp != null || $part->topCoatPH != null || $part->topCoatDiptime != null ||
-                        $part->primaryPer != null || $part->primaryTemp != null || $part->primaryPH != null || $part->primaryDiptime != null ||
-                        $part->coatPer != null || $part->coatTemp != null || $part->coatPH != null || $part->coatDiptime != null
-                        )
+                     
                         <tr style="text-align: center;">
                             <td style="text-align: center;">{{$part->description}}</td>
                             <td style="text-align: center;">
@@ -281,7 +277,6 @@
                                 @endif
                             </td>
                         </tr>
-                        @endif
                         @endforeach
                     </tbody>
                 </table>
