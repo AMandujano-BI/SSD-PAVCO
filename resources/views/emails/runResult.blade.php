@@ -663,7 +663,7 @@
                       @if ( count($run->photos) > 0 )
                       <table cellspacing='10'>
 
-                        <tbody>
+                        <!-- <tbody>
                           @for($i = 0; $i < count($run->photos); ++$i) <tr>
 
 
@@ -684,6 +684,30 @@
                                   @else
                                   @break
                                   @endif
+                            </tr>
+                            @endfor
+                        </tbody> -->
+                        <tbody>
+                          @for($i = 0; $i < count($run->photos); $i = $i + 2) <tr>
+
+
+                              @if ($i < count($run->photos)) <td style="text-align: center;  width: 50%;">
+                                  <img src='{{$run->photos[$i]['image']}}' alt='{{$run->photos[$i]['description']}}' style='max-height: 200px; margin-top: 1em; max-width: 360px;'>
+                                  <hr style="border-color: #cfcfcf !important">
+                                  <p>{{$run->photos[$i]['description']}}</p>
+                                </td>
+                              @else
+                                @break
+                              @endif
+
+                                @if ( ($i+1) < count($run->photos) ) <td style="text-align: center;width: 50%;">
+                                    <img src='{{$run->photos[$i+1]['image']}}' alt='{{$run->photos[$i+1]['description']}}' style='max-height: 200px; margin-top: 1em; max-width: 360px;'>
+                                    <hr style="border-color: #cfcfcf !important">
+                                    <p>{{$run->photos[$i+1]['description']}}</p>
+                                  </td>
+                                @else
+                                  @break
+                                @endif
                             </tr>
                             @endfor
                         </tbody>
