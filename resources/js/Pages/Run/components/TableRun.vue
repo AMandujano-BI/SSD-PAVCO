@@ -66,7 +66,7 @@
         class="display nowrap responsive"
         style="width: 100%; height: 100%"
       >
-        <thead v-if="$page.props.auth.rols[0].id == 1">
+        <thead v-if="$page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2  ">
           <tr>
             <th data-priority="2">StartDate</th>
             <th data-priority="1">Run #</th>
@@ -84,7 +84,7 @@
             <th class="no-sort">Email</th>
           </tr>
         </thead>
-        <thead v-if="$page.props.auth.rols[0].id != 1">
+        <thead v-if="$page.props.auth.rols[0].id != 1 && $page.props.auth.rols[0].id != 2">
           <tr>
             <th data-priority="2">StartDate</th>
             <th data-priority="1">Run #</th>
@@ -768,7 +768,7 @@ export default {
             });
             runs.value = arr;
           },
-          columns: rolConditional.value == 1 ? col : col2,
+          columns: rolConditional.value == 1 || rolConditional.value ==2 ? col : col2,
           drawCallback: function () {
             $("#activeRuns").on("click", "[class*=showphotos]", function (e) {
               showPhotos(e.currentTarget.attributes[1].value);

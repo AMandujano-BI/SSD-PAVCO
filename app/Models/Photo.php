@@ -36,7 +36,7 @@ class Photo extends Model
     }
     public function getImageAttribute($value)
     {
-        $image =  Storage::temporaryUrl($value, now()->addMinutes(30));
+        $image =  Storage::temporaryUrl($value, now()->addDays(4));
         return $image;
     }
     public static function getPhotosByRun($run_id){

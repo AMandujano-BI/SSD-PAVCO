@@ -111,7 +111,9 @@
             lg:grid-cols-4
             py-5
           "
-          v-if="$page.props.auth.rols[0].id == 1"
+          v-if="
+            $page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2
+          "
         >
           <div
             class="
@@ -329,6 +331,7 @@
               text-white
               py-4
               justify-center
+              cursor-pointer
             "
             @click="openModalEmail"
           >
@@ -347,7 +350,9 @@
             lg:grid-cols-4
             py-5
           "
-          v-if="$page.props.auth.rols[0].id != 1"
+          v-if="
+            $page.props.auth.rols[0].id != 1 && $page.props.auth.rols[0].id != 2
+          "
         >
           <div
             class="
@@ -938,17 +943,19 @@ export default {
               searchable: true,
               render: function (data, type, row, meta) {
                 if (row.chromate?.name != undefined) {
-                  if (row.primaryPer == null) {
-                    return `<td>${row.chromate.name}</td>`;
-                  }
-                  return (
-                    "<td>" +
-                    row.chromate.name +
-                    " - " +
-                    row.primaryPer +
-                    " % " +
-                    "</td>"
-                  );
+                  return `<td> ${row.chromate?.name}  ${
+                    row.primaryPer != null ? "/ " + row.primaryPer + " %" : ""
+                  } ${
+                    row.primaryTemp != null
+                      ? "/ " + row.primaryTemp + " °F"
+                      : ""
+                  } ${
+                    row.primaryPH != null ? " /" + row.primaryPH + " pH" : ""
+                  } ${
+                    row.primaryDiptime != null
+                      ? " / " + row.primaryDiptime + " sec"
+                      : ""
+                  } </td>`;
                 }
                 return "<td></td>";
               },
@@ -958,18 +965,19 @@ export default {
               searchable: true,
               render: function (data, type, row, meta) {
                 if (row.top_coat?.name != undefined) {
-                  if (row.topCoatPer == null) {
-                    return `<td>${row.top_coat.name}</td>`;
-                  }
-
-                  return (
-                    "<td>" +
-                    row.top_coat.name +
-                    " - " +
-                    row.topCoatPer +
-                    " % " +
-                    "</td>"
-                  );
+                  return `<td> ${row.top_coat?.name}  ${
+                    row.topCoatPer != null ? "/ " + row.topCoatPer + " %" : ""
+                  } ${
+                    row.topCoatTemp != null
+                      ? "/ " + row.topCoatTemp + " °F"
+                      : ""
+                  } ${
+                    row.topCoatPH != null ? " /" + row.topCoatPH + " pH" : ""
+                  } ${
+                    row.topCoatDiptime != null
+                      ? " / " + row.topCoatDiptime + " sec"
+                      : ""
+                  } </td>`;
                 }
                 return "<td></td>";
               },
@@ -979,17 +987,15 @@ export default {
               searchable: true,
               render: function (data, type, row, meta) {
                 if (row.coat?.name != undefined) {
-                  if (row.coatPer == null) {
-                    return `<td>${row.coat.name}</td>`;
-                  }
-                  return (
-                    "<td>" +
-                    row.coat.name +
-                    " - " +
-                    row.coatPer +
-                    " % " +
-                    "</td>"
-                  );
+                  return `<td> ${row.coat?.name}  ${
+                    row.coatPer != null ? "/ " + row.coatPer + " %" : ""
+                  } ${
+                    row.coatTemp != null ? "/ " + row.coatTemp + " °F" : ""
+                  } ${row.coatPH != null ? " /" + row.coatPH + " pH" : ""} ${
+                    row.coatDiptime != null
+                      ? " / " + row.coatDiptime + " sec"
+                      : ""
+                  } </td>`;
                 }
                 return "<td></td>";
               },
