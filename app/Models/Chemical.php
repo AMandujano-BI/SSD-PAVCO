@@ -15,7 +15,7 @@ class Chemical extends Model
 
     public static function createChemical($request)
     {
-        $chemical = (new static)::where('name', '=', $request->name)->first();
+        $chemical = (new static)::where('name', '=', $request->name)->where('type',$request->type)->first();
         if ($chemical == null) {
             $name = $request->name;
             $type = $request->type;
