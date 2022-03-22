@@ -31,7 +31,7 @@
       </div>
       <div
         v-else-if="
-          $page.props.auth.rols.some((item) => item.name == 'Administrator')
+          $page.props.auth.rols.some((item) => item.name == 'Administrator' || item.name =='Employee')
         "
       >
         <left-bar :menu="menuAdmin"></left-bar>

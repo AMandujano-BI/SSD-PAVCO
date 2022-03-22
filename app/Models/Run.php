@@ -67,7 +67,7 @@ class Run extends Model
         $userWithRol  = User::where('id', $user->id)->with(['rols'])->first();
         $rols = $userWithRol->rols;
         foreach ($rols as $key) {
-            if ($key->name == "Master Administrator" || $key->name == "Administrator") {
+            if ($key->name == "Master Administrator" || $key->name == "Administrator" || $key->name == "Employee") {
                 return true;
             }
             return false;

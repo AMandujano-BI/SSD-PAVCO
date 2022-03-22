@@ -459,7 +459,11 @@
         </div>
 
         <div class="flex gap-2 items-center flex-1 w-full mb-5">
-          <div>
+            <div
+          v-if="
+            $page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2
+          "
+        >
             <button
               class="rounded py-4 text-white px-3 mt-5"
               @click="showSaveWsRs"

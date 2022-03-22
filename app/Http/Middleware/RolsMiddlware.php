@@ -67,6 +67,15 @@ class RolsMiddlware
                 'dailyHours',
            
             ],
+            'Employee' => [
+                'photo',
+                'company',
+                'run',
+                'part',
+                'report',
+                'dailyHours',
+           
+            ],
             'Distributor' => [
                 'run',
                 'photo',

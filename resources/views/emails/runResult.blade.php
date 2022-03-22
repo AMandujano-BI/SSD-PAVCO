@@ -480,11 +480,13 @@
                                 <table style="width: 100%;">
                                   <thead>
                                     <tr>
-                                      <th scope="col">Description</th>
+                                      <th scope="col">Desc</th>
                                       <th scope="col">Plate</th>
                                       <th scope="col">Chromate</th>
                                       <th scope="col">Topcoat</th>
                                       <th scope="col">Secondary Topcoat</th>
+                                      <th scope="col">White Salt</th>
+                                      <th scope="col">Red Rust</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -571,6 +573,28 @@
 
                                         @endif
 
+                                        @endif
+                                      </td>
+                                      <td style="text-align: center;">
+                                        @if ( $part->isWs != null)
+                                        {{$part->hoursWs}} hrs
+                                        @else
+                                        @if ($run_status == 1)
+                                        Removed at {{$hours}} hrs
+                                        @else
+                                        Active
+                                        @endif
+                                        @endif
+                                      </td>
+                                      <td style="text-align: center;">
+                                        @if ( $part->isRs != null)
+                                        {{$part->hoursRs}} hrs
+                                        @else
+                                        @if ($run_status == 1)
+                                        Removed at {{$hours}} hrs
+                                        @else
+                                        Active
+                                        @endif
                                         @endif
                                       </td>
                                     </tr>
@@ -696,18 +720,18 @@
                                   <hr style="border-color: #cfcfcf !important">
                                   <p>{{$run->photos[$i]['description']}}</p>
                                 </td>
-                              @else
+                                @else
                                 @break
-                              @endif
+                                @endif
 
                                 @if ( ($i+1) < count($run->photos) ) <td style="text-align: center;width: 50%;">
                                     <img src='{{$run->photos[$i+1]['image']}}' alt='{{$run->photos[$i+1]['description']}}' style='max-height: 200px; margin-top: 1em; max-width: 360px;'>
                                     <hr style="border-color: #cfcfcf !important">
                                     <p>{{$run->photos[$i+1]['description']}}</p>
                                   </td>
-                                @else
+                                  @else
                                   @break
-                                @endif
+                                  @endif
                             </tr>
                             @endfor
                         </tbody>

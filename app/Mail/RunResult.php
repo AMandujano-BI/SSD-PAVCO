@@ -51,6 +51,14 @@ class RunResult extends Mailable
         $closed_date = new DateTime($this->_run->closed_date);
         $closedDate = $closed_date->format('Y-m-d H:i:s');
         $hours = 0;
+        $run_status = $this->_run->status;
+        if ($this->_run->status == 0) {
+            $status = 'Active';
+        } else {
+            if ($this->_run->status == 1) {
+                $status = 'Completed';
+            }
+        }
 
         if ($this->_run->status == 1) {
             if ($this->_run->isEdit) {
@@ -86,10 +94,10 @@ class RunResult extends Mailable
         $plate_type = '';
         $photos = $this->_run->photos;
         $allParts = $this->_run->parts;
-        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img']));
+        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img', 'run_status']));
         $pdf->setPaper('a4', 'landscape');
         return $this->view('emails.runResult')
-            ->with(['run' => $this->_run, 'hours' => $hours, 'start_date' => $start_date ])
+            ->with(['run' => $this->_run, 'hours' => $hours, 'start_date' => $start_date,'run_status'=>$run_status])
             ->attachData($pdf->output(), 'run_report_' . $this->_run->id . '.pdf', [
                 'mime' => 'application/pdf',
             ])

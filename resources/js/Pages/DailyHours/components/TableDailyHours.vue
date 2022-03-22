@@ -18,26 +18,32 @@
       @change="changeDateFilter"
       v-model="startDate"
     />
-    <button
-      class="bg-primary-500 p-4 text-white rounded-md"
-      @click="openModalChange"
+    <div
+      v-if="
+        $page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2
+      "
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        aria-hidden="true"
-        role="img"
-        width="24"
-        height="24"
-        preserveAspectRatio="xMidYMid meet"
-        viewBox="0 0 24 24"
+      <button
+        class="bg-primary-500 p-4 text-white rounded-md"
+        @click="openModalChange"
       >
-        <path
-          fill="white"
-          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm.06 17v-2.01H12c-1.28 0-2.56-.49-3.54-1.46a5.006 5.006 0 0 1-.64-6.29l1.1 1.1c-.71 1.33-.53 3.01.59 4.13c.7.7 1.62 1.03 2.54 1.01v-2.14l2.83 2.83L12.06 19zm4.11-4.24l-1.1-1.1c.71-1.33.53-3.01-.59-4.13A3.482 3.482 0 0 0 12 8.5h-.06v2.15L9.11 7.83L11.94 5v2.02c1.3-.02 2.61.45 3.6 1.45c1.7 1.7 1.91 4.35.63 6.29z"
-        />
-      </svg>
-    </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          aria-hidden="true"
+          role="img"
+          width="24"
+          height="24"
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="white"
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm.06 17v-2.01H12c-1.28 0-2.56-.49-3.54-1.46a5.006 5.006 0 0 1-.64-6.29l1.1 1.1c-.71 1.33-.53 3.01.59 4.13c.7.7 1.62 1.03 2.54 1.01v-2.14l2.83 2.83L12.06 19zm4.11-4.24l-1.1-1.1c.71-1.33.53-3.01-.59-4.13A3.482 3.482 0 0 0 12 8.5h-.06v2.15L9.11 7.83L11.94 5v2.02c1.3-.02 2.61.45 3.6 1.45c1.7 1.7 1.91 4.35.63 6.29z"
+          />
+        </svg>
+      </button>
+    </div>
     <div class="rounded-lg bg-white p-5">
       <table
         id="activeRuns"
@@ -180,7 +186,6 @@ export default {
       hours,
       closeDate
     ) => {
-      
       if (status === 1) {
         //cerrado
         if (edit) {
@@ -196,7 +201,6 @@ export default {
           const hoursEdited = activeEdit | 0; // trunca los decimales y se queda con el entero
           return hours + hoursEdited;
         } else {
-          
           const activeNonEdit =
             Math.abs(new Date() - new Date(created_date)) / 36e5;
           return activeNonEdit | 0; // trunca los decimales y se queda con el entero
@@ -211,17 +215,18 @@ export default {
       arrayId.value = [];
       data.map((item) => {
         dataId = Number(item[2]);
-        indexData = dataDailyHours.value.findIndex(run => run.id === dataId);
+        indexData = dataDailyHours.value.findIndex((run) => run.id === dataId);
         arrayId.value.push({
           id: item[2],
           hours: calculateHours(
-                  dataDailyHours.value[indexData].id,
-                  dataDailyHours.value[indexData].status,
-                  dataDailyHours.value[indexData].start_date,
-                  dataDailyHours.value[indexData].isEdit,
-                  dataDailyHours.value[indexData].last_edit,
-                  dataDailyHours.value[indexData].hours,
-                  dataDailyHours.value[indexData].closed_date)
+            dataDailyHours.value[indexData].id,
+            dataDailyHours.value[indexData].status,
+            dataDailyHours.value[indexData].start_date,
+            dataDailyHours.value[indexData].isEdit,
+            dataDailyHours.value[indexData].last_edit,
+            dataDailyHours.value[indexData].hours,
+            dataDailyHours.value[indexData].closed_date
+          ),
         });
       });
       // }arrayId.value.push(item[2]));
@@ -244,17 +249,20 @@ export default {
         arrayId.value = [];
         data.map((item) => {
           dataId = Number(item[2]);
-          indexData = dataDailyHours.value.findIndex(run => run.id === dataId);
+          indexData = dataDailyHours.value.findIndex(
+            (run) => run.id === dataId
+          );
           arrayId.value.push({
             id: item[2],
             hours: calculateHours(
-                  dataDailyHours.value[indexData].id,
-                  dataDailyHours.value[indexData].status,
-                  dataDailyHours.value[indexData].start_date,
-                  dataDailyHours.value[indexData].isEdit,
-                  dataDailyHours.value[indexData].last_edit,
-                  dataDailyHours.value[indexData].hours,
-                  dataDailyHours.value[indexData].closed_date)
+              dataDailyHours.value[indexData].id,
+              dataDailyHours.value[indexData].status,
+              dataDailyHours.value[indexData].start_date,
+              dataDailyHours.value[indexData].isEdit,
+              dataDailyHours.value[indexData].last_edit,
+              dataDailyHours.value[indexData].hours,
+              dataDailyHours.value[indexData].closed_date
+            ),
           });
         });
       } else {
@@ -321,7 +329,6 @@ export default {
             data.checked = false;
           });
       });
-
     };
 
     const apply = (jsonData) => {
@@ -332,7 +339,7 @@ export default {
       jsonData.arrayId.forEach((el) => {
         idArr = Number(el.id);
 
-        indexArr = dataDailyHours.value.findIndex(run => run.id === idArr);
+        indexArr = dataDailyHours.value.findIndex((run) => run.id === idArr);
         // console.log(dataDailyHours.value[indexArr].hours);
         dataDailyHours.value[indexArr].isEdit = true;
         dataDailyHours.value[indexArr].last_edit = new Date();

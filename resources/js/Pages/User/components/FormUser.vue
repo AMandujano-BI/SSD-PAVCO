@@ -75,7 +75,7 @@
         <label class="text-[#3b4559] font-semibold">Company</label>
         <multi-select
           autocomplete="nope"
-          :disabled="typeRol ===1 || typeRol ===2"
+          :disabled="typeRol ===1 || typeRol ===2 || typeRol ===5"
           :options="companies"
           class="w-full my-2"
           v-model="form.company_id"
