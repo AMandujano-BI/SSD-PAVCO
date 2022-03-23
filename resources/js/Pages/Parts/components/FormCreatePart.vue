@@ -383,7 +383,12 @@ export default {
     const getNextPartDescription = async () => {
       const res = await axios.get(`getNextNumberDescription/${run_id}`);
       const number = res.data.number;
-      newDescription.value = `Part number ${number}`;
+      console.log(res.data.number)
+      if(number ==0){
+        newDescription.value = `Part number ${1}`;
+      }else{
+        newDescription.value = `Part number ${number}`;
+      }
     };
 
     getNextPartDescription();

@@ -155,7 +155,9 @@
         <div class='body'>
             <div class='table__container'>
                 <table cellspacing='10' style='width:100%;'>
+
                     <thead>
+                        @if(count($allParts)==0)
                         <tr>
                             <th>Desc</th>
                             <th>Plate</th>
@@ -165,21 +167,46 @@
                             <th>White Salt</th>
                             <th>Red Rust</th>
                         </tr>
+                        @endif
+
+                        @if(count($allParts)>0)
+                        <tr>
+                            <th>Desc</th>
+
+                            @if($countPlateType > 0 )
+                            <th>Plate</th>
+                            @endif
+                            @if($countChromate >0)
+                            <th>Chromate </th>
+                            @endif
+                            @if($countTopCoat > 0)
+                            <th>Topcoat</th>
+                            @endif
+
+                            @if($countSecondaryTopCoat > 0)
+                            <th>Secondary Topcoat</th>
+
+                            @endif
+                            <th>White Salt</th>
+                            <th>Red Rust</th>
+                        </tr>
+                        @endif
                     </thead>
                     <tbody>
+                        @if(count($allParts)>0)
                         @foreach ($allParts as $part)
-                     
                         <tr style="text-align: center;">
                             <td style="text-align: center;">{{$part->description}}</td>
+                            @if($countPlateType > 0 )
                             <td style="text-align: center;">
                                 @if($part->plateType)
                                 {{$part->plateType->name}}
                                 @endif
                             </td>
+                            @endif
+                            @if($countChromate >0)
                             <td style="text-align: center;">
                                 @if($part->chromate)
-
-
                                 {{$part->chromate->name}}
 
                                 @if($part->primaryPer !=null)
@@ -205,6 +232,9 @@
 
                                 @endif
                             </td>
+                            @endif
+
+                            @if($countTopCoat > 0)
                             <td style="text-align: center;">
                                 @if($part->topCoat)
 
@@ -230,9 +260,11 @@
 
                                 @endif
                             </td>
+                            @endif
+                            @if($countSecondaryTopCoat > 0)
                             <td style="text-align: center;">
-
                                 @if($part->coat)
+
                                 {{$part->coat->name}}
 
                                 @if($part->coatPer!=null)
@@ -254,6 +286,11 @@
 
                                 @endif
                             </td>
+                            @endif
+
+
+
+
                             <td style="text-align: center;">
                                 @if ( $part->isWs != null)
                                 {{$part->hoursWs}} hrs
@@ -278,6 +315,7 @@
                             </td>
                         </tr>
                         @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>

@@ -479,6 +479,7 @@
                                 </style>
                                 <table style="width: 100%;">
                                   <thead>
+                                    @if(count($run->parts)==0)
                                     <tr>
                                       <th scope="col">Desc</th>
                                       <th scope="col">Plate</th>
@@ -488,18 +489,45 @@
                                       <th scope="col">White Salt</th>
                                       <th scope="col">Red Rust</th>
                                     </tr>
+                                    @endif
+                                    @if(count($run->parts)>0)
+                                    <tr>
+                                      <th scope="col">Desc</th>
+
+                                      @if($countPlateType > 0 )
+                                      <th scope="col">Plate</th>
+                                      @endif
+                                      @if($countChromate >0)
+                                      <th scope="col">Chromate </th>
+                                      @endif
+                                      @if($countTopCoat > 0)
+                                      <th scope="col">Topcoat</th>
+                                      @endif
+
+                                      @if($countSecondaryTopCoat > 0)
+                                      <th scope="col">Secondary Topcoat</th>
+
+                                      @endif
+                                      <th scope="col">White Salt</th>
+                                      <th scope="col">Red Rust</th>
+                                    </tr>
+                                    @endif
                                   </thead>
                                   <tbody>
+                                  @if(count($run->parts )>0)
                                     @foreach ($run->parts as $part)
 
                                     <tr style=" border-top: 1px solid #979797;padding:5px;">
                                       <td data-label="Part Description" style="text-align: center;">{{$part->description}}</td>
+                                      @if($countPlateType > 0 )
                                       <td data-label="Plate Type" style="text-align: center;">
                                         @if($part->plateType)
                                         {{$part->plateType->name}}
                                         @endif
 
                                       </td>
+                                      @endif
+                                      @if($countChromate >0)
                                       <td data-label="Primary Coat" style="text-align: center;">
                                         @if($part->chromate)
 
@@ -527,7 +555,9 @@
                                         @endif
 
                                       </td>
-                                      <td data-label="Coat" style="text-align: center;">
+                                      @endif
+                                      @if($countTopCoat > 0)
+                                      <td data-label="TopCoat" style="text-align: center;">
                                         @if($part->topCoat)
                                         {{$part->topCoat->name}}
 
@@ -550,7 +580,9 @@
                                         @endif
 
                                       </td>
-                                      <td data-label="Account" style="text-align: center;">
+                                      @endif
+                                      @if($countSecondaryTopCoat > 0)
+                                      <td data-label="Cot" style="text-align: center;">
                                         @if($part->coat)
                                         {{$part->coat->name}}
 
@@ -575,6 +607,7 @@
 
                                         @endif
                                       </td>
+                                      @endif
                                       <td style="text-align: center;">
                                         @if ( $part->isWs != null)
                                         {{$part->hoursWs}} hrs
@@ -600,6 +633,7 @@
                                     </tr>
 
                                     @endforeach
+                                    @endif
                                   </tbody>
 
                                 </table>

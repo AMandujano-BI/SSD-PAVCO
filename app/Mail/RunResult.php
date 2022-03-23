@@ -94,10 +94,21 @@ class RunResult extends Mailable
         $plate_type = '';
         $photos = $this->_run->photos;
         $allParts = $this->_run->parts;
-        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img', 'run_status']));
+
+
+        //Count columns for hide or show
+        $countPlateType= count( Part::where('run_id',$this->_run->id)->where('plate_types_id','!=',null)->get());
+        $countChromate = count( Part::where('run_id',$this->_run->id)->where('primaryCoatId','!=',null)->get());
+        $countTopCoat = count( Part::where('run_id',$this->_run->id)->where('topCoatId','!=',null)->get());
+        $countSecondaryTopCoat = count( Part::where('run_id',$this->_run->id)->where('coatId','!=',null)->get());
+
+
+
+
+        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img', 'run_status','countChromate','countPlateType','countTopCoat','countSecondaryTopCoat']));
         $pdf->setPaper('a4', 'landscape');
         return $this->view('emails.runResult')
-            ->with(['run' => $this->_run, 'hours' => $hours, 'start_date' => $start_date,'run_status'=>$run_status])
+            ->with(['run' => $this->_run, 'hours' => $hours, 'start_date' => $start_date,'run_status'=>$run_status,'countChromate'=>$countChromate,'countPlateType'=>$countPlateType,'countTopCoat'=>$countTopCoat,'countSecondaryTopCoat'=>$countSecondaryTopCoat])
             ->attachData($pdf->output(), 'run_report_' . $this->_run->id . '.pdf', [
                 'mime' => 'application/pdf',
             ])

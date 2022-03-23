@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RunRequest;
 use App\Models\Chemical;
 use App\Models\Company;
+use App\Models\Part;
 use App\Models\PlateMethod;
 use App\Models\Run;
 use Illuminate\Http\Request;
@@ -235,7 +236,12 @@ class RunController extends Controller
 
         $allParts = $run->parts;
 
-        $pdf = PDF::loadView('pdf.runReport', compact(['allParts', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status']));
+        $countPlateType= count( Part::where('run_id',$run->id)->where('plate_types_id','!=',null)->get());
+        $countChromate = count( Part::where('run_id',$run->id)->where('primaryCoatId','!=',null)->get());
+        $countTopCoat = count( Part::where('run_id',$run->id)->where('topCoatId','!=',null)->get());
+        $countSecondaryTopCoat = count( Part::where('run_id',$run->id)->where('coatId','!=',null)->get());
+
+        $pdf = PDF::loadView('pdf.runReport', compact(['allParts', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status','countChromate','countPlateType','countTopCoat','countSecondaryTopCoat']));
         $pdf->setPaper('a4', 'landscape');
         // return $pdf->output();
         return $pdf->download('run_report_' . $run->id . '.pdf');
@@ -299,9 +305,14 @@ class RunController extends Controller
         $plate_type = '';
         $allParts = $run->parts;
         $photos = $run->photos;
+        //Count columns for hide or show
+        $countPlateType= count( Part::where('run_id',$run->id)->where('plate_types_id','!=',null)->get());
+        $countChromate = count( Part::where('run_id',$run->id)->where('primaryCoatId','!=',null)->get());
+        $countTopCoat = count( Part::where('run_id',$run->id)->where('topCoatId','!=',null)->get());
+        $countSecondaryTopCoat = count( Part::where('run_id',$run->id)->where('coatId','!=',null)->get());
 
 
-        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img']));
+        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img','countChromate','countPlateType','countTopCoat','countSecondaryTopCoat']));
         $pdf->setPaper('a4', 'landscape');
         // return $pdf->output();
         return $pdf->download('run_report_' . $run->id . '.pdf');
