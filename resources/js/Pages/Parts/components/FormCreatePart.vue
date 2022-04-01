@@ -19,7 +19,7 @@
               :options="[
                 {
                   value: 1,
-                  label: 'micra',
+                  label: 'microns',
                 },
                 {
                   value: 2,
