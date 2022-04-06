@@ -376,6 +376,7 @@ class Run extends Model
         // return $run;
     }
 
+    // Agregar 
     public static function updateHours($request)
     {
         DB::beginTransaction();
@@ -412,6 +413,7 @@ class Run extends Model
             ];
         }
     }
+    // Editar
     public static function updateHoursUpdate($id,$request)
     {
         DB::beginTransaction();
@@ -445,6 +447,8 @@ class Run extends Model
             ];
         }
     }
+
+
 
     public static function createRun($request)
     {

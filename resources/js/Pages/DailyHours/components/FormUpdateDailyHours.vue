@@ -87,16 +87,21 @@ export default {
 
       // Send data to server
       try {
+        loading.value = true
         const res = await axios.put(`/dailyHours/${form.id}`, form);
+        loading.value = false
 
         const { ok, message } = res.data;
         if (ok) {
           makeToast(message);
           emit("closeModal", form);
         } else {
+        loading.value = false
           makeToast(message, "error");
         }
-      } catch (e) {}
+      } catch (e) {
+        loading.value = false
+      }
     };
 
     return {

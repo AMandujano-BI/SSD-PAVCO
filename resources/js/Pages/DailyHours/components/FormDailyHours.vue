@@ -66,6 +66,7 @@ export default {
   setup(props,{ emit }) {
     const loading = ref(false);
     const { makeToast, getCurrentDate } = useHelper();
+
     const form = reactive({
       id: 0,
       hours: "",
@@ -82,16 +83,20 @@ export default {
 
       // Send data to server
       try {
+        loading.value =true
         const res = await axios.post("/dailyHours", form);
-
+        loading.value =false
         const { ok, message } = res.data;
         if (ok) {
           makeToast(message);
           emit("closeModal1", form);
         } else {
+          loading.value =false
           makeToast(message, "error");
         }
-      } catch (e) {}
+      } catch (e) {
+          loading.value =false
+      }
     };
 
     return {
