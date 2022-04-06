@@ -383,12 +383,7 @@ class Run extends Model
             foreach ($request->arrayId as $index => $runSelected) {
                 $run = (new static)::find($runSelected['id']);
                 $run->hours = $runSelected['hours'] + intval($request->hours,10);
-                // if($index > 3) {
-                    // dd($runSelected['hours'], intval($request->hours,10), $run->hours);
-                // }
                 
-                $run->last_edit = Carbon::now();
-                $run->isEdit = true;
                 $run->save();
             }
 
