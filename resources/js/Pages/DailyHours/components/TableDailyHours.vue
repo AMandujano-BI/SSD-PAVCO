@@ -1,23 +1,5 @@
 <template>
   <div class="p-2">
-    <div class="pb-4">
-      <select
-        class="w-full p-3 rounded-sm border-[#a2a2a2] text-[#a2a2a2] flex-1"
-        @change="changeFilter"
-        v-model="filterOption"
-      >
-        <option value="3">Show All</option>
-        <option value="0">Active</option>
-        <option value="1">Complete</option>
-      </select>
-    </div>
-
-    <input
-      type="date"
-      class="w-full mb-5"
-      @change="changeDateFilter"
-      v-model="startDate"
-    />
     <div
       v-if="
         $page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2
@@ -52,33 +34,45 @@
       >
         <thead>
           <tr>
-            <th data-priority="1">
-              <input
-                type="checkbox"
-                id="main_checkbox"
-                name="main_checkbox"
-                @change="toggleAll"
-                v-model="selectedCheckbox"
-              />
-            </th>
-            <th data-priority="2">StartDate</th>
-            <th data-priority="1">Run #</th>
-            <th data-priority="1" class="max-w-[150px]">Customer</th>
-            <th>Method</th>
-            <th data-priority="2">Status</th>
-            <th>Hrs</th>
+            <th data-priority="2">Date</th>
+            <th data-priority="1">Hours</th>
+            <th data-priority="1">Entered By</th>
+            <th class="no-sort">Edit</th>
           </tr>
         </thead>
 
         <tbody>
           <tr v-for="item in dataDailyHours" :key="item.id">
-            <td></td>
-            <td>{{ currentStartDate(item.start_date) }}</td>
-            <td>{{ item.id }}</td>
-            <td>{{ item.company.name }}</td>
-            <td>{{ item.method.name }}</td>
-            <td>{{ item.status === 1 ? "Complete" : "Active" }}</td>
-            <td>{{ item.hours }}</td>
+            <td>{{ item.dateChange }}</td>
+            <td>{{ item.hourNumber }}</td>
+            <td>{{ item.user.username }}</td>
+            <td>
+              <button class="editrun" @click="editHour(item.id)">
+                <svg
+                  width="25"
+                  height="25"
+                  viewBox="0 0 25 25"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g fill="none" fill-rule="evenodd">
+                    <path fill="#227D9E" d="M0 0h25v25H0z" />
+                    <g
+                      fill="#FFF"
+                      fill-rule="nonzero"
+                      stroke="#FFF"
+                      stroke-width=".5"
+                    >
+                      <path
+                        d="M18.218 13.773a.353.353 0 0 0-.357.35v3.103a1.06 1.06 0 0 1-1.07 1.048H6.783c-.59 0-1.069-.47-1.07-1.048V8.117c.001-.579.48-1.048 1.07-1.049H9.95a.353.353 0 0 0 .357-.35c0-.192-.16-.349-.357-.349H6.783C5.8 6.37 5.001 7.152 5 8.117v9.109c.001.965.799 1.746 1.783 1.748h10.008c.985-.002 1.783-.783 1.784-1.748v-3.104c0-.193-.16-.35-.357-.35z"
+                      />
+                      <path
+                        d="M18.434 5.47a1.628 1.628 0 0 0-2.27 0L9.8 11.706a.348.348 0 0 0-.091.154l-.837 2.96a.345.345 0 0 0 .091.34.362.362 0 0 0 .348.09l3.02-.82a.358.358 0 0 0 .158-.09l6.363-6.235a1.552 1.552 0 0 0 0-2.225l-.418-.41zm-7.857 6.463 5.208-5.104 1.68 1.646-5.208 5.104-1.68-1.646zm-.335.66 1.342 1.315-1.856.504.514-1.82zm8.106-4.983-.379.371-1.68-1.646.38-.37a.905.905 0 0 1 1.26 0l.419.41a.863.863 0 0 1 0 1.235z"
+                      />
+                    </g>
+                  </g>
+                </svg>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -89,15 +83,22 @@
 
   <modal :show="openModal" @close="closeModalChange">
     <div class="p-5">
-      <form-daily-hours :arrayId="arrayId" @closeModal="apply" />
+      <form-daily-hours @closeModal1="apply" />
+    </div>
+  </modal>
+
+  <modal :show="openModalEdit" @close="closeModalChangeEdit">
+    <div class="p-5">
+      <form-update-daily-hours :hourGet="hourGet" @closeModal="apply2" />
     </div>
   </modal>
 </template>
 
 <script>
+//// @ts-check
 const $ = require("jquery");
 var dt = require("datatables.net");
-import { ref, nextTick } from "vue";
+import { ref, nextTick, reactive } from "vue";
 import "datatables.net-responsive-dt";
 import "datatables.net-rowreorder-dt";
 import "datatables.net-select-dt";
@@ -105,42 +106,36 @@ import useHelper from "@/composables/useHelper";
 import ModalVue from "@/Jetstream/Modal.vue";
 import FormDailyHoursVue from "./FormDailyHours.vue";
 import axios from "axios";
+import FormUpdateDailyHoursVue from "./FormUpdateDailyHours.vue";
 export default {
   components: {
     modal: ModalVue,
     FormDailyHours: FormDailyHoursVue,
+    FormUpdateDailyHours: FormUpdateDailyHoursVue,
   },
   setup() {
     // Declare variables
     const { getCurrentDate } = useHelper();
     const startDate = ref(getCurrentDate());
     const dataDailyHours = ref([]);
-    const { makeToast } = useHelper();
     const openModal = ref(false);
+    const openModalEdit = ref(false);
     const selectedCheckbox = ref(false);
     const filterOption = ref(3);
     const arrayId = ref([]);
-    const selected = ref([]);
     let table;
-    let runs = ref([]);
+    const hourGet = ref({
+      id:0,
+      dateChange: "",
+      hourNumber: "",
+    });
 
-    const changeDateFilter = (e) => {
-      startDate.value = e.target.value;
-      selectedCheckbox.value = false;
-      gettingData();
-    };
     const gettingData = async (status = 3) => {
       try {
-        let initDate = `${startDate.value} 0:01`;
-        let finalDate = `${startDate.value} 23:59`;
-
-        const initUTCDate = convertUTC(initDate);
-        const finalUTCDate = convertUTC(finalDate);
-        const res = await axios.get(
-          `/run/getAllRunsByDate/'${initUTCDate}'/'${finalUTCDate}'/${status}`
-        );
-        dataDailyHours.value = res.data;
-
+        const res = await axios.get(`/dailyHours/getDailyHours`);
+        const data = res.data;
+        console.log(data);
+        dataDailyHours.value = data;
         await generateDataTable(status);
       } catch (e) {
         console.log(e);
@@ -166,55 +161,9 @@ export default {
     };
 
     const openModalChange = () => {
-      const data = table.rows(".selected").data();
-      let indexData;
-      let dataId;
-      arrayId.value = [];
-      data.map((item) => {
-        dataId = Number(item[2]);
-        indexData = dataDailyHours.value.findIndex((run) => run.id === dataId);
-        arrayId.value.push({
-          id: item[2],
-          hours: dataDailyHours.value[indexData].hours,
-        });
-      });
-      // }arrayId.value.push(item[2]));
-      if (arrayId.value.length > 0) {
-        openModal.value = true;
-      } else {
-        makeToast("You must select a run", "error");
-      }
+      openModal.value = true;
     };
-    const toggleAll = () => {
-      if (selectedCheckbox.value) {
-        table.rows().select();
-        const dataAll = document.querySelectorAll(`[data-id]`);
-        let indexData;
-        let dataId;
-        dataAll.forEach((item) => {
-          item.checked = true;
-        });
-        const data = table.rows(".selected").data();
-        arrayId.value = [];
-        data.map((item) => {
-          dataId = Number(item[2]);
-          indexData = dataDailyHours.value.findIndex(
-            (run) => run.id === dataId
-          );
-          arrayId.value.push({
-            id: item[2],
-            hours: dataDailyHours.value[indexData].hours,
-          });
-        });
-      } else {
-        table.rows().deselect();
-
-        const dataAll = document.querySelectorAll(`[data-id]`);
-        dataAll.forEach((item) => {
-          item.checked = false;
-        });
-      }
-    };
+   
 
     const generateDataTable = (status) => {
       const self = this;
@@ -222,72 +171,40 @@ export default {
       $("#activeRuns").DataTable().destroy();
 
       nextTick(() => {
-        table = $("#activeRuns")
-          .DataTable({
-            ordering: true,
-            bLengthChange: false,
-            pageLength: 10,
-            columnDefs: [
-              {
-                orderable: false,
-                defaultContent: "-",
-                render: function (data, type, row) {
-                  return type === "display"
-                    ? `<input class="select-checkbox" data-id="${parseInt(
-                        row[2]
-                      )}" type="checkbox">`
-                    : "";
-                },
-                targets: 0,
-              },
-            ],
-            responsive: true,
-            select: "multi",
-
-            language: {
-              paginate: {
-                next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
-                previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
-              },
-              info: "Showing results _START_ to _END_ from _TOTAL_ ",
+        table = $("#activeRuns").DataTable({
+          ordering: true,
+          bLengthChange: false,
+          pageLength: 10,
+          responsive: true,
+          language: {
+            paginate: {
+              next: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(270 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '→'
+              previous: `<svg class="arrow_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="15" height="14" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><g transform="rotate(90 10 10)"><path d="M5 6l5 5l5-5l2 1l-7 7l-7-7z" fill="white"/></g></svg>`, // or '←'
             },
-          })
-          .on("select.dt deselect.dt", function (e, dt, type, indexes) {
-            const id = dt.rows(indexes).data()[0][2];
-            const data = document.querySelector(`[data-id="${id}"]`);
-            const count = table.rows({ selected: true }).count();
-            const countAll = table.rows().count();
-            if (count === countAll) {
-              document.querySelector("#main_checkbox").checked = true;
-            } else {
-              document.querySelector("#main_checkbox").checked = false;
-            }
-            data.checked = true;
-          })
-          .on(" deselect.dt", function (e, dt, type, indexes) {
-            const id = dt.rows(indexes).data()[0][2];
-            const data = document.querySelector(`[data-id="${id}"]`);
-            data.checked = false;
-          });
+            info: "Showing results _START_ to _END_ from _TOTAL_ ",
+          },
+        });
       });
     };
 
-    const apply = (jsonData) => {
-      // console.log(jsonData);
-      let idArr;
-      let indexArr;
-      let hourArr = Number(jsonData.hours);
-      jsonData.arrayId.forEach((el) => {
-        idArr = Number(el.id);
-        indexArr = dataDailyHours.value.findIndex((run) => run.id === idArr);
-        // console.log(dataDailyHours.value[indexArr].hours);
-        dataDailyHours.value[indexArr].hours = hourArr + el.hours;
-      });
+    const apply = () => {
       openModal.value = false;
+      gettingData();
+    };
+    const apply2 = () => {
+      openModalEdit.value = false;
+      gettingData();
     };
 
     const closeModalChange = () => {
       openModal.value = false;
+    };
+    const closeModalChangeEdit = () => {
+      openModalEdit.value = false;
+    };
+    const editHour = (id) => {
+      hourGet.value = dataDailyHours.value.find((hour) => hour.id === id);
+      openModalEdit.value = true;
     };
 
     const convertUTC = (dateToConvert) => {
@@ -327,26 +244,25 @@ export default {
 
       return utcDate;
     };
-    const changeFilter = async () => {
-      await gettingData(filterOption.value);
-    };
 
     gettingData();
 
     return {
-      changeDateFilter,
       startDate,
       openModal,
       openModalChange,
       closeModalChange,
       apply,
       arrayId,
-      toggleAll,
       filterOption,
-      changeFilter,
       selectedCheckbox,
       dataDailyHours,
       currentStartDate,
+      editHour,
+      hourGet,
+      closeModalChangeEdit,
+      openModalEdit,
+      apply2
     };
   },
 };

@@ -24,7 +24,7 @@
     <div>
       <label for="" class="text-[#3b4559] font-semibold">Start Date</label>
       <input
-        type="datetime-local"
+        type="date"
         class="w-full"
         v-model="form.start_date"
         :class="{ 'border-red-500': v$.start_date.$error }"

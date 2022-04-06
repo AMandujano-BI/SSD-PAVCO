@@ -1,21 +1,21 @@
 
-import { required, helpers, minValue } from "@vuelidate/validators";
-import useVuelidate from "@vuelidate/core";
 import useHelper from "@/composables/useHelper";
+import { Inertia } from '@inertiajs/inertia';
+import useVuelidate from "@vuelidate/core";
+import { helpers, minValue, required } from "@vuelidate/validators";
 import axios from "axios";
-import { ref, reactive } from "vue";
-import { Inertia } from '@inertiajs/inertia'
+import { reactive, ref } from "vue";
 const isDiferentZero = (value) => {
     return value != 0 && value !=null;
 };
 const useFormRun = () => {
     const loading = ref(false)
-    const { makeToast } = useHelper();
+    const { makeToast,getCurrentDate } = useHelper();
     const currentDate = new Date();
     let month = currentDate.getMonth() + 1;
     let fullMonth = '0';
     (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
-    const dateFormated = '' + currentDate.getFullYear() + '-' + fullMonth + '-' + currentDate.toString().slice(8, 10) + 'T' + currentDate.toString().slice(16, 21);
+    const dateFormated = getCurrentDate()
    
     const form = reactive({
         id: 0,

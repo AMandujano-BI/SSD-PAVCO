@@ -57,6 +57,7 @@ Route::middleware(['auth:sanctum', 'verified', 'rols'])->group(function () {
     Route::middleware(['auth:sanctum', 'verified'])->get('/part/getNextNumberDescription/{idRun}', [PartController::class, 'getNextNumberDescription'])->name('part.getNextNumberDescription');
     Route::middleware(['auth:sanctum', 'verified'])->post('/user/resetPassword', [UserController::class, 'resetPassword'])->name('user.resetPassword');
     Route::middleware(['auth:sanctum', 'verified'])->get('/photo/getPhotosByRun/{id}', [PhotoController::class, 'getPhotosByRun'])->name('photo.getPhotosByRun');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/dailyHours/getHours', [DailyHoursController::class, 'getHours'])->name('dailyHours.getHours');
     Route::middleware(['auth:sanctum', 'verified'])->post('/report/runReportDetail', [ReportController::class, 'runReportDetail'])->name('report.runReportDetail');
 
     //Resources

@@ -1,3 +1,4 @@
+
 <template>
   <h1 class="text-center text-[#3b4559] font-semibold text-2xl pb-5">
     Update Hours
@@ -7,6 +8,7 @@
       type="date"
       class="w-full my-5 disabled:bg-gray-100"
       v-model="form.date"
+      disabled="true"
     />
     <input
       type="text"
@@ -62,14 +64,17 @@ import useVuelidate from "@vuelidate/core";
 import useHelper from "@/composables/useHelper";
 import axios from "axios";
 export default {
-  emits: ["closeModal1"],
-  setup(props,{ emit }) {
+  props: ["hourGet"],
+  emits: ["closeModal"],
+  setup(props, { emit }) {
+    const { hourGet } = props;
     const loading = ref(false);
-    const { makeToast, getCurrentDate } = useHelper();
+    const { makeToast } = useHelper();
+    console.log(hourGet.id);
     const form = reactive({
-      id: 0,
-      hours: "",
-      date: getCurrentDate(),
+      id: hourGet.id,
+      hours: hourGet.hourNumber,
+      date: hourGet.dateChange,
     });
     const rules = {
       hours: { required },
@@ -82,12 +87,12 @@ export default {
 
       // Send data to server
       try {
-        const res = await axios.post("/dailyHours", form);
+        const res = await axios.put(`/dailyHours/${form.id}`, form);
 
         const { ok, message } = res.data;
         if (ok) {
           makeToast(message);
-          emit("closeModal1", form);
+          emit("closeModal", form);
         } else {
           makeToast(message, "error");
         }

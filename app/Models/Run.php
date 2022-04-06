@@ -380,18 +380,62 @@ class Run extends Model
     {
         DB::beginTransaction();
         try {
-            foreach ($request->arrayId as $index => $runSelected) {
-                $run = (new static)::find($runSelected['id']);
-                $run->hours = $runSelected['hours'] + intval($request->hours,10);
-                
-                $run->save();
-            }
+            // $run = (new static)->where('')
+            
+            $ifExist = Hour::where('dateChange',$request->date)->first();
+            if($ifExist){
+                DB::rollBack();
+                return [
+                    'ok' => false,
+                    'message' => 'There is already a date added'
+                ];
 
-            DB::commit();
+            }
+            $hour = Hour::create([
+                'hourNumber' => $request->hours,
+                'dateChange' => $request->date,
+                'user_id' => auth()->user()->id,
+            ]);
+            $hour->save();
+             DB::commit();
+
             return [
                 'ok' => true,
-                'message' => 'Hours was updated successfully',
-                'value' => $run,
+                'message' => 'Hours was add successfully',
+                'value' => $hour,
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+    public static function updateHoursUpdate($id,$request)
+    {
+        DB::beginTransaction();
+        try {
+            // $run = (new static)->where('')
+            
+            $hour = Hour::where('id',$id)->first();
+            if(!$hour){
+                DB::rollBack();
+                return [
+                    'ok' => false,
+                    'message' => 'Hour not found'
+                ];
+            }
+            $hour->hourNumber = $request->hours;
+            $hour->user_id = auth()->user()->id;
+            
+            $hour->save();
+             DB::commit();
+
+            return [
+                'ok' => true,
+                'message' => 'Hours was update successfully',
+                'value' => $hour,
             ];
         } catch (\Exception $e) {
             DB::rollBack();

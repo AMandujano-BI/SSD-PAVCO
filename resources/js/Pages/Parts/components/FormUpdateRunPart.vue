@@ -27,7 +27,7 @@
         <label for="" class="text-[#3b4559] font-bold text-lg pl-10 pb-2 border-[#979797]"
           >Start Date</label
         >
-        <input type="datetime-local" class="w-full" v-model="form.start_date" />
+        <input type="date" class="w-full" v-model="form.start_date" />
       </div>
     </div>
 
@@ -125,25 +125,11 @@ export default {
 
     
 
-    const currentDate = new Date(run.start_date);
-    let month = currentDate.getMonth() + 1;
-    let fullMonth = "0";
-    month.toString().length < 2
-      ? (fullMonth = fullMonth.concat(month))
-      : (fullMonth = month);
-    const dateFormated =
-      "" +
-      currentDate.getFullYear() +
-      "-" +
-      fullMonth +
-      "-" +
-      currentDate.toString().slice(8, 10) +
-      "T" +
-      currentDate.toString().slice(16, 21);
+    const currentDate = new Date(run.start_date).toISOString().slice(0, 10);
     const form = reactive({
       id: run.id,
       number: 0,
-      start_date: dateFormated,
+      start_date: currentDate,
       description: run.description,
       hours: run.hours,
       status: 0,
