@@ -78,19 +78,7 @@
             <td>{{ item.company.name }}</td>
             <td>{{ item.method.name }}</td>
             <td>{{ item.status === 1 ? "Complete" : "Active" }}</td>
-            <td>
-              {{
-                calculateHours(
-                  item.id,
-                  item.status,
-                  item.start_date,
-                  item.isEdit,
-                  item.last_edit,
-                  item.hours,
-                  item.closed_date
-                )
-              }}
-            </td>
+            <td>{{ item.hours }}</td>
           </tr>
         </tbody>
       </table>
@@ -177,37 +165,6 @@ export default {
       return currentStartDateConverted;
     };
 
-    const calculateHours = (
-      id,
-      status,
-      created_date,
-      edit,
-      lastDate,
-      hours,
-      closeDate
-    ) => {
-      if (status === 1) {
-        //cerrado
-        if (edit) {
-          return hours;
-        } else {
-          const closeNonEdit =
-            Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5;
-          return closeNonEdit | 0; // trunca los decimales y se queda con el entero
-        }
-      } else {
-        if (edit) {
-          const activeEdit = Math.abs(new Date() - new Date(lastDate)) / 36e5;
-          const hoursEdited = activeEdit | 0; // trunca los decimales y se queda con el entero
-          return hours + hoursEdited;
-        } else {
-          const activeNonEdit =
-            Math.abs(new Date() - new Date(created_date)) / 36e5;
-          return activeNonEdit | 0; // trunca los decimales y se queda con el entero
-        }
-      }
-    };
-
     const openModalChange = () => {
       const data = table.rows(".selected").data();
       let indexData;
@@ -218,15 +175,7 @@ export default {
         indexData = dataDailyHours.value.findIndex((run) => run.id === dataId);
         arrayId.value.push({
           id: item[2],
-          hours: calculateHours(
-            dataDailyHours.value[indexData].id,
-            dataDailyHours.value[indexData].status,
-            dataDailyHours.value[indexData].start_date,
-            dataDailyHours.value[indexData].isEdit,
-            dataDailyHours.value[indexData].last_edit,
-            dataDailyHours.value[indexData].hours,
-            dataDailyHours.value[indexData].closed_date
-          ),
+          hours: dataDailyHours.value[indexData].hours,
         });
       });
       // }arrayId.value.push(item[2]));
@@ -254,15 +203,7 @@ export default {
           );
           arrayId.value.push({
             id: item[2],
-            hours: calculateHours(
-              dataDailyHours.value[indexData].id,
-              dataDailyHours.value[indexData].status,
-              dataDailyHours.value[indexData].start_date,
-              dataDailyHours.value[indexData].isEdit,
-              dataDailyHours.value[indexData].last_edit,
-              dataDailyHours.value[indexData].hours,
-              dataDailyHours.value[indexData].closed_date
-            ),
+            hours: dataDailyHours.value[indexData].hours,
           });
         });
       } else {
@@ -338,11 +279,8 @@ export default {
       let hourArr = Number(jsonData.hours);
       jsonData.arrayId.forEach((el) => {
         idArr = Number(el.id);
-
         indexArr = dataDailyHours.value.findIndex((run) => run.id === idArr);
         // console.log(dataDailyHours.value[indexArr].hours);
-        dataDailyHours.value[indexArr].isEdit = true;
-        dataDailyHours.value[indexArr].last_edit = new Date();
         dataDailyHours.value[indexArr].hours = hourArr + el.hours;
       });
       openModal.value = false;
@@ -408,7 +346,6 @@ export default {
       changeFilter,
       selectedCheckbox,
       dataDailyHours,
-      calculateHours,
       currentStartDate,
     };
   },
