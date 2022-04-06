@@ -241,7 +241,7 @@ export default {
                orderable: false,
               render: function (data, type, row, meta) {
                 if (row.plate_type?.name != undefined) {
-                  return "<td>" + row.plate_type?.name + "</td>";
+                  return `<td>${row.plate_type?.name} - ${row.plateThick} ${row.typePlateThick ==1 ?'microns':(row.typePlateThick ==2?'mils':'')} </td>`;
                 }
                 return "<td></td>";
               },

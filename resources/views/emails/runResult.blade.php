@@ -523,6 +523,16 @@
                                       <td data-label="Plate Type" style="text-align: center;">
                                         @if($part->plateType)
                                         {{$part->plateType->name}}
+
+                                        
+                                                  - {{$part->plateThick}}
+                                              @if($part->typePlateThick == 1)
+                                                microns
+                                              @endif
+                                              
+                                              @if($part->typePlateThick == 2)
+                                              mils
+                                              @endif
                                         @endif
 
                                       </td>
