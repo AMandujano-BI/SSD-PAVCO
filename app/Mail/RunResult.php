@@ -41,42 +41,14 @@ class RunResult extends Mailable
         $localStartDate = Carbon::parse($this->_run->start_date)->setTimezone($this->_zone);
         $start_date = substr($localStartDate, 0, 10);
         $customer = $this->_run->company->name;
-
-        $current_date = new DateTime();
-        $currentDate = $current_date->format('Y-m-d H:i:s');
-        $created_at = new DateTime($this->_run->start_date);
-        $createdDate = $created_at->format('Y-m-d H:i:s');
-        $last_edit = new DateTime($this->_run->last_edit);
-        $lastDate = $last_edit->format('Y-m-d H:i:s');
-        $closed_date = new DateTime($this->_run->closed_date);
-        $closedDate = $closed_date->format('Y-m-d H:i:s');
-        $hours = 0;
+        
+        $hours = $this->_run->hours;
         $run_status = $this->_run->status;
         if ($this->_run->status == 0) {
             $status = 'Active';
         } else {
             if ($this->_run->status == 1) {
                 $status = 'Completed';
-            }
-        }
-
-        if ($this->_run->status == 1) {
-            if ($this->_run->isEdit) {
-                $hours = $this->_run->hours;
-            } else {
-                $closeNonEdit = intval(bcdiv((strtotime($closedDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
-                $hours = $closeNonEdit;
-            }
-        } else {
-            if ($this->_run->isEdit) {
-                // current - last
-                //$hours = result + $run->hours 
-                $activeEdit = intval(bcdiv((strtotime($currentDate) - strtotime($lastDate)) / 3600, '1', 0), 10);
-                $hours = $this->_run->hours + $activeEdit;
-            } else {
-                // $hours = current - created
-                $activeNonEdit = intval(bcdiv((strtotime($currentDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
-                $hours = $activeNonEdit;
             }
         }
 
@@ -101,9 +73,6 @@ class RunResult extends Mailable
         $countChromate = count( Part::where('run_id',$this->_run->id)->where('primaryCoatId','!=',null)->get());
         $countTopCoat = count( Part::where('run_id',$this->_run->id)->where('topCoatId','!=',null)->get());
         $countSecondaryTopCoat = count( Part::where('run_id',$this->_run->id)->where('coatId','!=',null)->get());
-
-
-
 
         $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'description', 'run_status_img', 'run_status','countChromate','countPlateType','countTopCoat','countSecondaryTopCoat']));
         $pdf->setPaper('a4', 'landscape');

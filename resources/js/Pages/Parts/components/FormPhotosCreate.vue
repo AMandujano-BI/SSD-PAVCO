@@ -161,9 +161,9 @@ import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 export default {
   emits: ["closeModal", "generateDataTable"],
-  props: ["run_id", "photosTable"],
+  props: ["run_id", "run_hours", "photosTable"],
   setup(props, { emit }) {
-    const { run_id, photosTable } = props;
+    const { run_id, run_hours, photosTable } = props;
     const photos = ref(photosTable);
     const { makeToast, getCurrentDate } = useHelper();
     const form = reactive({
@@ -207,6 +207,7 @@ export default {
         }
         formData.append("image", form.image);
         formData.append("run", run_id);
+        formData.append("photoHours", run_hours);
         formData.append("description", form.description);
         formData.append("hours", form.hours);
         formData.append("report", form.report);

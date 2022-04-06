@@ -79,18 +79,7 @@
               >Hrs
             </span>
             <span>
-              {{
-                !isCalculate
-                  ? calculateHours(
-                      runDetail.status,
-                      runDetail.start_date,
-                      runDetail.isEdit,
-                      runDetail.last_edit,
-                      runDetail.hours,
-                      runDetail.closed_date
-                    )
-                  : "..."
-              }}
+              {{ runDetail.hours }}
             </span>
           </p>
           <p class="text-[#3b4559] text-[16px] font-semibold">
@@ -695,10 +684,8 @@ export default {
     const isModalReOpen = ref(false);
     const isModalPhotos = ref(false);
     const isModalSaveWsRs = ref(false);
-    let globalHours = 0;
     const loading = ref(false);
     const isWsRsChanges = ref(false);
-    const isCalculate = ref(false);
 
     const generateForm = async () => {
       const res = await axios.get(`/part/getPartsByRun/${runDetail.value.id}`);
@@ -721,7 +708,6 @@ export default {
         const res = await axios.get(`/run/${id}`);
         runDetail.value = res.data;
         startDate.value = runDetail.value.start_date.slice(0, 10);
-        isCalculate.value = false;
 
         generateForm();
 
@@ -747,7 +733,6 @@ export default {
         const res = await axios.put(`/run/reopenRun/${id}`);
         const { ok, message, value } = res.data;
         if (ok) {
-          isCalculate.value = true;
           isModalReOpen.value = false;
           isWsRsChanges.value = false;
           gettingData();
@@ -783,13 +768,12 @@ export default {
         const res = await axios.put(`/run/closeRun/${id}`);
         const { ok, message, value } = res.data;
         if (ok) {
-          isCalculate.value = true;
           isModalClose.value = false;
           gettingData();
           makeToast(message);
 
           runDetail.value.status = 1;
-          generateForm();
+          // generateForm();
           $("#activeRunsDetail").DataTable().clear().destroy();
           await generateDataTableDetail();
         } else {
@@ -838,45 +822,6 @@ export default {
     };
     const closeSaveWsRs = () => {
       isModalSaveWsRs.value = false;
-    };
-    const calculateHours = (
-      status,
-      created_date,
-      edit,
-      lastDate,
-      hours,
-      closeDate
-    ) => {
-      // console.log({status,
-      // created_date,
-      // edit,
-      // lastDate,
-      // hours,
-      // closeDate});
-      if (status === 1) {
-        //cerrado
-        if (edit) {
-          globalHours = hours;
-          return globalHours;
-        } else {
-          const closeNonEdit =
-            Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5;
-          globalHours = closeNonEdit | 0; // trunca los decimales y se queda con el entero
-          return globalHours;
-        }
-      } else {
-        if (edit) {
-          const activeEdit = Math.abs(new Date() - new Date(lastDate)) / 36e5;
-          const hoursEdited = activeEdit | 0; // trunca los decimales y se queda con el entero
-          globalHours = hours + hoursEdited;
-          return globalHours;
-        } else {
-          const activeNonEdit =
-            Math.abs(new Date() - new Date(created_date)) / 36e5;
-          globalHours = activeNonEdit | 0; // trunca los decimales y se queda con el entero
-          return globalHours;
-        }
-      }
     };
 
     const goBack = () => {
@@ -1171,7 +1116,7 @@ export default {
       // console.log(parts);
       const partsUpdated = {
         runId: runDetail.value.id,
-        hours: globalHours,
+        hours: runDetail.value.hours,
         parts: {
           ...parts.value,
         },
@@ -1201,7 +1146,6 @@ export default {
     return {
       generateDataTableDetail,
       gettingData,
-      calculateHours,
       runDetail,
       startDate,
       goBack,
@@ -1217,7 +1161,6 @@ export default {
       isModalClose,
       isModalSaveWsRs,
       isWsRsChanges,
-      isCalculate,
       closeDeleteModal,
       deleteRun,
       closeRun,

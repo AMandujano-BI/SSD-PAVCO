@@ -73,7 +73,7 @@
             <th data-priority="1" class="max-w-[150px]">Customer</th>
             <th>Method</th>
             <th data-priority="2">Status</th>
-            <th class="no-sort">Hrs</th>
+            <th>Hrs</th>
             <th class="no-sort">Photos</th>
             <th class="no-sort">Results</th>
             <th class="no-sort">Edit</th>
@@ -330,36 +330,7 @@ export default {
     };
     const closeReOpenModal = () => (isModalReOpen.value = false);
 
-    const calculateHours = (
-      id,
-      status,
-      created_date,
-      edit,
-      lastDate,
-      hours,
-      closeDate
-    ) => {
-      if (status === 1) {
-        //cerrado
-        if (edit) {
-          return hours;
-        } else {
-          const closeNonEdit =
-            Math.abs(new Date(closeDate) - new Date(created_date)) / 36e5;
-          return closeNonEdit | 0; // trunca los decimales y se queda con el entero
-        }
-      } else {
-        if (edit) {
-          const activeEdit = Math.abs(new Date() - new Date(lastDate)) / 36e5;
-          const hoursEdited = activeEdit | 0; // trunca los decimales y se queda con el entero
-          return hours + hoursEdited;
-        } else {
-          const activeNonEdit =
-            Math.abs(new Date() - new Date(created_date)) / 36e5;
-          return activeNonEdit | 0; // trunca los decimales y se queda con el entero
-        }
-      }
-    };
+    
 
     const closeRun = async () => {
       try {
@@ -484,16 +455,7 @@ export default {
         name: "hours",
         searchable: false,
         render: function (data, type, row, meta) {
-          const hours = calculateHours(
-            row.id,
-            row.status,
-            row.start_date,
-            row.isEdit,
-            row.last_edit,
-            row.hours,
-            row.closed_date
-          );
-          return `<td class="text-center">${hours}</td>`;
+          return `<td class="text-center">${row.hours}</td>`;
         },
       },
       {
@@ -668,16 +630,7 @@ export default {
         name: "hours",
         searchable: false,
         render: function (data, type, row, meta) {
-          const hours = calculateHours(
-            row.id,
-            row.status,
-            row.start_date,
-            row.isEdit,
-            row.last_edit,
-            row.hours,
-            row.closed_date
-          );
-          return `<td class="text-center">${hours}</td>`;
+          return `<td class="text-center">${row.hours}</td>`;
         },
       },
       {
@@ -876,7 +829,6 @@ export default {
       runDetail,
       modalWidthDetail,
       idGlobal,
-      calculateHours,
       modalEmail,
       openModalEmail,
       emailSend,

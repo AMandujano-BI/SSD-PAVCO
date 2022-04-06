@@ -56,6 +56,7 @@ class Photo extends Model
             $run_id = $request->input('run');
             $description = $request->input('description');
             $run_id = $request->input('run');
+            $photoHours = $request->input('photoHours');
             $report = $request->input('report');
            
             $file_name = 'images/run' . $run_id.'/'.$filename;
@@ -68,7 +69,7 @@ class Photo extends Model
                 ];  
             }
             $photo = (new static)::create([
-                'hours' => 0,
+                'hours' => $photoHours,
                 'image' =>$file_name, 
                 'description' => $description,
                 'report' => $report,
@@ -106,11 +107,8 @@ class Photo extends Model
             $photo = (new static)::find($request->id);
             $photo->description = $request->description;
             $photo->report = $request->report;
-            if ($request->hasDiferentHours) {
-                $photo->isEdit = true;
-                $photo->last_edit = $request->last_edit;
-                $photo->hours = $request->hours;
-            }
+            $photo->hours = $request->hours;
+            
             $photo->save();
             DB::commit();
             return [

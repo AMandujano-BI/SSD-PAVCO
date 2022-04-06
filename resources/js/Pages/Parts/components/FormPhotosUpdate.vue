@@ -126,36 +126,14 @@ export default {
   props: ["run_id", "photosTable", "photoItem"],
   setup(props, { emit }) {
     const { photosTable, photoItem } = props;
-    const photos = ref(photosTable);
-    let last_editGlobal = "";
-
-    const calculateHours = (edit, lastDate, created_date, hours) => {
-      if (edit) {
-        const hoursEdited = Math.abs(new Date() - new Date(lastDate)) / 36e5;
-        const hoursRounded = hoursEdited | 0;
-        return Number(hours) + hoursRounded;
-      } else {
-        const hoursDiff = Math.abs(new Date() - new Date(created_date)) / 36e5;
-        return hoursDiff | 0;
-      }
-    };
-
-    const hours = calculateHours(
-      photoItem.isEdit,
-      photoItem.last_edit,
-      photoItem.created_at,
-      photoItem.hours
-    );
+    const photos = ref(photosTable); 
 
     const form = reactive({
       id: photoItem.id,
       description: photoItem.description,
       report: photoItem.report,
-      isEdit: photoItem.isEdit,
-      hours: hours,
+      hours: photoItem.hours,
       image: photoItem.image,
-      hasDiferentHours: false,
-      last_edit: photoItem.last_edit,
     });
     const loading = ref(false);
     const url = ref(photoItem.image);
@@ -176,65 +154,26 @@ export default {
     };
     const saveImage = async () => {
       try {
-        if (form.hours !== hours) {
-          form.hasDiferentHours = true;
-          last_editGlobal = new Date();
-          const dateFormated =
-            "" +
-            last_editGlobal.getUTCFullYear() +
-            "-" +
-            (last_editGlobal.getUTCMonth() + 1) +
-            "-" +
-            last_editGlobal.getUTCDate() +
-            " " +
-            last_editGlobal.getUTCHours() +
-            ":" +
-            last_editGlobal.getUTCMinutes() +
-            ":" +
-            last_editGlobal.getUTCSeconds();
-          form.last_edit = dateFormated;
-        }
+        
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return;
         loading.value = true;
         // Prepare Data
         const res = await axios.put(`/photo/${form.id}`, form);
-        if (form.hasDiferentHours) {
-          form.hasDiferentHours = false;
-        }
+        
         const { ok, message, value } = res.data;
-        let currentHours;
+        
         loading.value = false;
         if (ok) {
-          if (form.hours !== hours) {
-            form.isEdit = true;
-            currentHours = form.hours;
-          } else {
-            currentHours = photoItem.hours;
-          }
+          
           makeToast(message);
           const index = photos.value.findIndex((item) => item.id == form.id);
-          let currentDate;
-          if (last_editGlobal !== "") {
-            currentDate =
-              "" +
-              last_editGlobal.getFullYear() +
-              "-" +
-              (last_editGlobal.getMonth() + 1) +
-              "-" +
-              last_editGlobal.getDate() +
-              " " +
-              last_editGlobal.toString().slice(16, 24);
-          } else {
-            currentDate = form.last_edit;
-          }
+                    
           photos.value[index] = {
             ...photos.value[index],
             description: form.description,
             report: form.report,
-            hours: currentHours,
-            last_edit: currentDate,
-            isEdit: form.isEdit,
+            hours: form.hours,
           };
           // emit("generateDataTable");
           emit("closeModal");
@@ -257,7 +196,6 @@ export default {
       form,
       v$,
       loading,
-      calculateHours,
       closeModal: () => emit("closeModal"),
     };
   },

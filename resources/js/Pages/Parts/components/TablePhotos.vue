@@ -61,14 +61,7 @@
         <tr v-for="photo in photosTable" :key="photo.id">
           <td class="text-center">{{  currentCreatedDate(photo.created_at) }}</td>
           <td class="text-center">
-            {{
-              calculateHours(
-                photo.isEdit,
-                photo.last_edit,
-                photo.created_at,
-                photo.hours
-              )
-            }}
+            {{ photo.hours }}
           </td>
           <td class="text-center">{{ photo.description }}</td>
           <td class="text-center">{{ photo.report == 1 ? "Yes" : "No" }}</td>
@@ -147,6 +140,7 @@
   <modal :show="openModalPhotosCreate">
     <form-photos-create
       :run_id="run_id"
+      :run_hours="run_hours"
       @closeModal="closeModalPhotosCreate"
       @generateDataTable="generateDataTable"
       :photosTable="photosTable"
@@ -218,6 +212,7 @@ export default {
     const { photos, run } = props;
     const photosTable = ref([]);
     const run_id = ref(run.id);
+    const run_hours = ref(run.hours);
     const currentPhoto = ref(null);
     const isModalPhotos = ref(false);
     const idPhoto = ref(0);
@@ -316,17 +311,6 @@ export default {
       openModalEdit.value = true;
     };
 
-    const calculateHours = (edit, lastDate, created_date, hours) => {
-      if (edit) {
-        const hoursEdited = Math.abs(new Date() - new Date(lastDate)) / 36e5;
-        const hoursRounded = hoursEdited | 0;
-        return Number(hours) + hoursRounded;
-      } else {
-        const hoursDiff = Math.abs(new Date() - new Date(created_date)) / 36e5;
-        return hoursDiff | 0;
-      }
-    };
-
     const currentCreatedDate = ( created_date ) => {
       const originalDate = new Date(created_date);
       let monthStartDate = originalDate.getMonth() + 1;
@@ -348,6 +332,7 @@ export default {
       openModalPhotosForm,
       closeModalPhotosCreate,
       run_id,
+      run_hours,
       dt,
       showModalDelete,
       closeModalDelete,
@@ -357,7 +342,6 @@ export default {
       photosTable,
       openModalEdit,
       openModalEditClick,
-      calculateHours,
       currentCreatedDate,
       photoItem,
       idPhoto,

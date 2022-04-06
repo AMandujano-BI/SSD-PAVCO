@@ -22,7 +22,7 @@
               <div>
                 <ul class="flex flex-col gap-2 md:flex-row justify-between px-3 pt-3">
                   <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Date added: </strong>{{ currentPhotos.created_at.slice(0,10) }}</li>
-                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Hours: </strong>{{ calculateHours(currentPhotos.isEdit, currentPhotos.last_edit, currentPhotos.created_at, currentPhotos.hours) }}</li>
+                  <li class="text-[#7e7f82]"><strong class="text-[#1e385e]">Hours: </strong>{{ currentPhotos.hours }}</li>
                 </ul>
               </div>
               <div class="px-3 mt-1 md:mt-5 text-[#7e7f82]">
@@ -68,17 +68,6 @@ export default {
     const { photos } = props;
     let currentPhotos = ref(photos);
 
-    const calculateHours = (edit, lastDate, created_date, hours) => {
-        if (edit) {
-          const hoursEdited = Math.abs(new Date() - new Date(lastDate)) / 36e5;
-          const hoursRounded = hoursEdited | 0;
-          return Number(hours) + hoursRounded;
-        } else {
-          const hoursDiff = Math.abs(new Date() - new Date(created_date)) / 36e5;
-          return hoursDiff | 0;
-        }
-    }
-
     const closePhotosModal = () => emit("closeModal");
     const photoEdited = () => emit("photoAdded");
 
@@ -86,7 +75,6 @@ export default {
       closePhotosModal,
       closePhotosModal,
       photoEdited,
-      calculateHours,
       currentPhotos,
       modules: [Pagination, Navigation],
     };

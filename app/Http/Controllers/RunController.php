@@ -188,38 +188,8 @@ class RunController extends Controller
         $id_run = $run->id;
         $localStartDate = Carbon::parse($run->start_date)->setTimezone($zone);
         $start_date = substr($localStartDate, 0, 10);
-        $customer = $run->company->name;
-
-        $current_date = new DateTime();
-        $currentDate = $current_date->format('Y-m-d H:i:s');
-        $created_at = new DateTime($run->start_date);
-        $createdDate = $created_at->format('Y-m-d H:i:s');
-        $last_edit = new DateTime($run->last_edit);
-        $lastDate = $last_edit->format('Y-m-d H:i:s');
-        $closed_date = new DateTime($run->closed_date);
-        $closedDate = $closed_date->format('Y-m-d H:i:s');
-        $hours = 0;
-
-        if ($run->status == 1) {
-            if ($run->isEdit) {
-                $hours = $run->hours;
-            } else {
-                $closeNonEdit = intval(bcdiv((strtotime($closedDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
-                $hours = $closeNonEdit;
-            }
-        } else {
-            if ($run->isEdit) {
-                // current - last
-                //$hours = result + $run->hours 
-                $activeEdit = intval(bcdiv((strtotime($currentDate) - strtotime($lastDate)) / 3600, '1', 0), 10);
-                $hours = $run->hours + $activeEdit;
-            } else {
-                // $hours = current - created
-                $activeNonEdit = intval(bcdiv((strtotime($currentDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
-                $hours = $activeNonEdit;
-            }
-        }
-
+        $customer = $run->company->name;        
+        $hours = $run->hours;
 
         $status = '';
         $run_status = $run->status;
@@ -256,42 +226,7 @@ class RunController extends Controller
         $localStartDate = Carbon::parse($run->start_date)->setTimezone($zone);
         $start_date = substr($localStartDate, 0, 10);
         $customer = $run->company->name;
-
-
-
-        $current_date = new DateTime();
-        $currentDate = $current_date->format('Y-m-d H:i:s');
-        $created_at = new DateTime($run->start_date);
-        $createdDate = $created_at->format('Y-m-d H:i:s');
-        $last_edit = new DateTime($run->last_edit);
-        $lastDate = $last_edit->format('Y-m-d H:i:s');
-        $closed_date = new DateTime($run->closed_date);
-        $closedDate = $closed_date->format('Y-m-d H:i:s');
-        $hours = 0;
-
-        // $hourdiff = (strtotime($current) - strtotime($createdDate)) / 3600;
-        // $hourRounded = bcdiv($hourdiff, '1', 0);
-        // $totalHours = intval($hourRounded, 10);
-
-        if ($run->status == 1) {
-            if ($run->isEdit) {
-                $hours = $run->hours;
-            } else {
-                $closeNonEdit = intval(bcdiv((strtotime($closedDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
-                $hours = $closeNonEdit;
-            }
-        } else {
-            if ($run->isEdit) {
-                // current - last
-                //$hours = result + $run->hours 
-                $activeEdit = intval(bcdiv((strtotime($currentDate) - strtotime($lastDate)) / 3600, '1', 0), 10);
-                $hours = $run->hours + $activeEdit;
-            } else {
-                // $hours = current - created
-                $activeNonEdit = intval(bcdiv((strtotime($currentDate) - strtotime($createdDate)) / 3600, '1', 0), 10);
-                $hours = $activeNonEdit;
-            }
-        }
+        $hours = $run->hours;
 
         $run_status_img = $run->status;
         $status = '';

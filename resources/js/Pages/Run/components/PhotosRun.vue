@@ -26,14 +26,7 @@
                 </li>
                 <li class="text-[#7e7f82]">
                   <strong class="text-[#1e385e]">Hours: </strong
-                  >{{
-                    calculateHours(
-                      photo.isEdit,
-                      photo.last_edit,
-                      photo.created_at,
-                      photo.hours
-                    )
-                  }}
+                  >{{photo.hours}}
                 </li>
               </ul>
             </div>
@@ -89,17 +82,6 @@ export default {
       }
     };
 
-    const calculateHours = (edit, lastDate, created_date, hours) => {
-      if (edit) {
-        const hoursEdited = Math.abs(new Date() - new Date(lastDate)) / 36e5;
-        const hoursRounded = hoursEdited | 0;
-        return Number(hours) + hoursRounded;
-      } else {
-        const hoursDiff = Math.abs(new Date() - new Date(created_date)) / 36e5;
-        return hoursDiff | 0;
-      }
-    };
-
     gettingData();
 
     // const closePhotosModal = () => emit("closeModal");
@@ -108,7 +90,6 @@ export default {
 
     return {
       gettingData,
-      calculateHours,
       runDetail,
       isLoading,
       modules: [Pagination, Navigation],

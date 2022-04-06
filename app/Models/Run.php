@@ -535,29 +535,6 @@ class Run extends Model
         try {
             $run = (new static)::find($id);
             $run->status = 1;
-            $run->closed_date = Carbon::now();
-            $totalHours = 0;
-            if ($run->isEdit) {
-                $currentDate = Carbon::now('UTC');
-                $lastDateEdit = new DateTime($run->last_edit);
-                $lastDate = $lastDateEdit->format('Y-m-d H:i:s');
-                $current = $currentDate->format('Y-m-d H:i:s');
-                $hourdiff = (strtotime($current) - strtotime($lastDate)) / 3600;
-                $hourRounded = bcdiv($hourdiff, '1', 0);
-                $hours = intval($hourRounded, 10);
-
-                $totalHours = $hours + $run->hours;
-            } else {
-                $currentDate = new DateTime();
-                $current = $currentDate->format('Y-m-d H:i:s');
-                $start_date = new DateTime($run->start_date);
-                $startDate = $start_date->format('Y-m-d H:i:s');
-                $hourdiff = (strtotime($current) - strtotime($startDate)) / 3600;
-                $hourRounded = bcdiv($hourdiff, '1', 0);
-                $totalHours = intval($hourRounded, 10);
-            }
-            $run->hours = $totalHours;
-
             $run->save();
             DB::commit();
             return [
@@ -581,8 +558,6 @@ class Run extends Model
         try {
             $run = (new static)::find($id);
             $run->status = 0;
-            $run->isEdit = true;
-            $run->last_edit = Carbon::now();
             $run->save();
             DB::commit();
             return [
@@ -634,11 +609,8 @@ class Run extends Model
             $run->description = $request->description;
             $run->plate_methods_id = $request->plate_methods_id;
             $run->company_id = $request->company_id;
-            if ($request->hasDiferentHours) {
-                $run->hours = $request->hours;
-                $run->last_edit = Carbon::parse($request->last_edit, 'UTC');
-                $run->isEdit = true;
-            }
+            $run->hours = $request->hours;
+            
             $run->save();
             DB::commit();
             return [
