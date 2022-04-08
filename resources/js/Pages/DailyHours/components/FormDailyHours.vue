@@ -65,12 +65,13 @@ export default {
   emits: ["closeModal1"],
   setup(props,{ emit }) {
     const loading = ref(false);
-    const { makeToast, getCurrentDate } = useHelper();
+    const { makeToast, } = useHelper();
+    const global_date = new Date();
 
     const form = reactive({
       id: 0,
       hours: "",
-      date: getCurrentDate(),
+      date: global_date.toISOString().slice(0,10),
     });
     const rules = {
       hours: { required },
@@ -98,6 +99,16 @@ export default {
           loading.value =false
       }
     };
+
+    
+      
+      
+      
+      
+      
+      
+
+    
 
     return {
       loading,

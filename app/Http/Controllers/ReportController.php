@@ -121,8 +121,6 @@ class ReportController extends Controller
 
         $start_date = $request->start_date;
         $endDate = $request->endDate;
-        $start_utc_date = $request->startUtcDate;
-        $end_utc_date = $request->endUtcDate;
         $company_id = $request->customer;
         $customer = $request->customer;
         $plate_type = $request->plate_type;
@@ -191,7 +189,7 @@ class ReportController extends Controller
                 ->leftJoin('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
                 ->leftJoin('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
                 ->leftJoin('chemicals as coat', 'parts.coatId', '=', 'coat.id')
-                ->whereBetween('parts.created_at', [$start_utc_date, $end_utc_date])
+                ->whereBetween('parts.created_at', [$start_date, $endDate])
                 ->where('runs.status', '!=', 2)
                 ->when($filterAll, function ($query, $filterAll) {
                     if ($filterAll != 3) {
@@ -259,7 +257,7 @@ class ReportController extends Controller
                 ->leftJoin('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
                 ->leftJoin('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
                 ->leftJoin('chemicals as coat', 'parts.coatId', '=', 'coat.id')
-                ->whereBetween('parts.created_at', [$start_utc_date, $end_utc_date])
+                ->whereBetween('parts.created_at', [$start_date, $endDate])
                 ->where('runs.company_id', $company_id)
                 ->where('runs.status', '!=', 2)
                 ->when($filterAll, function ($query, $filterAll) {

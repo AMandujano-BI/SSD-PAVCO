@@ -186,8 +186,8 @@ class RunController extends Controller
         $zone= str_replace("----", '/', $zone);
 
         $id_run = $run->id;
-        $localStartDate = Carbon::parse($run->start_date)->setTimezone($zone);
-        $start_date = substr($localStartDate, 0, 10);
+        // $localStartDate = Carbon::parse($run->start_date)->setTimezone($zone);
+        $start_date = substr($run->start_date, 0, 10);
         $customer = $run->company->name;        
         $hours = $run->hours;
 
@@ -223,8 +223,8 @@ class RunController extends Controller
         $id_run = $run->id;
         $zone= str_replace("'", '', $date);
         $zone= str_replace("----", '/', $zone);
-        $localStartDate = Carbon::parse($run->start_date)->setTimezone($zone);
-        $start_date = substr($localStartDate, 0, 10);
+        // $localStartDate = Carbon::parse($run->start_date)->setTimezone($zone);
+        $start_date = substr($run->start_date, 0, 10);
         $customer = $run->company->name;
         $hours = $run->hours;
 

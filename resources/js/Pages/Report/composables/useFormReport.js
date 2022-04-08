@@ -8,51 +8,6 @@ const isDiferentZero = (value) => {
     return value != 0 && value !=null;
 };
 
-const convertDate = (dateToConvert) => {
-    const currentUTCDate = new Date(dateToConvert);
-    const monthUTC = currentUTCDate.getUTCMonth() + 1;
-    const dayUTC = currentUTCDate.getUTCDate();
-    const hoursUTC = currentUTCDate.getUTCHours();
-    const minutesUTC = currentUTCDate.getUTCMinutes();
-    const secondsUTC = currentUTCDate.getUTCSeconds();
-    let fullMonthUTC = "0";
-    let fullDayUTC = "0";
-    let fullHoursUTC = "0";
-    let fullMinutesUTC = "0";
-    let fullSecondsUTC = "0";
-    monthUTC.toString().length < 2
-        ? (fullMonthUTC = fullMonthUTC.concat(monthUTC))
-        : (fullMonthUTC = monthUTC);
-    dayUTC.toString().length < 2
-        ? (fullDayUTC = fullDayUTC.concat(dayUTC))
-        : (fullDayUTC = dayUTC);
-    hoursUTC.toString().length < 2
-        ? (fullHoursUTC = fullHoursUTC.concat(hoursUTC))
-        : (fullHoursUTC = hoursUTC);
-    minutesUTC.toString().length < 2
-        ? (fullMinutesUTC = fullMinutesUTC.concat(minutesUTC))
-        : (fullMinutesUTC = minutesUTC);
-    secondsUTC.toString().length < 2
-        ? (fullSecondsUTC = fullSecondsUTC.concat(secondsUTC))
-        : (fullSecondsUTC = secondsUTC);
-
-    const utcDate =
-        "" +
-        currentUTCDate.getUTCFullYear() +
-        "-" +
-        fullMonthUTC +
-        "-" +
-        fullDayUTC +
-        "T" +
-        fullHoursUTC +
-        ":" +
-        fullMinutesUTC +
-        ":" +
-        fullSecondsUTC;
-
-    return utcDate;
-}
-
 const useFormReport = (formProps) => {
     const form = reactive(formProps);
     const loading = ref(false)
@@ -105,11 +60,7 @@ const useFormReport = (formProps) => {
     const v$ = useVuelidate(rules, form);
 
     const submitForm = async () => {
-        
-        form.startUtcDate = convertDate( `${form.start_date} 0:00:00` );
-        form.endUtcDate = convertDate( `${form.endDate} 23:59:59` );
         form.filterOption = parseInt( filterOption.value)
-
 
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return

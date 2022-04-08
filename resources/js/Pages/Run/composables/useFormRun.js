@@ -135,26 +135,6 @@ const useFormRun = () => {
             let res;
             loading.value = true
 
-            const currentDate = new Date(form.start_date);
-            let month = currentDate.getUTCMonth() + 1;
-            let day = currentDate.getUTCDate();
-            let fullMonth = '0';
-            let fullDay = '0';
-            (month.toString().length < 2) ? fullMonth = fullMonth.concat(month) : fullMonth = month;
-            (day.toString().length < 2) ? fullDay = fullDay.concat(day) : fullDay = day;
-            const startUTCDate =
-                '' +
-                currentDate.getUTCFullYear() +
-                '-' +
-                fullMonth +
-                '-' +
-                fullDay +
-                'T' +
-                currentDate.getUTCHours() +
-                ':' +
-                currentDate.getUTCMinutes();
-            form.start_date = startUTCDate;
-
             res = await axios.post(`/run/`, form);
             const { ok, value, message } = res.data;
             loading.value = false

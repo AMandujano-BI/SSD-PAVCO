@@ -207,44 +207,6 @@ export default {
       openModalEdit.value = true;
     };
 
-    const convertUTC = (dateToConvert) => {
-      const currentUTCDate = new Date(dateToConvert);
-      const monthUTC = currentUTCDate.getUTCMonth() + 1;
-      const dayUTC = currentUTCDate.getUTCDate();
-      const hoursUTC = currentUTCDate.getUTCHours();
-      const minutesUTC = currentUTCDate.getUTCMinutes();
-      let fullMonthUTC = "0";
-      let fullDayUTC = "0";
-      let fullHoursUTC = "0";
-      let fullMinutesUTC = "0";
-      monthUTC.toString().length < 2
-        ? (fullMonthUTC = fullMonthUTC.concat(monthUTC))
-        : (fullMonthUTC = monthUTC);
-      dayUTC.toString().length < 2
-        ? (fullDayUTC = fullDayUTC.concat(dayUTC))
-        : (fullDayUTC = dayUTC);
-      hoursUTC.toString().length < 2
-        ? (fullHoursUTC = fullHoursUTC.concat(hoursUTC))
-        : (fullHoursUTC = hoursUTC);
-      minutesUTC.toString().length < 2
-        ? (fullMinutesUTC = fullMinutesUTC.concat(minutesUTC))
-        : (fullMinutesUTC = minutesUTC);
-
-      const utcDate =
-        "" +
-        currentUTCDate.getUTCFullYear() +
-        "-" +
-        fullMonthUTC +
-        "-" +
-        fullDayUTC +
-        "T" +
-        fullHoursUTC +
-        ":" +
-        fullMinutesUTC;
-
-      return utcDate;
-    };
-
     gettingData();
 
     return {

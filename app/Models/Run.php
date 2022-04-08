@@ -381,7 +381,6 @@ class Run extends Model
     {
         DB::beginTransaction();
         try {
-            // $run = (new static)->where('')
             
             $ifExist = Hour::where('dateChange',$request->date)->first();
             if($ifExist){
@@ -397,8 +396,24 @@ class Run extends Model
                 'dateChange' => $request->date,
                 'user_id' => auth()->user()->id,
             ]);
+
+            
+            $run = (new static)->whereDate('start_date', $request->date)
+                               ->where('status', 0)
+                               ->get();
+
+            foreach ($run as $runItem) {
+                $updatedRun = Run::find($runItem->id);
+                $updatedRun->hours = $request->hours;
+                $updatedRun->save();
+            }
+
+            // $run = DB::table('run')
+            //                 ->whereDate('start_date', $formated_date);
+
             $hour->save();
-             DB::commit();
+            
+            DB::commit();
 
             return [
                 'ok' => true,
@@ -430,9 +445,23 @@ class Run extends Model
             }
             $hour->hourNumber = $request->hours;
             $hour->user_id = auth()->user()->id;
+
+            $run = (new static)->whereDate('start_date', $hour->dateChange)
+                               ->where('status', 0)
+                               ->get();
+
+            // $run = DB::table('run')
+            //                 ->whereDate('start_date', $hour->dateChange);
+
+            foreach ($run as $runItem) {
+                $updatedRun = Run::find($runItem->id);
+                $updatedRun->hours = $request->hours;
+                $updatedRun->save();
+            }
+
             
             $hour->save();
-             DB::commit();
+            DB::commit();
 
             return [
                 'ok' => true,
@@ -648,7 +677,7 @@ class Run extends Model
             $run = (new static)::find($id);
             // $run->status = 1;
             // dd($request->start_date_edit);
-            $run->start_date = $request->start_date_edit;
+            $run->start_date = $request->start_date;
             $run->description = $request->description;
             $run->plate_methods_id = $request->plate_methods_id;
             $run->company_id = $request->company_id;

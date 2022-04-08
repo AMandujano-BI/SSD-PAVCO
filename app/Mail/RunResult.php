@@ -38,8 +38,8 @@ class RunResult extends Mailable
     public function build()
     {
         $id_run = $this->_run->id;
-        $localStartDate = Carbon::parse($this->_run->start_date)->setTimezone($this->_zone);
-        $start_date = substr($localStartDate, 0, 10);
+        // $localStartDate = Carbon::parse($this->_run->start_date)->setTimezone($this->_zone);
+        $start_date = substr($this->_run->start_date, 0, 10);
         $customer = $this->_run->company->name;
         
         $hours = $this->_run->hours;

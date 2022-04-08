@@ -117,15 +117,7 @@ export default {
     const { makeToast } = useHelper();
 
 
-    
-    
-
-
-    
-
-    
-
-    const currentDate = new Date(run.start_date).toISOString().slice(0, 10);
+    const currentDate = run.start_date.slice(0, 10);
     const form = reactive({
       id: run.id,
       number: 0,
@@ -186,37 +178,7 @@ export default {
     };
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {
-
-      // to startDate
-      const currentUTCDate = new Date(form.start_date);
-      const monthUTC = currentUTCDate.getUTCMonth()+1;
-      const dayUTC = currentUTCDate.getUTCDate();
-      const hoursUTC = currentUTCDate.getUTCHours();
-      const minutesUTC = currentUTCDate.getUTCMinutes();
-      let fullMonthUTC = '0';
-      let fullDayUTC = '0';
-      let fullHoursUTC = '0';
-      let fullMinutesUTC = '0';
-      (monthUTC.toString().length < 2) ? fullMonthUTC = fullMonthUTC.concat(monthUTC) : fullMonthUTC = monthUTC;
-      (dayUTC.toString().length < 2) ? fullDayUTC = fullDayUTC.concat(dayUTC) : fullDayUTC = dayUTC;
-      (hoursUTC.toString().length < 2) ? fullHoursUTC = fullHoursUTC.concat(hoursUTC) : fullHoursUTC = hoursUTC;
-      (minutesUTC.toString().length < 2) ? fullMinutesUTC = fullMinutesUTC.concat(minutesUTC) : fullMinutesUTC = minutesUTC;
-      
-      const startUTCDate = 
-          ''+
-          currentUTCDate.getUTCFullYear()+
-          '-'+
-          fullMonthUTC+
-          '-'+
-          fullDayUTC+
-          'T'+
-          fullHoursUTC+
-          ':'+
-          fullMinutesUTC;
-
       try {
-        form.start_date_edit = startUTCDate;
-
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return;
         let res;
