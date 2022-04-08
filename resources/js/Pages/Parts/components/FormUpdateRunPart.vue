@@ -187,6 +187,7 @@ export default {
         const { ok, value, message } = res.data;
         
         if (ok) {
+          run.hours = form.hours;
           makeToast("Part was updated successfully");
         } else {
           makeToast("An error has occurred in server", "error");

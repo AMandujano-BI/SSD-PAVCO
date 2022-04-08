@@ -99,6 +99,7 @@ export default {
     isLoading: function (val) {
       this.isLoading = val;
     },
+
   },
 };
 </script>

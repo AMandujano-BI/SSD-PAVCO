@@ -180,7 +180,7 @@
 </template>
 
 <script>
-import { nextTick } from "vue";
+import { nextTick, watch } from "vue";
 import PhotosRun2 from "../../Run/components/PhotosRun2.vue";
 import { ref } from "vue";
 import FormPhotosCreateVue from "./FormPhotosCreate.vue";
@@ -222,6 +222,10 @@ export default {
     const openModalPhotosCreate = ref(false);
     const photoItem = ref(null);
     const { makeToast } = useHelper();
+
+    watch(run,(value,prevValue)=>{
+      run_hours.value = value.hours;
+    })
 
     const gettData = async () => {
       const res = await axios.get(`/photo/getPhotosByRun/${run_id.value}`);

@@ -184,7 +184,6 @@ export default {
       try {
         const res = await axios.get(`/dailyHours/getDailyHours`);
         const data = res.data;
-        console.log(data);
         dataDailyHours.value = data;
         await generateDataTable(status);
       } catch (e) {

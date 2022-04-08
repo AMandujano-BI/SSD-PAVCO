@@ -70,7 +70,6 @@ export default {
     const { hourGet } = props;
     const loading = ref(false);
     const { makeToast } = useHelper();
-    console.log(hourGet.id);
     const form = reactive({
       id: hourGet.id,
       hours: hourGet.hourNumber,
