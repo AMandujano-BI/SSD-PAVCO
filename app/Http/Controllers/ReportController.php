@@ -243,6 +243,7 @@ class ReportController extends Controller
                     'chromate.name as chromate',
                     'topcoat.name as topcoat',
                     'runs.hours',
+                    'runs.hoursClosed',
                     'runs.status'
 
                 )
@@ -311,6 +312,7 @@ class ReportController extends Controller
                     'chromate.name as chromate',
                     'topcoat.name as topcoat',
                     'runs.hours',
+                    'runs.hoursClosed',
                     'runs.status'
                 )
                 ->orderBy('parts.run_id', 'asc')

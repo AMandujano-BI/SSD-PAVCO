@@ -607,6 +607,7 @@ class Run extends Model
         try {
             $run = (new static)::find($id);
             $run->status = 1;
+            $run->hoursClosed = $run->hours;
             $run->save();
             DB::commit();
             return [

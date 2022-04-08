@@ -960,7 +960,7 @@ export default {
                   if (row.isWs !== null && row.isWs) {
                     whiteSaltInput = `${row.hoursWs} hrs`;
                   } else {
-                    whiteSaltInput = `Removed at ${runDetail.value.hours} hrs`;
+                    whiteSaltInput = `Removed at ${runDetail.value.hoursClosed} hrs`;
                   }
                 } else {
                   // está abierto
@@ -998,7 +998,7 @@ export default {
                   if (row.isRs !== null && row.isRs) {
                     redRustInput = `${row.hoursRs} hrs`;
                   } else {
-                    redRustInput = `Removed at ${runDetail.value.hours} hrs`;
+                    redRustInput = `Removed at ${runDetail.value.hoursClosed} hrs`;
                   }
                 } else {
                   // está abierto

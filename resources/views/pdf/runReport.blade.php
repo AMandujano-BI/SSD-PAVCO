@@ -306,7 +306,7 @@
                                 {{$part->hoursWs}} hrs
                                 @else
                                 @if ($run_status == 1)
-                                Removed at {{$hours}} hrs
+                                Removed at {{$hoursClosed}} hrs
                                 @else
                                 Active
                                 @endif
@@ -317,7 +317,7 @@
                                 {{$part->hoursRs}} hrs
                                 @else
                                 @if ($run_status == 1)
-                                Removed at {{$hours}} hrs
+                                Removed at {{$hoursClosed}} hrs
                                 @else
                                 Active
                                 @endif

@@ -191,7 +191,7 @@
                                     {{$part->hoursWs}} hrs
                                 @else
                                     @if ($part->status == 1)
-                                        Removed at {{$part->hours}} hrs
+                                        Removed at {{$part->hoursClosed}} hrs
                                     @else
                                         Active
                                     @endif
@@ -202,7 +202,7 @@
                                     {{$part->hoursRs}} hrs
                                 @else
                                     @if ($part->status == 1)
-                                        Removed at {{$part->hours}} hrs
+                                        Removed at {{$part->hoursClosed}} hrs
                                     @else
                                         Active
                                     @endif
