@@ -1,11 +1,13 @@
 <template>
   <div class="p-2">
     <div
-      v-if="
-        $page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2
-      "
+     
+      class="flex gap-2 items-center"
     >
       <button
+       v-if="
+        $page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2
+      "
         class="bg-primary-500 p-4 text-white rounded-md"
         @click="openModalChange"
       >
@@ -25,12 +27,52 @@
           />
         </svg>
       </button>
+      <div
+        class="relative text-gray-600 focus-within:text-gray-400 flex-1 w-full"
+      >
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button
+            type="button"
+            class="p-1 focus:outline-none focus:shadow-outline"
+          >
+            <svg
+              fill="none"
+              stroke="#a2a2a2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              class="w-6 h-6"
+            >
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        </span>
+
+        <input
+          type="text"
+          class="
+            py-[14px]
+            text-sm
+            w-full
+            pl-10
+            rounded-sm
+            border-[#a2a2a2]
+            placeholder-[#a2a2a2]
+            text-[#333]
+          "
+          id="filterPartInputBot1"
+          placeholder="Search ..."
+          autocomplete="off"
+        />
+      </div>
     </div>
     <div class="rounded-lg bg-white p-5">
       <table
         id="activeRuns"
         class="display nowrap responsive"
         style="width: 100%; height: 100%"
+        data-ordering="false"
       >
         <thead>
           <tr>
@@ -47,7 +89,8 @@
             <td>{{ item.hourNumber }}</td>
             <td>{{ item.user.username }}</td>
             <td>
-              <button class="editrun" @click="editHour(item.id)">
+              <button class="editrun" @click="editHour(item.id)"  v-if=" $page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2
+      ">
                 <svg
                   width="25"
                   height="25"
@@ -125,9 +168,16 @@ export default {
     const arrayId = ref([]);
     let table;
     const hourGet = ref({
-      id:0,
+      id: 0,
       dateChange: "",
       hourNumber: "",
+    });
+      $(document).ready(function () {
+      $("#filterPartInputBot1")
+        .off()
+        .keyup(function () {
+          table.search(this.value).draw();
+        });
     });
 
     const gettingData = async (status = 3) => {
@@ -163,7 +213,6 @@ export default {
     const openModalChange = () => {
       openModal.value = true;
     };
-   
 
     const generateDataTable = (status) => {
       const self = this;
@@ -172,7 +221,7 @@ export default {
 
       nextTick(() => {
         table = $("#activeRuns").DataTable({
-          ordering: true,
+          // ordering: true,
           bLengthChange: false,
           pageLength: 10,
           responsive: true,
@@ -224,7 +273,7 @@ export default {
       hourGet,
       closeModalChangeEdit,
       openModalEdit,
-      apply2
+      apply2,
     };
   },
 };
