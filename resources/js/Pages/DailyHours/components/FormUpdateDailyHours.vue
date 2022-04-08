@@ -59,7 +59,7 @@
 
 <script>
 import { reactive, ref } from "vue";
-import { required } from "@vuelidate/validators";
+import { required,minValue } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import useHelper from "@/composables/useHelper";
 import axios from "axios";
@@ -76,7 +76,7 @@ export default {
       date: hourGet.dateChange,
     });
     const rules = {
-      hours: { required },
+      hours: { required,minValue: minValue(0), },
     };
     const v$ = useVuelidate(rules, form);
     const submitForm = async () => {

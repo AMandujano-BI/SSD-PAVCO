@@ -1,13 +1,10 @@
 <template>
   <div class="p-2">
-    <div
-     
-      class="flex gap-2 items-center"
-    >
+    <div class="flex gap-2 items-center">
       <button
-       v-if="
-        $page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2
-      "
+        v-if="
+          $page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2
+        "
         class="bg-primary-500 p-4 text-white rounded-md"
         @click="openModalChange"
       >
@@ -80,6 +77,7 @@
             <th data-priority="1">Hours</th>
             <th data-priority="1">Entered By</th>
             <th class="no-sort">Edit</th>
+            <th class="no-sort">Delete</th>
           </tr>
         </thead>
 
@@ -89,8 +87,14 @@
             <td>{{ item.hourNumber }}</td>
             <td>{{ item.user.username }}</td>
             <td>
-              <button class="editrun" @click="editHour(item.id)"  v-if=" $page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2
-      ">
+              <button
+                class="editrun"
+                @click="editHour(item.id)"
+                v-if="
+                  $page.props.auth.rols[0].id == 1 ||
+                  $page.props.auth.rols[0].id == 2
+                "
+              >
                 <svg
                   width="25"
                   height="25"
@@ -116,6 +120,35 @@
                 </svg>
               </button>
             </td>
+            <td>
+              <button
+                @click="openModalDelete(item.id)"
+                v-if="
+                  $page.props.auth.rols[0].id == 1 ||
+                  $page.props.auth.rols[0].id == 2
+                "
+                class="showdelete"
+              >
+                <svg
+                  width="25"
+                  height="25"
+                  viewBox="0 0 25 25"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g fill="none" fill-rule="evenodd">
+                    <path fill="#0271C5" d="M0 0h25v25H0z" />
+                    <g fill="#FFF" fill-rule="nonzero">
+                      <path
+                        d="m18.495 8.13-.312-.927a.869.869 0 0 0-.826-.59h-2.62v-.846A.77.77 0 0 0 13.966 5h-2.4a.77.77 0 0 0-.772.767v.846h-2.62a.869.869 0 0 0-.826.59l-.311.926a.69.69 0 0 0 .096.625c.13.18.343.288.567.288h.326l.717 8.794A1.279 1.279 0 0 0 10.014 19h5.648c.66 0 1.218-.511 1.272-1.164l.717-8.794h.18a.703.703 0 0 0 .568-.288.69.69 0 0 0 .096-.625zM11.62 5.82h2.29v.793h-2.29V5.82zm4.49 11.95a.45.45 0 0 1-.448.41h-5.648a.45.45 0 0 1-.447-.41l-.712-8.728h7.966l-.712 8.728zM7.876 8.222l.255-.76a.043.043 0 0 1 .041-.029h9.184c.019 0 .035.012.041.03l.256.76H7.877z"
+                      />
+                      <path
+                        d="M14.79 17.741h.022c.218 0 .401-.17.412-.388l.389-7.394a.412.412 0 0 0-.392-.43.412.412 0 0 0-.434.387l-.389 7.394a.411.411 0 0 0 .392.431zM10.324 17.354a.412.412 0 0 0 .436.387.411.411 0 0 0 .39-.432l-.406-7.394a.412.412 0 0 0-.436-.387.411.411 0 0 0-.39.432l.406 7.394zM12.77 17.742a.412.412 0 0 0 .413-.41V9.937a.412.412 0 0 0-.413-.41.412.412 0 0 0-.414.41v7.393c0 .227.185.41.414.41z"
+                      />
+                    </g>
+                  </g>
+                </svg>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -135,6 +168,28 @@
       <form-update-daily-hours :hourGet="hourGet" @closeModal="apply2" />
     </div>
   </modal>
+
+  <confirmation-modal :show="showModalDelete">
+    <template v-slot:title>
+      <h1>Are you sure that delete this hour?</h1>
+    </template>
+    <template v-slot:content>
+      <div class="flex justify-center">
+        <button
+          class="bg-red-500 p-4 text-white rounded-md mr-4"
+          @click="closeModalDelete"
+        >
+          Cancel
+        </button>
+        <button
+          class="bg-green-500 p-4 text-white rounded-md"
+          @click="deleteHour()"
+        >
+          Acept
+        </button>
+      </div>
+    </template>
+  </confirmation-modal>
 </template>
 
 <script>
@@ -150,29 +205,35 @@ import ModalVue from "@/Jetstream/Modal.vue";
 import FormDailyHoursVue from "./FormDailyHours.vue";
 import axios from "axios";
 import FormUpdateDailyHoursVue from "./FormUpdateDailyHours.vue";
+import ConfirmationModal from "@/Jetstream/ConfirmationModal.vue";
 export default {
   components: {
     modal: ModalVue,
     FormDailyHours: FormDailyHoursVue,
+    confirmationModal: ConfirmationModal,
     FormUpdateDailyHours: FormUpdateDailyHoursVue,
   },
   setup() {
     // Declare variables
     const { getCurrentDate } = useHelper();
     const startDate = ref(getCurrentDate());
+    const showModalDelete = ref(false);
+    const { makeToast } = useHelper();
+
     const dataDailyHours = ref([]);
     const openModal = ref(false);
     const openModalEdit = ref(false);
     const selectedCheckbox = ref(false);
     const filterOption = ref(3);
     const arrayId = ref([]);
+    const idDelete = ref(0);
     let table;
     const hourGet = ref({
       id: 0,
       dateChange: "",
       hourNumber: "",
     });
-      $(document).ready(function () {
+    $(document).ready(function () {
       $("#filterPartInputBot1")
         .off()
         .keyup(function () {
@@ -254,6 +315,29 @@ export default {
       hourGet.value = dataDailyHours.value.find((hour) => hour.id === id);
       openModalEdit.value = true;
     };
+    const deleteHour = async () => {
+      try {
+        const res = await axios.delete(`/dailyHours/${idDelete.value}`);
+        const { ok, value, message } = res.data;
+        if (ok) {
+          showModalDelete.value = false;
+          makeToast(message);
+          gettingData();
+        } else {
+          makeToast(message, "error");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    const closeModalDelete = () => {
+      showModalDelete.value = false;
+      idDelete.value = 0;
+    };
+    const openModalDelete = (id) => {
+      idDelete.value = id;
+      showModalDelete.value = true;
+    };
 
     gettingData();
 
@@ -273,6 +357,10 @@ export default {
       closeModalChangeEdit,
       openModalEdit,
       apply2,
+      showModalDelete,
+      deleteHour,
+      closeModalDelete,
+      openModalDelete,
     };
   },
 };

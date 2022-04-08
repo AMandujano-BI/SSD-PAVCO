@@ -329,7 +329,7 @@ class Run extends Model
                             $part->hoursRs = $runHours;
                         } else {
                             // dd($request->parts[$j]['hoursRs'], $runPart->isRs);
-                            if( is_null($request->parts[$j]['hoursRs']) && $runPart->isRs == true ) {
+                            if (is_null($request->parts[$j]['hoursRs']) && $runPart->isRs == true) {
                                 // dd('void', $request->parts[$j]['id']);
                                 $part->isRs = false;
                                 $part->hoursRs = null;
@@ -343,7 +343,7 @@ class Run extends Model
                             $part->hoursWs = $runHours;
                         } else {
                             // dd( is_null($request->parts[$j]['hoursWs']) ,  is_null($runPart->isWs));
-                            if( is_null($request->parts[$j]['hoursWs']) && $runPart->isWs == true ) {
+                            if (is_null($request->parts[$j]['hoursWs']) && $runPart->isWs == true) {
                                 $part->isWs = false;
                                 $part->hoursWs = null;
                             } else {
@@ -381,15 +381,14 @@ class Run extends Model
     {
         DB::beginTransaction();
         try {
-            
-            $ifExist = Hour::where('dateChange',$request->date)->first();
-            if($ifExist){
+
+            $ifExist = Hour::where('dateChange', $request->date)->first();
+            if ($ifExist) {
                 DB::rollBack();
                 return [
                     'ok' => false,
                     'message' => 'There is already a date added'
                 ];
-
             }
             $hour = Hour::create([
                 'hourNumber' => $request->hours,
@@ -397,14 +396,14 @@ class Run extends Model
                 'user_id' => auth()->user()->id,
             ]);
 
-            
-            $run = (new static)->whereDate('start_date', $request->date)
-                               ->where('status', 0)
-                               ->get();
+
+            $run = (new static)->where('status', 0)
+                // ->whereDate('start_date', $request->date)
+                ->get();
 
             foreach ($run as $runItem) {
                 $updatedRun = Run::find($runItem->id);
-                $updatedRun->hours = $request->hours;
+                $updatedRun->hours = $updatedRun->hours + $request->hours;
                 $updatedRun->save();
             }
 
@@ -412,7 +411,7 @@ class Run extends Model
             //                 ->whereDate('start_date', $formated_date);
 
             $hour->save();
-            
+
             DB::commit();
 
             return [
@@ -429,14 +428,15 @@ class Run extends Model
         }
     }
     // Editar
-    public static function updateHoursUpdate($id,$request)
+    public static function updateHoursUpdate($id, $request)
     {
         DB::beginTransaction();
         try {
             // $run = (new static)->where('')
-            
-            $hour = Hour::where('id',$id)->first();
-            if(!$hour){
+
+            $hour = Hour::where('id', $id)->first();
+            $hourAge = $hour->hourNumber;
+            if (!$hour) {
                 DB::rollBack();
                 return [
                     'ok' => false,
@@ -446,20 +446,21 @@ class Run extends Model
             $hour->hourNumber = $request->hours;
             $hour->user_id = auth()->user()->id;
 
-            $run = (new static)->whereDate('start_date', $hour->dateChange)
-                               ->where('status', 0)
-                               ->get();
+            $run = (new static)->where('status', 0)
+                // ->whereDate('start_date', $hour->dateChange)
+                ->get();
 
             // $run = DB::table('run')
             //                 ->whereDate('start_date', $hour->dateChange);
 
             foreach ($run as $runItem) {
                 $updatedRun = Run::find($runItem->id);
-                $updatedRun->hours = $request->hours;
+                // $updatedRun->hours = $request->hours;
+                $updatedRun->hours =  ($updatedRun->hours -$hourAge) + $request->hours;
                 $updatedRun->save();
             }
 
-            
+
             $hour->save();
             DB::commit();
 
@@ -476,7 +477,38 @@ class Run extends Model
             ];
         }
     }
+    public static function deleteHour($id)
+    {
+        DB::beginTransaction();
+        try {
+            $hour = Hour::where('id', $id)->first();
+            
+            $run = (new static)->where('status', 0)
+                // ->whereDate('start_date', $hour->dateChange)
+                ->get();
 
+            foreach ($run as $runItem) {
+                $updatedRun = Run::find($runItem->id);
+                $updatedRun->hours =$updatedRun->hours - $hour->hourNumber;
+                $updatedRun->save();
+            }
+            $hour->delete();
+
+            DB::commit();
+
+            return [
+                'ok' => true,
+                'message' => 'Hours was delete successfully',
+                'value' => $hour,
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return [
+                'ok' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
 
 
     public static function createRun($request)
@@ -559,7 +591,7 @@ class Run extends Model
                 for ($i = 0; $i < $numberParts; $i++) {
                     $parts = Part::create([
                         'plateThick' => $plateThick,
-                        'number'=>$countParts,
+                        'number' => $countParts,
                         'typePlateThick' => $typePlateThick,
                         'description' => 'Part number ' . $countParts,
                         'plate_types_id' => $plate_types_id,
@@ -683,7 +715,7 @@ class Run extends Model
             $run->plate_methods_id = $request->plate_methods_id;
             $run->company_id = $request->company_id;
             $run->hours = $request->hours;
-            
+
             $run->save();
             DB::commit();
             return [

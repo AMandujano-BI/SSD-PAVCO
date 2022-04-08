@@ -50,5 +50,10 @@ class DailyHoursController extends Controller
         $hours = $this->_run->updateHoursUpdate($request->id,$request);
         return $hours;
     }
+    public function destroy($id)
+    {
+        $hours = $this->_run->deleteHour($id);
+        return $hours;
+    }
 
 }
