@@ -448,11 +448,12 @@
         </div>
 
         <div class="flex gap-2 items-center flex-1 w-full mb-5">
-            <div
-          v-if="
-            $page.props.auth.rols[0].id == 1 || $page.props.auth.rols[0].id == 2
-          "
-        >
+          <div
+            v-if="
+              $page.props.auth.rols[0].id == 1 ||
+              $page.props.auth.rols[0].id == 2
+            "
+          >
             <button
               class="rounded py-4 text-white px-3 mt-5"
               @click="showSaveWsRs"
@@ -882,7 +883,13 @@ export default {
               searchable: true,
               render: function (data, type, row, meta) {
                 if (row.plate_type?.name != undefined) {
-                  return `<td>${row.plate_type?.name} - ${row.plateThick} ${row.typePlateThick ==1 ?'microns':(row.typePlateThick ==2?'mils':'')} </td>`;
+                  return `<td>${row.plate_type?.name} - ${row.plateThick} ${
+                    row.typePlateThick == 1
+                      ? "microns"
+                      : row.typePlateThick == 2
+                      ? "mils"
+                      : ""
+                  } </td>`;
                 }
                 return "<td></td>";
               },
@@ -966,15 +973,23 @@ export default {
                   // está abierto
                   if (row.isWs !== null && row.isWs) {
                     // Si tiene horas, se renderiza horas
-                    whiteSaltInput =
-                      '<input type="number" id="hws' +
-                      row.id +
-                      '" class="whitesInp" itemId=' +
-                      row.id +
-                      " value=" +
-                      row.hoursWs +
-                      ' style="width: 60px"> hrs';
-                  } else {
+                    console.log(Inertia.page.props.auth.rols[0].id != 1 &&
+                      Inertia.page.props.auth.rols[0].id != 2)
+                    whiteSaltInput = `<input 
+                    type="number" 
+                    ${
+                      Inertia.page.props.auth.rols[0].id != 1 &&
+                      Inertia.page.props.auth.rols[0].id != 2?'disabled':''
+                    }
+                    id=${"hws" + row.id}
+                     class="whitesInp" 
+                     itemId=${row.id} 
+                     value=${row.hoursWs} 
+                     style="width: 60px"> hrs`;
+                  } else if (
+                    Inertia.page.props.auth.rols[0].id == 1 ||
+                    Inertia.page.props.auth.rols[0].id == 2
+                  ) {
                     // Si no tiene horas, se colocará input value = false
                     whiteSaltInput =
                       '<input type="checkbox" id="ws' +
@@ -1003,15 +1018,20 @@ export default {
                 } else {
                   // está abierto
                   if (row.isRs !== null && row.isRs) {
-                    redRustInput =
-                      '<input type="number" id="hrss' +
-                      row.id +
-                      '" class="redrInp" itemId=' +
-                      row.id +
-                      " value=" +
-                      row.hoursRs +
-                      ' style="width: 60px;"> hrs';
-                  } else {
+                    redRustInput = `<input type="number"
+                       id=${"hrss" + row.id} 
+                        ${
+                          Inertia.page.props.auth.rols[0].id != 1 &&
+                          Inertia.page.props.auth.rols[0].id != 2?'disabled':''
+                        }
+                       class="redrInp" 
+                       itemId=${row.id} 
+                       value=${row.hoursRs} 
+                       style="width: 60px;"> hrs`;
+                  } else if (
+                    Inertia.page.props.auth.rols[0].id == 1 ||
+                    Inertia.page.props.auth.rols[0].id == 2
+                  ) {
                     redRustInput =
                       '<input type="checkbox" id="rs' +
                       row.id +

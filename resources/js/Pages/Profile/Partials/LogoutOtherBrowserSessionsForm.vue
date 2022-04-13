@@ -2,7 +2,7 @@
     <jet-action-section>
         <template #title>
             Browser Sessions User  <span class="font-bold capitalize">
-                 {{$page.props.user.name}}
+                 {{$page.props.user.username}}
                 </span>
         </template>
 
