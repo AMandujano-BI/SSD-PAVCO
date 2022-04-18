@@ -398,7 +398,7 @@ class Run extends Model
 
 
             $run = (new static)->where('status', 0)
-                // ->whereDate('start_date', $request->date)
+                ->where('start_date','<', $request->date)
                 ->get();
 
             foreach ($run as $runItem) {
@@ -447,16 +447,24 @@ class Run extends Model
             $hour->user_id = auth()->user()->id;
 
             $run = (new static)->where('status', 0)
-                // ->whereDate('start_date', $hour->dateChange)
+                ->where('start_date','<', $hour->dateChange)
                 ->get();
 
-            // $run = DB::table('run')
-            //                 ->whereDate('start_date', $hour->dateChange);
+         
 
             foreach ($run as $runItem) {
                 $updatedRun = Run::find($runItem->id);
-                // $updatedRun->hours = $request->hours;
-                $updatedRun->hours =  ($updatedRun->hours -$hourAge) + $request->hours;
+                $hoursResult = $updatedRun->hours - $hourAge;
+
+                if($hoursResult <0){
+                    if($updatedRun->hours ==0){
+                        $updatedRun->hours =  $request->hours;
+                    }else{
+                        $updatedRun->hours =  0;
+                    }
+                }else{
+                    $updatedRun->hours =  $hoursResult + $request->hours;
+                }
                 $updatedRun->save();
             }
 
@@ -485,11 +493,17 @@ class Run extends Model
             
             $run = (new static)->where('status', 0)
                 // ->whereDate('start_date', $hour->dateChange)
+                ->where('start_date','<', $hour->dateChange)
                 ->get();
 
             foreach ($run as $runItem) {
                 $updatedRun = Run::find($runItem->id);
-                $updatedRun->hours =$updatedRun->hours - $hour->hourNumber;
+                $hoursResult = $updatedRun->hours - $hour->hourNumber;
+                if($hoursResult <0){
+                    $updatedRun->hours =0;
+                }else{
+                    $updatedRun->hours =$hoursResult;
+                }
                 $updatedRun->save();
             }
             $hour->delete();

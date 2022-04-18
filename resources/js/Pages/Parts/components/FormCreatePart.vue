@@ -39,15 +39,7 @@
               step=".01"
               class="w-[80px]"
               v-model="form.plateThick"
-              :class="{ 'border-red-500': v$.plateThick.$error }"
             />
-            <p
-              v-for="error of v$.plateThick.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
         </div>
       </div>
@@ -327,7 +319,7 @@ export default {
       id: 0,
       description: "",
       run_id: run_id,
-      plateThick: 0,
+      plateThick: '',
       typePlateThick: 0,
       coatId: 0,
       primaryCoatId: 0,
@@ -349,9 +341,6 @@ export default {
       coatDiptime: "",
     });
     const rules = {
-      plateThick: {
-        required,
-      },
     };
     const v$ = useVuelidate(rules, form);
     const closeModal = () => {

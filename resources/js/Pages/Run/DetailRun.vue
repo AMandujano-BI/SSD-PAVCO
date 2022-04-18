@@ -882,14 +882,14 @@ export default {
               name: "plate_type.name",
               searchable: true,
               render: function (data, type, row, meta) {
-                if (row.plate_type?.name != undefined) {
-                  return `<td>${row.plate_type?.name} - ${row.plateThick} ${
-                    row.typePlateThick == 1
-                      ? "microns"
-                      : row.typePlateThick == 2
-                      ? "mils"
-                      : ""
-                  } </td>`;
+               if (row.plate_type?.name != undefined) {
+
+                  const type =row.typePlateThick ==1 ?'microns':(row.typePlateThick ==2?'mils':null)     
+                  const plateType =  row.plateThick==null?null:` ${row.plateThick} `;
+                  
+                  const text = type == null || plateType ==null ?'':` - ${plateType} ${type}`;
+
+                  return `<td>${row.plate_type?.name}  ${text}  </td>`;
                 }
                 return "<td></td>";
               },

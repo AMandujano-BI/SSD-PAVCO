@@ -39,15 +39,7 @@
               type="number"
               class="w-[80px]"
               v-model="form.plateThick"
-              :class="{ 'border-red-500': v$.plateThick.$error }"
             />
-            <p
-              v-for="error of v$.plateThick.$errors"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
         </div>
       </div>
@@ -346,7 +338,6 @@ export default {
       typePlateThick: partUpdate.typePlateThick,
     });
     const rules = {
-      plateThick: { required },
     };
     const v$ = useVuelidate(rules, form);
     const closeModalForm = () => {

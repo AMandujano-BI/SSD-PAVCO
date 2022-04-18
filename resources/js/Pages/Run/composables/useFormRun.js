@@ -33,7 +33,7 @@ const useFormRun = () => {
                 plate_types_id: 0,
                 topCoatId: 0,
                 primaryCoatId: 0,
-                plateThick: 0,
+                plateThick: '',
                 typePlateThick: 0,
                 numberParts: 1,
                 //------Details
@@ -60,7 +60,7 @@ const useFormRun = () => {
             plate_types_id: 0,
             topCoatId: 0,
             primaryCoatId: 0,
-            plateThick: 0,
+            plateThick: '',
             typePlateThick:0,
             numberParts: 1,
             //------Details
@@ -102,9 +102,6 @@ const useFormRun = () => {
                 numberParts: {
                     required,
                     minValue: minValue(1),
-                },
-                plateThick: {
-                    required,
                 },
           
 

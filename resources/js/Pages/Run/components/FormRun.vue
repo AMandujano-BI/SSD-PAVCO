@@ -124,14 +124,6 @@
             />
             <!-- :class="{ 'border-red-500': v$.plateThick.$error }" -->
             <!-- <span class="text-center block pt-1 text-[#3b4559]">mils</span> -->
-            <p
-              v-for="error of v$.parts.$each.$response?.$errors[index]
-                .plateThick"
-              :key="error.$uid"
-              class="text-red-400"
-            >
-              {{ error.$message }}
-            </p>
           </div>
         </div>
       </div>

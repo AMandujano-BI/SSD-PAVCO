@@ -133,7 +133,7 @@ export default {
       primaryCoatId: 0,
       topCoatId: 0,
       plate_types_id: 0,
-      plateThick: 0,
+      plateThick: '',
       //------Details
       topCoatPer: 0,
       topCoatTemp: 0,
