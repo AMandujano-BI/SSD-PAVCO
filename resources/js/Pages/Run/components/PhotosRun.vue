@@ -7,31 +7,50 @@
         :slides-per-view="1"
         :space-between="50"
         :pagination="{ clickable: true }"
+        class="h-32"
       >
         <swiper-slide v-for="photo in runDetail" :key="photo.id">
           <div class="min-h-[400px] max-h-[560px]">
-            <div>
-
-            <img
-              :src="photo.image"
-              :alt="photo.description"
-              class="object-cover object-left-top h-[400px] max-h-[400px] w-full"
-            />
+            <div
+              class="
+                w-full
+                h-[400px]
+                flex
+                items-center
+                justify-center
+                overflow-hidden
+              "
+            >
+              <img
+                :src="photo.image"
+                :alt="photo.description"
+                class="aspect-ratio-5-9"
+              />
             </div>
             <div>
-              <ul class="flex flex-col gap-2 md:flex-row justify-between px-3 pt-3">
+              <ul
+                class="
+                  flex flex-col
+                  gap-2
+                  md:flex-row
+                  justify-between
+                  px-3
+                  pt-3
+                "
+              >
                 <li class="text-[#7e7f82]">
                   <strong class="text-[#1e385e]">Date added: </strong
                   >{{ photo.created_at.slice(0, 10) }}
                 </li>
                 <li class="text-[#7e7f82]">
                   <strong class="text-[#1e385e]">Hours: </strong
-                  >{{photo.hours}}
+                  >{{ photo.hours }}
                 </li>
               </ul>
             </div>
             <div class="px-3 mt-1 md:mt-5 text-[#7e7f82]">
-              <strong class="text-[#1e385e] ">Description: </strong>{{ photo.description }}
+              <strong class="text-[#1e385e]">Description: </strong
+              >{{ photo.description }}
             </div>
           </div>
         </swiper-slide>
@@ -99,10 +118,23 @@ export default {
     isLoading: function (val) {
       this.isLoading = val;
     },
-
   },
 };
 </script>
 
 <style>
+
+.h-32 {
+  height: 32rem;
+}
+
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal,
+.swiper-pagination-custom,
+.swiper-pagination-fraction {
+  bottom: 0;
+}
+.aspect-ratio-5-9 {
+  aspect-ratio: auto;
+}
 </style>
