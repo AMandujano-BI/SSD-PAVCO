@@ -24,7 +24,7 @@
               <img
                 :src="photo.image"
                 :alt="photo.description"
-                class="aspect-ratio-5-9"
+                class="object-contain h-[400px] max-h-[400px] w-full"
               />
             </div>
             <div>
@@ -33,7 +33,7 @@
                   flex flex-col
                   gap-2
                   md:flex-row
-                  justify-between
+                  justify-between 
                   px-3
                   pt-3
                 "
@@ -133,8 +133,5 @@ export default {
 .swiper-pagination-custom,
 .swiper-pagination-fraction {
   bottom: 0;
-}
-.aspect-ratio-5-9 {
-  aspect-ratio: auto;
 }
 </style>

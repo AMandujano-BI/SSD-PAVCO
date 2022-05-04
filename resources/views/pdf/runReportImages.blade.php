@@ -140,6 +140,10 @@
         .clear {
             clear: both;
         }
+
+        .object-fit {
+            object-fit: contain;
+        }
     </style>
 
     <div class='body__first'>
@@ -353,7 +357,7 @@
                     <tbody>
                         @for($i = 0; $i < count($photos); ++$i) <tr>
                             @if (($i+($i*2)) < count($photos)) <td style="text-align: center;">
-                                <img src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
+                                <img class="object-fit" src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
                                 <hr style="border-color: #cfcfcf !important">
                                 <p>{{$photos[$i+($i*2)]['description']}}</p>
                                 </td>
@@ -362,7 +366,7 @@
                                 @endif
 
                                 @if ( ($i+($i*2)+1) < count($photos) ) <td style="text-align: center;">
-                                    <img src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
+                                    <img class="object-fit" src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
                                     <hr style="border-color: #cfcfcf !important">
                                     <p>{{$photos[$i+($i*2)+1]['description']}}</p>
                                     </td>
@@ -371,7 +375,7 @@
                                     @endif
 
                                     @if ( ($i+($i*2)+2) < count($photos) ) <td style="text-align: center;">
-                                        <img src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
+                                        <img class="object-fit" src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 260px; margin-top: 1em; max-width: 360px;'>
                                         <hr style="border-color: #cfcfcf !important">
                                         <p>{{$photos[$i+($i*2)+2]['description']}}</p>
                                         </td>
