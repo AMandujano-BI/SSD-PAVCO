@@ -374,7 +374,7 @@
                     <tbody>
                         @for($i = 0; $i < count($photos); ++$i) <tr>
                             @if (($i+($i*2)) < count($photos)) 
-                            <td style='width: 320px; height: 330px; text-align: center; margin-bottom: 3rem; background-color: blue;'>
+                            <td style='width: 320px; height: 330px; text-align: center; margin-bottom: 3rem;'>
                                 <img class="object-fit" src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                 <p class="reset-p">{{$photos[$i+($i*2)]['description']}}</p>
                             </td>
@@ -383,7 +383,7 @@
                                 @endif
 
                                 @if ( ($i+($i*2)+1) < count($photos) ) 
-                                <td style='width: 320px; height: 330px; text-align: center; margin-bottom: 3rem; background-color: green;'>
+                                <td style='width: 320px; height: 330px; text-align: center; margin-bottom: 3rem;'>
                                     <img class="object-fit" src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                     <p class="reset-p">{{$photos[$i+($i*2)+1]['description']}}</p>
                                 </td>
@@ -392,7 +392,7 @@
                                     @endif
 
                                     @if ( ($i+($i*2)+2) < count($photos) ) 
-                                    <td style='width: 320px; height: 330px; text-align: center; margin-bottom: 3rem; background-color: red;'>
+                                    <td style='width: 320px; height: 330px; text-align: center; margin-bottom: 3rem;'>
                                         <img class="object-fit" src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                         <p class="reset-p">{{$photos[$i+($i*2)+2]['description']}}</p>
                                     </td>
