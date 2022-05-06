@@ -168,6 +168,8 @@
             text-align: center; 
             margin-bottom: 3rem; 
             vertical-align: bottom;
+            overflow: hidden;
+            background-color: red;
         }
     </style>
 
@@ -383,7 +385,7 @@
                         @for($i = 0; $i < count($photos); ++$i) <tr>
                             @if (($i+($i*2)) < count($photos)) 
                             <td class="td-styles">
-                                <img class="object-fit" src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
+                                <img src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                 <p class="reset-p">{{$photos[$i+($i*2)]['description']}}</p>
                             </td>
                                 @else
@@ -392,7 +394,7 @@
 
                                 @if ( ($i+($i*2)+1) < count($photos) ) 
                                 <td class="td-styles">
-                                    <img class="object-fit" src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
+                                    <img src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                     <p class="reset-p">{{$photos[$i+($i*2)+1]['description']}}</p>
                                 </td>
                                     @else
@@ -401,7 +403,7 @@
 
                                     @if ( ($i+($i*2)+2) < count($photos) ) 
                                     <td class="td-styles">
-                                        <img class="object-fit" src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
+                                        <img src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                         <p class="reset-p">{{$photos[$i+($i*2)+2]['description']}}</p>
                                     </td>
                                         @else
