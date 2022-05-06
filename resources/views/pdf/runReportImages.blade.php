@@ -148,6 +148,7 @@
         .reset-p {
             margin-block-end: 0rem;
             margin-block-start: 0rem;
+            display: block;
         }
 
         .py-1 {
@@ -165,11 +166,9 @@
         .td-styles {
             width: 320px; 
             height: 330px; 
-            text-align: center; 
-            margin-bottom: 3rem; 
+            text-align: center;
             vertical-align: bottom;
             overflow: hidden;
-            background-color: red;
         }
     </style>
 
@@ -379,14 +378,14 @@
             </div>
             @if ( count($photos) > 0 )
             <div>
-                <table cellspacing='2' class="page-break p-2" style="margin: 2rem 3rem;">
+                <table cellspacing='2' class="page-break p-2" style="margin: 2rem 3rem; overflow: hidden;">
 
                     <tbody>
                         @for($i = 0; $i < count($photos); ++$i) <tr>
                             @if (($i+($i*2)) < count($photos)) 
                             <td class="td-styles">
                                 <img src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
-                                <p class="reset-p">{{$photos[$i+($i*2)]['description']}}</p>
+                                <span class="reset-p">{{$photos[$i+($i*2)]['description']}}</span>
                             </td>
                                 @else
                                 @break
@@ -395,7 +394,7 @@
                                 @if ( ($i+($i*2)+1) < count($photos) ) 
                                 <td class="td-styles">
                                     <img src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
-                                    <p class="reset-p">{{$photos[$i+($i*2)+1]['description']}}</p>
+                                    <span class="reset-p">{{$photos[$i+($i*2)+1]['description']}}</span>
                                 </td>
                                     @else
                                     @break
@@ -404,7 +403,7 @@
                                     @if ( ($i+($i*2)+2) < count($photos) ) 
                                     <td class="td-styles">
                                         <img src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
-                                        <p class="reset-p">{{$photos[$i+($i*2)+2]['description']}}</p>
+                                        <span class="reset-p">{{$photos[$i+($i*2)+2]['description']}}</span>
                                     </td>
                                         @else
                                         @break
