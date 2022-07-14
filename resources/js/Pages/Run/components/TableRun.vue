@@ -3,6 +3,9 @@
     {{ filterOption == 3 ? "All" : filterOption == 0 ? "Active" : "Complete" }}
     Runs
   </h1>
+    <div @click="resetFilters()" class="button-reset">
+        Reset FIlters
+      </div>
   <div class="container p-2">
     <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
       <div class="flex gap-8 items-center flex-1 w-full">
@@ -19,7 +22,7 @@
           <option value="1">Complete</option>
         </select>
       </div>
-
+  
       <div
         class="relative text-gray-600 focus-within:text-gray-400 flex-1 w-full"
       >
@@ -58,6 +61,7 @@
           placeholder="Search Runs..."
           autocomplete="off"
         />
+       
       </div>
     </div>
     <div class="rounded-lg bg-white p-5">
@@ -246,6 +250,28 @@ export default {
     tablePartDetail: TablePartDetailVue,
     IconClose,
   },
+  methods:
+  {
+     pageCurrent()
+     {
+       let data = JSON.parse(localStorage.getItem('datable'));
+        if(typeof data.paginate !== 'undefined'){
+          console.log(12, this.table);
+            this.table?.page(data.paginate).draw('page');
+        }
+     },
+     resetFilters()
+     {
+        let data = JSON.parse(localStorage.getItem('datable'));
+        data === null ? data = {} : '';
+        data.query = '';
+        data.paginate = '';
+        localStorage.setItem('datable', JSON.stringify(data));
+        nextTick(()=>this.gettingData());
+        var inputNombre = document.getElementById("filterRunInputBot");
+         inputNombre.value = '';
+     },
+  },
   setup(props, { emit }) {
     const { makeToast } = useHelper();
     let runs = ref([]);
@@ -275,6 +301,7 @@ export default {
       gettingData();
     });
     $(document).ready(function () {
+      let data = JSON.parse(localStorage.getItem('datable'));
       $("#filterRunInput")
         .off()
         .keyup(function () {
@@ -284,7 +311,15 @@ export default {
         .off()
         .keyup(function () {
           table?.search(this.value).draw();
+          data.query = this.value;
+          data.paginate = 0;
+          localStorage.setItem('datable', JSON.stringify(data));
         });
+      $(document).on('click','.paginate_button', function(){
+          data.paginate = table.page()
+          localStorage.setItem('datable', JSON.stringify(data));
+
+      });
     });
     const findRun = (id) => {
       run.value = runs.value.find((run) => run.id === id);
@@ -664,6 +699,10 @@ export default {
       const self = this;
       table?.clear().destroy();
       nextTick(() => {
+        let data = JSON.parse(localStorage.getItem('datable'));
+        data === null ? data = {} : '';
+        data.table_id = '#activeRuns';
+        localStorage.setItem('datable', JSON.stringify(data));
         table = $("#activeRuns").DataTable({
           ordering: true,
           bLengthChange: false,
@@ -688,6 +727,7 @@ export default {
           },
           ajax: {
             url: `/run/getAllRuns/${status}`,
+  
           },
           // language:{
           //   // processing:"<h1 style='background:#333;color:#fff;height:800px;'>Loading..</h1>"
@@ -736,6 +776,19 @@ export default {
           },
         });
       });
+      nextTick(()=>{
+         let data = JSON.parse(localStorage.getItem('datable'));
+         if(typeof data.query !== 'undefined' && data.query !== "" && data.query !== null){
+            var inputNombre = document.getElementById("filterRunInputBot");
+            inputNombre.value = data.query;
+            table?.search(data.query).draw();
+         }
+         if(typeof data.paginate !== 'undefined' && data.paginate !== "" && data.paginate !== null){
+           setTimeout(()=>{
+             table?.page(data.paginate).draw('page');
+           },1500);
+         }
+      })
     };
 
     // const editRun = (id) => (window.location.href = `/part/${id}`);
@@ -766,7 +819,7 @@ export default {
       idGlobal.value = 0;
     };
 
-    gettingData();
+    gettingData();    
 
     return {
       runs,
@@ -825,5 +878,16 @@ export default {
   pointer-events: none !important;
   cursor: default !important;
   background-image: none !important;
+}
+
+.button-reset{
+    text-align: end;
+    color: #113e81;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.button-reset:hover{
+    color: #508991;
 }
 </style>
