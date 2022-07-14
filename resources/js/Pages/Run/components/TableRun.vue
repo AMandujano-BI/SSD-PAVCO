@@ -3,7 +3,7 @@
     {{ filterOption == 3 ? "All" : filterOption == 0 ? "Active" : "Complete" }}
     Runs
   </h1>
-    <div @click="resetFilters()" class="button-reset">
+    <div @click="resetFilters()" class="button-reset p-2">
         Reset FIlters
       </div>
   <div class="container p-2">
@@ -252,14 +252,6 @@ export default {
   },
   methods:
   {
-     pageCurrent()
-     {
-       let data = JSON.parse(localStorage.getItem('datable'));
-        if(typeof data.paginate !== 'undefined'){
-          console.log(12, this.table);
-            this.table?.page(data.paginate).draw('page');
-        }
-     },
      resetFilters()
      {
         let data = JSON.parse(localStorage.getItem('datable'));
@@ -269,7 +261,7 @@ export default {
         localStorage.setItem('datable', JSON.stringify(data));
         nextTick(()=>this.gettingData());
         var inputNombre = document.getElementById("filterRunInputBot");
-         inputNombre.value = '';
+        inputNombre.value = '';
      },
   },
   setup(props, { emit }) {
@@ -301,7 +293,6 @@ export default {
       gettingData();
     });
     $(document).ready(function () {
-      let data = JSON.parse(localStorage.getItem('datable'));
       $("#filterRunInput")
         .off()
         .keyup(function () {
@@ -310,12 +301,14 @@ export default {
       $("#filterRunInputBot")
         .off()
         .keyup(function () {
+          let data = JSON.parse(localStorage.getItem('datable'));
           table?.search(this.value).draw();
           data.query = this.value;
           data.paginate = 0;
           localStorage.setItem('datable', JSON.stringify(data));
         });
       $(document).on('click','.paginate_button', function(){
+          let data = JSON.parse(localStorage.getItem('datable'));
           data.paginate = table.page()
           localStorage.setItem('datable', JSON.stringify(data));
 
@@ -696,6 +689,7 @@ export default {
       },
     ];
     const generateDataTable = (status) => {
+      let reload = 0;
       const self = this;
       table?.clear().destroy();
       nextTick(() => {
@@ -778,16 +772,19 @@ export default {
       });
       nextTick(()=>{
          let data = JSON.parse(localStorage.getItem('datable'));
+         if(typeof data.paginate !== 'undefined' && data.paginate !== "" && data.paginate !== null){
+            table.on('draw.dt', function(event){
+              table?.page(data.paginate).draw('page');
+              event.stopPropagation();
+              table.off("draw.dt"); 
+            });
+         }
          if(typeof data.query !== 'undefined' && data.query !== "" && data.query !== null){
             var inputNombre = document.getElementById("filterRunInputBot");
             inputNombre.value = data.query;
             table?.search(data.query).draw();
          }
-         if(typeof data.paginate !== 'undefined' && data.paginate !== "" && data.paginate !== null){
-           setTimeout(()=>{
-             table?.page(data.paginate).draw('page');
-           },1500);
-         }
+        
       })
     };
 
@@ -822,6 +819,7 @@ export default {
     gettingData();    
 
     return {
+      reload: 0,
       runs,
       run,
       onSwiper,
