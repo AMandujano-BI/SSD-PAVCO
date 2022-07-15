@@ -258,6 +258,7 @@ export default {
         data === null ? data = {} : '';
         data.query = '';
         data.paginate = '';
+        data.status = 3;
         localStorage.setItem('datable', JSON.stringify(data));
         nextTick(()=>this.gettingData());
         var inputNombre = document.getElementById("filterRunInputBot");
@@ -415,12 +416,22 @@ export default {
     };
     const gettingData = async (status = 3) => {
       try {
-        await generateDataTable(status);
+        let data = JSON.parse(localStorage.getItem('datable'));
+        if(typeof data.status !== 'undefined' && data.status !== "" && data.status !== null){
+            filterOption.value = data.status;
+            await generateDataTable(data.status);
+        }
+        else
+            await generateDataTable(status);
+
       } catch (e) {
         console.log(e);
       }
     };
     const changeFilter = async () => {
+      let data = JSON.parse(localStorage.getItem('datable'));
+      data.status = filterOption.value;
+      localStorage.setItem('datable', JSON.stringify(data));
       gettingData(filterOption.value);
     };
     const col = [
