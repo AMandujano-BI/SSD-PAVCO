@@ -384,7 +384,7 @@
                         @for($i = 0; $i < count($photos); ++$i) <tr>
                             @if (($i+($i*2)) < count($photos))
                             <td class="td-styles">
-                                <img async src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
+                                <img async src='{{ public_path($photos[$i+($i*2)]['image']) }}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                 <span class="reset-p">{{$photos[$i+($i*2)]['description']}}</span>
                             </td>
                                 @else
@@ -393,7 +393,7 @@
 
                                 @if ( ($i+($i*2)+1) < count($photos) )
                                 <td class="td-styles">
-                                    <img async src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
+                                    <img async src='{{ public_path($photos[$i+($i*2)+1]['image']) }}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                     <span class="reset-p">{{$photos[$i+($i*2)+1]['description']}}</span>
                                 </td>
                                     @else
@@ -402,7 +402,7 @@
 
                                     @if ( ($i+($i*2)+2) < count($photos) )
                                     <td class="td-styles">
-                                        <img async src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
+                                        <img async src='{{ public_path($photos[$i+($i*2)+2]['image']) }}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                         <span class="reset-p">{{$photos[$i+($i*2)+2]['description']}}</span>
                                     </td>
                                         @else
