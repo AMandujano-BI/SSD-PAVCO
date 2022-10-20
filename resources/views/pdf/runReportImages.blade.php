@@ -164,8 +164,8 @@
         }
 
         .td-styles {
-            width: 320px; 
-            height: 330px; 
+            width: 320px;
+            height: 330px;
             text-align: center;
             vertical-align: bottom;
             overflow: hidden;
@@ -175,7 +175,7 @@
     <div class='body__first'>
         <div class='content'>
             <span class='rectangle'>
-                <img src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png' alt='Pavco Icon' class='PavcoWhite'>
+                <img async src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png' alt='Pavco Icon' class='PavcoWhite'>
                 <!-- srcset='pavco@2x.png 2x, pavco@3x.png 3x' -->
             </span>
             <span class='title'>Salt Spray Report Results</span>
@@ -246,7 +246,7 @@
                                               @if($part->typePlateThick == 1)
                                                 microns
                                               @endif
-                                              
+
                                               @if($part->typePlateThick == 2)
                                               mils
                                               @endif
@@ -382,27 +382,27 @@
 
                     <tbody>
                         @for($i = 0; $i < count($photos); ++$i) <tr>
-                            @if (($i+($i*2)) < count($photos)) 
+                            @if (($i+($i*2)) < count($photos))
                             <td class="td-styles">
-                                <img src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
+                                <img async src='{{$photos[$i+($i*2)]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                 <span class="reset-p">{{$photos[$i+($i*2)]['description']}}</span>
                             </td>
                                 @else
                                 @break
                                 @endif
 
-                                @if ( ($i+($i*2)+1) < count($photos) ) 
+                                @if ( ($i+($i*2)+1) < count($photos) )
                                 <td class="td-styles">
-                                    <img src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
+                                    <img async src='{{$photos[$i+($i*2)+1]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                     <span class="reset-p">{{$photos[$i+($i*2)+1]['description']}}</span>
                                 </td>
                                     @else
                                     @break
                                     @endif
 
-                                    @if ( ($i+($i*2)+2) < count($photos) ) 
+                                    @if ( ($i+($i*2)+2) < count($photos) )
                                     <td class="td-styles">
-                                        <img src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
+                                        <img async src='{{$photos[$i+($i*2)+2]['image']}}' alt='{{$photos[$i]['description']}}' style='max-height: 250px; max-width: 320px;'>
                                         <span class="reset-p">{{$photos[$i+($i*2)+2]['description']}}</span>
                                     </td>
                                         @else
