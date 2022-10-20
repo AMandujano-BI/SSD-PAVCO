@@ -188,7 +188,7 @@ class RunController extends Controller
         $id_run = $run->id;
         // $localStartDate = Carbon::parse($run->start_date)->setTimezone($zone);
         $start_date = substr($run->start_date, 0, 10);
-        $customer = $run->company->name;        
+        $customer = $run->company->name;
         $hours = $run->hours;
         $hoursClosed = $run->hoursClosed;
 
@@ -214,6 +214,7 @@ class RunController extends Controller
 
         $pdf = PDF::loadView('pdf.runReport', compact(['allParts', 'id_run', 'start_date', 'customer', 'status', 'hours', 'hoursClosed', 'description', 'run_status','countChromate','countPlateType','countTopCoat','countSecondaryTopCoat']));
         $pdf->setPaper('a4', 'landscape');
+        $pdf->dpi(50);
         // return $pdf->output();
         return $pdf->download('run_report_' . $run->id . '.pdf');
     }
