@@ -175,8 +175,7 @@
     <div class='body__first'>
         <div class='content'>
             <span class='rectangle'>
-                <!-- <img async src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png' alt='Pavco Icon' class='PavcoWhite'> -->
-                <img async src='https://images.unsplash.com/photo-1666276845220-7b94f61e3d35?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80' alt='Pavco Icon' class='PavcoWhite'>
+                <img async src='https://pavcoprod.sfo3.digitaloceanspaces.com/images/assets/pavco@3x.png' alt='Pavco Icon' class='PavcoWhite'>
                 <!-- srcset='pavco@2x.png 2x, pavco@3x.png 3x' -->
             </span>
             <span class='title'>Salt Spray Report Results</span>
