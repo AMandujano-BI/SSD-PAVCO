@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.4/css/select.dataTables.min.css">
-        
+
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
@@ -26,7 +26,7 @@
 
         @env ('local')
             <script src="http://localhost:3000/browser-sync/browser-sync-client.js"></script>
-            @endenv
+        @endenv
         </body>
-        
+
 </html>

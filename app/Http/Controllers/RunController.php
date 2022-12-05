@@ -214,7 +214,6 @@ class RunController extends Controller
 
         $pdf = PDF::loadView('pdf.runReport', compact(['allParts', 'id_run', 'start_date', 'customer', 'status', 'hours', 'hoursClosed', 'description', 'run_status','countChromate','countPlateType','countTopCoat','countSecondaryTopCoat']));
         $pdf->setPaper('a4', 'landscape');
-        //$pdf->dpi(50);
         // return $pdf->output();
         return $pdf->download('run_report_' . $run->id . '.pdf');
     }

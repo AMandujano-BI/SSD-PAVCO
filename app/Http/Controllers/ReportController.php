@@ -321,7 +321,6 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView('pdf.parts', compact(['start_date', 'customerName', 'endDate', 'plate_typeName', 'chromateName', 'top_coatName', 'coatName', 'parts','filterAll']));
         $pdf->setPaper('a4', 'landscape');
-        $pdf->dpi(50);
         return $pdf->output();
     }
 }
