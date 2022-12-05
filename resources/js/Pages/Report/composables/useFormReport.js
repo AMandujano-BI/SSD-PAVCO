@@ -45,7 +45,7 @@ const useFormReport = (formProps) => {
         topCoatPH_less_than: { required },
         topCoatDiptime_more_than: { required },
         topCoatDiptime_less_than: { required },
-        
+
         coatPer_more_than: { required },
         coatPer_less_than: { required },
         coatTemp_more_than: { required },
@@ -61,7 +61,6 @@ const useFormReport = (formProps) => {
 
     const submitForm = async () => {
         form.filterOption = parseInt( filterOption.value)
-
         const isFormCorrect = await v$.value.$validate();
         if (!isFormCorrect) return
         loading.value = true
