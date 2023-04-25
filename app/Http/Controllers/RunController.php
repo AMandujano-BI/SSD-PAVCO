@@ -189,6 +189,7 @@ class RunController extends Controller
         // $localStartDate = Carbon::parse($run->start_date)->setTimezone($zone);
         $start_date = substr($run->start_date, 0, 10);
         $customer = $run->company->name;
+        $method = $run->method->name;
         $hours = $run->hours;
         $hoursClosed = $run->hoursClosed;
 
@@ -212,7 +213,7 @@ class RunController extends Controller
         $countTopCoat = count( Part::where('run_id',$run->id)->where('topCoatId','!=',null)->get());
         $countSecondaryTopCoat = count( Part::where('run_id',$run->id)->where('coatId','!=',null)->get());
 
-        $pdf = PDF::loadView('pdf.runReport', compact(['allParts', 'id_run', 'start_date', 'customer', 'status', 'hours', 'hoursClosed', 'description', 'run_status','countChromate','countPlateType','countTopCoat','countSecondaryTopCoat']));
+        $pdf = PDF::loadView('pdf.runReport', compact(['allParts', 'id_run', 'start_date', 'customer', 'method', 'status', 'hours', 'hoursClosed', 'description', 'run_status','countChromate','countPlateType','countTopCoat','countSecondaryTopCoat']));
         $pdf->setPaper('a4', 'landscape');
         // return $pdf->output();
         return $pdf->download('run_report_' . $run->id . '.pdf');
@@ -227,6 +228,7 @@ class RunController extends Controller
         // $localStartDate = Carbon::parse($run->start_date)->setTimezone($zone);
         $start_date = substr($run->start_date, 0, 10);
         $customer = $run->company->name;
+        $method = $run->method->name;
         $hours = $run->hours;
         $hoursClosed = $run->hoursClosed;
 
@@ -249,7 +251,7 @@ class RunController extends Controller
         $countSecondaryTopCoat = count( Part::where('run_id',$run->id)->where('coatId','!=',null)->get());
 
 
-        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'status', 'hours', 'hoursClosed', 'description', 'run_status_img','countChromate','countPlateType','countTopCoat','countSecondaryTopCoat']));
+        $pdf = PDF::loadView('pdf.runReportImages', compact(['allParts', 'photos', 'id_run', 'start_date', 'customer', 'method', 'status', 'hours', 'hoursClosed', 'description', 'run_status_img','countChromate','countPlateType','countTopCoat','countSecondaryTopCoat']));
         $pdf->setPaper('a4', 'landscape');
         // return $pdf->output();
         return $pdf->download('run_report_' . $run->id . '.pdf');

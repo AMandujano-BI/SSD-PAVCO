@@ -145,6 +145,7 @@
                 <span class='subheader__label'>Run: <span class='subheader__value'>{{$id_run}}</span></span>
                 <span class='subheader'>StartDate: <span class='subheader__value'>{{$start_date}}</span></span>
                 <span class='subheader'>Customer: <span class='subheader__value'>{{$customer}}</span></span>
+                <span class='subheader'>Method: <span class='subheader__value'>{{$method}}</span></span>
                 <span class='subheader'>Status: <span class='subheader__value'>{{$status}}</span></span>
                 <span class='subheader'>Hours: <span class='subheader__value'>{{$hours}}</span></span>
             </div>
