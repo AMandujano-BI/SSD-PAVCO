@@ -92,10 +92,49 @@ class PhotoController extends Controller
      * @param  \App\Models\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    /*public function update(Request $request)
     {
         $photo = $this->_photo->updatePhoto($request);
         return $photo;
+    }*/
+    public function update(Request $request, Photo $photo)
+    {
+
+        \Illuminate\Support\Facades\Log::debug('Request Payload:', $request->all());
+        $id = $request->input('id');
+        $description = $request->input('description');
+        $report = $request->input('report');
+        $hours = $request->input('hours');
+        $image = $request->file('image');
+
+
+        $photo->id = $id;
+        $photo->description = $description;
+        $photo->report = $report;
+        $photo->hours = $hours;
+
+
+        if ($image) {
+            $imagePath = $image->store('photos');
+            $photo->image = $imagePath;
+        }
+
+
+        if ($photo->save()) {
+            return [
+                'ok' => true,
+                'message' => 'Photo was updated successfully',
+                'value' => $photo,
+            ];
+        } else {
+            // Return an error response if the photo failed to save
+            return [
+                'ok' => false,
+                'message' => 'Failed to update the photo',
+                'value' => 0,
+            ];
+        }
+
     }
 
     /**

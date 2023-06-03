@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\PhotoController;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,24 +26,8 @@ class Photo extends Model
     // protected $casts = [
     //     'created_at' => 'datetime:Y-m-d',
     // ];
-    public function getlastEditAttribute($value)
-    {
-        if ($value != null) {
-            return (new Carbon($value))->format('Y-m-d\TH:i:s.\0\0\0\0\0\0\Z');
-        } else {
-            return $value;
-        }
-    }
-    public function getImageAttribute($value)
-    {
-        $image =  Storage::temporaryUrl($value, now()->addDays(4));
-        return $image;
-    }
-    public static function getPhotosByRun($run_id){
-        $photos = (new static)::where('run_id',$run_id)->get();
-        return $photos;
 
-    }
+
     public static function createPhoto($request)
     {
 
@@ -58,7 +42,7 @@ class Photo extends Model
             $run_id = $request->input('run');
             $photoHours = $request->input('photoHours');
             $report = $request->input('report');
-           
+
             $file_name = 'images/run' . $run_id.'/'.$filename;
             $photoEqualFileName = (new static)::where('image',$file_name)->first();
             if($photoEqualFileName){
@@ -66,17 +50,17 @@ class Photo extends Model
                     'ok' => false,
                     'message' => 'Photo already exists',
                     'value' => 0
-                ];  
+                ];
             }
             $photo = (new static)::create([
                 'hours' => $photoHours,
-                'image' =>$file_name, 
+                'image' =>$file_name,
                 'description' => $description,
                 'report' => $report,
                 'run_id' => $run_id,
             ]);
             $photo->save();
-   
+
             Storage::put($file_name,file_get_contents($file), 's3');
 
 
@@ -97,6 +81,24 @@ class Photo extends Model
             ];
         }
     }
+    public function getlastEditAttribute($value)
+    {
+        if ($value != null) {
+            return (new Carbon($value))->format('Y-m-d\TH:i:s.\0\0\0\0\0\0\Z');
+        } else {
+            return $value;
+        }
+    }
+
+    public function getImageAttribute($value)
+    {
+        $image =  Storage::temporaryUrl($value, now()->addDays(4));
+        return $image;
+    }
+    public static function getPhotosByRun($run_id){
+        $photos = (new static)::where('run_id',$run_id)->get();
+        return $photos;
+    }
 
     public static function updatePhoto($request)
     {
@@ -108,7 +110,7 @@ class Photo extends Model
             $photo->description = $request->description;
             $photo->report = $request->report;
             $photo->hours = $request->hours;
-            
+
             $photo->save();
             DB::commit();
             return [
@@ -125,6 +127,7 @@ class Photo extends Model
             ];
         }
     }
+
     public static function  deletePhoto($id)
     {
         DB::beginTransaction();
