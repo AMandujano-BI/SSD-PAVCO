@@ -149,7 +149,13 @@ const useFormRun = () => {
         }
     };
 
-
+    const duplicateSection = (index) =>{
+        const clickedSection = form.parts[index];
+        const duplicatedSection = {
+            ...clickedSection,
+        };
+        form.parts.push(duplicatedSection);
+    }
  
 
     const deleteSection =(index) =>{
@@ -162,7 +168,7 @@ const useFormRun = () => {
         loading,
         addForm,
         deleteSection,
-
+        duplicateSection
     }
 }
 export default useFormRun
