@@ -92,9 +92,9 @@ class PhotoController extends Controller
      * @param  \App\Models\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Photo $photo)
     {
-        $photo = $this->_photo->updatePhoto($request);
+        $photo = $this->_photo->updatePhoto($request, $photo);
         return $photo;
     }
 

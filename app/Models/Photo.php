@@ -98,19 +98,32 @@ class Photo extends Model
         }
     }
 
-    public static function updatePhoto($request)
+    public static function updatePhoto($request, $photo)
     {
-
         DB::beginTransaction();
         try {
+            $id = $request->input('id');
+            $run_id = $request->input('run_id');
+            $description = $request->input('description');
+            $report = $request->input('report');
+            $hours = $request->input('hours');
+            $image = $request->file('image');
 
-            $photo = (new static)::find($request->id);
-            $photo->description = $request->description;
-            $photo->report = $request->report;
-            $photo->hours = $request->hours;
-            
+            $filename = $image->getClientOriginalName();
+
+            $photo->id = $id;
+            $photo->description = $description;
+            $photo->report = $report;
+            $photo->hours = $hours;
+
+            $file_name = 'images/run' . $run_id.'/'.$filename;
+            $photo->image = $file_name;
+
             $photo->save();
+            Storage::put($file_name,file_get_contents($image), 's3');
+            
             DB::commit();
+            
             return [
                 'ok' => true,
                 'message' => 'Photo was updated successfully',

@@ -60,6 +60,9 @@ Route::middleware(['auth:sanctum', 'verified', 'rols'])->group(function () {
     Route::middleware(['auth:sanctum', 'verified'])->get('/dailyHours/getHours', [DailyHoursController::class, 'getHours'])->name('dailyHours.getHours');
     Route::middleware(['auth:sanctum', 'verified'])->post('/report/runReportDetail', [ReportController::class, 'runReportDetail'])->name('report.runReportDetail');
 
+    Route::middleware(['auth:sanctum', 'verified'])->resource('photo', PhotoController::class)->except(['create', 'store']);
+    Route::middleware(['auth:sanctum', 'verified'])->post('/photo/{photo}', [PhotoController::class, 'update'])->name('photo.update');
+
     //Resources
     Route::middleware(['auth:sanctum', 'verified'])->resource('chemical', ChemicalController::class);
     Route::middleware(['auth:sanctum', 'verified'])->resource('photo', PhotoController::class);
