@@ -314,6 +314,21 @@
       <div class="flex w-full flex-col lg:flex-row gap-2">
         <div class="w-full"></div>
         <div class="flex gap-2 justify-end">
+          <span
+            @click="exportCSV"
+            v-if="!loading"
+            class="
+              bg-primary 
+              rounded 
+              w-60 
+              py-2.5 
+              px-1.8 
+              text-white 
+              text-center 
+              hover:bg-primary-600"
+          >
+            Export CSV
+          </span>
           <button
             v-if="!loading"
             class="
@@ -369,7 +384,7 @@ export default {
     swiperSlide: SwiperSlide,
   },
   setup() {
-    const { form, v$, submitForm, loading,filterOption } = useFormReport({
+    const { form, v$, submitForm, exportCSV, loading,filterOption } = useFormReport({
       customer: 0,
       customerName: "All Customers",
       chromateName: "All",
@@ -418,6 +433,7 @@ export default {
       form,
       v$,
       submitForm,
+      exportCSV,
       listThickness,
       filterOption,
       loading,
