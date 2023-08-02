@@ -467,6 +467,7 @@ class ReportController extends Controller
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
                 ->leftJoin('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
                 ->leftJoin('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
+                ->leftJoin('chemicals as sectopcoat', 'parts.coatId', '=', 'sectopcoat.id')
                 ->leftJoin('chemicals as coat', 'parts.coatId', '=', 'coat.id')
                 ->leftJoin('chemicals as plate', 'parts.plate_types_id', '=', 'plate.id')
                 ->whereBetween('parts.created_at', [$start_date, $endDate])
@@ -524,6 +525,7 @@ class ReportController extends Controller
                     'parts.run_id',
                     'chromate.name as chromate',
                     'topcoat.name as topcoat',
+                    'sectopcoat.name as sectopcoat',
                     'runs.hours as hours',
                     'runs.hoursClosed',
                     'runs.status',
@@ -539,34 +541,48 @@ class ReportController extends Controller
         // Prepare the CSV data
         $csvData = [];
         $csvData[] = [
-            'Run #', 'Customer', 'Description', 
-            'Chromate', 'Thickness', 'Type Thickness', '%', '∘F', 'pH', 'sec',
-            'Plate', 'Topcoat', 'White Salt', 
-            'Red Rust', 'Hours', 'Method', 
-            'StartDate Run', 'Description Run',
+            'Run #', 'Customer', 'StartDate Run', 'Method', 'Description', 
+            'Plate', 'Type Thickness', 'Thickness', 
+            'Chromate', '%', '∘F', 'pH', 'sec',
+            'Topcoat', '%', '∘F', 'pH', 'sec',
+            'Secondary Topcoat', '%', '∘F', 'pH', 'sec',
+            'White Salt', 'Red Rust', 'Hours',
+            'Description Run',
         ];
 
         foreach ($parts as $part) {
             $csvData[] = [
                 $part->run_id,
                 $part->company,
+                substr($part->start_date_run, 0, 10),
+                $part->method,
                 $part->description,
-                $part->chromate,
 
-                $part->plateThick,
+                $part->plate_name,
                 ($part->typePlateThick == 0) ? '' : (($part->typePlateThick == 1) ? 'microns' : 'mils'),
+                $part->plateThick,
+                
+                $part->chromate,
                 $part->primaryPer,
                 $part->primaryTemp,
                 $part->primaryPH,
                 $part->primaryDiptime,
 
-                $part->plate_name,
                 $part->topcoat,
+                $part->topCoatPer,
+                $part->topCoatTemp,
+                $part->topCoatPH,
+                $part->topCoatDiptime,
+
+                $part->sectopcoat,
+                $part->coatPer,
+                $part->coatTemp,
+                $part->coatPH,
+                $part->coatDiptime,
+
                 $part->hoursWs,
                 $part->hoursRs,
                 $part->hours,
-                $part->method,
-                substr($part->start_date_run, 0, 10),
                 $part->description_run,
             ];
         }
