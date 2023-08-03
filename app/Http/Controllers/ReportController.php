@@ -393,9 +393,12 @@ class ReportController extends Controller
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
                 ->leftJoin('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
                 ->leftJoin('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
+                ->leftJoin('chemicals as sectopcoat', 'parts.coatId', '=', 'sectopcoat.id')
                 ->leftJoin('chemicals as coat', 'parts.coatId', '=', 'coat.id')
                 ->leftJoin('chemicals as plate', 'parts.plate_types_id', '=', 'plate.id')
-                ->whereBetween('parts.created_at', [$start_date, $endDate])
+                ->when(!empty($start_date) && !empty($endDate), function ($query) use ($start_date, $endDate) {
+                    return $query->whereBetween('parts.created_at', [$start_date, $endDate]);
+                })
                 ->where('runs.status', '!=', 2)
                 ->when($filterAll, function ($query, $filterAll) {
                     if ($filterAll != 3) {
@@ -448,6 +451,7 @@ class ReportController extends Controller
                     'companies.name as company',
                     'chromate.name as chromate',
                     'topcoat.name as topcoat',
+                    'sectopcoat.name as sectopcoat',
                     'runs.hours as hours',
                     'runs.hoursClosed',
                     'runs.status',
@@ -470,7 +474,9 @@ class ReportController extends Controller
                 ->leftJoin('chemicals as sectopcoat', 'parts.coatId', '=', 'sectopcoat.id')
                 ->leftJoin('chemicals as coat', 'parts.coatId', '=', 'coat.id')
                 ->leftJoin('chemicals as plate', 'parts.plate_types_id', '=', 'plate.id')
-                ->whereBetween('parts.created_at', [$start_date, $endDate])
+                ->when(!empty($start_date) && !empty($endDate), function ($query) use ($start_date, $endDate) {
+                    return $query->whereBetween('parts.created_at', [$start_date, $endDate]);
+                })
                 ->where('runs.company_id', $company_id)
                 ->where('runs.status', '!=', 2)
                 ->when($filterAll, function ($query, $filterAll) {
