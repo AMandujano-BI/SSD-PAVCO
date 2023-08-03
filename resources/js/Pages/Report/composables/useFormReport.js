@@ -82,8 +82,6 @@ const useFormReport = (formProps) => {
 
     const exportCSV = async () => {
         form.filterOption = parseInt(filterOption.value);
-        const isFormCorrect = await v$.value.$validate();
-        if (!isFormCorrect) return;
     
         try {
           const response = await axios.post("/report/runReportDetailCSV", form, {
