@@ -183,7 +183,8 @@ class ReportController extends Controller
         // $customer = Company::where('customer', 1)->where('id', $company_id)->first();
         if ($company_id == 0) {
             //ALL CUSTOMERS
-            $parts = DB::table('parts')
+
+            $prepareQuery = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
                 ->leftJoin('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
@@ -195,22 +196,13 @@ class ReportController extends Controller
                     if ($filterAll != 3) {
                         if ($filterAll == 4) {
                             return $query->where('runs.status', 0);
-                        }else{
+                        } else {
                             return $query->where('runs.status', $filterAll);
                         }
                     }
                 })
                 ->when($plate_type, function ($query, $plate_type) {
                     return $query->where('plate_types_id', $plate_type);
-                })
-                ->when($chromate, function ($query, $chromate) {
-                    return $query->where('primaryCoatId', $chromate);
-                })
-                ->when($coat, function ($query, $coat) {
-                    return $query->where('coatId', $coat);
-                })
-                ->when($top_coat, function ($query, $top_coat) {
-                    return $query->where('topCoatId', $top_coat);
                 })
                 ->select(
                     'parts.id',
@@ -246,13 +238,30 @@ class ReportController extends Controller
                     'runs.hoursClosed',
                     'runs.status'
 
-                )
-                ->orderBy('parts.run_id', 'asc')
-                ->get();
+                );
 
+            if ($coat == 0 && $chromate == 0 && $top_coat == 0) {
+                $prepareQuery->whereNull('primaryCoatId');
+                $prepareQuery->whereNull('topCoatId');
+                $prepareQuery->whereNull('coatId');
+            }
+
+            if ($coat != 0) {
+                $prepareQuery->where('coatId', $coat);
+            }
+
+            if ($chromate != 0) {
+                $prepareQuery->where('primaryCoatId', $chromate);
+            }
+
+            if ($top_coat != 0) {
+                $prepareQuery->where('topCoatId', $top_coat);
+            }
+
+            $parts = $prepareQuery->orderBy('parts.run_id', 'asc')->get();
         } else {
             //ONE CUSTOMER
-            $parts = DB::table('parts')
+            $prepareQuery = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
                 ->leftJoin('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
@@ -265,22 +274,13 @@ class ReportController extends Controller
                     if ($filterAll != 3) {
                         if ($filterAll == 4) {
                             return $query->where('runs.status', 0);
-                        }else{
+                        } else {
                             return $query->where('runs.status', $filterAll);
                         }
                     }
                 })
                 ->when($plate_type, function ($query, $plate_type) {
                     return $query->where('plate_types_id', $plate_type);
-                })
-                ->when($chromate, function ($query, $chromate) {
-                    return $query->where('primaryCoatId', $chromate);
-                })
-                ->when($coat, function ($query, $coat) {
-                    return $query->where('coatId', $coat);
-                })
-                ->when($top_coat, function ($query, $top_coat) {
-                    return $query->where('topCoatId', $top_coat);
                 })
                 ->select(
                     'parts.id',
@@ -316,17 +316,36 @@ class ReportController extends Controller
                     'runs.hours',
                     'runs.hoursClosed',
                     'runs.status'
-                )
-                ->orderBy('parts.run_id', 'asc')
-                ->get();
+                );
+
+            if ($coat == 0 && $chromate == 0 && $top_coat == 0) {
+                $prepareQuery->whereNull('primaryCoatId');
+                $prepareQuery->whereNull('topCoatId');
+                $prepareQuery->whereNull('coatId');
+            }
+
+            if ($coat != 0) {
+                $prepareQuery->where('coatId', $coat);
+            }
+
+            if ($chromate != 0) {
+                $prepareQuery->where('primaryCoatId', $chromate);
+            }
+
+            if ($top_coat != 0) {
+                $prepareQuery->where('topCoatId', $top_coat);
+            }
+
+            $parts = $prepareQuery->orderBy('parts.run_id', 'asc')->get();
         }
 
-        $pdf = PDF::loadView('pdf.parts', compact(['start_date', 'customerName', 'endDate', 'plate_typeName', 'chromateName', 'top_coatName', 'coatName', 'parts','filterAll']));
+        $pdf = PDF::loadView('pdf.parts', compact(['start_date', 'customerName', 'endDate', 'plate_typeName', 'chromateName', 'top_coatName', 'coatName', 'parts', 'filterAll']));
         $pdf->setPaper('a4', 'landscape');
         return $pdf->output();
     }
 
-    public function runReportDetailCSV(Request $request){
+    public function runReportDetailCSV(Request $request)
+    {
         $start_date = $request->start_date;
         $endDate = $request->endDate;
         $company_id = $request->customer;
@@ -387,7 +406,7 @@ class ReportController extends Controller
 
         if ($company_id == 0) {
             //ALL CUSTOMERS
-            $parts = DB::table('parts')
+            $prepareQuery = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('plate_methods', 'runs.plate_methods_id', '=', 'plate_methods.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
@@ -404,22 +423,13 @@ class ReportController extends Controller
                     if ($filterAll != 3) {
                         if ($filterAll == 4) {
                             return $query->where('runs.status', 0);
-                        }else{
+                        } else {
                             return $query->where('runs.status', $filterAll);
                         }
                     }
                 })
                 ->when($plate_type, function ($query, $plate_type) {
                     return $query->where('plate_types_id', $plate_type);
-                })
-                ->when($chromate, function ($query, $chromate) {
-                    return $query->where('primaryCoatId', $chromate);
-                })
-                ->when($coat, function ($query, $coat) {
-                    return $query->where('coatId', $coat);
-                })
-                ->when($top_coat, function ($query, $top_coat) {
-                    return $query->where('topCoatId', $top_coat);
                 })
                 ->select(
                     'parts.id',
@@ -459,13 +469,30 @@ class ReportController extends Controller
                     'runs.start_date as start_date_run',
                     'plate_methods.name as method',
                     'plate.name as plate_name',
-                )
-                ->orderBy('parts.run_id', 'asc')
-                ->get();
+                );
 
+            if ($coat == 0 && $chromate == 0 && $top_coat == 0) {
+                $prepareQuery->whereNull('primaryCoatId');
+                $prepareQuery->whereNull('topCoatId');
+                $prepareQuery->whereNull('coatId');
+            }
+
+            if ($coat != 0) {
+                $prepareQuery->where('coatId', $coat);
+            }
+
+            if ($chromate != 0) {
+                $prepareQuery->where('primaryCoatId', $chromate);
+            }
+
+            if ($top_coat != 0) {
+                $prepareQuery->where('topCoatId', $top_coat);
+            }
+
+            $parts = $prepareQuery->orderBy('parts.run_id', 'asc')->get();
         } else {
             //ONE CUSTOMER
-            $parts = DB::table('parts')
+            $prepareQuery = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('plate_methods', 'runs.plate_methods_id', '=', 'plate_methods.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
@@ -483,22 +510,13 @@ class ReportController extends Controller
                     if ($filterAll != 3) {
                         if ($filterAll == 4) {
                             return $query->where('runs.status', 0);
-                        }else{
+                        } else {
                             return $query->where('runs.status', $filterAll);
                         }
                     }
                 })
                 ->when($plate_type, function ($query, $plate_type) {
                     return $query->where('plate_types_id', $plate_type);
-                })
-                ->when($chromate, function ($query, $chromate) {
-                    return $query->where('primaryCoatId', $chromate);
-                })
-                ->when($coat, function ($query, $coat) {
-                    return $query->where('coatId', $coat);
-                })
-                ->when($top_coat, function ($query, $top_coat) {
-                    return $query->where('topCoatId', $top_coat);
                 })
                 ->select(
                     'parts.id',
@@ -539,20 +557,58 @@ class ReportController extends Controller
                     'runs.start_date as start_date_run',
                     'plate_methods.name as method',
                     'plate.name as plate_name',
-                )
-                ->orderBy('parts.run_id', 'asc')
-                ->get();
+                );
+
+            if ($coat == 0 && $chromate == 0 && $top_coat == 0) {
+                $prepareQuery->whereNull('primaryCoatId');
+                $prepareQuery->whereNull('topCoatId');
+                $prepareQuery->whereNull('coatId');
+            }
+
+            if ($coat != 0) {
+                $prepareQuery->where('coatId', $coat);
+            }
+
+            if ($chromate != 0) {
+                $prepareQuery->where('primaryCoatId', $chromate);
+            }
+
+            if ($top_coat != 0) {
+                $prepareQuery->where('topCoatId', $top_coat);
+            }
+
+            $parts = $prepareQuery->orderBy('parts.run_id', 'asc')->get();
         }
 
         // Prepare the CSV data
         $csvData = [];
         $csvData[] = [
-            'Run #', 'Customer', 'StartDate Run', 'Method', 'Description', 
-            'Plate', 'Type Thickness', 'Thickness', 
-            'Chromate', '%', '∘F', 'pH', 'sec',
-            'Topcoat', '%', '∘F', 'pH', 'sec',
-            'Secondary Topcoat', '%', '∘F', 'pH', 'sec',
-            'White Salt', 'Red Rust', 'Hours',
+            'Run #',
+            'Customer',
+            'StartDate Run',
+            'Method',
+            'Description',
+            'Plate',
+            'Type Thickness',
+            'Thickness',
+            'Chromate',
+            '%',
+            '∘F',
+            'pH',
+            'sec',
+            'Topcoat',
+            '%',
+            '∘F',
+            'pH',
+            'sec',
+            'Secondary Topcoat',
+            '%',
+            '∘F',
+            'pH',
+            'sec',
+            'White Salt',
+            'Red Rust',
+            'Hours',
             'Description Run',
         ];
 
@@ -567,7 +623,7 @@ class ReportController extends Controller
                 $part->plate_name,
                 ($part->typePlateThick == 0) ? '' : (($part->typePlateThick == 1) ? 'microns' : 'mils'),
                 $part->plateThick,
-                
+
                 $part->chromate,
                 $part->primaryPer,
                 $part->primaryTemp,
