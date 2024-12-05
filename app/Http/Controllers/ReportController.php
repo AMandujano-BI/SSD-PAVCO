@@ -116,9 +116,6 @@ class ReportController extends Controller
     }
     public function runReportDetail(Request $request)
     {
-
-
-
         $start_date = $request->start_date;
         $endDate = $request->endDate;
         $company_id = $request->customer;
@@ -141,13 +138,13 @@ class ReportController extends Controller
             $plate_typeName = 'All';
         }
         if ($chromate == 0) {
-            $chromateName = 'All';
+            $chromateName = '';
         }
         if ($top_coat == 0) {
-            $top_coatName = 'All';
+            $top_coatName = '';
         }
         if ($coat == 0) {
-            $coatName = 'All';
+            $coatName = '';
         }
         //Coat
         $coatPer_less_than = $request->coatPer_less_than;
@@ -178,12 +175,8 @@ class ReportController extends Controller
         $primaryDiptime_more_than = $request->primaryDiptime_more_than;
 
 
-
-
-        // $customer = Company::where('customer', 1)->where('id', $company_id)->first();
         if ($company_id == 0) {
             //ALL CUSTOMERS
-
             $prepareQuery = DB::table('parts')
                 ->join('runs', 'parts.run_id', '=', 'runs.id')
                 ->join('companies', 'runs.company_id', '=', 'companies.id')
@@ -240,24 +233,7 @@ class ReportController extends Controller
 
                 );
 
-            if ($coat == 0 && $chromate == 0 && $top_coat == 0) {
-                $prepareQuery->whereNull('primaryCoatId');
-                $prepareQuery->whereNull('topCoatId');
-                $prepareQuery->whereNull('coatId');
-            }
-
-            if ($coat != 0) {
-                $prepareQuery->where('coatId', $coat);
-            }
-
-            if ($chromate != 0) {
-                $prepareQuery->where('primaryCoatId', $chromate);
-            }
-
-            if ($top_coat != 0) {
-                $prepareQuery->where('topCoatId', $top_coat);
-            }
-
+            $prepareQuery = $this->returnQueryValidation($coat, $chromate, $top_coat, $prepareQuery);
             $parts = $prepareQuery->orderBy('parts.run_id', 'asc')->get();
         } else {
             //ONE CUSTOMER
@@ -318,24 +294,7 @@ class ReportController extends Controller
                     'runs.status'
                 );
 
-            if ($coat == 0 && $chromate == 0 && $top_coat == 0) {
-                $prepareQuery->whereNull('primaryCoatId');
-                $prepareQuery->whereNull('topCoatId');
-                $prepareQuery->whereNull('coatId');
-            }
-
-            if ($coat != 0) {
-                $prepareQuery->where('coatId', $coat);
-            }
-
-            if ($chromate != 0) {
-                $prepareQuery->where('primaryCoatId', $chromate);
-            }
-
-            if ($top_coat != 0) {
-                $prepareQuery->where('topCoatId', $top_coat);
-            }
-
+            $prepareQuery = $this->returnQueryValidation($coat, $chromate, $top_coat, $prepareQuery);
             $parts = $prepareQuery->orderBy('parts.run_id', 'asc')->get();
         }
 
@@ -368,13 +327,13 @@ class ReportController extends Controller
             $plate_typeName = 'All';
         }
         if ($chromate == 0) {
-            $chromateName = 'All';
+            $chromateName = '';
         }
         if ($top_coat == 0) {
-            $top_coatName = 'All';
+            $top_coatName = '';
         }
         if ($coat == 0) {
-            $coatName = 'All';
+            $coatName = '';
         }
         //Coat
         $coatPer_less_than = $request->coatPer_less_than;
@@ -471,24 +430,7 @@ class ReportController extends Controller
                     'plate.name as plate_name',
                 );
 
-            if ($coat == 0 && $chromate == 0 && $top_coat == 0) {
-                $prepareQuery->whereNull('primaryCoatId');
-                $prepareQuery->whereNull('topCoatId');
-                $prepareQuery->whereNull('coatId');
-            }
-
-            if ($coat != 0) {
-                $prepareQuery->where('coatId', $coat);
-            }
-
-            if ($chromate != 0) {
-                $prepareQuery->where('primaryCoatId', $chromate);
-            }
-
-            if ($top_coat != 0) {
-                $prepareQuery->where('topCoatId', $top_coat);
-            }
-
+            $prepareQuery = $this->returnQueryValidation($coat, $chromate, $top_coat, $prepareQuery);
             $parts = $prepareQuery->orderBy('parts.run_id', 'asc')->get();
         } else {
             //ONE CUSTOMER
@@ -559,24 +501,7 @@ class ReportController extends Controller
                     'plate.name as plate_name',
                 );
 
-            if ($coat == 0 && $chromate == 0 && $top_coat == 0) {
-                $prepareQuery->whereNull('primaryCoatId');
-                $prepareQuery->whereNull('topCoatId');
-                $prepareQuery->whereNull('coatId');
-            }
-
-            if ($coat != 0) {
-                $prepareQuery->where('coatId', $coat);
-            }
-
-            if ($chromate != 0) {
-                $prepareQuery->where('primaryCoatId', $chromate);
-            }
-
-            if ($top_coat != 0) {
-                $prepareQuery->where('topCoatId', $top_coat);
-            }
-
+            $prepareQuery = $this->returnQueryValidation($coat, $chromate, $top_coat, $prepareQuery);
             $parts = $prepareQuery->orderBy('parts.run_id', 'asc')->get();
         }
 
@@ -678,5 +603,28 @@ class ReportController extends Controller
 
         // Return a response
         return response()->make('', 200);
+    }
+
+    public function returnQueryValidation($coat, $chromate, $top_coat, $prepareQuery)
+    {
+        if ($coat == 0) {
+            $prepareQuery->whereNull('coatId');
+        } else {
+            $prepareQuery->where('coatId', $coat);
+        }
+
+        if ($chromate == 0) {
+            $prepareQuery->whereNull('primaryCoatId');
+        } else {
+            $prepareQuery->where('primaryCoatId', $chromate);
+        }
+
+        if ($top_coat == 0) {
+            $prepareQuery->whereNull('topCoatId');
+        } else {
+            $prepareQuery->where('topCoatId', $top_coat);
+        }
+
+        return $prepareQuery;
     }
 }
