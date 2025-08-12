@@ -90,120 +90,35 @@ class Run extends Model
         $user = auth()->user();
         $isAdministrator = (new static)::checkIfAdministrator();
         $isDistributor = (new static)::checkIfDistributor();
+        $_query = (new static)::with([
+            'notes',
+            'photos',
+            'parts',
+            'method',
+            'parts.chromate',
+            'parts.coat',
+            'parts.plateType',
+            'parts.topCoat',
+            'company',
+        ])->where('status', '!=', 2);
         if ($isAdministrator) {
-            //Si es de tipo administrador no se  hara el filtrado de runs, sino se mostratará todos los runs
-            if ($status == 3) {
-                $run = (new static)::with([
-                    'notes',
-                    'photos',
-                    'parts',
-                    'method',
-                    'parts.chromate',
-                    'parts.coat',
-                    'parts.plateType',
-                    'parts.topCoat',
-                    'company',
-                ])
-                    ->where('status', '!=', 2)
-                    ->get();
-                return $run;
-            } else {
-
-                $run = (new static)::with([
-                    'notes',
-                    'photos',
-                    'parts',
-                    'method',
-                    'parts.chromate',
-                    'parts.coat',
-                    'parts.plateType',
-                    'parts.topCoat',
-                    'company',
-                ])
-                    ->where('status', '!=', 2)
-                    ->where('status', $status)
-                    ->get();
-                return $run;
+            if ($status != 3) {
+                $_query->where('status', $status);
             }
         } else if ($isDistributor) {
-            //Si es de tipo distribuidor,se obtiene todas las compañias asociadas a ese distribuidor
-            $user = auth()->user();
-            $customers = Company::where('company_id', $user->company_id)->get(['id']);
-            if ($status == 3) {
-                $run = (new static)::with([
-                    'notes',
-                    'photos',
-                    'parts',
-                    'method',
-                    'parts.chromate',
-                    'parts.coat',
-                    'parts.plateType',
-                    'parts.topCoat',
-                    'company',
-                ])
-                    ->where('status', '!=', 2)
-                    ->whereIn('company_id', $customers)
-                    ->get();
-                return $run;
-            } else {
-
-                $run = (new static)::with([
-                    'notes',
-                    'photos',
-                    'parts',
-                    'method',
-                    'parts.chromate',
-                    'parts.coat',
-                    'parts.plateType',
-                    'parts.topCoat',
-                    'company',
-                ])
-                    ->where('status', '!=', 2)
-                    ->where('status', $status)
-                    ->whereIn('company_id', $customers)
-                    ->get();
-                return $run;
+            $customers = Company::where('company_id', $user->company_id)->pluck('id');
+            $_query->whereIn('company_id', $customers);
+            if ($status != 3) {
+                $_query->where('status', $status);
+            }
+        } else {
+            $_query->where('company_id', $user->company_id);
+            if ($status != 3) {
+                $_query->where('status', $status);
             }
         }
 
-
-
-        if ($status == 3) {
-            $run = (new static)::with([
-                'notes',
-                'photos',
-                'parts',
-                'method',
-                'parts.chromate',
-                'parts.coat',
-                'parts.plateType',
-                'parts.topCoat',
-                'company',
-            ])
-                ->where('status', '!=', 2)
-                // ->where('user_id', $user->id)
-                ->where('company_id', $user->company_id)
-                ->get();
-            return $run;
-        } else {
-
-            $run = (new static)::with([
-                'notes',
-                'photos',
-                'parts',
-                'method',
-                'parts.chromate',
-                'parts.coat',
-                'parts.plateType',
-                'parts.topCoat',
-                'company',
-            ])
-                ->where('status', '!=', 2)
-                ->where('status', $status)
-                ->where('company_id', $user->company_id)
-                ->get();
-            return $run;
-        }
+        return $_query;
     }
 
     public static function getAllRunByDate($startDate, $endDate, $status)
@@ -213,7 +128,6 @@ class Run extends Model
         if ($status == 3) {
             $run = (new static)::with([
                 'method',
-
                 'company',
             ])
                 ->where('status', '!=', 2)
@@ -234,11 +148,6 @@ class Run extends Model
             return $run;
         }
     }
-
-
-
-
-
 
     public static function getRun($id)
     {
@@ -398,7 +307,7 @@ class Run extends Model
 
 
             $run = (new static)->where('status', 0)
-                ->where('start_date','<', $request->date)
+                ->where('start_date', '<', $request->date)
                 ->get();
 
             foreach ($run as $runItem) {
@@ -447,22 +356,22 @@ class Run extends Model
             $hour->user_id = auth()->user()->id;
 
             $run = (new static)->where('status', 0)
-                ->where('start_date','<', $hour->dateChange)
+                ->where('start_date', '<', $hour->dateChange)
                 ->get();
 
-         
+
 
             foreach ($run as $runItem) {
                 $updatedRun = Run::find($runItem->id);
                 $hoursResult = $updatedRun->hours - $hourAge;
 
-                if($hoursResult <0){
-                    if($updatedRun->hours ==0){
+                if ($hoursResult < 0) {
+                    if ($updatedRun->hours == 0) {
                         $updatedRun->hours =  $request->hours;
-                    }else{
+                    } else {
                         $updatedRun->hours =  0;
                     }
-                }else{
+                } else {
                     $updatedRun->hours =  $hoursResult + $request->hours;
                 }
                 $updatedRun->save();
@@ -490,19 +399,19 @@ class Run extends Model
         DB::beginTransaction();
         try {
             $hour = Hour::where('id', $id)->first();
-            
+
             $run = (new static)->where('status', 0)
                 // ->whereDate('start_date', $hour->dateChange)
-                ->where('start_date','<', $hour->dateChange)
+                ->where('start_date', '<', $hour->dateChange)
                 ->get();
 
             foreach ($run as $runItem) {
                 $updatedRun = Run::find($runItem->id);
                 $hoursResult = $updatedRun->hours - $hour->hourNumber;
-                if($hoursResult <0){
-                    $updatedRun->hours =0;
-                }else{
-                    $updatedRun->hours =$hoursResult;
+                if ($hoursResult < 0) {
+                    $updatedRun->hours = 0;
+                } else {
+                    $updatedRun->hours = $hoursResult;
                 }
                 $updatedRun->save();
             }
@@ -747,9 +656,7 @@ class Run extends Model
     }
 
 
-    public static function generateFile()
-    {
-    }
+    public static function generateFile() {}
 
 
     // ===================================RELATIONS

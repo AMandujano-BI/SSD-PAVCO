@@ -4,7 +4,7 @@
     Runs
   </h1>
     <div @click="resetFilters()" class="button-reset p-2">
-        Reset FIlters
+        Reset Filters
       </div>
   <div class="container p-2">
     <div class="flex gap-8 items-center mb-5 flex-col md:flex-row">
