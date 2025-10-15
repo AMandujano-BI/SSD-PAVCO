@@ -259,6 +259,7 @@ export default {
         data.query = '';
         data.paginate = '';
         data.status = 3;
+        data.order = [0, 'asc'];
         localStorage.setItem('datable', JSON.stringify(data));
         nextTick(()=>this.gettingData());
         var inputNombre = document.getElementById("filterRunInputBot");
@@ -417,7 +418,7 @@ export default {
     const gettingData = async (status = 3) => {
       try {
         let data = JSON.parse(localStorage.getItem('datable'));
-        if(typeof data.status !== 'undefined' && data.status !== "" && data.status !== null){
+        if(typeof data?.status !== 'undefined' && data?.status !== "" && data?.status !== null){
             filterOption.value = data.status;
             await generateDataTable(data.status);
         }
@@ -702,6 +703,8 @@ export default {
     const generateDataTable = (status) => {
       let reload = 0;
       const self = this;
+      let data = JSON.parse(localStorage.getItem('datable'));
+      let initialOrder = data.order || [0, 'asc'];
       table?.clear().destroy();
       nextTick(() => {
         let data = JSON.parse(localStorage.getItem('datable'));
@@ -710,6 +713,7 @@ export default {
         localStorage.setItem('datable', JSON.stringify(data));
         table = $("#activeRuns").DataTable({
           ordering: true,
+          order: [initialOrder],
           bLengthChange: false,
           pageLength: 10,
           processing: true,
@@ -780,6 +784,14 @@ export default {
             });
           },
         });
+
+        $("#activeRuns").on('order.dt', function () {
+          let order = table.order();
+          let data = JSON.parse(localStorage.getItem('datable')) || {};
+          data.order = order[0];
+          localStorage.setItem('datable', JSON.stringify(data));
+        });
+      
       });
       nextTick(()=>{
          let data = JSON.parse(localStorage.getItem('datable'));
