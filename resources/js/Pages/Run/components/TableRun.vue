@@ -789,6 +789,7 @@ export default {
           let order = table.order();
           let data = JSON.parse(localStorage.getItem('datable')) || {};
           data.order = order[0];
+          data.paginate = 0;
           localStorage.setItem('datable', JSON.stringify(data));
         });
       
