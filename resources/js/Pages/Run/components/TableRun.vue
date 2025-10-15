@@ -704,7 +704,7 @@ export default {
       let reload = 0;
       const self = this;
       let data = JSON.parse(localStorage.getItem('datable'));
-      let initialOrder = data.order || [0, 'asc'];
+      let initialOrder = data && data.order ? data.order : [0, 'asc'];
       table?.clear().destroy();
       nextTick(() => {
         let data = JSON.parse(localStorage.getItem('datable'));
