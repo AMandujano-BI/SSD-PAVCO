@@ -605,6 +605,82 @@ class ReportController extends Controller
         return response()->make('', 200);
     }
 
+    /**
+     * Export every domain table as its own CSV, bundled in a single ZIP.
+     * Unlike runReportDetail/runReportDetailCSV, this ignores all filters
+     * and dumps full tables — no date range, no customer, no chemical filter.
+     */
+    /**
+     * Export the full parts history as a single CSV — one row per part,
+     * joined/resolved to names the same way runReportDetailCSV does
+     * (customer, method, plate type, chromate, topcoat, secondary topcoat),
+     * but with no date/customer/chemical filters, so it covers everything.
+     */
+    public function exportAll()
+    {
+        $partsFull = DB::table('parts')
+            ->join('runs', 'parts.run_id', '=', 'runs.id')
+            ->leftJoin('plate_methods', 'runs.plate_methods_id', '=', 'plate_methods.id')
+            ->leftJoin('companies', 'runs.company_id', '=', 'companies.id')
+            ->leftJoin('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
+            ->leftJoin('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
+            ->leftJoin('chemicals as sectopcoat', 'parts.coatId', '=', 'sectopcoat.id')
+            ->leftJoin('chemicals as plate', 'parts.plate_types_id', '=', 'plate.id')
+            ->orderBy('parts.run_id')
+            ->select(
+                'runs.id as run_id',
+                'runs.number as run_number',
+                'runs.start_date as run_start_date',
+                'runs.description as run_description',
+                'runs.status as run_status',
+                'runs.hours as run_hours',
+                'companies.name as customer',
+                'plate_methods.name as method',
+                'parts.id as part_id',
+                'parts.number as part_number',
+                'parts.description as part_description',
+                'plate.name as plate_type',
+                'parts.typePlateThick',
+                'parts.plateThick',
+                'chromate.name as chromate',
+                'parts.primaryPer',
+                'parts.primaryTemp',
+                'parts.primaryPH',
+                'parts.primaryDiptime',
+                'topcoat.name as topcoat',
+                'parts.topCoatPer',
+                'parts.topCoatTemp',
+                'parts.topCoatPH',
+                'parts.topCoatDiptime',
+                'sectopcoat.name as secondary_topcoat',
+                'parts.coatPer',
+                'parts.coatTemp',
+                'parts.coatPH',
+                'parts.coatDiptime',
+                'parts.hoursWs as white_rust_hours',
+                'parts.hoursRs as red_rust_hours'
+            )
+            ->get();
+
+        $filename = 'pavco_export_all_' . now()->format('Y-m-d_His') . '.csv';
+
+        $csv = fopen('php://temp', 'r+');
+        if ($partsFull->isNotEmpty()) {
+            fputcsv($csv, array_keys((array) $partsFull->first()));
+        }
+        foreach ($partsFull as $row) {
+            fputcsv($csv, (array) $row);
+        }
+        rewind($csv);
+        $content = stream_get_contents($csv);
+        fclose($csv);
+
+        return response($content, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
+    }
+
     public function returnQueryValidation($coat, $chromate, $top_coat, $prepareQuery)
     {
         if ($coat == 0) {
