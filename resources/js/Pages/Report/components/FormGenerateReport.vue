@@ -315,6 +315,21 @@
         <div class="w-full"></div>
         <div class="flex gap-2 justify-end">
           <span
+            @click="exportAllData"
+            v-if="!loading"
+            class="
+              bg-primary
+              rounded
+              w-60
+              py-2.5
+              px-1.8
+              text-white
+              text-center
+              hover:bg-primary-600"
+          >
+            Export All Data
+          </span>
+          <span
             @click="exportCSV"
             v-if="!loading"
             class="
@@ -443,6 +458,9 @@ export default {
       changeSelectCoat: (value, data) => (form.coatName = data.label),
       changeSelectPlateType: (value, data) =>
         (form.plate_typeName = data.label),
+      exportAllData: () => {
+        window.location.href = route("report.exportAll");
+      },
     };
   },
 };
