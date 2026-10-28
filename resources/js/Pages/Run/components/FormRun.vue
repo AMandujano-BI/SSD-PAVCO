@@ -89,51 +89,10 @@
             <img src="/images/clone-icon.svg" alt="clone icon"/>
           </button>
         </h1>
-        <div>
-          <label class="text-[#3b4559] font-semibold">Plate Type</label>
-          <div class="flex flex-col md:flex-row w-full justify-between gap-2">
-            <div class="w-full">
-              <multi-select
-                :options="plateTypes"
-                class="w-full"
-                v-model="part.plate_types_id"
-                :searchable="true"
-                placeholder="Select Plate Type"
-              />
-              <!-- :class="{ 'error-dropdown': v$.plate_types_id.$error }" -->
-           
-            </div>
-            <div class="w-full flex justify-between gap-2">
-              <div class="w-full md:w-[210px]">
-                <multi-select
-                  :options="[
-                    {
-                      value: 1,
-                      label: 'microns',
-                    },
-                    {
-                      value: 2,
-                      label: 'mils',
-                    },
-                  ]"
-                  class="w-full"
-                  v-model="part.typePlateThick"
-                  :searchable="true"
-                  placeholder="Select Type "
-                />
-              </div>
-  
-              <input
-                type="number"
-                class="w-[80px]"
-                step=".01"
-                v-model="part.plateThick"
-              />
-              <!-- :class="{ 'border-red-500': v$.plateThick.$error }" -->
-              <!-- <span class="text-center block pt-1 text-[#3b4559]">mils</span> -->
-            </div>
-          </div>
-        </div>
+        <plate-layers-editor
+          :layers="part.plate_layers"
+          :plateTypes="plateTypes"
+        />
         <div>
           <label class="text-[#3b4559] font-semibold">Chromate</label>
           <div class="flex w-full flex-col md:flex-row gap-2">
@@ -419,6 +378,7 @@
   <script>
   import useFormRun from "../composables/useFormRun";
   import Multiselect from "@vueform/multiselect";
+  import PlateLayersEditor from "../../Parts/components/PlateLayersEditor.vue";
   export default {
     emits: "closeModal",
     props: [
@@ -431,6 +391,7 @@
     ],
     components: {
       multiSelect: Multiselect,
+      plateLayersEditor: PlateLayersEditor,
     },
     setup(props, { emit }) {
       const { form, v$, submitForm, loading, options, addForm, deleteSection, duplicateSection } =

@@ -5,6 +5,7 @@ import useVuelidate from "@vuelidate/core";
 import { helpers, minValue, required } from "@vuelidate/validators";
 import axios from "axios";
 import { reactive, ref } from "vue";
+import { emptyPlateLayer, clonePlateLayers } from "@/Pages/Parts/composables/usePlateLayers";
 const isDiferentZero = (value) => {
     return value != 0 && value !=null;
 };
@@ -30,11 +31,9 @@ const useFormRun = () => {
         parts: [
             {
                 coatId: 0,
-                plate_types_id: 0,
+                plate_layers: [emptyPlateLayer()],
                 topCoatId: 0,
                 primaryCoatId: 0,
-                plateThick: '',
-                typePlateThick: 0,
                 numberParts: 1,
                 //------Details
                 topCoatPer: '',
@@ -57,11 +56,9 @@ const useFormRun = () => {
     const addForm = () => {
         form.parts.push({
             coatId: 0,
-            plate_types_id: 0,
+            plate_layers: [emptyPlateLayer()],
             topCoatId: 0,
             primaryCoatId: 0,
-            plateThick: '',
-            typePlateThick:0,
             numberParts: 1,
             //------Details
             topCoatPer: '',
@@ -153,6 +150,7 @@ const useFormRun = () => {
         const clickedSection = form.parts[index];
         const duplicatedSection = {
             ...clickedSection,
+            plate_layers: clonePlateLayers(clickedSection.plate_layers),
         };
         form.parts.push(duplicatedSection);
     }

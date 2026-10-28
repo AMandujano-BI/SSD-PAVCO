@@ -195,7 +195,7 @@ class ReportController extends Controller
                     }
                 })
                 ->when($plate_type, function ($query, $plate_type) {
-                    return $query->where('plate_types_id', $plate_type);
+                    return $this->wherePartHasPlateType($query, $plate_type);
                 })
                 ->select(
                     'parts.id',
@@ -256,7 +256,7 @@ class ReportController extends Controller
                     }
                 })
                 ->when($plate_type, function ($query, $plate_type) {
-                    return $query->where('plate_types_id', $plate_type);
+                    return $this->wherePartHasPlateType($query, $plate_type);
                 })
                 ->select(
                     'parts.id',
@@ -388,7 +388,7 @@ class ReportController extends Controller
                     }
                 })
                 ->when($plate_type, function ($query, $plate_type) {
-                    return $query->where('plate_types_id', $plate_type);
+                    return $this->wherePartHasPlateType($query, $plate_type);
                 })
                 ->select(
                     'parts.id',
@@ -458,7 +458,7 @@ class ReportController extends Controller
                     }
                 })
                 ->when($plate_type, function ($query, $plate_type) {
-                    return $query->where('plate_types_id', $plate_type);
+                    return $this->wherePartHasPlateType($query, $plate_type);
                 })
                 ->select(
                     'parts.id',
@@ -613,23 +613,31 @@ class ReportController extends Controller
     /**
      * Export the full parts history as a single CSV — one row per part,
      * joined/resolved to names the same way runReportDetailCSV does
-     * (customer, method, plate type, chromate, topcoat, secondary topcoat),
-     * but with no date/customer/chemical filters, so it covers everything.
+     * (customer, method, chromate, topcoat, secondary topcoat), but with no
+     * date/customer/chemical filters, so it covers everything.
+     *
+     * A part can have several plate layers; each one is exported as its own
+     * group of columns (plateType1, plateThickness1, ..., plateType2, ...),
+     * with as many groups as the part with the most layers needs.
      */
     public function exportAll()
     {
-        $partsFull = DB::table('parts')
+        $headKeys = [
+            'run_id', 'run_start_date', 'run_description', 'run_status', 'run_hours',
+            'customer', 'method', 'part_id', 'part_number', 'part_description',
+        ];
+
+        $parts = DB::table('parts')
             ->join('runs', 'parts.run_id', '=', 'runs.id')
             ->leftJoin('plate_methods', 'runs.plate_methods_id', '=', 'plate_methods.id')
             ->leftJoin('companies', 'runs.company_id', '=', 'companies.id')
             ->leftJoin('chemicals as chromate', 'parts.primaryCoatId', '=', 'chromate.id')
             ->leftJoin('chemicals as topcoat', 'parts.topCoatId', '=', 'topcoat.id')
             ->leftJoin('chemicals as sectopcoat', 'parts.coatId', '=', 'sectopcoat.id')
-            ->leftJoin('chemicals as plate', 'parts.plate_types_id', '=', 'plate.id')
             ->orderBy('parts.run_id')
+            ->orderBy('parts.id')
             ->select(
                 'runs.id as run_id',
-                'runs.number as run_number',
                 'runs.start_date as run_start_date',
                 'runs.description as run_description',
                 'runs.status as run_status',
@@ -639,37 +647,80 @@ class ReportController extends Controller
                 'parts.id as part_id',
                 'parts.number as part_number',
                 'parts.description as part_description',
-                'plate.name as plate_type',
-                'parts.typePlateThick',
-                'parts.plateThick',
                 'chromate.name as chromate',
-                'parts.primaryPer',
-                'parts.primaryTemp',
-                'parts.primaryPH',
-                'parts.primaryDiptime',
+                'parts.primaryPer as chromatePer',
+                'parts.primaryTemp as chromateTemp',
+                'parts.primaryPH as chromatePH',
+                'parts.primaryDiptime as chromateDiptime',
                 'topcoat.name as topcoat',
                 'parts.topCoatPer',
                 'parts.topCoatTemp',
                 'parts.topCoatPH',
                 'parts.topCoatDiptime',
                 'sectopcoat.name as secondary_topcoat',
-                'parts.coatPer',
-                'parts.coatTemp',
-                'parts.coatPH',
-                'parts.coatDiptime',
+                'parts.coatPer as secondary_topcoatPer',
+                'parts.coatTemp as secondary_topcoatTemp',
+                'parts.coatPH as secondary_topcoatPH',
+                'parts.coatDiptime as secondary_topcoatDiptime',
                 'parts.hoursWs as white_rust_hours',
                 'parts.hoursRs as red_rust_hours'
             )
             ->get();
 
+        $layersByPart = DB::table('part_plate_layers')
+            ->join('chemicals', 'part_plate_layers.plate_type_id', '=', 'chemicals.id')
+            ->orderBy('part_plate_layers.part_id')
+            ->orderBy('part_plate_layers.position')
+            ->select(
+                'part_plate_layers.part_id',
+                'chemicals.name as plate_type',
+                'part_plate_layers.thickness',
+                'part_plate_layers.thickness_unit',
+                'part_plate_layers.per',
+                'part_plate_layers.temp',
+                'part_plate_layers.ph',
+                'part_plate_layers.diptime'
+            )
+            ->get()
+            ->groupBy('part_id');
+
+        $maxLayers = max(1, $layersByPart->map->count()->max() ?? 1);
+
+        $rows = [];
+        foreach ($parts as $part) {
+            $row = (array) $part;
+            $row['run_start_date'] = $row['run_start_date']
+                ? \Carbon\Carbon::parse($row['run_start_date'])->format('m/d/Y')
+                : null;
+
+            $head = array_intersect_key($row, array_flip($headKeys));
+            $tail = array_diff_key($row, $head);
+
+            $layers = $layersByPart->get($row['part_id'], collect())->values();
+            $plateColumns = [];
+            for ($i = 1; $i <= $maxLayers; $i++) {
+                $layer = $layers->get($i - 1);
+                $unit = $layer->thickness_unit ?? null;
+                $plateColumns['plateType' . $i] = $layer->plate_type ?? null;
+                $plateColumns['plateThickness' . $i] = $layer->thickness ?? null;
+                $plateColumns['plateThicknessUnit' . $i] = $unit == 1 ? 'microns' : ($unit == 2 ? 'mils' : null);
+                $plateColumns['platePer' . $i] = $layer->per ?? null;
+                $plateColumns['plateTemp' . $i] = $layer->temp ?? null;
+                $plateColumns['platePH' . $i] = $layer->ph ?? null;
+                $plateColumns['plateDiptime' . $i] = $layer->diptime ?? null;
+            }
+
+            $rows[] = $head + $plateColumns + $tail;
+        }
+
         $filename = 'pavco_export_all_' . now()->format('Y-m-d_His') . '.csv';
 
         $csv = fopen('php://temp', 'r+');
-        if ($partsFull->isNotEmpty()) {
-            fputcsv($csv, array_keys((array) $partsFull->first()));
+        if (!empty($rows)) {
+            fputcsv($csv, array_keys($rows[0]));
         }
-        foreach ($partsFull as $row) {
-            fputcsv($csv, (array) $row);
+        foreach ($rows as $row) {
+            fputcsv($csv, $row);
         }
         rewind($csv);
         $content = stream_get_contents($csv);
@@ -679,6 +730,19 @@ class ReportController extends Controller
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="' . $filename . '"',
         ]);
+    }
+
+    private function wherePartHasPlateType($query, $plateType)
+    {
+        return $query->where(function ($q) use ($plateType) {
+            $q->where('parts.plate_types_id', $plateType)
+                ->orWhereExists(function ($sub) use ($plateType) {
+                    $sub->select(DB::raw(1))
+                        ->from('part_plate_layers')
+                        ->whereColumn('part_plate_layers.part_id', 'parts.id')
+                        ->where('part_plate_layers.plate_type_id', $plateType);
+                });
+        });
     }
 
     public function returnQueryValidation($coat, $chromate, $top_coat, $prepareQuery)

@@ -1,49 +1,10 @@
 <template>
   <h1 class="text-center font-bold text-2xl text-[#3b4559]">Update Part</h1>
   <form @submit.prevent="submitForm">
-    <div>
-      <label class="text-[#3b4559] font-semibold">Plate Type</label>
-      <div class="flex flex-col md:flex-row w-full justify-between gap-2">
-        <div class="w-full">
-          <multi-select
-            :options="plateTypes"
-            class="w-full"
-            v-model="form.plate_types_id"
-            :searchable="true"
-            placeholder="Select Plate Type"
-          />
-        </div>
-        <div class="w-full flex justify-between gap-2">
-          <div class="w-full md:w-[210px]">
-            <multi-select
-              :options="[
-                {
-                  value: 1,
-                  label: 'microns',
-                },
-                {
-                  value: 2,
-                  label: 'mils',
-                },
-              ]"
-              class="w-full"
-              v-model="form.typePlateThick"
-              :searchable="true"
-              placeholder="Select Type "
-            />
-        
-          </div>
-          <div>
-            <input
-              step=".01"
-              type="number"
-              class="w-[80px]"
-              v-model="form.plateThick"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    <plate-layers-editor
+      :layers="form.plate_layers"
+      :plateTypes="plateTypes"
+    />
     <div>
       <label class="text-[#3b4559] font-semibold">Chromate</label>
       <div class="flex w-full flex-col md:flex-row gap-2">
@@ -291,6 +252,8 @@ import axios from "axios";
 import { computed, reactive, ref } from "vue";
 import useHelper from "@/composables/useHelper";
 import Multiselect from "@vueform/multiselect";
+import PlateLayersEditor from "./PlateLayersEditor.vue";
+import { plateLayersFromPart } from "../composables/usePlateLayers";
 const isDiferentZero = (value) => {
   return value != 0 && value != null;
 };
@@ -307,6 +270,7 @@ export default {
   ],
   components: {
     multiSelect: Multiselect,
+    plateLayersEditor: PlateLayersEditor,
   },
   setup(props, { emit }) {
     const { partUpdate, partsTable } = props;
@@ -317,11 +281,10 @@ export default {
       id: partUpdate.id,
       description: partUpdate.description,
       run_id: partUpdate.run_id,
-      plateThick: partUpdate.plateThick,
+      plate_layers: plateLayersFromPart(partUpdate),
       coatId: partUpdate.coatId,
       primaryCoatId: partUpdate.primaryCoatId,
       topCoatId: partUpdate.topCoatId,
-      plate_types_id: partUpdate.plate_types_id,
       topCoatPer: partUpdate.topCoatPer,
       topCoatPer: partUpdate.topCoatPer,
       topCoatTemp: partUpdate.topCoatTemp,
@@ -335,7 +298,6 @@ export default {
       coatTemp: partUpdate.coatTemp,
       coatPH: partUpdate.coatPH,
       coatDiptime: partUpdate.coatDiptime,
-      typePlateThick: partUpdate.typePlateThick,
     });
     const rules = {
     };

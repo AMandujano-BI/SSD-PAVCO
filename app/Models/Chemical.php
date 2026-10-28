@@ -45,6 +45,9 @@ class Chemical extends Model
                 ->orWhere('primaryCoatId', $request->id)
                 ->orWhere('coatId', $request->id)
                 ->orWhere('topCoatId', $request->id)
+                ->orWhereHas('plateLayers', function ($query) use ($request) {
+                    $query->where('plate_type_id', $request->id);
+                })
                 ->get();
             if (count($partsExist) > 0) {
                 return [

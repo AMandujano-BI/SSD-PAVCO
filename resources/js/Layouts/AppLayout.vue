@@ -38,9 +38,11 @@
       </div>
       <div v-else><left-bar :menu="menuCustomer"></left-bar></div>
       <main
-        class="px-0 md:pl-20 xl:pl-64 py-6 bg-[#f8fafc] min-h-screen"
+        class="px-0 md:pl-20 xl:pl-64 bg-[#f8fafc] min-h-screen"
         :class="[
-          isFullScreen ? 'flex h-screen items-center justify-center' : 'py-6',
+          isFullScreen
+            ? 'flex h-screen items-center justify-center py-6'
+            : 'pb-6 main-below-navbar',
         ]"
       >
         <slot></slot>

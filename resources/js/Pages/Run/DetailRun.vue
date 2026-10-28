@@ -650,6 +650,7 @@ import IconClose from "@/assets/Icons/iconClose.vue";
 import Modal from "../../Jetstream/Modal.vue";
 import FormEmail from "./components/FormEmail.vue";
 import useHelper from "@/composables/useHelper";
+import { plateLayersCellHtml } from "@/Pages/Parts/composables/usePlateLayers";
 import ConfirmationModal from "../../Jetstream/ConfirmationModal.vue";
 import PhotosRun from "./components/PhotosRun.vue";
 import axios from "axios";
@@ -882,16 +883,7 @@ export default {
               name: "plate_type.name",
               searchable: true,
               render: function (data, type, row, meta) {
-               if (row.plate_type?.name != undefined) {
-
-                  const type =row.typePlateThick ==1 ?'microns':(row.typePlateThick ==2?'mils':null)     
-                  const plateType =  row.plateThick==null?null:` ${row.plateThick} `;
-                  
-                  const text = type == null || plateType ==null ?'':` - ${plateType} ${type}`;
-
-                  return `<td>${row.plate_type?.name}  ${text}  </td>`;
-                }
-                return "<td></td>";
+                return plateLayersCellHtml(row);
               },
             },
             {
