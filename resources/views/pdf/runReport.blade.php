@@ -200,19 +200,7 @@
                             <td style="text-align: center;">{{$part->description}}</td>
                             @if($countPlateType > 0 )
                             <td style="text-align: center;">
-                                @if($part->plateType)
-                                {{$part->plateType->name}}
-                                        - {{$part->plateThick}}
-                                    @if($part->typePlateThick == 1)
-                                      microns
-                                    @endif
-                                    
-                                    @if($part->typePlateThick == 2)
-                                     mils
-                                    @endif
-
-                                
-                                @endif
+                                @include('partials.plate-layers', ['part' => $part])
                             </td>
                             @endif
                             @if($countChromate >0)

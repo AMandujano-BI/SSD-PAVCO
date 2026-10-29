@@ -98,6 +98,7 @@ class Run extends Model
             'parts.chromate',
             'parts.coat',
             'parts.plateType',
+            'parts.plateLayers.plateType',
             'parts.topCoat',
             'company',
         ])->where('status', '!=', 2);
@@ -164,6 +165,7 @@ class Run extends Model
                 'parts.chromate',
                 'parts.coat',
                 'parts.plateType',
+            'parts.plateLayers.plateType',
                 'parts.topCoat',
                 'company',
             ])
@@ -180,6 +182,7 @@ class Run extends Model
                 'parts.chromate',
                 'parts.coat',
                 'parts.plateType',
+            'parts.plateLayers.plateType',
                 'parts.topCoat',
                 'company',
             ])
@@ -198,6 +201,7 @@ class Run extends Model
             'parts.chromate',
             'parts.coat',
             'parts.plateType',
+            'parts.plateLayers.plateType',
             'parts.topCoat',
             'company',
         ])
@@ -219,6 +223,7 @@ class Run extends Model
                 'parts.chromate',
                 'parts.coat',
                 'parts.plateType',
+            'parts.plateLayers.plateType',
                 'parts.topCoat',
                 'company',
             ])
@@ -460,8 +465,7 @@ class Run extends Model
             $parts =  $request->parts;
 
             for ($j = 0; $j < count($request->parts); $j++) {
-                $typePlateThick = $request->parts[$j]['typePlateThick'] ?? null;
-                $plateThick = $request->parts[$j]['plateThick'] ?? null;
+                $plateLayers = Part::resolvePlateLayers($request->parts[$j]);
                 $topCoatPer = $request->parts[$j]['topCoatPer'] ?? null;
                 $topCoatTemp = $request->parts[$j]['topCoatTemp'] ?? null;
                 $topCoatPH = $request->parts[$j]['topCoatPH'] ?? null;
@@ -481,12 +485,9 @@ class Run extends Model
                 $coatId = $request->parts[$j]['coatId'] ?? null;
                 $topCoatId = $request->parts[$j]['topCoatId'] ?? null;
 
-                $plate_types_id = $request->parts[$j]['plate_types_id'] ?? null;
-
                 if ($primaryCoatId == '' || $primaryCoatId == 0) $primaryCoatId = null;
                 if ($coatId == '' || $coatId == 0) $coatId = null;
                 if ($topCoatId == '' || $topCoatId == 0) $topCoatId = null;
-                if ($plate_types_id == '' || $plate_types_id == 0) $plate_types_id = null;
 
 
 
@@ -513,11 +514,8 @@ class Run extends Model
 
                 for ($i = 0; $i < $numberParts; $i++) {
                     $parts = Part::create([
-                        'plateThick' => $plateThick,
                         'number' => $countParts,
-                        'typePlateThick' => $typePlateThick,
                         'description' => 'Part number ' . $countParts,
-                        'plate_types_id' => $plate_types_id,
                         'primaryCoatId' => $primaryCoatId,
                         'coatId' => $coatId,
                         'topCoatId' => $topCoatId,
@@ -537,6 +535,7 @@ class Run extends Model
                     ]);
                     $countParts++;
                     $parts->save();
+                    Part::syncPlateLayers($parts, $plateLayers);
                 }
             }
             DB::commit();

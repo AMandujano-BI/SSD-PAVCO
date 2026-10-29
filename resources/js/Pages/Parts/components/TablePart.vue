@@ -136,6 +136,7 @@
   import FormUpdatePartVue from "./FormUpdatePart.vue";
   import axios from "axios";
   import useHelper from "@/composables/useHelper";
+  import { plateLayersCellHtml } from "../composables/usePlateLayers";
   import FormCreatePartVue from "./FormCreatePart.vue";
   import IconEdit from "@/assets/Icons/iconEdit.vue";
   import IconDelete from "@/assets/Icons/iconDelete.vue";
@@ -242,16 +243,7 @@
                 searchable: true,
                  orderable: false,
                 render: function (data, type, row, meta) {
-                  if (row.plate_type?.name != undefined) {
-  
-                    const type =row.typePlateThick ==1 ?'microns':(row.typePlateThick ==2?'mils':null)     
-                    const plateType =  row.plateThick==null?null:` ${row.plateThick} `;
-                    
-                    const text = type == null || plateType ==null ?'':` - ${plateType} ${type}`;
-  
-                    return `<td>${row.plate_type?.name}  ${text}  </td>`;
-                  }
-                  return "<td></td>";
+                  return plateLayersCellHtml(row);
                 },
               },
               {

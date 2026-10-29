@@ -1,49 +1,10 @@
 <template>
   <h1 class="text-center font-bold text-2xl text-[#3b4559]">New Part</h1>
   <form @submit.prevent="submitForm">
-    <div>
-      <label class="text-[#3b4559] font-semibold">Plate Type</label>
-      <div class="flex flex-col md:flex-row w-full justify-between gap-2">
-        <div class="w-full">
-          <multi-select
-            :options="plateTypes"
-            class="w-full multiselect-blue"
-            v-model="form.plate_types_id"
-            :searchable="true"
-            placeholder="Select Plate Type"
-          />
-        </div>
-        <div class="w-full flex justify-between gap-2">
-          <div class="w-full md:w-[210px]">
-            <multi-select
-              :options="[
-                {
-                  value: 1,
-                  label: 'microns',
-                },
-                {
-                  value: 2,
-                  label: 'mils',
-                },
-              ]"
-              class="w-full"
-              v-model="form.typePlateThick"
-              :searchable="true"
-              placeholder="Select Type "
-            />
-        
-          </div>
-          <div>
-            <input
-              type="number"
-              step=".01"
-              class="w-[80px]"
-              v-model="form.plateThick"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    <plate-layers-editor
+      :layers="form.plate_layers"
+      :plateTypes="plateTypes"
+    />
     <div>
       <label class="text-[#3b4559] font-semibold">Chromate</label>
       <div class="flex w-full flex-col md:flex-row gap-2">
@@ -290,6 +251,8 @@ import useVuelidate from "@vuelidate/core";
 import axios from "axios";
 import { ref, reactive } from "vue";
 import Multiselect from "@vueform/multiselect";
+import PlateLayersEditor from "./PlateLayersEditor.vue";
+import { emptyPlateLayer } from "../composables/usePlateLayers";
 const isDiferentZero = (value) => {
   return value != 0 && value != null;
 };
@@ -297,6 +260,7 @@ export default {
   emits: ["closeModalNewPart", "generateDataTable", "gettinDataParts"],
   components: {
     multiSelect: Multiselect,
+    plateLayersEditor: PlateLayersEditor,
   },
   props: [
     "plateMethods",
@@ -319,12 +283,10 @@ export default {
       id: 0,
       description: "",
       run_id: run_id,
-      plateThick: '',
-      typePlateThick: 0,
+      plate_layers: [emptyPlateLayer()],
       coatId: 0,
       primaryCoatId: 0,
       topCoatId: 0,
-      plate_types_id: 0,
       topCoatPer: "",
       topCoatPer: "",
       topCoatTemp: "",

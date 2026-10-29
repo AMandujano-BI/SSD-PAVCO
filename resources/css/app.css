@@ -17,6 +17,10 @@ body {
   --ms-option-bg-selected:  #1e385e;
   /* --ms-ring-color:#2563EB; */
 }
+.main-below-navbar {
+  padding-top: max(1.5rem, calc(10vh - 3.5rem));
+}
+
 .multiselect.is-active{
   box-shadow: none !important;
 }
